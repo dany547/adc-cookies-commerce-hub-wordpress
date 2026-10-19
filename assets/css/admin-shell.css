@@ -1,0 +1,95 @@
+/* ADC Marketing 2.0 — admin shell styles (tab nav, secret fields, copy buttons).
+   Contract for tab authors:
+   - .adc-admin-tab-content       wraps every tab's rendered inner HTML
+   - .adc-secret-field            flex row wrapping a secret input + replace button
+   - .adc-secret-input            masked, readonly input ("••••• (salvat)")
+   - .adc-secret-replace          "Înlocuiește"/"Renunță" toggle (handled by admin-shell.js)
+   - .adc-copy-btn                copy-to-clipboard button, value from [data-adc-copy] */
+.adc-admin-shell {
+    max-width: 1100px;
+    margin-top: 20px;
+}
+
+.adc-admin-nav {
+    margin: 16px 0;
+}
+
+.adc-admin-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.adc-admin-tabs--sub {
+    margin-top: 6px;
+    padding-left: 12px;
+    border-left: 3px solid #f0f0f1;
+}
+
+.adc-admin-tab a {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 4px;
+    background: #f0f0f1;
+    color: #1d2327;
+    font-size: 13px;
+    line-height: 1.6;
+    text-decoration: none;
+}
+
+.adc-admin-tab a:hover {
+    background: #dcdcde;
+    color: #2271b1;
+}
+
+.adc-admin-tab a:focus {
+    color: #2271b1;
+    box-shadow: 0 0 0 1px #2271b1;
+    outline: 2px solid transparent;
+}
+
+.adc-admin-tab--active a {
+    background: #2271b1;
+    color: #fff;
+}
+
+.adc-admin-tab--active a:hover {
+    background: #135e96;
+    color: #fff;
+}
+
+.adc-admin-tab-content {
+    margin-top: 8px;
+}
+
+/* Secret fields: masked value + replace toggle */
+.adc-secret-field {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.adc-secret-input {
+    min-width: 260px;
+    font-family: inherit;
+}
+
+.adc-secret-input[readonly] {
+    background: #f6f7f7;
+    color: #50575e;
+}
+
+/* Copy buttons */
+.adc-copy-btn {
+    vertical-align: middle;
+    margin-left: 6px;
+}
+
+.adc-copy-btn.is-copied {
+    border-color: #00a32a;
+    color: #00a32a;
+}

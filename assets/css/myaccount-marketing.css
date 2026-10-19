@@ -1,0 +1,57 @@
+/**
+ * My Account marketing preferences styles
+ */
+
+.adc-myaccount-marketing {
+    max-width: 600px;
+}
+
+.adc-myaccount-marketing h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.adc-myaccount-marketing .woocommerce-form-marketing-preferences {
+    margin-top: 20px;
+}
+
+.adc-myaccount-marketing .form-row {
+    margin-bottom: 15px;
+}
+
+.adc-myaccount-marketing .woocommerce-form__label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-weight: normal;
+}
+
+.adc-myaccount-marketing .woocommerce-form__input-checkbox {
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.adc-myaccount-marketing .woocommerce-button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #2271b1;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.adc-myaccount-marketing .woocommerce-button:hover {
+    background-color: #135e96;
+}
+
+/* Menu icon styling */
+.woocommerce-MyAccount-navigation ul li.woocommerce-MyAccount-navigation-link--marketing-consent a::before {
+    content: "\f466";
+    font-family: dashicons;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+

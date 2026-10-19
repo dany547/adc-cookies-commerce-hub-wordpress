@@ -1,0 +1,27 @@
+/**
+ * Admin settings styles
+ */
+
+.adc-export-form {
+    margin-top: 20px;
+}
+
+.adc-export-form .form-table {
+    margin-top: 15px;
+}
+
+.adc-export-form .button {
+    margin-right: 10px;
+}
+
+.adc-export-form .button-primary {
+    background-color: #2271b1;
+    border-color: #2271b1;
+    color: #fff;
+}
+
+.adc-export-form .button-primary:hover {
+    background-color: #135e96;
+    border-color: #135e96;
+}
+

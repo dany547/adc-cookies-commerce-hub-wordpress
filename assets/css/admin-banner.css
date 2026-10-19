@@ -1,0 +1,340 @@
+/* ADC Marketing — "Aspect și poziție" (tabul Banner consimțământ).
+ * Carduri preset, miniaturi de poziție, previzualizare live.
+ * Fără frameworkuri; clase prefixate cu adc-. */
+
+/* ---------- Preset cards ---------- */
+.adc-preset-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 8px 0 4px;
+  padding: 0;
+  border: 0;
+}
+
+.adc-preset-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 2px solid #dcdcde;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.adc-preset-card:has(input:checked) {
+  border-color: #1d4ed8;
+  box-shadow: 0 0 0 1px #1d4ed8;
+}
+
+.adc-preset-card input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+
+.adc-preset-swatches {
+  display: inline-flex;
+  overflow: hidden;
+  border: 1px solid #dcdcde;
+  border-radius: 4px;
+}
+
+.adc-preset-swatches span {
+  width: 22px;
+  height: 22px;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.adc-preset-swatches span:last-child {
+  border-right: 0;
+}
+
+.adc-preset-label {
+  font-weight: 600;
+}
+
+/* ---------- Position picker ---------- */
+.adc-layout-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 8px 0 4px;
+  padding: 0;
+  border: 0;
+}
+
+.adc-layout-thumb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px;
+  border: 2px solid #dcdcde;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.adc-layout-thumb:has(input:checked) {
+  border-color: #1d4ed8;
+  box-shadow: 0 0 0 1px #1d4ed8;
+}
+
+.adc-layout-thumb input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.adc-screen {
+  position: relative;
+  width: 120px;
+  height: 80px;
+  border: 1px solid #c3c4c7;
+  border-radius: 4px;
+  background: #f0f0f1;
+  overflow: hidden;
+}
+
+.adc-mock {
+  position: absolute;
+  background: #1d2327;
+  border-radius: 2px;
+}
+
+.adc-layout-thumb--bar_bottom .adc-mock {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 22px;
+}
+
+.adc-layout-thumb--bar_top .adc-mock {
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 22px;
+}
+
+.adc-layout-thumb--box_bottom_left .adc-mock {
+  left: 8px;
+  bottom: 8px;
+  width: 56px;
+  height: 34px;
+}
+
+.adc-layout-thumb--box_bottom_right .adc-mock {
+  right: 8px;
+  bottom: 8px;
+  width: 56px;
+  height: 34px;
+}
+
+.adc-layout-thumb--box_bottom_center .adc-mock {
+  left: 50%;
+  bottom: 8px;
+  width: 56px;
+  height: 34px;
+  transform: translateX(-50%);
+}
+
+.adc-layout-thumb--center_modal .adc-screen {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.adc-layout-thumb--center_modal .adc-mock {
+  left: 50%;
+  top: 50%;
+  width: 60px;
+  height: 44px;
+  background: #fff;
+  border: 1px solid #1d2327;
+  transform: translate(-50%, -50%);
+}
+
+.adc-layout-label {
+  font-size: 12px;
+  text-align: center;
+}
+
+/* ---------- Colour fields ---------- */
+.adc-color-field {
+  width: 90px;
+}
+
+/* ---------- Warnings and notes ---------- */
+.adc-contrast-warning {
+  color: #b32d2e;
+  font-weight: 600;
+}
+
+.adc-equal-note {
+  margin-top: 12px;
+  font-style: italic;
+}
+
+/* GDPR / prominence findings panel under the colour fields. */
+.adc-compliance {
+  margin: 14px 0 4px;
+  padding: 12px 14px;
+  border: 1px solid #dba617;
+  border-inline-start-width: 4px;
+  border-radius: 4px;
+  background: #fcf9e8;
+}
+
+.adc-compliance__title {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6e4e00;
+}
+
+.adc-compliance__list {
+  margin: 0;
+  padding-inline-start: 18px;
+}
+
+.adc-compliance__list li {
+  margin: 0 0 6px;
+  color: #6e4e00;
+}
+
+.adc-compliance__list li:last-child {
+  margin-bottom: 0;
+}
+
+.adc-compliance__hint {
+  margin: 8px 0 0;
+  font-style: italic;
+  color: #50575e;
+}
+
+/* ---------- Live preview ---------- */
+.adc-banner-preview-screen {
+  position: relative;
+  min-height: 280px;
+  border: 1px solid #c3c4c7;
+  border-radius: 8px;
+  background:
+    repeating-conic-gradient(#f6f7f7 0% 25%, #fff 0% 50%) 0 0 / 20px 20px;
+  overflow: hidden;
+}
+
+.adc-banner-preview-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+/* Neutralise the frontend fixed positioning inside the admin preview. */
+.adc-banner-preview-screen .adc-consent-banner {
+  position: absolute;
+  z-index: 1;
+  max-width: none;
+  background: var(--adc-bg, #fff);
+  color: var(--adc-text, #1d2327);
+  border: 1px solid var(--adc-border, #dcdcde);
+  border-radius: var(--adc-radius, 8px);
+  box-shadow: var(--adc-shadow, none);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.adc-banner-preview-screen .adc-consent-banner[data-layout="bar_bottom"] {
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  border-radius: 0;
+}
+
+.adc-banner-preview-screen .adc-consent-banner[data-layout="bar_top"] {
+  left: 12px;
+  right: 12px;
+  top: 12px;
+  border-radius: 0;
+}
+
+.adc-banner-preview-screen .adc-consent-banner[data-layout="box_bottom_left"] {
+  left: 12px;
+  bottom: 12px;
+  width: min(340px, calc(100% - 24px));
+}
+
+.adc-banner-preview-screen .adc-consent-banner[data-layout="box_bottom_right"] {
+  right: 12px;
+  bottom: 12px;
+  width: min(340px, calc(100% - 24px));
+}
+
+.adc-banner-preview-screen .adc-consent-banner[data-layout="box_bottom_center"] {
+  left: 50%;
+  bottom: 12px;
+  width: min(340px, calc(100% - 24px));
+  transform: translateX(-50%);
+}
+
+.adc-banner-preview-screen .adc-consent-banner[data-layout="center_modal"] {
+  left: 50%;
+  top: 50%;
+  width: min(420px, calc(100% - 24px));
+  transform: translate(-50%, -50%);
+}
+
+.adc-banner-preview-screen .adc-consent-banner__inner {
+  display: grid;
+  gap: 10px;
+  padding: 14px 16px;
+}
+
+.adc-banner-preview-screen .adc-consent-banner__title {
+  margin: 0;
+  font-size: 1.05em;
+  font-weight: 700;
+  color: var(--adc-text, #1d2327);
+}
+
+.adc-banner-preview-screen .adc-consent-banner__message {
+  margin: 0;
+  color: var(--adc-muted, var(--adc-text, #1d2327));
+}
+
+.adc-banner-preview-screen .adc-consent-banner__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Accept and Reject share size and weight — only colours differ (GDPR). */
+.adc-banner-preview-screen .adc-consent-btn {
+  appearance: none;
+  min-height: 44px;
+  padding: 10px 18px;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  font: inherit;
+  font-weight: 600;
+  cursor: default;
+}
+
+.adc-banner-preview-screen .adc-consent-btn--accept {
+  background: var(--adc-accept-bg, #1d4ed8);
+  color: var(--adc-accept-text, #fff);
+  border-color: var(--adc-accept-bg, #1d4ed8);
+}
+
+.adc-banner-preview-screen .adc-consent-btn--reject {
+  background: var(--adc-reject-bg, #50575e);
+  color: var(--adc-reject-text, #fff);
+  border-color: var(--adc-reject-bg, #50575e);
+}
+
+.adc-banner-preview-screen .adc-consent-btn--customize {
+  background: var(--adc-customize-bg, #fff);
+  color: var(--adc-customize-text, #1d2327);
+  border-color: var(--adc-border, #dcdcde);
+  text-decoration: underline;
+}

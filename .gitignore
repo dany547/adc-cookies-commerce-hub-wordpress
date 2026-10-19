@@ -1,0 +1,76 @@
+# Local secrets and environment-specific configuration
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.der
+*private*key*
+*auth*export*
+*cookie*export*
+*session*export*
+*state*export*
+
+# Local logs, databases, and runtime data
+*.log
+*.sql
+*.sql.gz
+*.dump
+*.sqlite
+*.sqlite3
+*.db
+*.db-wal
+*.db-shm
+*.bak
+*.swp
+*.swo
+*.tmp
+*.temp
+*.cache
+/cache/
+/tmp/
+/uploads/
+/wp-content/uploads/
+
+# Local development dependencies and generated development output
+/node_modules/
+/vendor/
+/.phpunit.cache/
+/.phpunit-wp-test-lib/
+/.phpunit.result.cache
+
+# Release archives are built artifacts; keep source, tests, and manifests elsewhere
+/dist/*.zip
+/dist/*.manifest.txt
+
+# Editor and operating-system artifacts
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.iml
+
+# Agent instructions and internal-only working/review material
+AGENTS.md
+/PRIVACY_ANALYTICS.md
+**/AGENTS.md
+.claude/
+.pi/
+**/briefs/
+**/plans/
+**/research/
+**/review/
+**/evidence/
+**/screenshots/
+**/*-review.md
+!/docs/privacy/operational-analytics-review.md
+**/*-evidence.*
+
+# Python bytecode caches produced by dev tooling (bin/lib scripts)
+__pycache__/
+*.py[cod]

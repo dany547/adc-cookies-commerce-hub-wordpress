@@ -1,0 +1,953 @@
+/* ADC Marketing — Analytics operațional (admin only).
+ *
+ * Owns the visual layer of the analytics tab:
+ * - templates/admin/analytics-dashboard.php
+ * - includes/admin/class-adc-admin-tab-analytics.php
+ *
+ * Design contract: WordPress admin language (system UI font, #2271b1 accent,
+ * 4 px radii, hairline borders, dense data). No cards-as-structure, no external
+ * fonts, no CDN. Charts are inline SVG + CSS bars; every chart ships with an
+ * equivalent table, so the SVG carries no information that text does not.
+ *
+ * Verified breakpoints: 390 px (phone / narrow admin column) and 1280 px.
+ */
+
+.adc-an {
+	--adc-ink: #1d2327;
+	--adc-ink-soft: #40464d;
+	--adc-muted: #50575e;
+	--adc-line: #c3c4c7;
+	--adc-line-soft: #dcdcde;
+	--adc-surface: #fff;
+	--adc-surface-alt: #f6f7f7;
+	--adc-shell: #f0f0f1;
+	--adc-accent: #2271b1;
+	--adc-accent-dark: #135e96;
+	--adc-accent-tint: #f0f6fc;
+	--adc-positive: #13522a;
+	--adc-positive-tint: #edf7f0;
+	--adc-negative: #8a2424;
+	--adc-negative-tint: #fcf0f0;
+	--adc-warn: #7a5311;
+	--adc-warn-tint: #fcf6ee;
+	--adc-bar: #4a86ba;
+	--adc-radius: 4px;
+
+	max-width: 1000px;
+	color: var(--adc-ink);
+	font-variant-numeric: tabular-nums lining-nums;
+}
+
+.adc-an h2,
+.adc-an h3,
+.adc-an .adc-an-title,
+.adc-an .adc-an-panel-head h3 {
+	font-weight: 600;
+	letter-spacing: -0.01em;
+	text-wrap: balance;
+}
+
+.adc-an-title {
+	margin: 0 0 4px;
+	font-size: 20px;
+	line-height: 1.4;
+}
+
+.adc-an-lede {
+	max-width: 68ch;
+	margin: 8px 0 0;
+	color: var(--adc-ink-soft);
+	font-size: 13.5px;
+	line-height: 1.6;
+}
+
+.adc-an-meta {
+	margin: 0;
+	color: var(--adc-muted);
+	font-size: 13px;
+}
+
+.adc-an-sep {
+	margin: 0 6px;
+	color: var(--adc-line);
+}
+
+.adc-an-rule {
+	margin: 32px 0 24px;
+	border: 0;
+	border-top: 1px solid var(--adc-line-soft);
+}
+
+/* Panels ------------------------------------------------------------------ */
+
+.adc-an-panel {
+	margin: 16px 0 0;
+	padding: 16px 18px 18px;
+	background: var(--adc-surface);
+	border: 1px solid var(--adc-line-soft);
+	border-radius: var(--adc-radius);
+}
+
+.adc-an-panel + .adc-an-panel {
+	margin-top: 12px;
+}
+
+.adc-an-panel-head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 8px 12px;
+	margin: 0 0 14px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid var(--adc-line-soft);
+}
+
+.adc-an-panel-head h3 {
+	margin: 0;
+	font-size: 15px;
+	line-height: 1.4;
+}
+
+.adc-an-panel-head .adc-an-export,
+.adc-an-panel-head .adc-an-reset {
+	margin-left: auto;
+	font-size: 12.5px;
+}
+
+.adc-an-prov {
+	margin: 0;
+	padding: 2px 8px;
+	border: 1px solid var(--adc-line-soft);
+	border-radius: 100px;
+	background: var(--adc-surface-alt);
+	color: var(--adc-muted);
+	font-size: 11.5px;
+	font-weight: 500;
+	white-space: nowrap;
+}
+
+.adc-an-prov--est {
+	border-color: #c9d8e8;
+	background: var(--adc-accent-tint);
+	color: var(--adc-accent-dark);
+}
+
+.adc-an-prov--fin {
+	border-color: #b7d5c1;
+	background: var(--adc-positive-tint);
+	color: var(--adc-positive);
+}
+
+.adc-an-foot,
+.adc-an-none {
+	margin: 10px 0 0;
+	color: var(--adc-muted);
+	font-size: 12.5px;
+	line-height: 1.55;
+}
+
+/* Gates ------------------------------------------------------------------- */
+
+.adc-an-gate-list,
+.adc-an-unavail-list {
+	display: grid;
+	gap: 2px;
+	margin: 0;
+}
+
+.adc-an-gate,
+.adc-an-unavail {
+	display: grid;
+	grid-template-columns: minmax(180px, 1fr) minmax(0, 1.6fr);
+	gap: 4px 16px;
+	align-items: baseline;
+	padding: 9px 0;
+	border-top: 1px solid var(--adc-line-soft);
+}
+
+.adc-an-gate:first-child,
+.adc-an-unavail:first-child {
+	border-top: 0;
+	padding-top: 0;
+}
+
+.adc-an-gate dt,
+.adc-an-unavail dt {
+	margin: 0;
+	font-weight: 600;
+	font-size: 13px;
+}
+
+.adc-an-gate dd,
+.adc-an-unavail dd {
+	margin: 0;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 8px;
+	color: var(--adc-muted);
+	font-size: 12.5px;
+	line-height: 1.55;
+}
+
+.adc-an-gate-name {
+	display: block;
+}
+
+.adc-an-pill {
+	display: inline-block;
+	padding: 1px 8px;
+	border: 1px solid var(--adc-line);
+	border-radius: 100px;
+	background: var(--adc-shell);
+	color: var(--adc-ink-soft);
+	font-size: 11.5px;
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+.adc-an-gate--on .adc-an-pill {
+	border-color: #9dc8ab;
+	background: var(--adc-positive-tint);
+	color: var(--adc-positive);
+}
+
+.adc-an-pill--paid {
+	border-color: #9dc8ab;
+	background: var(--adc-positive-tint);
+	color: var(--adc-positive);
+	font-weight: 500;
+}
+
+.adc-an-gate-warning {
+	margin: 0 0 12px;
+	padding: 10px 12px;
+	background: var(--adc-warn-tint);
+	border-radius: var(--adc-radius);
+	color: var(--adc-warn);
+	font-size: 13px;
+	line-height: 1.55;
+}
+
+/* Filters ----------------------------------------------------------------- */
+
+.adc-an-frow {
+	display: grid;
+	grid-template-columns: 92px minmax(0, 1fr);
+	gap: 6px 14px;
+	align-items: start;
+	padding: 9px 0;
+	border-top: 1px solid var(--adc-line-soft);
+}
+
+.adc-an-frow--js {
+	grid-template-columns: 92px minmax(0, 1fr);
+}
+
+.adc-an-frow:first-of-type {
+	border-top: 0;
+	padding-top: 0;
+}
+
+.adc-an-fkey {
+	color: var(--adc-muted);
+	font-size: 12.5px;
+	font-weight: 600;
+	padding-top: 5px;
+}
+
+.adc-an-segment {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+}
+
+.adc-an-seg {
+	display: inline-block;
+	padding: 5px 11px;
+	border: 1px solid var(--adc-line-soft);
+	border-radius: var(--adc-radius);
+	background: var(--adc-surface-alt);
+	color: var(--adc-ink);
+	font-size: 12.5px;
+	line-height: 1.4;
+	text-decoration: none;
+	transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+
+.adc-an-seg:hover {
+	background: var(--adc-shell);
+	border-color: var(--adc-line);
+	color: var(--adc-accent-dark);
+}
+
+.adc-an-seg.is-active {
+	background: var(--adc-accent);
+	border-color: var(--adc-accent-dark);
+	color: #fff;
+	font-weight: 600;
+}
+
+.adc-an-seg.is-active:hover {
+	background: var(--adc-accent-dark);
+	color: #fff;
+}
+
+.adc-an-controls {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: end;
+	gap: 8px 12px;
+}
+
+.adc-an-field {
+	display: block;
+	color: var(--adc-muted);
+	font-size: 11.5px;
+	font-weight: 600;
+	letter-spacing: 0;
+	margin-bottom: -4px;
+}
+
+.adc-an-controls select,
+.adc-an-controls input[type="date"],
+.adc-an-controls input[type="number"] {
+	display: block;
+	max-width: 100%;
+}
+
+.adc-an-apply {
+	white-space: nowrap;
+}
+
+/* Filters changed but not yet applied: a ring, not a second colour system. */
+.adc-an-apply.is-dirty {
+	box-shadow: 0 0 0 3px rgba(34, 113, 177, 0.3);
+}
+
+.adc-an-active {
+	margin: 10px 0 0;
+	color: var(--adc-ink-soft);
+	font-size: 12.5px;
+}
+
+/* Key figures ------------------------------------------------------------- */
+
+.adc-an-figures {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0 32px;
+	margin: 0;
+}
+
+.adc-an-figure {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	gap: 16px;
+	padding: 10px 0;
+	border-top: 1px solid var(--adc-line-soft);
+}
+
+.adc-an-figure:nth-child(-n+2) {
+	border-top: 0;
+	padding-top: 2px;
+}
+
+.adc-an-figure dt {
+	font-size: 13px;
+	font-weight: 500;
+	color: var(--adc-ink-soft);
+}
+
+.adc-an-figure dd {
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 1px;
+	text-align: right;
+}
+
+.adc-an-figure-value {
+	font-size: 18px;
+	font-weight: 600;
+	line-height: 1.25;
+	color: var(--adc-ink);
+}
+
+.adc-an-figure.is-money .adc-an-figure-value {
+	font-size: 17px;
+}
+
+.adc-an-figure-note {
+	color: var(--adc-muted);
+	font-size: 11.5px;
+	line-height: 1.4;
+	max-width: 26ch;
+	text-align: right;
+}
+
+.adc-an-figure.is-blocked .adc-an-figure-value {
+	color: var(--adc-muted);
+	font-weight: 500;
+}
+
+.adc-an-compare {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px 14px;
+	margin: 16px 0 0;
+	padding-top: 12px;
+	border-top: 1px solid var(--adc-line-soft);
+	font-size: 12.5px;
+	color: var(--adc-ink-soft);
+}
+
+.adc-an-compare.is-incomplete {
+	color: var(--adc-muted);
+}
+
+.adc-an-delta {
+	white-space: nowrap;
+}
+
+.adc-an-delta--up {
+	color: var(--adc-positive);
+	font-weight: 600;
+}
+
+.adc-an-delta--down {
+	color: var(--adc-negative);
+	font-weight: 600;
+}
+
+.adc-an-compare-range {
+	color: var(--adc-muted);
+}
+
+/* Charts ------------------------------------------------------------------ */
+
+.adc-an-fig {
+	margin: 0;
+}
+
+.adc-an-fig-title {
+	display: block;
+	margin-bottom: 10px;
+	color: var(--adc-ink);
+	font-size: 13px;
+	font-weight: 600;
+}
+
+.adc-an-fig-summary {
+	display: block;
+	margin-top: 2px;
+	color: var(--adc-muted);
+	font-size: 12px;
+	font-weight: 400;
+}
+
+.adc-an-plot {
+	display: grid;
+	grid-template-columns: 46px minmax(0, 1fr);
+	align-items: stretch;
+}
+
+/*
+ * Axis alignment: the SVG viewBox is 760×220 and stretches (AspectRatio none),
+ * so the HTML labels share the same linear space: y labels are positioned by
+ * top:% of the 220px canvas, x labels by left:% of the plot width.
+ */
+.adc-an-yaxis {
+	position: relative;
+	height: 220px;
+	color: var(--adc-muted);
+	font-size: 11px;
+	line-height: 1.2;
+}
+
+.adc-an-ylabel {
+	position: absolute;
+	right: 8px;
+	transform: translateY(-50%);
+	white-space: nowrap;
+}
+
+.adc-an-svg {
+	display: block;
+	width: 100%;
+	height: 220px;
+	overflow: visible;
+}
+
+.adc-an-gridline {
+	stroke: var(--adc-line-soft);
+	stroke-width: 1;
+	vector-effect: non-scaling-stroke;
+}
+
+.adc-an-area {
+	fill: var(--adc-accent);
+	fill-opacity: 0.08;
+	stroke: none;
+}
+
+.adc-an-line {
+	fill: none;
+	stroke: var(--adc-accent);
+	stroke-width: 1.75;
+	stroke-linejoin: round;
+	stroke-linecap: round;
+	vector-effect: non-scaling-stroke;
+}
+
+.adc-an-dot {
+	fill: var(--adc-surface);
+	stroke: var(--adc-accent-dark);
+	stroke-width: 1.25;
+	vector-effect: non-scaling-stroke;
+}
+
+.adc-an-dot.is-suppressed {
+	stroke: var(--adc-line);
+	stroke-dasharray: 2 2;
+}
+
+.adc-an-bar {
+	display: block;
+	height: 7px;
+	min-width: 2px;
+	border-radius: 2px;
+	background: var(--adc-bar);
+}
+
+rect.adc-an-bar {
+	fill: var(--adc-bar);
+}
+
+rect.adc-an-bar.is-small {
+	fill: #8c8f94;
+}
+
+.adc-an-xaxis {
+	position: relative;
+	height: 20px;
+	margin-top: 6px;
+	margin-left: 46px; /* Aligns with the SVG column (PAD_L). */
+	color: var(--adc-muted);
+	font-size: 11px;
+}
+
+.adc-an-xlabel {
+	position: absolute;
+	top: 0;
+	transform: translateX(-50%);
+	white-space: nowrap;
+}
+
+.adc-an-xlabel.is-start {
+	transform: none;
+}
+
+.adc-an-xlabel.is-end {
+	transform: translateX(-100%);
+}
+
+/* Sparser x labels on small screens (first and last only). */
+@media (max-width: 600px) {
+	.adc-an-xlabel:not(.is-start):not(.is-end) {
+		display: none;
+	}
+}
+
+.adc-an-data {
+	margin-top: 14px;
+	padding-top: 12px;
+	border-top: 1px solid var(--adc-line-soft);
+}
+
+.adc-an-data > summary {
+	cursor: pointer;
+	color: var(--adc-accent);
+	font-size: 12.5px;
+	font-weight: 600;
+	list-style-position: outside;
+}
+
+.adc-an-data-count {
+	margin-left: 6px;
+	color: var(--adc-muted);
+	font-weight: 400;
+}
+
+.adc-an-data > summary:hover {
+	color: var(--adc-accent-dark);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+/* Bounded scroll for long detail tables (reconciliation). */
+.adc-an-scroll {
+	max-height: 320px;
+	overflow: auto;
+}
+
+.adc-an-data table {
+	margin-top: 10px;
+}
+
+/* Tables ------------------------------------------------------------------ */
+
+.adc-an .widefat.adc-an-table {
+	border: 1px solid var(--adc-line-soft);
+	border-radius: var(--adc-radius);
+	font-size: 12.5px;
+}
+
+.adc-an .adc-an-table th[scope="col"],
+.adc-an .adc-an-table thead th {
+	background: var(--adc-surface-alt);
+	color: var(--adc-ink);
+	font-size: 11.5px;
+	font-weight: 600;
+	text-transform: none;
+}
+
+.adc-an-table .adc-an-num {
+	width: 128px;
+	text-align: right;
+	white-space: nowrap;
+}
+
+.adc-an-ranked .adc-an-num {
+	width: 84px;
+}
+
+.adc-an-table .adc-an-barcol {
+	width: 34%;
+}
+
+.adc-an-table .adc-an-barcell {
+	padding: 8px 12px !important;
+}
+
+.adc-an-table tr.is-hidden,
+.adc-an-hidden {
+	display: none;
+}
+
+.adc-an-alert {
+	background: var(--adc-negative-tint);
+	color: var(--adc-negative);
+	font-weight: 600;
+}
+
+.adc-an-thresh {
+	color: var(--adc-muted);
+	font-style: italic;
+}
+
+.adc-an-alert-text {
+	margin: 8px 0 0;
+	color: var(--adc-negative);
+	font-size: 12.5px;
+}
+
+/* Empty / blocked states -------------------------------------------------- */
+
+.adc-an-empty,
+.adc-an-blocked {
+	padding: 14px 16px;
+	background: var(--adc-surface-alt);
+	border: 1px dashed var(--adc-line);
+	border-radius: var(--adc-radius);
+}
+
+.adc-an-blocked {
+	margin: 16px 0 0;
+	border-style: solid;
+	border-color: var(--adc-line-soft);
+	background: var(--adc-accent-tint);
+}
+
+.adc-an-empty-title {
+	margin: 0 0 4px;
+	font-size: 13.5px;
+	font-weight: 600;
+	color: var(--adc-ink);
+}
+
+.adc-an-empty-body {
+	margin: 0;
+	max-width: 62ch;
+	color: var(--adc-ink-soft);
+	font-size: 12.5px;
+	line-height: 1.6;
+}
+
+.adc-an-empty-action {
+	margin: 10px 0 0;
+}
+
+/* Notes & unavailable ---------------------------------------------------- */
+
+.adc-an-note-list {
+	display: grid;
+	gap: 8px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.adc-an-note {
+	padding: 9px 12px;
+	border-radius: var(--adc-radius);
+	background: var(--adc-surface-alt);
+	color: var(--adc-ink-soft);
+	font-size: 12.5px;
+	line-height: 1.55;
+}
+
+.adc-an-note--warning {
+	background: var(--adc-warn-tint);
+	color: var(--adc-warn);
+}
+
+.adc-an-note--error {
+	background: var(--adc-negative-tint);
+	color: var(--adc-negative);
+}
+
+.adc-an-unavail dt .adc-an-pill {
+	margin-left: 6px;
+}
+
+/* Settings ---------------------------------------------------------------- */
+
+.adc-an .form-table th {
+	width: 260px;
+}
+
+.adc-an-check {
+	display: block;
+	margin: 2px 0;
+	font-size: 13px;
+	line-height: 1.5;
+}
+
+.adc-an-check.is-disabled {
+	color: var(--adc-muted);
+}
+
+.adc-an-check.is-disabled input {
+	cursor: not-allowed;
+}
+
+.adc-an-check input,
+.adc-an-controls input,
+.adc-an-controls select {
+	margin-right: 4px;
+}
+
+.adc-an-retention {
+	display: grid;
+	gap: 4px;
+	margin: 0 0 8px;
+	padding: 0;
+	list-style: none;
+	font-size: 13px;
+}
+
+.adc-an-draft {
+	margin: 22px 0 0;
+	padding: 14px 16px;
+	border: 1px solid var(--adc-line-soft);
+	border-radius: var(--adc-radius);
+	background: var(--adc-surface);
+}
+
+.adc-an-draft > summary {
+	cursor: pointer;
+	font-size: 13.5px;
+	font-weight: 600;
+	color: var(--adc-ink);
+}
+
+.adc-an-draft > summary:hover {
+	color: var(--adc-accent);
+}
+
+.adc-an-draft-body {
+	margin: 12px 0 0;
+	max-width: 74ch;
+	color: var(--adc-ink-soft);
+	font-size: 12.5px;
+	line-height: 1.65;
+	white-space: pre-line;
+}
+
+.adc-an-noexport {
+	margin-top: 14px;
+}
+
+/* Screen-reader-only helper (also works when dashicons are absent) -------- */
+
+.adc-an .screen-reader-text {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	word-wrap: normal !important;
+}
+
+/* Focus, selection, hover chrome ----------------------------------------- */
+
+.adc-an a:focus-visible,
+.adc-an button:focus-visible,
+.adc-an input:focus-visible,
+.adc-an select:focus-visible,
+.adc-an summary:focus-visible {
+	border-color: var(--adc-accent);
+	box-shadow: 0 0 0 1px var(--adc-accent), 0 0 0 3px rgba(34, 113, 177, 0.25);
+	outline: 2px solid transparent;
+	outline-offset: 0;
+}
+
+.adc-an ::selection {
+	background: var(--adc-accent);
+	color: #fff;
+}
+
+.adc-an a {
+	text-underline-offset: 2px;
+}
+
+/* Responsive -------------------------------------------------------------- */
+
+@media screen and (max-width: 800px) {
+	.adc-an-figures {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.adc-an-figure:nth-child(-n+2) {
+		border-top: 1px solid var(--adc-line-soft);
+		padding-top: 10px;
+	}
+
+	.adc-an-figure:first-child {
+		border-top: 0;
+		padding-top: 2px;
+	}
+
+	.adc-an-gate,
+	.adc-an-unavail {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 2px;
+	}
+
+	.adc-an .form-table th {
+		width: auto;
+		padding-bottom: 2px;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	.adc-an-panel {
+		padding: 14px 14px 16px;
+	}
+
+	/* Settings rows stack and their fields fill the column: a 25em input next
+	   to a 260px label cannot fit a 390 px admin column. */
+	.adc-an .form-table {
+		table-layout: fixed;
+		width: 100%;
+	}
+
+	.adc-an .form-table tbody,
+	.adc-an .form-table tr,
+	.adc-an .form-table th,
+	.adc-an .form-table td {
+		display: block;
+		width: 100%;
+		box-sizing: border-box;
+	}
+
+	.adc-an .form-table th {
+		padding: 14px 0 0;
+	}
+
+	.adc-an .form-table td {
+		padding: 4px 0 14px;
+	}
+
+	.adc-an .form-table .regular-text,
+	.adc-an .form-table input[type="text"],
+	.adc-an .form-table input[type="date"],
+	.adc-an .form-table select {
+		width: 100%;
+		max-width: 100%;
+	}
+
+	.adc-an-frow,
+	.adc-an-frow--js {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.adc-an-fkey {
+		padding-top: 0;
+	}
+
+	.adc-an-controls {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.adc-an-controls select,
+	.adc-an-controls input[type="date"],
+	.adc-an-controls input[type="number"],
+	.adc-an-apply {
+		width: 100%;
+		max-width: 100%;
+	}
+
+	.adc-an-field {
+		margin-bottom: 2px;
+	}
+
+	.adc-an-figure-value {
+		font-size: 17px;
+	}
+
+	.adc-an-figure-note {
+		max-width: 20ch;
+	}
+
+	.adc-an-panel-head .adc-an-export,
+	.adc-an-panel-head .adc-an-reset {
+		margin-left: 0;
+	}
+
+	/* On phones the numeric table drops the bar column; the numbers stay. */
+	.adc-an-ranked .adc-an-barcol,
+	.adc-an-ranked .adc-an-barcell {
+		display: none;
+	}
+
+	.adc-an-table .adc-an-num {
+		width: 96px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.adc-an * {
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		scroll-behavior: auto !important;
+	}
+}

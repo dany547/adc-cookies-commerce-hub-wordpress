@@ -1,0 +1,166 @@
+# Release pipeline for ADC Cookies & Commerce Hub.
+#
+# Triggered by a stable version tag vX.Y.Z (no pre-release). The validate job
+# runs BEFORE any release asset is written; the release job builds the
+# deterministic ZIP and publishes it with the built-in GITHUB_TOKEN only
+# (no PAT stored in the repository, no third-party release actions).
+#
+# Tag pushes made by GITHUB_TOKEN (e.g. from version-bump.yml) do not fire
+# `push` events on GitHub Actions — that is why this workflow also accepts an
+# explicit workflow_dispatch with the tag name. version-bump.yml dispatches it
+# right after pushing the tag, so no circular trigger and no missed release.
+#
+# Release assets (exact, stable names consumed by ADC_Github_Updater):
+#   adc-marketing-X.Y.Z.zip   root folder adc-marketing/, SHA-256 checked
+#   SHA256SUMS                digests for the zip and the manifest
+#   update-manifest.json      version, requires, requires_php, tested,
+#                             wc_requires, package_url, sha256
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing stable tag to release (vX.Y.Z)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ inputs.tag || github.ref_name }}
+  cancel-in-progress: false
+
+env:
+  # Resolved identically in both jobs; passed to scripts through the
+  # environment, never interpolated into shell code.
+  REL_TAG: ${{ inputs.tag || github.ref_name }}
+
+jobs:
+  validate:
+    name: Validate before any write
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Check tag format
+        run: |
+          case "$REL_TAG" in
+            v[0-9]*.[0-9]*.[0-9]*) ;;
+            *) echo "FAIL tag must be vX.Y.Z (stable, no prerelease): got '$REL_TAG'"; exit 1 ;;
+          esac
+          echo "$REL_TAG" | grep -qE '^v[0-9]+\.[0-9]+\.[0-9]+$'
+
+      - name: Checkout tag
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ env.REL_TAG }}
+          fetch-depth: 1
+
+      - name: Setup PHP 8.2
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: '8.2'
+          coverage: none
+          tools: none
+
+      - name: Version consistency (header/constant/Stable tag/CHANGELOG == tag)
+        run: bash bin/version.sh check --tag "$REL_TAG"
+
+      - name: Syntax checks
+        run: bash bin/smoke.sh
+
+      - name: Standalone tests (analytics + updater contract)
+        run: |
+          set -e
+          for t in tests/analytics/*-test.php; do php "$t"; done
+          if [ ! -f tests/updater-test.php ]; then
+            echo "FAIL tests/updater-test.php missing (updater contract); refusing to release."
+            exit 1
+          fi
+          php tests/updater-test.php
+
+  release:
+    name: Build + publish ${{ inputs.tag || github.ref_name }}
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout tag
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ env.REL_TAG }}
+          fetch-depth: 1
+
+      - name: Setup PHP 8.2
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: '8.2'
+          coverage: none
+          tools: none
+
+      - name: Build deterministic release package (fresh dir, never overwrites)
+        run: bash bin/build-release.sh --out "$RUNNER_TEMP/release"
+
+      - name: Verify release contents, root folder, manifest and digests
+        run: bash bin/verify-release.sh "$RUNNER_TEMP/release/adc-marketing-${REL_TAG#v}.zip"
+
+      - name: Publish GitHub Release with exact asset names (idempotent, immutable)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -eu
+          cd "$RUNNER_TEMP/release"
+          VERSION="${REL_TAG#v}"
+          ZIP="adc-marketing-${VERSION}.zip"
+          assets=("$ZIP" SHA256SUMS update-manifest.json)
+
+          # Exact tag/version guard again immediately before any write.
+          bash "$GITHUB_WORKSPACE/bin/version.sh" check --tag "$REL_TAG"
+
+          if ! gh release view "$REL_TAG" >/dev/null 2>&1; then
+            gh release create "$REL_TAG" \
+              --verify-tag \
+              --title "ADC Cookies & Commerce Hub $REL_TAG" \
+              --generate-notes \
+              "${assets[@]}"
+            echo "OK created release $REL_TAG with ${#assets[@]} assets."
+            exit 0
+          fi
+
+          # Stable-only policy: never touch a draft or prerelease from here.
+          flags="$(gh release view "$REL_TAG" --json isDraft,isPrerelease --jq '[.isDraft,.isPrerelease] | @tsv')"
+          case "$flags" in
+            *true*)
+              echo "FAIL $REL_TAG exists as draft/prerelease ($flags); this workflow publishes stable releases only."
+              echo "     Publish or remove it manually as the operator — nothing was modified."
+              exit 1 ;;
+          esac
+
+          # Idempotent + immutable: existing assets must byte-match this build.
+          # Matching asset -> verified skip. Missing asset -> upload.
+          # Mismatch -> FAIL; no --clobber, no deletion, no hidden errors.
+          MATCH_DIR="$(mktemp -d "$RUNNER_TEMP/asset-check.XXXXXX")"
+          existing="$(gh release view "$REL_TAG" --json assets --jq '[.assets[].name] | .[]')"
+          rc=0
+          for asset in "${assets[@]}"; do
+            if printf '%s\n' "$existing" | grep -qx -- "$asset"; then
+              gh release download "$REL_TAG" -p "$asset" -D "$MATCH_DIR"
+              local_sha="$(sha256sum "$asset" | cut -d' ' -f1)"
+              remote_sha="$(sha256sum "$MATCH_DIR/$asset" | cut -d' ' -f1)"
+              if [ "$local_sha" = "$remote_sha" ]; then
+                echo "OK   $asset already published, byte-identical (sha256 $local_sha) — verified skip."
+              else
+                echo "FAIL $asset on $REL_TAG does NOT match this build (remote=$remote_sha local=$local_sha)."
+                echo "     Refusing to clobber. Investigate provenance before publishing (revert source changes or retire the release manually)."
+                rc=1
+              fi
+            else
+              echo "MISSING $asset — uploading."
+              gh release upload "$REL_TAG" "$asset" || rc=1
+            fi
+          done
+          exit "$rc"

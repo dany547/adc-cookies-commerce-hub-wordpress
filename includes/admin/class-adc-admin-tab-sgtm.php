@@ -1,0 +1,255 @@
+<?php
+/**
+ * Admin tab "Integrări ▸ Server GTM" (docs/ARCHITECTURE.md §2.1, §4; §9 D20).
+ *
+ * Settings for the `sgtm` group (registered by ADC_Integration_Sgtm).
+ * The feature is inert unless a valid https server container URL is stored.
+ * `mode=loader` (default) only switches the GTM/gtag transport to the
+ * first-party URL (ADC_Gtm::loader_url()); `mode=mp_forward` is EXPERIMENTAL
+ * (not verified in PLATFORMS) and hidden behind an explicit warning. The
+ * "Test connection" button calls the shared admin-AJAX endpoint
+ * `adc_test_integration` (nonce `adc_admin`, cap `manage_options`).
+ *
+ * @package ADC_Marketing
+ */
+
+declare(strict_types=1);
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+/**
+ * Server GTM integration admin tab.
+ */
+final class ADC_Admin_Tab_Sgtm implements ADC_Admin_Tab_Interface, ADC_Module_Interface
+{
+    /**
+     * Whether boot() already registered the admin hooks.
+     *
+     * @var bool
+     */
+    private static bool $booted = false;
+
+    /**
+     * Boot the module: enqueue the inline test-connection wiring on the
+     * plugin admin page.
+     */
+    public static function boot(): void
+    {
+        if (self::$booted) {
+            return;
+        }
+        self::$booted = true;
+
+        add_action('admin_enqueue_scripts', array(self::class, 'enqueue_assets'), 20);
+    }
+
+    /**
+     * Attach the test-button config + script to the shell handle (enqueued
+     * by ADC_Admin_Shell on this page only).
+     *
+     * @param string $hook_suffix Current admin page hook.
+     */
+    public static function enqueue_assets(string $hook_suffix): void
+    {
+        if ('toplevel_page_' . ADC_Admin_Shell::PAGE_SLUG !== $hook_suffix
+            || !current_user_can('manage_options')
+            || !wp_script_is('adc-admin-shell', 'registered')
+        ) {
+            return;
+        }
+
+        $config = wp_json_encode(
+            array(
+                'ajaxUrl'  => admin_url('admin-ajax.php'),
+                'nonce'    => wp_create_nonce('adc_admin'),
+                'platform' => 'sgtm',
+                'i18n'     => array(
+                    'testing' => __('Se testează conexiunea…', 'adc-marketing'),
+                    'ok'      => __('Conexiune reușită', 'adc-marketing'),
+                    'failed'  => __('Conexiunea a eșuat', 'adc-marketing'),
+                    'error'   => __('Eroare de rețea — încearcă din nou.', 'adc-marketing'),
+                ),
+            ),
+            JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
+        );
+
+        if (!is_string($config) || '' === $config) {
+            return;
+        }
+
+        wp_add_inline_script('adc-admin-shell', 'window.adcSgtmTest = ' . $config . ';', 'before');
+        wp_add_inline_script(
+            'adc-admin-shell',
+            '(function(){var b=document.getElementById("adc-sgtm-test"),o=document.getElementById("adc-sgtm-test-result");if(!b||!o||!window.adcSgtmTest){return}var c=window.adcSgtmTest,i=c.i18n;b.addEventListener("click",function(){b.disabled=true;o.textContent=i.testing;o.className="adc-test-result";var f=new FormData();f.append("action","adc_test_integration");f.append("platform",c.platform);f.append("nonce",c.nonce);fetch(c.ajaxUrl,{method:"POST",credentials:"same-origin",body:f}).then(function(r){return r.json()}).then(function(j){var d=j&&j.data?j.data:{},ok=!!(j&&j.success&&d.status==="sent");o.textContent=(ok?i.ok:i.failed)+(d.message?" — "+d.message:"");o.className="adc-test-result "+(ok?"adc-test-ok":"adc-test-fail")}).catch(function(){o.textContent=i.error;o.className="adc-test-result adc-test-fail"}).finally(function(){b.disabled=false})});})();'
+        );
+    }
+
+    /**
+     * Tab slug.
+     */
+    public function slug(): string
+    {
+        return 'sgtm';
+    }
+
+    /**
+     * Tab label (RO).
+     */
+    public function label(): string
+    {
+        return __('Server GTM', 'adc-marketing');
+    }
+
+    /**
+     * Rendered inside the "integrations" sub-nav.
+     */
+    public function group(): string
+    {
+        return 'integrations';
+    }
+
+    /**
+     * Sort order (§2.1: sgtm 50).
+     */
+    public function order(): int
+    {
+        return 50;
+    }
+
+    /**
+     * Render the tab inner HTML (no form tag, no nonce — the shell wraps them).
+     */
+    public function render(): void
+    {
+        $s          = ADC_Settings::all('sgtm');
+        $has_secret = '' !== ADC_Settings::secret('sgtm', 'api_secret');
+        $url        = ADC_Integration_Sgtm::server_container_url();
+        $provider_hint = '' !== $url && 1 === preg_match('/\.run\.app$/i', (string) parse_url($url, PHP_URL_HOST));
+        ?>
+        <h2><?php esc_html_e('Server GTM — transport first-party', 'adc-marketing'); ?></h2>
+        <p class="description">
+            <?php esc_html_e('Server-side Google Tag Manager primește evenimentele pe domeniul propriu, iar cookie-urile setate de container rămân first-party (nu sunt limitate de ITP). Funcția este inactivă până când salvați un URL valid de container server.', 'adc-marketing'); ?>
+        </p>
+
+        <table class="form-table" role="presentation">
+            <tr>
+                <th scope="row"><?php esc_html_e('Activare', 'adc-marketing'); ?></th>
+                <td>
+                    <label>
+                        <input type="checkbox" name="enabled" value="1" <?php checked(!empty($s['enabled'])); ?> />
+                        <?php esc_html_e('Activează Server GTM (transport first-party)', 'adc-marketing'); ?>
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row"><label for="adc-sgtm-url"><?php esc_html_e('URL container server', 'adc-marketing'); ?></label></th>
+                <td>
+                    <input type="url" id="adc-sgtm-url" name="server_container_url" value="<?php echo esc_attr((string) $s['server_container_url']); ?>" class="regular-text code" placeholder="https://analytics.exemplu.ro" autocomplete="off" spellcheck="false" />
+                    <p class="description"><?php esc_html_e('Doar https. Exemplu: https://analytics.exemplu.ro (domeniu propriu sau subdomeniu) — nu ghiciți adrese; o valoare greșită oprește silențios colectarea.', 'adc-marketing'); ?></p>
+                    <?php if ($provider_hint) : ?>
+                        <p class="description" style="color:#e2401c;"><?php esc_html_e('Atenție: folosiți un domeniu oferit de un provider implicit (ex. *.run.app) — în acest caz cookie-urile setate de container nu au beneficiu first-party (rămân cookie-uri JavaScript). Pentru avantaj complet folosiți un domeniu propriu.', 'adc-marketing'); ?></p>
+                    <?php endif; ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row"><label for="adc-sgtm-mode"><?php esc_html_e('Mod', 'adc-marketing'); ?></label></th>
+                <td>
+                    <select id="adc-sgtm-mode" name="mode">
+                        <option value="loader" <?php selected('loader', (string) $s['mode']); ?>><?php esc_html_e('Transport (recomandat) — gtag/GTM își trimit evenimentele prin containerul server', 'adc-marketing'); ?></option>
+                        <option value="mp_forward" <?php selected('mp_forward', (string) $s['mode']); ?>><?php esc_html_e('Experimental: forward MP din server către container', 'adc-marketing'); ?></option>
+                    </select>
+                    <p class="description">
+                        <?php esc_html_e('Modul „Transport” schimbă doar adresa de încărcare a etichetei (gtm.js) pe URL-ul first-party și înlocuiește server_container_url în gtag. Modul experimental „forward MP” trimite evenimentele server-side (Measurement Protocol) direct în container și înlocuiește trimiterea GA4 către Google — funcție neverificată oficial, folosiți pe propria răspundere și testați în DebugView.', 'adc-marketing'); ?>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row"><label for="adc-sgtm-measurement-id"><?php esc_html_e('Measurement ID (opțional)', 'adc-marketing'); ?></label></th>
+                <td>
+                    <input type="text" id="adc-sgtm-measurement-id" name="measurement_id" value="<?php echo esc_attr((string) $s['measurement_id']); ?>" class="regular-text" maxlength="20" autocomplete="off" spellcheck="false" />
+                    <p class="description"><?php esc_html_e('Doar pentru modul experimental. Lasă gol pentru a folosi Measurement ID-ul din tabul GA4.', 'adc-marketing'); ?></p>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row"><label for="adc-sgtm-api-secret"><?php esc_html_e('Cheie API (opțional)', 'adc-marketing'); ?></label></th>
+                <td>
+                    <input type="password" id="adc-sgtm-api-secret" name="api_secret" value="" class="regular-text code" autocomplete="new-password" spellcheck="false" />
+                    <?php if ($has_secret) : ?>
+                        <p class="description"><?php esc_html_e('••••• (salvat) — lasă câmpul gol pentru a păstra cheia curentă.', 'adc-marketing'); ?></p>
+                    <?php else : ?>
+                        <p class="description"><?php esc_html_e('Necesară doar dacă containerul o cere (mod experimental). Lasă gol pentru a folosi cheia din tabul GA4. Stocată criptat; poate fi suprascrisă prin constanta ADC_SGTM_API_SECRET.', 'adc-marketing'); ?>
+                    <?php endif; ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row"><?php esc_html_e('Testare conexiune', 'adc-marketing'); ?></th>
+                <td>
+                    <p>
+                        <button type="button" class="button" id="adc-sgtm-test"><?php esc_html_e('Testează conexiunea', 'adc-marketing'); ?></button>
+                        <span class="adc-test-result" id="adc-sgtm-test-result" aria-live="polite"></span>
+                    </p>
+                    <p class="description"><?php esc_html_e('În modul „Transport” testul confirmă configurarea URL-ului; în modul experimental trimite un eveniment sintetic în container.', 'adc-marketing'); ?></p>
+                </td>
+            </tr>
+        </table>
+
+        <p class="description">
+            <?php esc_html_e('În containerul GTM (Server), clientul GA4 este preinstalat — nu sunt necesare modificări de cod în container pentru ca evenimentele gtag să ajungă la el.', 'adc-marketing'); ?>
+        </p>
+        <?php
+    }
+
+    /**
+     * Save via ADC_Settings::update (sanitizer in ADC_Integration_Sgtm).
+     * The integration falls back to the `gtm` group URL (ADC_Gtm) when this
+     * group stores none, so the two never diverge at send time (D20).
+     *
+     * @param array $post wp_unslash($_POST).
+     * @return array<int, array{type: string, message: string}>
+     */
+    public function save(array $post): array
+    {
+        $input = array(
+            'enabled'              => !empty($post['enabled']),
+            'server_container_url' => (string) ($post['server_container_url'] ?? ''),
+            'mode'                 => (string) ($post['mode'] ?? ''),
+            'measurement_id'       => (string) ($post['measurement_id'] ?? ''),
+            'api_secret'           => (string) ($post['api_secret'] ?? ''),
+        );
+
+        $stored = ADC_Settings::update('sgtm', $input);
+
+        $notices = array(
+            array(
+                'type'    => 'success',
+                'message' => __('Setările Server GTM au fost salvate.', 'adc-marketing'),
+            ),
+        );
+
+        $url = (string) ($stored['server_container_url'] ?? '');
+        if ('' !== trim((string) ($input['server_container_url'] ?? '')) && '' === $url) {
+            $notices[] = array(
+                'type'    => 'warning',
+                'message' => __('URL invalid — se acceptă doar adrese https valide.', 'adc-marketing'),
+            );
+        }
+
+        if (!empty($stored['enabled']) && '' === $url) {
+            $notices[] = array(
+                'type'    => 'warning',
+                'message' => __('Fără URL de container server, Server GTM rămâne inactiv.', 'adc-marketing'),
+            );
+        }
+
+        if ('mp_forward' === (string) ($stored['mode'] ?? '')) {
+            $notices[] = array(
+                'type'    => 'warning',
+                'message' => __('Modul experimental „forward MP” este activ: funcție neverificată oficial de documentația Google — testați în DebugView înainte de producție.', 'adc-marketing'),
+            );
+        }
+
+        return $notices;
+    }
+}

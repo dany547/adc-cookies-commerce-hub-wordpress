@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<ruleset name="ADC Marketing">
+    <description>Coding standard: PSR-12 + WordPress Coding Standards (security / i18n / DB sniffs) for the ADC Marketing plugin.</description>
+
+    <file>adc-marketing.php</file>
+    <file>uninstall.php</file>
+    <file>includes</file>
+    <file>templates</file>
+
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/node_modules/*</exclude-pattern>
+    <exclude-pattern>*/languages/*</exclude-pattern>
+
+    <arg name="basepath" value="."/>
+    <arg name="colors"/>
+    <arg name="extensions" value="php"/>
+    <arg value="sp"/>
+
+    <config name="testVersion" value="8.2-"/>
+    <config name="text_domain" value="adc-marketing"/>
+    <config name="minimum_wp_version" value="6.8"/>
+
+    <rule ref="PSR12"/>
+
+    <rule ref="WordPress">
+        <!-- File names follow the ADC autoloader convention (class-adc-*.php),
+             which differs from the WPCS default prefixed-filename sniff. -->
+        <exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+        <exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+        <!-- Legacy 1.0 files predate the tab/space + alignment ruleset of 2.0. -->
+        <exclude name="WordPress.WhiteSpace.DisallowInlineTabs"/>
+        <exclude name="Generic.WhiteSpace.ScopeIndent.Indent"/>
+    </rule>
+
+    <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+        <properties>
+            <property name="prefixes" type="array">
+                <element value="adc"/>
+                <element value="ADC"/>
+            </property>
+        </properties>
+    </rule>
+</ruleset>

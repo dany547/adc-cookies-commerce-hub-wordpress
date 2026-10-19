@@ -1,0 +1,77 @@
+/* ADC Marketing 2.0 — Logs & Debug tab styles (outbox table, status pills, actions). */
+
+.adc-logs-counts {
+    max-width: 420px;
+    margin-bottom: 16px;
+}
+
+.adc-logs-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.adc-logs-result {
+    font-size: 13px;
+    color: #2e7d32;
+}
+
+.adc-logs-result.is-error {
+    color: #e2401c;
+}
+
+.adc-logs-table {
+    margin-top: 8px;
+}
+
+.adc-logs-table .adc-logs-error-row td {
+    background: #fdf3f2;
+}
+
+.adc-logs-table .adc-logs-error-row code {
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.adc-status {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 12px;
+    line-height: 18px;
+    background: #eee;
+}
+
+.adc-status--pending {
+    background: #fff3cd;
+    color: #6b5300;
+}
+
+.adc-status--sent {
+    background: #d4edda;
+    color: #1d5c2e;
+}
+
+.adc-status--dead {
+    background: #f8d7da;
+    color: #7d171c;
+}
+
+.adc-status--skipped,
+.adc-status--skipped_no_consent,
+.adc-status--skipped_disabled {
+    background: #e2e8f0;
+    color: #33445b;
+}
+
+.adc-consent-lookup-result {
+    min-height: 22px;
+    margin-bottom: 16px;
+    font-size: 13px;
+}
+
+.adc-logs-conflicts {
+    max-width: 640px;
+    margin-top: 8px;
+}

@@ -1,0 +1,92 @@
+# Manual, reviewed version bump for ADC Cookies & Commerce Hub.
+#
+# workflow_dispatch only: the single author chooses patch/minor/major. It runs
+# `bin/version.sh bump` (single SemVer source -> header, constant, Stable tag,
+# CHANGELOG skeleton), commits the version files, tags vX.Y.Z, pushes, and
+# then EXPLICITLY dispatches release.yml for that tag.
+#
+# Why the explicit dispatch: a tag pushed with the built-in GITHUB_TOKEN does
+# not emit `push` events (GitHub anti-recursion rule). Relying on the push
+# trigger would silently miss the release; relying on a PAT to fire it would
+# risk a trigger loop. Dispatch is the simple, documented middle ground.
+#
+# Writes with the built-in GITHUB_TOKEN (contents: write); no PAT is stored in
+# the repository. Direct push to main here bypasses PR review — if main is
+# branch-protected, add a bypass for GitHub Actions or bump locally
+# (`bin/version.sh bump minor`, review, commit, push the tag with your own
+# credentials, which fires release.yml via the push trigger).
+name: Version bump
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump_type:
+        description: 'SemVer segment to bump'
+        required: true
+        type: choice
+        default: patch
+        options:
+          - patch
+          - minor
+          - major
+
+permissions:
+  contents: write
+
+concurrency:
+  group: version-bump-main
+  cancel-in-progress: false
+
+jobs:
+  bump:
+    name: Bump ${{ inputs.bump_type }} and tag
+    runs-on: ubuntu-latest
+    # contents: write is needed for the version commit+tag push;
+    # actions: write is needed for `gh workflow run release.yml` (workflow_dispatch
+    # API) below — without it the built-in token gets 403 and the release silently
+    # never starts. Kept job-scoped; CI (ci.yml) stays contents: read.
+    permissions:
+      contents: write
+      actions: write
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Bump version (writes header, constant, Stable tag, CHANGELOG skeleton)
+        env:
+          BUMP_TYPE: ${{ inputs.bump_type }}
+        run: |
+          set -e
+          case "$BUMP_TYPE" in
+            patch|minor|major) ;;
+            *) echo "FAIL unexpected bump_type: $BUMP_TYPE"; exit 1 ;;
+          esac
+          bash bin/version.sh bump "$BUMP_TYPE"
+          NEW_VERSION="$(bash bin/version.sh current)"
+          echo "TAG=v${NEW_VERSION}" >> "$GITHUB_ENV"
+          bash bin/version.sh check --tag "v${NEW_VERSION}"
+
+      - name: Commit the reviewed version files and tag
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add adc-marketing.php README.txt CHANGELOG.md
+          # Fail if the bump touched anything beyond the three version files.
+          git diff --cached --name-only | grep -vE '^(adc-marketing\.php|README\.txt|CHANGELOG\.md)$' \
+            && { echo "FAIL unexpected files staged by the bump"; exit 1; } || true
+          git diff --cached --quiet && { echo "FAIL nothing staged"; exit 1; } || true
+          git commit -m "chore(release): version ${TAG}"
+          git tag "${TAG}"
+          git push origin main "${TAG}"
+
+      - name: Trigger release.yml for the new tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          gh workflow run release.yml --ref "${TAG}" -f tag="${TAG}"
+          echo "OK dispatched release.yml for ${TAG} (watch it under Actions)."
