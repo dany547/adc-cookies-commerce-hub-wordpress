@@ -111,6 +111,9 @@ jobs:
       - name: Publish GitHub Release with exact asset names (idempotent, immutable)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # This step runs from $RUNNER_TEMP/release (not a git repo); gh needs
+          # the repository stated explicitly or it fails with "not a git repository".
+          GH_REPO: dany547/adc-cookies-commerce-hub-wordpress
         run: |
           set -eu
           cd "$RUNNER_TEMP/release"
