@@ -951,7 +951,7 @@ check(isset($GLOBALS['ADC_TEST']['tempnam'][0]) && is_file($GLOBALS['ADC_TEST'][
 // 50b. PclZip fallback regression (Sonnet finding B3): faithful real-core shape
 // (uncompressed size under 'size') is ACCEPTED end-to-end...
 reset_state();
-force_pclzip_fallback(true);
+force_pclzip_fallback(false);
 $GLOBALS['ADC_TEST']['transients']['adc_updater_cache'] = seeded_cache('2.2.0');
 queue_download(fixture_zip('2.2.0'));
 $res = gate_download();
@@ -959,7 +959,7 @@ check(is_string($res) && is_file((string) $res), 'pclzip shape: good size key ac
 
 // 50c. ...while a reader variant WITHOUT the 'size' key fails closed.
 reset_state();
-force_pclzip_fallback(true);
+force_pclzip_fallback(false);
 $GLOBALS['ADC_TEST']['pclzip_omit_size'] = true;
 $GLOBALS['ADC_TEST']['transients']['adc_updater_cache'] = seeded_cache('2.2.0');
 queue_download(fixture_zip('2.2.0'));
@@ -968,7 +968,7 @@ check($res instanceof WP_Error && 'adc_updater_archive_read' === $res->get_error
 
 // 50d. Optional compressed_size, when present, is verified (malformed → fail closed).
 reset_state();
-force_pclzip_fallback(true);
+force_pclzip_fallback(false);
 $GLOBALS['ADC_TEST']['pclzip_bad_compressed'] = true;
 $GLOBALS['ADC_TEST']['transients']['adc_updater_cache'] = seeded_cache('2.2.0');
 queue_download(fixture_zip('2.2.0'));

@@ -57,6 +57,8 @@ Thumbs.db
 
 # Agent instructions and internal-only working/review material
 AGENTS.md
+/docs/
+/GDPR-COMPLIANCE.md
 /PRIVACY_ANALYTICS.md
 **/AGENTS.md
 .claude/
@@ -68,7 +70,6 @@ AGENTS.md
 **/evidence/
 **/screenshots/
 **/*-review.md
-!/docs/privacy/operational-analytics-review.md
 **/*-evidence.*
 
 # Python bytecode caches produced by dev tooling (bin/lib scripts)

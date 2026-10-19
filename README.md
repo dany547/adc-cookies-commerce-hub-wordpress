@@ -14,7 +14,7 @@ Gestionează cookies, consimțământul vizitatorilor și preferințele de marke
 ## Ce face plugin-ul
 
 - **Cookie CMP**: banner cu patru categorii (necesare, preferințe, statistici, marketing), „Acceptă · Setări · Respinge”, Google Consent Mode v2, Global Privacy Control, jurnal de consimțământ per decizie.
-- **Consimțământ marketing (opțional, separat de cookie-uri)**: checkbox voluntar la checkout WooCommerce, preferințe separate e-mail / SMS din pagina „Marketing” a contului clientului, export CSV cu filtru pe perioadă, vizibilitate în comenzi și profile. *Limitare cunoscută:* căsuța de consimțământ e redată doar la checkout-ul clasic; checkout-ul pe blocuri (Store API) nu o afișează încă, iar comenzile din bloc nu înregistrează valoare de consimțământ (documentat în [GDPR-COMPLIANCE.md](GDPR-COMPLIANCE.md) → Known Gaps). Rapoartele de analitice operaționale/comerciale funcționează și pe checkout-ul cu blocuri — validarea E2E a lor e separată de acest gap moștenit.
+- **Consimțământ marketing (opțional, separat de cookie-uri)**: checkbox voluntar la checkout WooCommerce, preferințe separate e-mail / SMS din pagina „Marketing” a contului clientului, export CSV cu filtru pe perioadă, vizibilitate în comenzi și profile. *Limitare cunoscută:* căsuța de consimțământ la checkout este redată doar de checkout-ul clasic; checkout-ul pe blocuri (Store API) nu o afișează încă, iar comenzile plasate prin bloc nu înregistrează valoare de consimțământ — o actualizare ulterioară va aduce căsuța și în blocuri. Rapoartele de analitice operaționale/comerciale funcționează și pe checkout-ul cu blocuri; validarea lor E2E este separată de această limitare moștenită.
 - **Pixeli & evenimente consimțământ-gated**: Meta, TikTok, GA4 (Measurement Protocol) și sGTM se activează fiecare separat și trimit doar cu consimțământ; potrivirea avansată trimite exclusiv hash-uri SHA-256.
 - **Analitice operaționale & comerciale**: rapoarte interne (trafic, interacțiuni, reconciliere comercială, retenție, CSV),implicit oprite, rulate local în bazele de date ale site-ului.
 
@@ -50,9 +50,7 @@ Bumps automate: workflow-ul **`version-bump.yml`** (dispatch manual `patch`/`min
 
 Date: `bump` inserează în CHANGELOG `## [X.Y.Z] - în lucru`; responsabilul de release înlocuiește `în lucru` cu data UTC a publicării (`date -u +%F`) în commit-ul/tag-ul de release. `check` compară numărul de versiune, nu data, deci intrările `în lucru` viitoare rămân valide până la publicare.
 
-## Documentație de confidențialitate
-
-Repository-ul păstrează (iar `.gitignore` le exclude intenționat doar pe brief-urile interne): [GDPR-COMPLIANCE.md](GDPR-COMPLIANCE.md) (statutul de conformitate, nu o certificare) și [docs/privacy/operational-analytics-review.md](docs/privacy/operational-analytics-review.md) (review-ul de confidențialitate pentru analiticele operaționale, explicit negat în `.gitignore` ca să rămână public). Brief-ul intern `PRIVACY_ANALYTICS.md` și materialul din `docs/research/`, `docs/review/`, `**/plans/`, `**/briefs/` rămân ignorate. Arhiva ZIP de release conține `LICENSE` și `README.txt`; documentele de confidențialitate rămân în repository, unde pot fi citite la link-ul `package_url`.
+Confidențialitate, auto-conținut: plugin-ul oferă doar controale tehnice de susținere a conformității (consimțământ, preferințe granulare, gating pe consimțământ, export/ștergere date); **nu** este o certificare juridică și nu face site-ul conform prin el însuși — rămân obligatorii politica de confidențialitate a operatorului, temeiurile juridice, contractele cu procesatori și retenția aplicată. Limitările tehnice active (inclusiv cea de la checkout pe blocuri, mai sus) sunt descrise în acest README; documentația extinsă de arhitectură/conformitate este internă și nu este publicată în repository. Arhiva ZIP de release conține `LICENSE` și `README.txt`. La verificare/descărcare GitHub vede IP-ul serverului și User-Agent-ul static al plugin-ului (fără cookie-uri sau chei).
 
 ## Dezvoltare
 
@@ -92,8 +90,7 @@ adc-marketing.php            # entry fizic neschimbat (Plugin Name afișat = bra
 includes/                    # module (autoloader ADC_*), incl. core/class-adc-github-updater.php
 assets/ templates/ languages/
 bin/                         # smoke, version, build-release, verify-release
-tests/                       # analytics (izolate) + release (build/version)
-docs/                        # arhitectura, ghid utilizare, analitice (NU intra in ZIP)
+tests/                       # analytics (izolate) + release + updater (NU intra in ZIP)
 .github/workflows/           # ci.yml, release.yml, version-bump.yml
 ```
 
