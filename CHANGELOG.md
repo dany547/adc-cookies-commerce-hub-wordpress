@@ -24,6 +24,7 @@ neatinse până la publicare.
 - Cookie-uri WooCommerce `sbjs_*` și `tk_*` în baza curată.
 
 ### Modificat
+- Scanner: „Salvează toate" include și rândurile editate manual (preia categoria sugerată dacă lipsește; rândurile fără categorie sunt raportate, nu ignorate în tăcere).
 - Scanner: modificările necomplete din rânduri nu se mai pierd la rescanare sau la salvarea altui rând.
 - Inventar cookie-uri (tab Banner): caracterul `|` din descrieri nu mai deplasează coloanele la salvare.
 

@@ -15,7 +15,7 @@
   const stash = () => { const drafts = {}; rows().forEach((row) => { if (isDirty(row)) drafts[row.dataset.name] = rowData(row); }); writeDrafts(drafts); };
   let skippingUnload = false;
   const mark = (row) => { row.classList.toggle('adc-cookie-dirty', isDirty(row)); const save = row.querySelector('.adc-cookie-save'); save.disabled = !row.querySelector('.adc-cookie-category').value; updateBulk(); };
-  const updateBulk = () => { const button = document.getElementById('adc-cookie-save-all'); if (button) button.disabled = !rows().some((row) => isDirty(row) && row.querySelector('.adc-cookie-category').value); };
+  const updateBulk = () => { const button = document.getElementById('adc-cookie-save-all'); if (button) button.disabled = !rows().some((row) => isDirty(row)); };
   rows().forEach((row) => {
     row.dataset.original = JSON.stringify(rowData(row));
     const draft = readDrafts()[row.dataset.name];
@@ -68,8 +68,12 @@
   });
   document.getElementById('adc-cookie-save-all')?.addEventListener('click', async (event) => {
     const button = event.currentTarget;
-    const pending = rows().filter((row) => isDirty(row) && row.querySelector('.adc-cookie-category').value);
-    if (!pending.length) return;
+    // Hand-edited rows count too: a row with no category yet takes the suggested one, if the database has it.
+    const dirty = rows().filter((row) => isDirty(row));
+    dirty.forEach((row) => { const category = row.querySelector('.adc-cookie-category'); if (!category.value && row.dataset.suggestionCategory) { category.value = row.dataset.suggestionCategory; row.dataset.category = category.value; mark(row); } });
+    const pending = dirty.filter((row) => row.querySelector('.adc-cookie-category').value);
+    const skipped = dirty.length - pending.length;
+    if (!pending.length) { status.textContent = skipped ? 'Alegeți o categorie pentru ' + skipped + ' rânduri modificate, apoi salvați din nou.' : ''; return; }
     button.disabled = true; status.textContent = 'Se salvează…';
     try {
       // Chunked to stay under the server-side per-request cap (200 rows).
@@ -81,7 +85,7 @@
         chunk.forEach((row) => { delete drafts[row.dataset.name]; row.dataset.original = JSON.stringify(rowData(row)); row.classList.remove('adc-cookie-dirty'); });
       }
       writeDrafts(drafts);
-      status.textContent = 'Salvate: ' + savedTotal + '. Erori: ' + errors.length + '.'; updateBulk();
+      status.textContent = 'Salvate: ' + savedTotal + '. Erori: ' + errors.length + '.' + (skipped ? ' Fără categorie (omise): ' + skipped + '.' : ''); updateBulk();
     } catch (error) { status.textContent = error.message || 'Salvarea a eșuat.'; button.disabled = false; }
   });
   root.addEventListener('click', async (event) => {
