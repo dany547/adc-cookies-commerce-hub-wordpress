@@ -375,8 +375,37 @@ final class ADC_Admin_Tab_Logs implements ADC_Admin_Tab_Interface, ADC_Module_In
         wp_send_json_success(array(
             'status'    => $result->status,
             'http_code' => $result->http_code,
-            'message'   => $result->message,
+            'message'   => 'skipped' === $result->status ? self::skip_message($result->message) : $result->message,
         ));
+    }
+
+    /**
+     * Romanian text for known integration skip slugs surfaced by the test
+     * endpoint (ADC_Send_Result::skipped() stores the raw slug as message);
+     * unknown slugs fall back to the raw value.
+     *
+     * @param string $slug Skip reason slug.
+     * @return string
+     */
+    private static function skip_message(string $slug): string
+    {
+        $messages = array(
+            'disabled'                     => __('Integrarea este dezactivată. Activează platforma din setări și testează din nou.', 'adc-marketing'),
+            'consent_denied'               => __('Browserul curent nu a acordat consimțământ pentru măsurare. Acordă-l din bannerul de cookie-uri și testează din nou.', 'adc-marketing'),
+            'purchase_browser_channel'     => __('Comenzile (purchase) se trimit doar prin canalul server, deci testul din browser este omis intenționat.', 'adc-marketing'),
+            'no_client_id'                 => __('Lipsește identificatorul de client al browserului (client_id). Vizitează site-ul cu consimțământ acordat și testează din nou.', 'adc-marketing'),
+            'measurement_id_missing'       => __('Lipsește ID-ul de măsurare GA4 (Measurement ID). Completează-l, salvează și testează din nou.', 'adc-marketing'),
+            'api_secret_missing'           => __('Lipsește API secret pentru GA4. Completează-l, salvează și testează din nou.', 'adc-marketing'),
+            'loader_mode'                  => __('Containerul server GTM rulează în mod „loader”, deci evenimentele nu se trimit direct. Testul este omis.', 'adc-marketing'),
+            'server_container_url_missing' => __('Lipsește URL-ul containerului server (sGTM). Completează-l, salvează și testează din nou.', 'adc-marketing'),
+            'insufficient_user_data'       => __('Datele despre utilizator sunt insuficiente pentru potrivirea avansată. Folosește un test cu e-mail și telefon completate.', 'adc-marketing'),
+            'pixel_id_missing'             => __('Lipsește ID-ul de pixel Meta. Completează-l, salvează și testează din nou.', 'adc-marketing'),
+            'access_token_missing'         => __('Lipsește token-ul de acces. Completează-l, salvează și testează din nou.', 'adc-marketing'),
+            'test_event_code_missing'      => __('Lipsește codul de test al evenimentelor (Test Event Code) din Meta Events Manager. Completează-l, salvează și testează din nou.', 'adc-marketing'),
+            'pixel_code_missing'           => __('Lipsește codul de pixel TikTok (Pixel Code). Completează-l, salvează și testează din nou.', 'adc-marketing'),
+        );
+
+        return $messages[$slug] ?? $slug;
     }
 
     /**

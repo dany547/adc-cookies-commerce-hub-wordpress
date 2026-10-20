@@ -194,7 +194,6 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
 
         $colors = self::merged_colors($banner, $presets, $preset);
         $radius = self::clamped_radius($banner['radius'] ?? null, $presets, $preset);
-        $gap    = self::clamped_gap($banner['accept_gap'] ?? null);
         $shadow = array_key_exists('shadow', $banner) ? (bool) $banner['shadow'] : true;
         $overlay = array_key_exists('overlay', $banner) ? (bool) $banner['overlay'] : true;
         ?>
@@ -360,7 +359,7 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
                 <?php endforeach; ?>
             </fieldset>
 
-            <h3><?php esc_html_e('Ordinea și spațierea butoanelor', 'adc-marketing'); ?></h3>
+            <h3><?php esc_html_e('Ordinea butoanelor', 'adc-marketing'); ?></h3>
             <p class="description"><?php esc_html_e('Cum se așază și în ce ordine apar cele trei butoane — ordinea vizuală este și ordinea din cod (tastatură, cititoare de ecran).', 'adc-marketing'); ?></p>
             <table class="form-table" role="presentation"><tbody>
                 <tr>
@@ -372,14 +371,6 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
                             <?php endforeach; ?>
                         </select>
                         <p class="description"><?php esc_html_e('Ordinea aleasă este și ordinea din codul HTML, deci Tab-ul și cititorul de ecran parcurg butoanele exact cum le vede vizitatorul. Butonul „Personalizează” poate fi redenumit în „Setări” din câmpul de mai sus.', 'adc-marketing'); ?></p>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row"><label for="adc-banner-accept-gap"><?php esc_html_e('Spațiu după „Acceptă”', 'adc-marketing'); ?></label></th>
-                    <td>
-                        <input type="range" id="adc-banner-accept-gap" name="adc_banner[accept_gap]" min="0" max="48" step="2" value="<?php echo esc_attr((string) $gap); ?>" />
-                        <output id="adc-banner-accept-gap-val" for="adc-banner-accept-gap"><?php echo esc_html($gap . 'px'); ?></output>
-                        <p class="description"><?php esc_html_e('Separator între „Acceptă” și celelalte două butoane, pe aceeași linie. Maxim 48 de pixeli, iar bannerul reduce spațiul la 12% din lățimea rândului, ca linia să nu se rupă. Pe ecranele înguste butoanele se așază unul sub altul, iar spațiul devine vertical.', 'adc-marketing'); ?></p>
                     </td>
                 </tr>
             </tbody></table>
@@ -446,7 +437,7 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
             </p>
             <div class="adc-banner-preview-screen" id="adc-banner-preview-screen">
                 <div class="adc-banner-preview-overlay" id="adc-banner-preview-overlay"<?php echo ('center_modal' === $layout && $overlay) ? '' : ' hidden'; ?>></div>
-                <div id="adc-consent-banner" class="adc-consent-banner" data-layout="<?php echo esc_attr($layout); ?>" data-preset="<?php echo esc_attr($preset); ?>" style="<?php echo esc_attr(self::style_string($colors, $radius, $shadow, $gap)); ?>">
+                <div id="adc-consent-banner" class="adc-consent-banner" data-layout="<?php echo esc_attr($layout); ?>" data-preset="<?php echo esc_attr($preset); ?>" style="<?php echo esc_attr(self::style_string($colors, $radius, $shadow)); ?>">
                     <div class="adc-consent-banner__inner">
                         <p class="adc-consent-banner__title" id="adc-banner-preview-title"><?php echo esc_html((string) ($banner['title'] ?? '')); ?></p>
                         <p class="adc-consent-banner__message" id="adc-banner-preview-message"><?php echo esc_html(wp_strip_all_tags((string) ($banner['message'] ?? ''))); ?></p>
@@ -859,25 +850,6 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
     }
 
     /**
-     * Stored accept spacing, clamped to the allowed range.
-     *
-     * @param mixed $stored Stored value.
-     * @return int
-     */
-    private static function clamped_gap(mixed $stored): int
-    {
-        $min  = defined('ADC_Consent_Banner::ACCEPT_GAP_MIN') ? (int) ADC_Consent_Banner::ACCEPT_GAP_MIN : 0;
-        $max  = defined('ADC_Consent_Banner::ACCEPT_GAP_MAX') ? (int) ADC_Consent_Banner::ACCEPT_GAP_MAX : 48;
-        $default = defined('ADC_Consent_Banner::ACCEPT_GAP_DEFAULT') ? (int) ADC_Consent_Banner::ACCEPT_GAP_DEFAULT : 16;
-
-        if (!is_numeric($stored)) {
-            return $default;
-        }
-
-        return max($min, min($max, (int) $stored));
-    }
-
-    /**
      * Audit catalogue (thresholds + Romanian messages) from the banner class.
      *
      * @return array
@@ -1082,17 +1054,15 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
      * @param array<string, string> $colors Colour values.
      * @param int                   $radius Corner radius in px.
      * @param bool                  $shadow Whether the shadow is enabled.
-     * @param int                   $gap    Spacing after the Accept button in px.
      * @return string
      */
-    private static function style_string(array $colors, int $radius, bool $shadow, int $gap = 16): string
+    private static function style_string(array $colors, int $radius, bool $shadow): string
     {
         $parts = array();
         foreach (self::color_keys() as $key) {
             $parts[] = '--adc-' . str_replace('_', '-', $key) . ':' . $colors[$key];
         }
         $parts[] = '--adc-radius:' . max(0, min(24, $radius)) . 'px';
-        $parts[] = '--adc-accept-gap:' . self::clamped_gap($gap) . 'px';
         $parts[] = '--adc-shadow:' . ($shadow ? '0 10px 30px rgba(0, 0, 0, 0.25)' : 'none');
 
         return implode(';', $parts) . ';';

@@ -16,8 +16,6 @@
   var screenOverlay = document.getElementById('adc-banner-preview-overlay');
   var previewActions = document.getElementById('adc-banner-preview-actions');
   var orderSelect = document.getElementById('adc-banner-button-order');
-  var gapInput = document.getElementById('adc-banner-accept-gap');
-  var gapVal = document.getElementById('adc-banner-accept-gap-val');
   var compliancePanel = document.getElementById('adc-banner-compliance');
   var complianceList = document.getElementById('adc-banner-compliance-list');
   var compliance = window.adcBannerCompliance && typeof window.adcBannerCompliance === 'object'
@@ -308,7 +306,7 @@
     compliancePanel.hidden = findings.length === 0;
   }
 
-  // ---- Button order + Accept spacing ----
+  // ---- Button order ----
 
   function applyOrder() {
     if (!previewActions || !orderSelect || !orderSelect.selectedOptions || !orderSelect.selectedOptions.length) {
@@ -322,16 +320,6 @@
         previewActions.appendChild(button);
       }
     });
-  }
-
-  function syncGap() {
-    var value = gapInput ? Math.max(0, Math.min(48, parseInt(gapInput.value, 10) || 0)) : 16;
-    if (preview) {
-      preview.style.setProperty('--adc-accept-gap', value + 'px');
-    }
-    if (gapVal) {
-      gapVal.textContent = value + 'px';
-    }
   }
 
   function onColorEdited(input) {
@@ -397,9 +385,6 @@
       syncRadius(true);
     });
   }
-  if (gapInput) {
-    gapInput.addEventListener('input', syncGap);
-  }
   if (orderSelect) {
     orderSelect.addEventListener('change', applyOrder);
   }
@@ -442,7 +427,6 @@
     activePreset = initial.value;
   }
   syncRadius(false);
-  syncGap();
   applyOrder();
   syncShadow();
   syncLayout();

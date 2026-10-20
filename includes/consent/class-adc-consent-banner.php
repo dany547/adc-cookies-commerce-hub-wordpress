@@ -50,11 +50,6 @@ final class ADC_Consent_Banner implements ADC_Module_Interface
      */
     public const DEFAULT_BUTTON_ORDER = 'accept_customize_reject';
 
-    /** Extra spacing after the Accept button, in px (clamped; CSS caps it further). */
-    public const ACCEPT_GAP_MIN     = 0;
-    public const ACCEPT_GAP_MAX     = 48;
-    public const ACCEPT_GAP_DEFAULT = 16;
-
     /**
      * Audit thresholds for the Accept/Reject prominence check (see
      * prominence_audit()). 4.5:1 and 3:1 are the WCAG AA text / non-text limits;
@@ -364,7 +359,6 @@ final class ADC_Consent_Banner implements ADC_Module_Interface
         return array(
             'layout'                => 'bar_bottom',
             'button_order'          => self::DEFAULT_BUTTON_ORDER,
-            'accept_gap'            => self::ACCEPT_GAP_DEFAULT,
             'preset'                => 'light',
             'radius'                => 8,
             'shadow'                => true,
@@ -504,11 +498,6 @@ final class ADC_Consent_Banner implements ADC_Module_Interface
 
         $order = (string) ($input['button_order'] ?? $current['button_order'] ?? self::DEFAULT_BUTTON_ORDER);
         $out['button_order'] = array_key_exists($order, self::button_orders()) ? $order : self::DEFAULT_BUTTON_ORDER;
-
-        $gap = $input['accept_gap'] ?? $current['accept_gap'] ?? self::ACCEPT_GAP_DEFAULT;
-        $out['accept_gap'] = is_numeric($gap)
-            ? max(self::ACCEPT_GAP_MIN, min(self::ACCEPT_GAP_MAX, (int) $gap))
-            : self::ACCEPT_GAP_DEFAULT;
 
         if (isset($input['message'])) {
             $out['message'] = wp_kses_post((string) $input['message']);
@@ -836,22 +825,8 @@ final class ADC_Consent_Banner implements ADC_Module_Interface
             }
         }
         $style .= '--adc-radius:' . max(0, min(24, (int) ($settings['radius'] ?? 8))) . 'px;';
-        $style .= '--adc-accept-gap:' . self::accept_gap($settings) . 'px;';
-        $style .= '--adc-shadow:' . (!empty($settings['shadow']) ? '0 8px 28px rgba(0,0,0,.18)' : 'none') . ';';
+        $style .= '--adc-shadow:' . (!empty($settings['shadow']) ? '0 8px 28px rgba(0,0,0,.18)' : 'none') . ';';;
         return $style;
-    }
-
-    /**
-     * Configured spacing after the Accept button, clamped to the allowed range.
-     *
-     * @param array $settings Banner group values.
-     * @return int Pixels.
-     */
-    public static function accept_gap(array $settings): int
-    {
-        $gap = $settings['accept_gap'] ?? self::ACCEPT_GAP_DEFAULT;
-
-        return is_numeric($gap) ? max(self::ACCEPT_GAP_MIN, min(self::ACCEPT_GAP_MAX, (int) $gap)) : self::ACCEPT_GAP_DEFAULT;
     }
 
     /**
