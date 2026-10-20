@@ -5,13 +5,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ADC Marketing 2.2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-19 20:07+0000\n"
+"POT-Creation-Date: 2026-10-20 13:44+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: adc-marketing.php:56 includes/admin/class-adc-admin-shell.php:124 includes/admin/class-adc-admin-shell.php:125 includes/admin/class-adc-admin-tab-logs.php:594
+#: adc-marketing.php:56 includes/admin/class-adc-admin-shell.php:125 includes/admin/class-adc-admin-shell.php:126 includes/admin/class-adc-admin-tab-logs.php:623
 msgid "ADC Cookies & Commerce Hub"
 msgstr ""
 
@@ -36,57 +36,57 @@ msgstr ""
 msgid "Închide această fereastră"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:160 includes/admin/class-adc-admin-shell.php:218 includes/admin/class-adc-admin-tab-banner.php:513 includes/admin/class-adc-admin-tab-logs.php:305 includes/analytics/class-adc-analytics-csv.php:85 includes/class-adc-marketing-export.php:65 includes/class-adc-marketing-export.php:79
+#: includes/admin/class-adc-admin-shell.php:161 includes/admin/class-adc-admin-shell.php:223 includes/admin/class-adc-admin-tab-banner.php:504 includes/admin/class-adc-admin-tab-cookies.php:67 includes/admin/class-adc-admin-tab-logs.php:305 includes/analytics/class-adc-analytics-csv.php:85 includes/class-adc-marketing-export.php:65 includes/class-adc-marketing-export.php:79
 msgid "Nu aveți permisiunea necesară."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:174
+#: includes/admin/class-adc-admin-shell.php:176
 msgid "Niciun tab de administrare nu este disponibil momentan."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:201
+#: includes/admin/class-adc-admin-shell.php:206
 msgid "Salvează setările"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:226
+#: includes/admin/class-adc-admin-shell.php:231
 msgid "Securitatea formularului nu a putut fi verificată. Reîncărcați pagina și "
 "încercați din nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:231
+#: includes/admin/class-adc-admin-shell.php:236
 msgid "Tab necunoscut."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:416 includes/admin/class-adc-admin-tab-dashboard.php:2170 templates/admin/analytics-dashboard.php:369
+#: includes/admin/class-adc-admin-shell.php:421 includes/admin/class-adc-admin-tab-dashboard.php:2170 templates/admin/analytics-dashboard.php:369
 msgid "Dashboard"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:417
+#: includes/admin/class-adc-admin-shell.php:422
 msgid "Consimțământ"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:418
+#: includes/admin/class-adc-admin-shell.php:423
 msgid "Măsurare"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:419
+#: includes/admin/class-adc-admin-shell.php:424
 msgid "Integrări"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:420 includes/admin/class-adc-admin-tab-logs.php:123 includes/admin/class-adc-admin-tab-logs.php:152
+#: includes/admin/class-adc-admin-shell.php:425 includes/admin/class-adc-admin-tab-logs.php:123 includes/admin/class-adc-admin-tab-logs.php:152
 msgid "Jurnale & Debug"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:421 includes/admin/class-adc-admin-tab-dashboard.php:2052
+#: includes/admin/class-adc-admin-shell.php:426 includes/admin/class-adc-admin-tab-dashboard.php:2052
 msgid "Altele"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:443
+#: includes/admin/class-adc-admin-shell.php:448
 msgid "Navigare setări ADC Cookies & Commerce Hub"
 msgstr ""
 
 #. translators: %s: navigation group name.
-#: includes/admin/class-adc-admin-shell.php:458
+#: includes/admin/class-adc-admin-shell.php:463
 msgid "Tab-uri din grupul %s"
 msgstr ""
 
@@ -138,27 +138,27 @@ msgid "Draft de notificare (nezvălit, nepublicat): operator [nume firmă, date 
 "publicare."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:67 includes/consent/class-adc-consent-banner.php:129
+#: includes/admin/class-adc-admin-tab-banner.php:67 includes/consent/class-adc-consent-banner.php:124
 msgid "Bară jos (toată lățimea)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:68 includes/consent/class-adc-consent-banner.php:130
+#: includes/admin/class-adc-admin-tab-banner.php:68 includes/consent/class-adc-consent-banner.php:125
 msgid "Casetă jos stânga"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:69 includes/consent/class-adc-consent-banner.php:131
+#: includes/admin/class-adc-admin-tab-banner.php:69 includes/consent/class-adc-consent-banner.php:126
 msgid "Casetă jos dreapta"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:70 includes/consent/class-adc-consent-banner.php:132
+#: includes/admin/class-adc-admin-tab-banner.php:70 includes/consent/class-adc-consent-banner.php:127
 msgid "Casetă jos centru"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:71 includes/consent/class-adc-consent-banner.php:133
+#: includes/admin/class-adc-admin-tab-banner.php:71 includes/consent/class-adc-consent-banner.php:128
 msgid "Fereastră centrată"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:72 includes/consent/class-adc-consent-banner.php:134
+#: includes/admin/class-adc-admin-tab-banner.php:72 includes/consent/class-adc-consent-banner.php:129
 msgid "Bară sus"
 msgstr ""
 
@@ -166,379 +166,484 @@ msgstr ""
 msgid "Banner consimțământ"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:202 includes/admin/class-adc-admin-tab-sgtm.php:143
+#: includes/admin/class-adc-admin-tab-banner.php:201 includes/admin/class-adc-admin-tab-sgtm.php:143
 msgid "Activare"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:203
+#: includes/admin/class-adc-admin-tab-banner.php:202
 msgid "Ce face această secțiune: decide dacă bannerul de consimțământ se afișează "
 "pe site și dacă vizitatorii trebuie întrebați din nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:207
+#: includes/admin/class-adc-admin-tab-banner.php:206
 msgid "Banner cookie-uri"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:211
+#: includes/admin/class-adc-admin-tab-banner.php:210
 msgid "Afișează bannerul și managerul de consimțământ pe site"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:213
+#: includes/admin/class-adc-admin-tab-banner.php:212
 msgid "Cu opțiunea bifată, primul lucru pe care îl vede un vizitator nou este "
 "bannerul; fără ea, niciun cookie de măsurare nu mai poate fi cerut legal "
 "prin interfață."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:217
+#: includes/admin/class-adc-admin-tab-banner.php:216
 msgid "Versiunea politicii"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:221
+#: includes/admin/class-adc-admin-tab-banner.php:220
 msgid "Cere din nou consimțământul (crește versiunea politicii)"
 msgstr ""
 
 #. translators: %d: current policy version number.
-#: includes/admin/class-adc-admin-tab-banner.php:227
+#: includes/admin/class-adc-admin-tab-banner.php:226
 msgid "Versiunea curentă: %d. Bifați după ce modificați textele sau categoriile, "
 "ca vizitatorii să fie întrebați din nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:237
+#: includes/admin/class-adc-admin-tab-banner.php:236
 msgid "Texte"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:238
+#: includes/admin/class-adc-admin-tab-banner.php:237
 msgid "Ce face această secțiune: controlează cuvintele exacte pe care vizitatorul "
 "le citește în banner și în managerul de consimțământ."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:242
+#: includes/admin/class-adc-admin-tab-banner.php:241
 msgid "Titlu"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:246
+#: includes/admin/class-adc-admin-tab-banner.php:245
 msgid "Mesaj"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:249
+#: includes/admin/class-adc-admin-tab-banner.php:248
 msgid "Puteți folosi [privacy-policy-link]Text[/privacy-policy-link] pentru "
 "link-ul către Politica de Confidențialitate."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:254
+#: includes/admin/class-adc-admin-tab-banner.php:253
 msgid "Buton acceptare"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:255
+#: includes/admin/class-adc-admin-tab-banner.php:254
 msgid "Buton refuzare"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:256
+#: includes/admin/class-adc-admin-tab-banner.php:255
 msgid "Buton personalizare"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:257
+#: includes/admin/class-adc-admin-tab-banner.php:256
 msgid "Buton salvare alegeri"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:267
+#: includes/admin/class-adc-admin-tab-banner.php:266
 msgid "Pagini"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:270 includes/functions.php:40 templates/consent/banner.php:47
+#: includes/admin/class-adc-admin-tab-banner.php:269 includes/functions.php:40 templates/consent/banner.php:47
 msgid "Politica de Confidențialitate"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:277
+#: includes/admin/class-adc-admin-tab-banner.php:276
 msgid "— Pagina implicită WordPress —"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:283
+#: includes/admin/class-adc-admin-tab-banner.php:282
 msgid "Pagina de setări cookie-uri"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:289
+#: includes/admin/class-adc-admin-tab-banner.php:288
 msgid "— Fără pagină dedicată —"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:297
+#: includes/admin/class-adc-admin-tab-banner.php:296
 msgid "Buton flotant"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:301
+#: includes/admin/class-adc-admin-tab-banner.php:300
 msgid "Afișează butonul „Cookie-uri” pentru redeschiderea setărilor după decizie"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:309
+#: includes/admin/class-adc-admin-tab-banner.php:308
 msgid "Aspect și poziție"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:310
+#: includes/admin/class-adc-admin-tab-banner.php:309
 msgid "Ce face această secțiune: unde apare bannerul pe ecran, ce culori folosește "
 "și cum arată — cu previzualizare live."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:313 includes/admin/class-adc-admin-tab-banner.php:316
+#: includes/admin/class-adc-admin-tab-banner.php:312 includes/admin/class-adc-admin-tab-banner.php:315
 msgid "Preset culori"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:314
+#: includes/admin/class-adc-admin-tab-banner.php:313
 msgid "Alegeți un preset pentru a completa automat culorile. Dacă modificați orice "
 "culoare, presetul trece pe „Particularizat”."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:337
+#: includes/admin/class-adc-admin-tab-banner.php:336
 msgid "Particularizat"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:342
+#: includes/admin/class-adc-admin-tab-banner.php:341
 msgid "Culoare brand (accent)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:345
+#: includes/admin/class-adc-admin-tab-banner.php:344
 msgid "Folosită de presetul „Culoare brand” pentru butonul Acceptă și pentru "
 "linkuri."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:350 includes/admin/class-adc-admin-tab-banner.php:353
+#: includes/admin/class-adc-admin-tab-banner.php:349 includes/admin/class-adc-admin-tab-banner.php:352
 msgid "Poziție și format"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:351
+#: includes/admin/class-adc-admin-tab-banner.php:350
 msgid "Alegeți cum și unde se așază bannerul pe ecran; miniurile reproduc poziția "
 "reală."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:363
-msgid "Ordinea și spațierea butoanelor"
+#: includes/admin/class-adc-admin-tab-banner.php:362 includes/admin/class-adc-admin-tab-banner.php:366
+msgid "Ordinea butoanelor"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:364
+#: includes/admin/class-adc-admin-tab-banner.php:363
 msgid "Cum se așază și în ce ordine apar cele trei butoane — ordinea vizuală este "
 "și ordinea din cod (tastatură, cititoare de ecran)."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:367
-msgid "Ordinea butoanelor"
-msgstr ""
-
-#: includes/admin/class-adc-admin-tab-banner.php:374
+#: includes/admin/class-adc-admin-tab-banner.php:373
 msgid "Ordinea aleasă este și ordinea din codul HTML, deci Tab-ul și cititorul de "
 "ecran parcurg butoanele exact cum le vede vizitatorul. Butonul "
 "„Personalizează” poate fi redenumit în „Setări” din câmpul de mai sus."
 msgstr ""
 
 #: includes/admin/class-adc-admin-tab-banner.php:378
-msgid "Spațiu după „Acceptă”"
-msgstr ""
-
-#: includes/admin/class-adc-admin-tab-banner.php:382
-msgid "Separator între „Acceptă” și celelalte două butoane, pe aceeași linie. "
-"Maxim 48 de pixeli, iar bannerul reduce spațiul la 12% din lățimea "
-"rândului, ca linia să nu se rupă. Pe ecranele înguste butoanele se așază "
-"unul sub altul, iar spațiul devine vertical."
-msgstr ""
-
-#: includes/admin/class-adc-admin-tab-banner.php:387
 msgid "Culori"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:411
+#: includes/admin/class-adc-admin-tab-banner.php:402
 msgid "Colțuri, umbră și fundal"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:412
+#: includes/admin/class-adc-admin-tab-banner.php:403
 msgid "Finisaje vizuale minore: colțuri rotunjite, umbră sub banner și întunecarea "
 "fundalului paginii (doar la fereastra centrată)."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:415
+#: includes/admin/class-adc-admin-tab-banner.php:406
 msgid "Rază colțuri"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:422
+#: includes/admin/class-adc-admin-tab-banner.php:413
 msgid "Umbră"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:426
+#: includes/admin/class-adc-admin-tab-banner.php:417
 msgid "Afișează umbra bannerului"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:431
+#: includes/admin/class-adc-admin-tab-banner.php:422
 msgid "Fundal întunecat"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:435
+#: includes/admin/class-adc-admin-tab-banner.php:426
 msgid "Întunecă fundalul paginii (doar pentru fereastra centrată)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:441
+#: includes/admin/class-adc-admin-tab-banner.php:432
 msgid "Butoanele „Acceptă” și „Refuză” au aceeași mărime, aceeași poziție în rând "
 "și aceeași greutate vizuală, conform GDPR; diferă doar culoarea. Ordinea "
 "implicită este Acceptă · Setări · Refuză."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:443
+#: includes/admin/class-adc-admin-tab-banner.php:434
 msgid "Previzualizare live"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:445
+#: includes/admin/class-adc-admin-tab-banner.php:436
 msgid "Resetează la preset"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:464
+#: includes/admin/class-adc-admin-tab-banner.php:455
 msgid "Categorii de cookie-uri"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:465
+#: includes/admin/class-adc-admin-tab-banner.php:456
 msgid "Ce face această secțiune: definește alegerile pe care vizitatorul le poate "
 "face în banner — și ce se întâmplă pentru fiecare când le acordă sau "
 "refuză."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:476
+#: includes/admin/class-adc-admin-tab-banner.php:467
 msgid "Nume categorie"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:482
+#: includes/admin/class-adc-admin-tab-banner.php:473
 msgid "Descriere categorie"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:492 templates/consent/cookie-list.php:17
+#: includes/admin/class-adc-admin-tab-banner.php:483 templates/consent/cookie-list.php:17
 msgid "Lista cookie-urilor"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:493
+#: includes/admin/class-adc-admin-tab-banner.php:484
 msgid "Ce face această secțiune: umple tabelul de cookie-uri din managerul de "
 "consimțământ, pentru transparență și conformitate."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:498
+#: includes/admin/class-adc-admin-tab-banner.php:489
 msgid "Un cookie pe linie: nume | categorie (necessary, preferences, statistics, "
 "marketing) | furnizor | scop | durată | prefix (da/nu). Pentru prefix, "
 "scrieți „da” sau adăugați * la nume."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:537
+#: includes/admin/class-adc-admin-tab-banner.php:528
 msgid "Setările bannerului au fost salvate."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:544
+#: includes/admin/class-adc-admin-tab-banner.php:535
 msgid "Modificare posibil necompliantă:"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:551
+#: includes/admin/class-adc-admin-tab-banner.php:542
 msgid "Versiunea politicii a fost crescută. Vizitatorii vor fi întrebați din nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:624 includes/consent/class-adc-consent-banner.php:167
+#: includes/admin/class-adc-admin-tab-banner.php:615 includes/consent/class-adc-consent-banner.php:162
 msgid "Luminos"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:641 includes/consent/class-adc-consent-banner.php:158
+#: includes/admin/class-adc-admin-tab-banner.php:632 includes/consent/class-adc-consent-banner.php:153
 msgid "Întunecat"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:658 includes/consent/class-adc-consent-banner.php:182
+#: includes/admin/class-adc-admin-tab-banner.php:649 includes/consent/class-adc-consent-banner.php:177
 msgid "Culoare brand"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:675 includes/consent/class-adc-consent-banner.php:161
+#: includes/admin/class-adc-admin-tab-banner.php:666 includes/consent/class-adc-consent-banner.php:156
 msgid "Minimal (monocrom)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:692 includes/consent/class-adc-consent-banner.php:164
+#: includes/admin/class-adc-admin-tab-banner.php:683 includes/consent/class-adc-consent-banner.php:159
 msgid "Contrast ridicat (WCAG AAA)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:721
+#: includes/admin/class-adc-admin-tab-banner.php:712
 msgid "Fundal și text"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:725
+#: includes/admin/class-adc-admin-tab-banner.php:716
 msgid "Buton Acceptă"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:729
+#: includes/admin/class-adc-admin-tab-banner.php:720
 msgid "Buton Refuză"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:733
+#: includes/admin/class-adc-admin-tab-banner.php:724
 msgid "Buton Setări"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:737 includes/admin/class-adc-admin-tab-banner.php:756
+#: includes/admin/class-adc-admin-tab-banner.php:728 includes/admin/class-adc-admin-tab-banner.php:747
 msgid "Link"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:752
+#: includes/admin/class-adc-admin-tab-banner.php:743
 msgid "Fundal"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:753
+#: includes/admin/class-adc-admin-tab-banner.php:744
 msgid "Text"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:754
+#: includes/admin/class-adc-admin-tab-banner.php:745
 msgid "Text secundar"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:755
+#: includes/admin/class-adc-admin-tab-banner.php:746
 msgid "Bordură"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:757
+#: includes/admin/class-adc-admin-tab-banner.php:748
 msgid "Fundal buton Acceptă"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:758
+#: includes/admin/class-adc-admin-tab-banner.php:749
 msgid "Text buton Acceptă"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:759
+#: includes/admin/class-adc-admin-tab-banner.php:750
 msgid "Fundal buton Refuză"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:760
+#: includes/admin/class-adc-admin-tab-banner.php:751
 msgid "Text buton Refuză"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:761
+#: includes/admin/class-adc-admin-tab-banner.php:752
 msgid "Fundal buton Setări"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:762
+#: includes/admin/class-adc-admin-tab-banner.php:753
 msgid "Text buton Setări"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:800
+#: includes/admin/class-adc-admin-tab-banner.php:791
 msgid "Contrastul dintre text și fundal este sub 4,5:1 (WCAG AA). Alegeți culori "
 "mai contrastante, ca textul să fie ușor de citit."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:821 includes/consent/class-adc-consent-banner.php:75
+#: includes/admin/class-adc-admin-tab-banner.php:812 includes/consent/class-adc-consent-banner.php:70
 msgid "Acceptă · Setări · Respinge (implicit)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:825 includes/consent/class-adc-consent-banner.php:79
+#: includes/admin/class-adc-admin-tab-banner.php:816 includes/consent/class-adc-consent-banner.php:74
 msgid "Setări · Acceptă · Respinge"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:829 includes/consent/class-adc-consent-banner.php:83
+#: includes/admin/class-adc-admin-tab-banner.php:820 includes/consent/class-adc-consent-banner.php:78
 msgid "Acceptă · Respinge · Setări"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:937
+#: includes/admin/class-adc-admin-tab-banner.php:909
 msgid "Verificare conformitate: proeminența butoanelor"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:943
+#: includes/admin/class-adc-admin-tab-banner.php:915
 msgid "Modificați culorile, nu dimensiunea: „Acceptă” și „Refuză” trebuie să "
 "rămână la fel de vizibile și de ușor de apăsat."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:967
+#: includes/admin/class-adc-admin-tab-banner.php:939
 msgid "Alte culori"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:21
+msgid "Scanner cookie-uri"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:43 includes/consent/class-adc-consent-banner.php:374
+msgid "Necesare"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:43 includes/admin/trait-adc-admin-help-content.php:102 includes/consent/class-adc-consent-banner.php:375
+msgid "Preferințe"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:43 includes/admin/trait-adc-admin-help-content.php:103 includes/consent/class-adc-consent-banner.php:376
+msgid "Statistici"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:43 includes/admin/trait-adc-admin-help-content.php:104 includes/class-adc-myaccount-marketing.php:89 includes/consent/class-adc-consent-banner.php:377
+msgid "Marketing"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:47
+msgid "Identificați cookie-urile folosite pe site, apoi confirmați categoria și "
+"scopul fiecăruia."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:49
+msgid "Informați vizitatorii: adăugați shortcode-ul [adc_cookie_table] în pagina "
+"Politicii de cookie-uri."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:49
+msgid "Editează pagina"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:49
+msgid "Setați pagina de cookie-uri în tabul Banner."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:49
+msgid "Copiază shortcode-ul"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:51
+msgid "Scanează acum"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:52
+msgid "Cookie-urile setate de trackere apar în scanarea din browser numai dacă "
+"administratorul și-a acordat consimțământul pe site. Scanarea săptămânală "
+"din fundal vede doar cookie-urile setate de server."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:53
+msgid "Filtrare cookie-uri"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:54
+msgid "Toate"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:54
+msgid "Necategorizate"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:54
+msgid "Ignorate"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:56 templates/consent/cookie-list.php:25 templates/consent/cookie-policy-table.php:25
+msgid "Nume"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:56 includes/consent/class-adc-consent-privacy.php:155
+msgid "Sursă"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:56
+msgid "Ultima detectare"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:56 includes/analytics/class-adc-analytics-reports.php:1423 templates/consent/cookie-list.php:26
+msgid "Categorie"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:56 templates/consent/cookie-list.php:27 templates/consent/cookie-policy-table.php:26
+msgid "Furnizor"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:56
+msgid "Descriere"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:56
+msgid "Durată de expirare"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:56 includes/admin/class-adc-admin-tab-logs.php:203
+msgid "Acțiuni"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:58
+msgid "— alegeți —"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:58
+msgid "Salvează"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:58
+msgid "Restabilește"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:58
+msgid "Ignoră"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:87
+msgid "Starea cookie-ului nu a putut fi actualizată."
 msgstr ""
 
 #: includes/admin/class-adc-admin-tab-dashboard.php:159
@@ -1556,10 +1661,6 @@ msgstr ""
 msgid "Programat"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:203
-msgid "Acțiuni"
-msgstr ""
-
 #: includes/admin/class-adc-admin-tab-logs.php:208
 msgid "Nicio intrare în jurnal."
 msgstr ""
@@ -1639,145 +1740,208 @@ msgid "Platforma nu este disponibilă."
 msgstr ""
 
 #: includes/admin/class-adc-admin-tab-logs.php:393
+msgid "Integrarea este dezactivată. Activează platforma din setări și testează din "
+"nou."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-logs.php:394
+msgid "Browserul curent nu a acordat consimțământ pentru măsurare. Acordă-l din "
+"bannerul de cookie-uri și testează din nou."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-logs.php:395
+msgid "Comenzile (purchase) se trimit doar prin canalul server, deci testul din "
+"browser este omis intenționat."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-logs.php:396
+msgid "Lipsește identificatorul de client al browserului (client_id). Vizitează "
+"site-ul cu consimțământ acordat și testează din nou."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-logs.php:397
+msgid "Lipsește ID-ul de măsurare GA4 (Measurement ID). Completează-l, salvează și "
+"testează din nou."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-logs.php:398
+msgid "Lipsește API secret pentru GA4. Completează-l, salvează și testează din "
+"nou."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-logs.php:399
+msgid "Containerul server GTM rulează în mod „loader”, deci evenimentele nu se "
+"trimit direct. Testul este omis."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-logs.php:400
+msgid "Lipsește URL-ul containerului server (sGTM). Completează-l, salvează și "
+"testează din nou."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-logs.php:401
+msgid "Datele despre utilizator sunt insuficiente pentru potrivirea avansată. "
+"Folosește un test cu e-mail și telefon completate."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-logs.php:402
+msgid "Lipsește ID-ul de pixel Meta. Completează-l, salvează și testează din nou."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-logs.php:403
+msgid "Lipsește token-ul de acces. Completează-l, salvează și testează din nou."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-logs.php:404
+msgid "Lipsește codul de test al evenimentelor (Test Event Code) din Meta Events "
+"Manager. Completează-l, salvează și testează din nou."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-logs.php:405
+msgid "Lipsește codul de pixel TikTok (Pixel Code). Completează-l, salvează și "
+"testează din nou."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-logs.php:422
 msgid "Browserul tău nu are consimțământ acordat pentru măsurare. Acordă "
 "consimțământul pe site și reia testul."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:414
+#: includes/admin/class-adc-admin-tab-logs.php:443
 msgid "Nicio platformă activă pentru acest eveniment."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:415
+#: includes/admin/class-adc-admin-tab-logs.php:444
 msgid "Evenimentul a fost adăugat în coadă. Rulează procesarea Action Scheduler "
 "pentru livrare."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:433
+#: includes/admin/class-adc-admin-tab-logs.php:462
 msgid "Identificator invalid."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:437
+#: includes/admin/class-adc-admin-tab-logs.php:466
 msgid "Motorul de consimțământ nu este disponibil."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:468
+#: includes/admin/class-adc-admin-tab-logs.php:497
 msgid "Se reprogramează…"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:469
+#: includes/admin/class-adc-admin-tab-logs.php:498
 msgid "Se curăță…"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:470
+#: includes/admin/class-adc-admin-tab-logs.php:499
 msgid "Se trimite…"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:471
+#: includes/admin/class-adc-admin-tab-logs.php:500
 msgid "Se caută…"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:472
+#: includes/admin/class-adc-admin-tab-logs.php:501
 msgid "Consimțământ efectiv pentru acest cid:"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:473
+#: includes/admin/class-adc-admin-tab-logs.php:502
 msgid "Nicio decizie de consimțământ pentru acest cid."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:474
+#: includes/admin/class-adc-admin-tab-logs.php:503
 msgid "acordat"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:475
+#: includes/admin/class-adc-admin-tab-logs.php:504
 msgid "refuzat"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:476
+#: includes/admin/class-adc-admin-tab-logs.php:505
 msgid "A apărut o eroare. Reîncarcă pagina."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:506
+#: includes/admin/class-adc-admin-tab-logs.php:535
 msgid "Detectare conflicte (prima pagină)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:542
+#: includes/admin/class-adc-admin-tab-logs.php:571
 msgid "GTM snippet prezent"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:543
+#: includes/admin/class-adc-admin-tab-logs.php:572
 msgid "Apel direct gtag()"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:544
+#: includes/admin/class-adc-admin-tab-logs.php:573
 msgid "Meta Pixel direct"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:545
+#: includes/admin/class-adc-admin-tab-logs.php:574
 msgid "TikTok Pixel direct"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:546
+#: includes/admin/class-adc-admin-tab-logs.php:575
 msgid "Google Analytics direct"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:547
+#: includes/admin/class-adc-admin-tab-logs.php:576
 msgid "Alt CMP activ: Complianz"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:548
+#: includes/admin/class-adc-admin-tab-logs.php:577
 msgid "Alt CMP activ: Cookiebot"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:549
+#: includes/admin/class-adc-admin-tab-logs.php:578
 msgid "Alt CMP activ: CookieYes"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:559
+#: includes/admin/class-adc-admin-tab-logs.php:588
 msgid "1 apariție în HTML."
 msgid_plural "%d apariții în HTML."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:576
+#: includes/admin/class-adc-admin-tab-logs.php:605
 msgid "ADC Cookies & Commerce Hub: pipeline de urmărire"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:591
+#: includes/admin/class-adc-admin-tab-logs.php:620
 msgid "ADC Cookies & Commerce Hub: pipeline-ul de trimitere este operațional"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:602
+#: includes/admin/class-adc-admin-tab-logs.php:631
 msgid "Action Scheduler nu este disponibil — coada folosește WP-Cron ca rezervă"
 msgstr ""
 
 #. translators: %d: number of dead jobs.
-#: includes/admin/class-adc-admin-tab-logs.php:613
+#: includes/admin/class-adc-admin-tab-logs.php:642
 msgid "%d eveniment a eșuat definitiv (dead)."
 msgid_plural "%d evenimente au eșuat definitiv (dead)."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:660 includes/admin/trait-adc-admin-help-content.php:174
+#: includes/admin/class-adc-admin-tab-logs.php:689 includes/admin/trait-adc-admin-help-content.php:174
 msgid "În așteptare"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:661 includes/admin/trait-adc-admin-help-content.php:174
+#: includes/admin/class-adc-admin-tab-logs.php:690 includes/admin/trait-adc-admin-help-content.php:174
 msgid "Trimis"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:662 includes/admin/trait-adc-admin-help-content.php:174
+#: includes/admin/class-adc-admin-tab-logs.php:691 includes/admin/trait-adc-admin-help-content.php:174
 msgid "Eșuat definitiv"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:663 includes/admin/trait-adc-admin-help-content.php:174
+#: includes/admin/class-adc-admin-tab-logs.php:692 includes/admin/trait-adc-admin-help-content.php:174
 msgid "Omis"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:664
+#: includes/admin/class-adc-admin-tab-logs.php:693
 msgid "Fără consimțământ"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:665
+#: includes/admin/class-adc-admin-tab-logs.php:694
 msgid "Integrare dezactivată"
 msgstr ""
 
@@ -2503,25 +2667,13 @@ msgid "Categoriile sunt alegerile pe care vizitatorii le văd în banner și în
 "site-ul nu funcționează (cookie de sesiune, security token)."
 msgstr ""
 
-#: includes/admin/trait-adc-admin-help-content.php:102 includes/consent/class-adc-consent-banner.php:381
-msgid "Preferințe"
-msgstr ""
-
 #: includes/admin/trait-adc-admin-help-content.php:102
 msgid "reține alegerile din banner și eventualele setări de limbă/aspect."
-msgstr ""
-
-#: includes/admin/trait-adc-admin-help-content.php:103 includes/consent/class-adc-consent-banner.php:382
-msgid "Statistici"
 msgstr ""
 
 #: includes/admin/trait-adc-admin-help-content.php:103
 msgid "cookie-uri de analiză (ex. _ga); permite trimiterea evenimentelor către "
 "GA4. Refuzate: măsurarea server-side nu mai are client_id."
-msgstr ""
-
-#: includes/admin/trait-adc-admin-help-content.php:104 includes/class-adc-myaccount-marketing.php:89 includes/consent/class-adc-consent-banner.php:383
-msgid "Marketing"
 msgstr ""
 
 #: includes/admin/trait-adc-admin-help-content.php:104
@@ -3730,10 +3882,6 @@ msgstr ""
 msgid "Blog"
 msgstr ""
 
-#: includes/analytics/class-adc-analytics-reports.php:1423 templates/consent/cookie-list.php:26
-msgid "Categorie"
-msgstr ""
-
 #: includes/analytics/class-adc-analytics-reports.php:1427
 msgid "Altă pagină"
 msgstr ""
@@ -3903,154 +4051,150 @@ msgstr ""
 msgid "Eroare de securitate. Vă rugăm să încercați din nou."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:208
+#: includes/consent/class-adc-consent-banner.php:203
 msgid "Butoanele „Acceptă” și „Refuză” au exact aceleași culori, deci arată "
 "identic. Mențineți aceeași mărime, dar alegeți fundaluri diferite, ca "
 "vizitatorul să deosebească cele două opțiuni."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:209
+#: includes/consent/class-adc-consent-banner.php:204
 msgid "Fundalul butonului „Refuză” (%1$s) este practic identic cu fundalul "
 "bannerului (%2$s): contrast %3$s:1. Refuzul trebuie să fie la fel de "
 "vizibil și de ușor de apăsat ca acceptul — așa cum este setat acum, "
 "consimțământul poate fi considerat nevalid (dark pattern)."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:210
+#: includes/consent/class-adc-consent-banner.php:205
 msgid "Butonul „Acceptă” se detașează de fundal (contrast %1$s:1), dar „Refuză” "
 "abia se vede (%2$s:1, sub pragul de %3$s:1). Alegeți un fundal mai "
 "contrastant pentru „Refuză”, fără să-i modificați mărimea."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:211
+#: includes/consent/class-adc-consent-banner.php:206
 msgid "Diferență mare de prominență între „Acceptă” (%1$s:1 față de fundal) și "
 "„Refuză” (%2$s:1). GDPR cere ca refuzul să fie la fel de atractiv vizual ca "
 "acceptul; reduceți diferența de culori."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:212
+#: includes/consent/class-adc-consent-banner.php:207
 msgid "Textul butonului „Refuză” are contrast %1$s:1 față de fundalul său, sub "
 "4,5:1 și mai slab decât al lui „Acceptă” (%2$s:1). Refuzul devine greu de "
 "citit."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:373
+#: includes/consent/class-adc-consent-banner.php:367
 msgid "Folosim cookie-uri"
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:374
+#: includes/consent/class-adc-consent-banner.php:368
 msgid "Folosim cookie-uri necesare pentru funcționarea site-ului. Cu acordul "
 "dumneavoastră, folosim și cookie-uri pentru statistici și marketing. Puteți "
 "accepta, refuza sau personaliza alegerile în orice moment."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:375
+#: includes/consent/class-adc-consent-banner.php:369
 msgid "Acceptă tot"
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:376
+#: includes/consent/class-adc-consent-banner.php:370
 msgid "Refuză tot"
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:377
+#: includes/consent/class-adc-consent-banner.php:371
 msgid "Personalizează"
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:378
+#: includes/consent/class-adc-consent-banner.php:372
 msgid "Salvează alegerile"
 msgstr ""
 
 #: includes/consent/class-adc-consent-banner.php:380
-msgid "Necesare"
-msgstr ""
-
-#: includes/consent/class-adc-consent-banner.php:386
 msgid "Necesare pentru funcționarea site-ului (coș, autentificare, securitate). Nu "
 "pot fi dezactivate."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:387
+#: includes/consent/class-adc-consent-banner.php:381
 msgid "Rețin setări precum limba sau moneda preferată."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:388
+#: includes/consent/class-adc-consent-banner.php:382
 msgid "Ne ajută să înțelegem, în mod agregat, cum este folosit site-ul."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:389
+#: includes/consent/class-adc-consent-banner.php:383
 msgid "Permit afișarea de reclame și promoții relevante, inclusiv prin platforme "
 "terțe."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:411
+#: includes/consent/class-adc-consent-banner.php:405
 msgid "Distinge vizitatorii unici."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:412 includes/consent/class-adc-consent-banner.php:436
+#: includes/consent/class-adc-consent-banner.php:406 includes/consent/class-adc-consent-banner.php:430
 msgid "2 ani"
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:419
+#: includes/consent/class-adc-consent-banner.php:413
 msgid "Distinge vizitatorii unici în aceeași zi."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:420
+#: includes/consent/class-adc-consent-banner.php:414
 msgid "24 de ore"
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:427
+#: includes/consent/class-adc-consent-banner.php:421
 msgid "Afișează reclame relevante pe platformele Meta."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:428
+#: includes/consent/class-adc-consent-banner.php:422
 msgid "3 luni"
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:435
+#: includes/consent/class-adc-consent-banner.php:429
 msgid "Reține click-ul pe un anunț Meta."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:443
+#: includes/consent/class-adc-consent-banner.php:437
 msgid "Măsoară eficiența reclamelor TikTok."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:444
+#: includes/consent/class-adc-consent-banner.php:438
 msgid "13 luni"
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:451
+#: includes/consent/class-adc-consent-banner.php:445
 msgid "Măsoară eficiența reclamelor Google."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:452
+#: includes/consent/class-adc-consent-banner.php:446
 msgid "90 de zile"
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:459
+#: includes/consent/class-adc-consent-banner.php:453
 msgid "Păstrează coșul și datele comenzii."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:460
+#: includes/consent/class-adc-consent-banner.php:454
 msgid "Sesiune sau 2 zile"
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:467
+#: includes/consent/class-adc-consent-banner.php:461
 msgid "Identifică sesiunea de cumpărături."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:468
+#: includes/consent/class-adc-consent-banner.php:462
 msgid "2 zile"
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:475
+#: includes/consent/class-adc-consent-banner.php:469
 msgid "Reține alegerile dumneavoastră privind cookie-urile."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:476
+#: includes/consent/class-adc-consent-banner.php:470
 msgid "180 de zile"
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:692 templates/consent/preferences.php:20
+#: includes/consent/class-adc-consent-banner.php:681 templates/consent/preferences.php:20
 msgid "Setări cookie-uri"
 msgstr ""
 
@@ -4080,10 +4224,6 @@ msgstr ""
 
 #: includes/consent/class-adc-consent-privacy.php:151
 msgid "Versiune politică"
-msgstr ""
-
-#: includes/consent/class-adc-consent-privacy.php:155
-msgid "Sursă"
 msgstr ""
 
 #: includes/consent/class-adc-consent-privacy.php:159 includes/consent/class-adc-consent-privacy.php:200
@@ -4120,6 +4260,58 @@ msgstr ""
 
 #: includes/consent/class-adc-consent-rest.php:333
 msgid "Cerere nevalidă."
+msgstr ""
+
+#: includes/consent/class-adc-cookie-policy.php:44 templates/consent/cookie-list.php:19
+msgid "Nu există cookie-uri înregistrate."
+msgstr ""
+
+#: includes/consent/class-adc-cookie-policy.php:79
+msgid "Mai jos găsiți cookie-urile cunoscute, grupate pe categorii."
+msgstr ""
+
+#: includes/consent/class-adc-cookie-scanner.php:32
+msgid "Asigură autentificarea și funcționarea site-ului."
+msgstr ""
+
+#: includes/consent/class-adc-cookie-scanner.php:33
+msgid "Păstrează coșul și sesiunea de cumpărături."
+msgstr ""
+
+#: includes/consent/class-adc-cookie-scanner.php:34
+msgid "Măsoară și personalizează publicitatea Meta."
+msgstr ""
+
+#: includes/consent/class-adc-cookie-scanner.php:35
+msgid "Măsoară utilizarea site-ului."
+msgstr ""
+
+#: includes/consent/class-adc-cookie-scanner.php:36
+msgid "Măsoară eficiența publicității Google."
+msgstr ""
+
+#: includes/consent/class-adc-cookie-scanner.php:37
+msgid "Reține setări și măsoară publicitatea Google."
+msgstr ""
+
+#: includes/consent/class-adc-cookie-scanner.php:38
+msgid "Măsoară eficiența publicității TikTok."
+msgstr ""
+
+#: includes/consent/class-adc-cookie-scanner.php:39
+msgid "Reține alegerile privind cookie-urile."
+msgstr ""
+
+#: includes/consent/class-adc-cookie-scanner.php:137
+msgid "Rând invalid."
+msgstr ""
+
+#: includes/consent/class-adc-cookie-scanner.php:141
+msgid "Numele cookie-ului nu este valid."
+msgstr ""
+
+#: includes/consent/class-adc-cookie-scanner.php:142
+msgid "Categoria cookie-ului nu este validă."
 msgstr ""
 
 #: includes/core/class-adc-github-updater.php:1131
@@ -4727,23 +4919,11 @@ msgstr ""
 msgid "Cookie-uri"
 msgstr ""
 
-#: templates/consent/cookie-list.php:19
-msgid "Nu există cookie-uri înregistrate."
-msgstr ""
-
-#: templates/consent/cookie-list.php:25
-msgid "Nume"
-msgstr ""
-
-#: templates/consent/cookie-list.php:27
-msgid "Furnizor"
-msgstr ""
-
-#: templates/consent/cookie-list.php:28
+#: templates/consent/cookie-list.php:28 templates/consent/cookie-policy-table.php:27
 msgid "Scop"
 msgstr ""
 
-#: templates/consent/cookie-list.php:29
+#: templates/consent/cookie-list.php:29 templates/consent/cookie-policy-table.php:28
 msgid "Durată"
 msgstr ""
 

@@ -570,7 +570,7 @@ final class ADC_Consent_Banner implements ADC_Module_Interface
                 $name     = substr($name, 0, -1);
                 $wildcard = true;
             }
-            if (1 !== preg_match('/^[A-Za-z0-9_\-]{1,64}$/', $name)) {
+            if (1 !== preg_match('/^[A-Za-z0-9_.\-]{1,64}$/', $name)) {
                 continue;
             }
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ADC Marketing 2.2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-19 20:07+0000\n"
+"PO-Revision-Date: 2026-10-20 13:44+0000\n"
 "Last-Translator: ADC Marketing build\n"
 "Language-Team: English\n"
 "Language: en_GB\n"
@@ -4213,3 +4213,165 @@ msgstr "Save preferences"
 
 msgid "Preferințe cookie"
 msgstr "Cookie preferences"
+
+msgid "Scanner cookie-uri"
+msgstr "Cookie scanner"
+
+msgid "Identificați cookie-urile folosite pe site, apoi confirmați categoria și "
+"scopul fiecăruia."
+msgstr "Identify the cookies used on the site, then confirm the category and "
+"purpose of each one."
+
+msgid "Informați vizitatorii: adăugați shortcode-ul [adc_cookie_table] în pagina "
+"Politicii de cookie-uri."
+msgstr "Inform your visitors: add the [adc_cookie_table] shortcode to your Cookie "
+"Policy page."
+
+msgid "Editează pagina"
+msgstr "Edit page"
+
+msgid "Setați pagina de cookie-uri în tabul Banner."
+msgstr "Set the cookie page in the Banner tab."
+
+msgid "Copiază shortcode-ul"
+msgstr "Copy shortcode"
+
+msgid "Scanează acum"
+msgstr "Scan now"
+
+msgid "Cookie-urile setate de trackere apar în scanarea din browser numai dacă "
+"administratorul și-a acordat consimțământul pe site. Scanarea săptămânală "
+"din fundal vede doar cookie-urile setate de server."
+msgstr "Cookies set by trackers appear in the browser scan only if the "
+"administrator has given consent on the site. The weekly background scan "
+"only sees cookies set by the server."
+
+msgid "Filtrare cookie-uri"
+msgstr "Cookie filters"
+
+msgid "Toate"
+msgstr "All"
+
+msgid "Necategorizate"
+msgstr "Uncategorised"
+
+msgid "Ignorate"
+msgstr "Ignored"
+
+msgid "Ultima detectare"
+msgstr "Last detected"
+
+msgid "Descriere"
+msgstr "Description"
+
+msgid "Durată de expirare"
+msgstr "Expiry period"
+
+msgid "— alegeți —"
+msgstr "— choose —"
+
+msgid "Salvează"
+msgstr "Save"
+
+msgid "Restabilește"
+msgstr "Restore"
+
+msgid "Ignoră"
+msgstr "Ignore"
+
+msgid "Starea cookie-ului nu a putut fi actualizată."
+msgstr "The cookie status could not be updated."
+
+msgid "Integrarea este dezactivată. Activează platforma din setări și testează din "
+"nou."
+msgstr "The integration is disabled. Enable the platform in settings and test "
+"again."
+
+msgid "Browserul curent nu a acordat consimțământ pentru măsurare. Acordă-l din "
+"bannerul de cookie-uri și testează din nou."
+msgstr "The current browser has not given consent for measurement. Grant it from "
+"the cookie banner and test again."
+
+msgid "Comenzile (purchase) se trimit doar prin canalul server, deci testul din "
+"browser este omis intenționat."
+msgstr "Orders (purchase) are sent through the server channel only, so the browser "
+"test is intentionally skipped."
+
+msgid "Lipsește identificatorul de client al browserului (client_id). Vizitează "
+"site-ul cu consimțământ acordat și testează din nou."
+msgstr "The browser client identifier (client_id) is missing. Visit the site with "
+"consent granted and test again."
+
+msgid "Lipsește ID-ul de măsurare GA4 (Measurement ID). Completează-l, salvează și "
+"testează din nou."
+msgstr "The GA4 Measurement ID is missing. Fill it in, save and test again."
+
+msgid "Lipsește API secret pentru GA4. Completează-l, salvează și testează din "
+"nou."
+msgstr "The GA4 API secret is missing. Fill it in, save and test again."
+
+msgid "Containerul server GTM rulează în mod „loader”, deci evenimentele nu se "
+"trimit direct. Testul este omis."
+msgstr "The GTM server container runs in \"loader\" mode, so events are not sent "
+"directly. The test is skipped."
+
+msgid "Lipsește URL-ul containerului server (sGTM). Completează-l, salvează și "
+"testează din nou."
+msgstr "The server container URL (sGTM) is missing. Fill it in, save and test "
+"again."
+
+msgid "Datele despre utilizator sunt insuficiente pentru potrivirea avansată. "
+"Folosește un test cu e-mail și telefon completate."
+msgstr "User data is insufficient for advanced matching. Use a test with email and "
+"phone filled in."
+
+msgid "Lipsește ID-ul de pixel Meta. Completează-l, salvează și testează din nou."
+msgstr "The Meta pixel ID is missing. Fill it in, save and test again."
+
+msgid "Lipsește token-ul de acces. Completează-l, salvează și testează din nou."
+msgstr "The access token is missing. Fill it in, save and test again."
+
+msgid "Lipsește codul de test al evenimentelor (Test Event Code) din Meta Events "
+"Manager. Completează-l, salvează și testează din nou."
+msgstr "The Test Event Code from Meta Events Manager is missing. Fill it in, save "
+"and test again."
+
+msgid "Lipsește codul de pixel TikTok (Pixel Code). Completează-l, salvează și "
+"testează din nou."
+msgstr "The TikTok Pixel Code is missing. Fill it in, save and test again."
+
+msgid "Mai jos găsiți cookie-urile cunoscute, grupate pe categorii."
+msgstr "Below are the known cookies, grouped by category."
+
+msgid "Asigură autentificarea și funcționarea site-ului."
+msgstr "Ensures authentication and the functioning of the site."
+
+msgid "Păstrează coșul și sesiunea de cumpărături."
+msgstr "Keeps the cart and the shopping session."
+
+msgid "Măsoară și personalizează publicitatea Meta."
+msgstr "Measures and personalises Meta advertising."
+
+msgid "Măsoară utilizarea site-ului."
+msgstr "Measures how the site is used."
+
+msgid "Măsoară eficiența publicității Google."
+msgstr "Measures the effectiveness of Google advertising."
+
+msgid "Reține setări și măsoară publicitatea Google."
+msgstr "Stores settings and measures Google advertising."
+
+msgid "Măsoară eficiența publicității TikTok."
+msgstr "Measures the effectiveness of TikTok advertising."
+
+msgid "Reține alegerile privind cookie-urile."
+msgstr "Remembers your cookie choices."
+
+msgid "Rând invalid."
+msgstr "Invalid row."
+
+msgid "Numele cookie-ului nu este valid."
+msgstr "The cookie name is not valid."
+
+msgid "Categoria cookie-ului nu este validă."
+msgstr "The cookie category is not valid."

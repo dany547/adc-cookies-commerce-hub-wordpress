@@ -16,6 +16,16 @@ commit/tag de release — workflow-ul `version-bump.yml` nu rescrie dată; o fac
 responsabilul de release înainte de tag. Intrările viitoare `în lucru` rămân
 neatinse până la publicare.
 
+## [2.3.0] - 2026-10-20
+
+### Adăugat
+- Scanner de cookie-uri: tab admin care detectează cookie-urile prezente pe site (headere Set-Cookie + scanare din browser, doar nume), bază de cookie-uri cunoscute (WordPress, WooCommerce, Meta, Google/GA4, TikTok), completarea categoriei, furnizorului, descrierii și duratei de către admin, salvare în inventarul bannerului, scanare săptămânală pe server.
+- Shortcode `[adc_cookie_table]` pentru pagina Politicii de cookie-uri și avertisment când pagina nu îl conține.
+
+### Modificat
+- Inventarul de cookie-uri acceptă nume cu punct (ex. `_pk_id.*`).
+- Dezinstalarea șterge opțiunea și cron-ul scannerului.
+
 ## [2.2.5] - 2026-10-20
 
 ### Modificat

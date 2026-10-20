@@ -256,7 +256,7 @@ function is_wc_endpoint_url(string $endpoint = ''): bool { return false; }
 function is_wp_error(mixed $value): bool { return $value instanceof WP_Error; }
 function register_rest_route(string $namespace, string $route, array $args): bool { $GLOBALS['adc_test_routes'][$namespace . $route] = $args; return true; }
 function wp_safe_remote_get(mixed ...$args): never { throw new RuntimeException('HTTP forbidden in offline hook tests'); }
-function wp_remote_get(mixed ...$args): never { throw new RuntimeException('HTTP forbidden in offline hook tests'); }
+function wp_remote_get(mixed ...$args): WP_Error { return new WP_Error('offline', 'HTTP blocked in test'); }
 function wp_remote_post(mixed ...$args): never { throw new RuntimeException('HTTP forbidden in offline hook tests'); }
 
 require dirname(__DIR__) . '/adc-marketing.php';
@@ -354,7 +354,7 @@ $fixtures = array(
     'http_headers_useragent' => array('WordPress', 'https://example.invalid/'),
     ADC_Dispatcher::JOB_HOOK => array(0), ADC_Consent_Privacy::CRON_HOOK => array(),
     ADC_Retention::CRON_HOOK => array(), ADC_Retention::ERASE_HOOK => array(0),
-    ADC_Analytics_Retention::HOOK => array(),
+    ADC_Analytics_Retention::HOOK => array(), 'adc_cookie_scan_weekly' => array(),
     ADC_Analytics_Commerce::JOB_HOOK => array('placed', 0, 0, '2026-01-01', 0),
 );
 

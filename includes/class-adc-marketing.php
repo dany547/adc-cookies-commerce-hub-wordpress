@@ -94,7 +94,10 @@ final class ADC_Marketing
             'ADC_Consent',
             // C3 — banner UI.
             'ADC_Consent_Banner',
+            'ADC_Cookie_Scanner',
+            'ADC_Cookie_Policy',
             'ADC_Admin_Tab_Banner',
+            'ADC_Admin_Tab_Cookies',
             // C4 — dataLayer & events.
             'ADC_Datalayer',
             'ADC_Gtm',

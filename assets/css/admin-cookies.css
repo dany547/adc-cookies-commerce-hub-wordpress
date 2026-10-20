@@ -1,0 +1,7 @@
+.adc-cookie-scanner > p { max-width: 1000px; }
+.adc-cookie-filters { display: flex; flex-wrap: wrap; gap: 6px; margin: 16px 0; }
+.adc-cookie-table { table-layout: auto; }
+.adc-cookie-table th, .adc-cookie-table td { vertical-align: middle; }
+.adc-cookie-table input, .adc-cookie-table select { min-width: 100px; width: 100%; }
+.adc-cookie-table tr[data-status="new"] { background: #fff8e5; }
+.adc-cookie-table tr[hidden] { display: none; }

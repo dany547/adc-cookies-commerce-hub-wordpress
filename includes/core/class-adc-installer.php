@@ -26,6 +26,7 @@ final class ADC_Installer implements ADC_Module_Interface
         'adc_db_version',
         'adc_migrations',
         'adc_marketing_consent_message',
+        'adc_cookie_scan',
     ];
 
     /**
@@ -38,6 +39,7 @@ final class ADC_Installer implements ADC_Module_Interface
         'adc_outbox_cleanup',
         'adc_erase_attribution',
         'adc_dispatch_job',
+        'adc_cookie_scan_weekly',
     ];
 
     /**

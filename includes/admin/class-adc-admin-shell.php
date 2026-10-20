@@ -42,6 +42,7 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
         // Landing tab: operational statistics only (added by the analytics chunk).
         'ADC_Admin_Tab_Dashboard',
         'ADC_Admin_Tab_Banner',
+        'ADC_Admin_Tab_Cookies',
         'ADC_Admin_Tab_Events',
         'ADC_Admin_Tab_Meta',
         'ADC_Admin_Tab_Ga4',
@@ -64,7 +65,7 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
      */
     private const NAV_GROUPS = array(
         'dashboard'    => array('dashboard'),
-        'consent'      => array('banner', 'marketing'),
+        'consent'      => array('banner', 'cookies', 'marketing'),
         'measurement'  => array('analytics', 'events', 'matching'),
         'integrations' => array('meta', 'ga4', 'sgtm', 'tiktok'),
         'logs'         => array('logs'),
