@@ -77,10 +77,10 @@ final class ADC_Admin_Tab_Tiktok implements ADC_Admin_Tab_Interface, ADC_Module_
             return;
         }
 
-        wp_add_inline_script('adc-admin-shell', 'window.adcIntegrationTest = ' . $config . ';', 'before');
+        wp_add_inline_script('adc-admin-shell', 'window.adcTiktokTest = ' . $config . ';', 'before');
         wp_add_inline_script(
             'adc-admin-shell',
-            '(function(){var b=document.getElementById("adc-tiktok-test"),o=document.getElementById("adc-tiktok-test-result");if(!b||!o||!window.adcIntegrationTest){return}var c=window.adcIntegrationTest,i=c.i18n;b.addEventListener("click",function(){b.disabled=true;o.textContent=i.testing;o.className="adc-test-result";var f=new FormData();f.append("action","adc_test_integration");f.append("platform",c.platform);f.append("nonce",c.nonce);fetch(c.ajaxUrl,{method:"POST",credentials:"same-origin",body:f}).then(function(r){return r.json()}).then(function(j){var d=j&&j.data?j.data:{},ok=!!(j&&j.success&&d.status==="sent");o.textContent=(ok?i.ok:i.failed)+(d.message?" — "+d.message:"");o.className="adc-test-result "+(ok?"adc-test-ok":"adc-test-fail")}).catch(function(){o.textContent=i.error;o.className="adc-test-result adc-test-fail"}).finally(function(){b.disabled=false})});})();'
+            '(function(){var b=document.getElementById("adc-tiktok-test"),o=document.getElementById("adc-tiktok-test-result");if(!b||!o||!window.adcTiktokTest){return}var c=window.adcTiktokTest,i=c.i18n;b.addEventListener("click",function(){b.disabled=true;o.textContent=i.testing;o.className="adc-test-result";var f=new FormData();f.append("action","adc_test_integration");f.append("platform",c.platform);f.append("nonce",c.nonce);fetch(c.ajaxUrl,{method:"POST",credentials:"same-origin",body:f}).then(function(r){return r.json()}).then(function(j){var d=j&&j.data?j.data:{},ok=!!(j&&j.success&&d.status==="sent");o.textContent=(ok?i.ok:i.failed)+(d.message?" — "+d.message:"");o.className="adc-test-result "+(ok?"adc-test-ok":"adc-test-fail")}).catch(function(){o.textContent=i.error;o.className="adc-test-result adc-test-fail"}).finally(function(){b.disabled=false})});})();'
         );
     }
 
