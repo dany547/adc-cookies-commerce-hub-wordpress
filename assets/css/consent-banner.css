@@ -5,7 +5,7 @@
  * Look is driven ONLY by custom properties set inline by PHP on the banner
  * root (--adc-bg, --adc-text, --adc-muted, --adc-border, --adc-link,
  * --adc-accept-bg/-text, --adc-reject-bg/-text, --adc-customize-bg/-text,
- * --adc-radius [px], --adc-accept-gap [px], --adc-shadow [box-shadow|none]);
+ * --adc-radius [px], --adc-shadow [box-shadow|none]);
  * they reach the modal and the FAB through the .adc-consent-scope wrapper
  * (display:contents). Fallbacks below equal the "light" preset; the legacy
  * --adc-consent-* trio is still honoured so old option values render.
@@ -15,8 +15,8 @@
  * Legal rule: Accept and Reject share .adc-consent-btn--equal — identical
  * size, weight, padding, prominence; only colors differ. Customize is outline.
  * Default button order is Acceptă · Setări · Respinge and is printed in the DOM
- * (tab and reading order match the visuals). --adc-accept-gap only separates
- * the group; it never changes any button size.
+ * (tab and reading order match the visuals). Accept carries no extra spacing:
+ * the action-row gap is the only separation, so the two buttons are identical.
  */
 
 /* ---- token fallbacks (light preset defaults + legacy chain) ---- */
@@ -37,9 +37,6 @@
     --_cust-text: var(--adc-customize-text, #253149);
     --_radius: var(--adc-radius, 8px);
     --_shadow: var(--adc-shadow, 0 -2px 16px rgba(0, 0, 0, 0.15));
-    /* Admin spacing after Accept, capped at 12% of the action row so the row
-       can never wrap or overflow because of it. */
-    --_accept-gap: min(var(--adc-accept-gap, 16px), 12%);
 }
 
 /* ---- base ---- */
@@ -204,13 +201,13 @@
     cursor: pointer;
 }
 
-/* Legal: shared geometry for Accept/Reject; only colors differ. The minimum
-   width gives up half of the configured Accept spacing, so adding a gap can
-   never push the row onto a second line. */
+/* Legal: shared geometry for Accept/Reject; only colors differ. Both buttons
+   take the same minimum width, so the row stays on one line without any
+   per-button spacing. */
 .adc-consent-btn--equal {
     flex: 1 1 0;
     inline-size: auto;
-    min-inline-size: max(6em, calc(8.5em - var(--_accept-gap) / 2));
+    min-inline-size: 8.5em;
     max-inline-size: 260px;
     font-weight: 700;
 }
@@ -237,13 +234,6 @@
     border-color: var(--_border);
     text-decoration: underline;
     text-underline-offset: 3px;
-}
-
-/* Spacing that separates Accept from the rest. Margin only: the button box,
-   its size and its weight stay identical to Refuză (.adc-consent-btn--equal). */
-.adc-consent-btn[data-adc-action="accept"],
-.adc-consent-btn--accept {
-    margin-inline-end: var(--_accept-gap);
 }
 
 .adc-consent-btn--icon {
