@@ -53,6 +53,7 @@
 
 .adc-consent-scope {
     display: contents;
+    --adc-actions-justify: flex-start;
 }
 
 .adc-consent-banner[hidden],
@@ -149,15 +150,24 @@
 /* ---- banner content ---- */
 .adc-consent-banner__inner {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    min-inline-size: 0;
     gap: 12px;
     padding: 16px;
     padding-block-end: calc(16px + env(safe-area-inset-bottom, 0px));
 }
 
 .adc-consent-banner__title {
+    min-inline-size: 0;
     margin: 0;
     font-size: 1.05em;
     font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.adc-consent-banner__message {
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
 }
 
 .adc-consent-banner__message p {
@@ -171,16 +181,19 @@
 
 .adc-consent-banner__actions {
     display: flex;
-    /* Single row on every layout; wrapping is allowed only under 480px. */
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     align-items: stretch;
+    justify-content: var(--adc-actions-justify, flex-start);
     gap: 8px;
+    min-inline-size: 0;
 }
 
 .adc-consent-banner__policy {
+    min-inline-size: 0;
     margin: 0;
     font-size: 0.9em;
     color: var(--_muted);
+    overflow-wrap: anywhere;
 }
 
 /* ---- buttons ---- */
@@ -198,17 +211,18 @@
     font: inherit;
     font-weight: 600;
     text-align: center;
+    max-inline-size: 100%;
+    overflow-wrap: anywhere;
     cursor: pointer;
 }
 
-/* Legal: shared geometry for Accept/Reject; only colors differ. Both buttons
-   take the same minimum width, so the row stays on one line without any
-   per-button spacing. */
+/* Legal: shared geometry for Accept/Reject; only colors differ. */
 .adc-consent-btn--equal {
-    flex: 1 1 0;
-    inline-size: auto;
-    min-inline-size: 8.5em;
+    flex: 0 1 10.5em;
+    inline-size: 10.5em;
+    min-inline-size: min(8.5em, 100%);
     max-inline-size: 260px;
+    overflow-wrap: anywhere;
     font-weight: 700;
 }
 
@@ -347,10 +361,11 @@
 
 .adc-consent-modal__actions {
     display: flex;
-    flex-wrap: nowrap; /* single row; wraps only under 480px */
+    flex-wrap: wrap;
     align-items: stretch;
-    justify-content: flex-end;
+    justify-content: var(--adc-actions-justify, flex-start);
     gap: 8px;
+    min-inline-size: 0;
 }
 
 /* ---- cookie inventory ---- */
@@ -421,9 +436,8 @@
     .adc-consent-banner:is([data-layout="bar_bottom"], [data-layout="bar_top"]) .adc-consent-banner__inner {
         max-inline-size: 1200px;
         margin-inline: auto;
-        grid-template-columns: minmax(0, 1fr) auto;
-        /* Clear space between the message and the action group; the row of
-           buttons itself stays on one line. */
+        grid-template-columns: minmax(0, 1fr) minmax(0, auto);
+        /* Clear space between the message and the wrapping action group. */
         column-gap: 24px;
         align-items: center;
         padding-block-end: 16px;
@@ -432,8 +446,8 @@
     .adc-consent-banner:is([data-layout="bar_bottom"], [data-layout="bar_top"]) .adc-consent-banner__actions {
         grid-column: 2;
         grid-row: 1 / span 3;
-        flex-wrap: nowrap;
-        justify-content: flex-end;
+        min-inline-size: 0;
+        max-inline-size: 100%;
     }
 }
 
@@ -459,14 +473,6 @@
 
     .adc-consent-banner__inner {
         padding-block-end: calc(16px + env(safe-area-inset-bottom, 0px));
-    }
-}
-
-/* ---- very narrow screens only: the single action row may wrap ---- */
-@media (max-width: 479px) {
-    .adc-consent-banner__actions,
-    .adc-consent-modal__actions {
-        flex-wrap: wrap;
     }
 }
 

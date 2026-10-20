@@ -214,13 +214,14 @@
     }
 
     /**
-     * Delete the cookies listed in the inventory for the revoked categories
-     * (exact and prefix matches, current host and parent domain).
+     * Delete inventoried cookies for denied categories, including a first refusal.
+     * Also clean legacy WooCommerce Sourcebuster cookies when statistics are denied.
+     * Matches current-host and parent-domain cookies; necessary cookies are untouched.
      */
-    function removeCookiesFor(revoked) {
+    function removeCookiesFor(denied) {
         var names = document.cookie ? document.cookie.split(';') : [];
         var rules = inventoryRows().filter(function (row) {
-            return revoked.indexOf(row.category) >= 0;
+            return denied.indexOf(row.category) >= 0;
         });
         var domains = candidateDomains();
 
@@ -240,6 +241,12 @@
                     });
                 }
             });
+
+            if (denied.indexOf('statistics') >= 0 && name.indexOf('sbjs_') === 0) {
+                domains.forEach(function (domain) {
+                    expireCookie(name, domain);
+                });
+            }
         });
     }
 
@@ -421,13 +428,12 @@
 
     /**
      * Persist a decision. Order: cookie, Consent Mode update, dataLayer,
-     * DOM event and listeners, server log, then cleanup of revoked cookies.
+     * DOM event and listeners, server log, then cleanup of denied-category cookies.
      * `action` is an optional explicit server log action (withdraw uses it).
      */
     function applyDecision(changes, source, action) {
         var prev = cloneState(state);
         var next = cloneState(state);
-        var revoked = [];
 
         changes = changes || {};
 
@@ -437,10 +443,6 @@
             if (typeof value !== 'undefined') {
                 next.categories[category] = value === true || value === 1 || value === '1';
             }
-
-            if (prev.categories[category] && !next.categories[category]) {
-                revoked.push(category);
-            }
         });
 
         // Global Privacy Control (§2.2): when the browser signals Sec-GPC and
@@ -449,9 +451,6 @@
         if (gpcActive() && next.categories.marketing) {
             next.categories.marketing = false;
             source = 'gpc';
-            if (revoked.indexOf('marketing') < 0) {
-                revoked.push('marketing');
-            }
         }
 
         next.decided = true;
@@ -467,9 +466,9 @@
         notify(next, prev);
         sendDecision(next, 0, action);
 
-        if (revoked.length) {
-            removeCookiesFor(revoked);
-        }
+        removeCookiesFor(CATEGORIES.filter(function (category) {
+            return !next.categories[category];
+        }));
 
         return Promise.resolve(cloneState(next));
     }

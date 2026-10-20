@@ -66,7 +66,7 @@ final class ADC_Gtm implements ADC_Module_Interface
     {
         return array(
             'container_id'         => '',
-            'mode'                 => self::MODE_ALWAYS,
+            'mode'                 => self::MODE_AFTER,
             'server_container_url' => '',
             'datalayer_name'       => 'dataLayer',
             'env_auth'             => '',
@@ -101,7 +101,7 @@ final class ADC_Gtm implements ADC_Module_Interface
         $mode = sanitize_key((string) ($input['mode'] ?? ''));
         $out['mode'] = in_array($mode, array(self::MODE_ALWAYS, self::MODE_AFTER), true)
             ? $mode
-            : self::MODE_ALWAYS;
+            : self::MODE_AFTER;
 
         $url = esc_url_raw(trim((string) ($input['server_container_url'] ?? '')));
         if ('' === $url) {
@@ -139,8 +139,8 @@ final class ADC_Gtm implements ADC_Module_Interface
      */
     public static function mode(): string
     {
-        $mode = (string) ADC_Settings::get('gtm', 'mode', self::MODE_ALWAYS);
-        return in_array($mode, array(self::MODE_ALWAYS, self::MODE_AFTER), true) ? $mode : self::MODE_ALWAYS;
+        $mode = (string) ADC_Settings::get('gtm', 'mode', self::MODE_AFTER);
+        return in_array($mode, array(self::MODE_ALWAYS, self::MODE_AFTER), true) ? $mode : self::MODE_AFTER;
     }
 
     /**

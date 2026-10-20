@@ -3526,6 +3526,54 @@ msgstr "Accept all"
 msgid "Refuză tot"
 msgstr "Reject all"
 
+msgid "Acceptă doar cele necesare"
+msgstr "Accept Essential"
+
+msgid "Buton acceptare cookie-uri necesare"
+msgstr "Essential cookies button"
+
+msgid "Acceptă tot · Setări · Doar necesare (implicit)"
+msgstr "Accept all · Settings · Essential only (default)"
+
+msgid "Setări · Acceptă tot · Doar necesare"
+msgstr "Settings · Accept all · Essential only"
+
+msgid "Acceptă tot · Doar necesare · Setări"
+msgstr "Accept all · Essential only · Settings"
+
+msgid "Doar necesare · Acceptă tot · Setări"
+msgstr "Essential only · Accept all · Settings"
+
+msgid "Doar necesare · Setări · Acceptă tot"
+msgstr "Essential only · Settings · Accept all"
+
+msgid "Setări · Doar necesare · Acceptă tot"
+msgstr "Settings · Essential only · Accept all"
+
+msgid "Pentru blocare înainte de acord, alegeți „Doar după acordarea consimțământului”. Modul „Întotdeauna” încarcă GTM imediat; Consent Mode nu garantează blocarea tuturor etichetelor din container."
+msgstr "To block loading before consent, choose Only after consent. Always mode loads GTM immediately; Consent Mode does not guarantee that all container tags are blocked."
+
+msgid "Alinierea butoanelor"
+msgstr "Button alignment"
+
+msgid "Alegeți poziția grupului de butoane. Pe spații înguste, butoanele trec pe rândul următor fără să ascundă vreo alegere."
+msgstr "Choose the position of the button group. In narrow spaces, buttons wrap onto the next line without hiding any choice."
+
+msgid "Aliniere"
+msgstr "Alignment"
+
+msgid "La început"
+msgstr "Start"
+
+msgid "Centrat"
+msgstr "Center"
+
+msgid "La sfârșit"
+msgstr "End"
+
+msgid "Butoanele „Acceptă tot” și „Acceptă doar cele necesare” au aceeași mărime și greutate vizuală; diferă doar culoarea. Alegerea cookie-urilor necesare dezactivează categoriile opționale."
+msgstr "The Accept all and Accept Essential buttons have the same size and visual weight; only their colors differ. Choosing essential cookies disables optional categories."
+
 msgid "Personalizează"
 msgstr "Customize"
 

@@ -67,18 +67,51 @@ final class ADC_Consent_Banner implements ADC_Module_Interface
     {
         return array(
             self::DEFAULT_BUTTON_ORDER => array(
-                'label'   => __('Acceptă · Setări · Respinge (implicit)', 'adc-marketing'),
+                'label'   => __('Acceptă tot · Setări · Doar necesare (implicit)', 'adc-marketing'),
                 'actions' => array('accept', 'customize', 'reject'),
             ),
             'customize_accept_reject' => array(
-                'label'   => __('Setări · Acceptă · Respinge', 'adc-marketing'),
+                'label'   => __('Setări · Acceptă tot · Doar necesare', 'adc-marketing'),
                 'actions' => array('customize', 'accept', 'reject'),
             ),
             'accept_reject_customize' => array(
-                'label'   => __('Acceptă · Respinge · Setări', 'adc-marketing'),
+                'label'   => __('Acceptă tot · Doar necesare · Setări', 'adc-marketing'),
                 'actions' => array('accept', 'reject', 'customize'),
             ),
+            'reject_accept_customize' => array(
+                'label'   => __('Doar necesare · Acceptă tot · Setări', 'adc-marketing'),
+                'actions' => array('reject', 'accept', 'customize'),
+            ),
+            'reject_customize_accept' => array(
+                'label'   => __('Doar necesare · Setări · Acceptă tot', 'adc-marketing'),
+                'actions' => array('reject', 'customize', 'accept'),
+            ),
+            'customize_reject_accept' => array(
+                'label'   => __('Setări · Doar necesare · Acceptă tot', 'adc-marketing'),
+                'actions' => array('customize', 'reject', 'accept'),
+            ),
         );
+    }
+
+    /** Normalize the old default copy, without replacing custom shop wording. */
+    public static function reject_label(array $settings): string
+    {
+        $label = (string) ($settings['reject_label'] ?? '');
+        $legacy = array('Refuză tot', 'Reject all', __('Refuză tot', 'adc-marketing'));
+        return '' === $label || in_array($label, $legacy, true)
+            ? __('Acceptă doar cele necesare', 'adc-marketing')
+            : $label;
+    }
+
+    /** Validated layout-only CSS shared by the frontend and admin preview. */
+    public static function actions_style(array $settings): string
+    {
+        $alignment = match ($settings['button_alignment'] ?? 'start') {
+            'center' => 'center',
+            'end'    => 'flex-end',
+            default  => 'flex-start',
+        };
+        return '--adc-actions-justify:' . $alignment . ';';
     }
 
     /**
@@ -101,7 +134,7 @@ final class ADC_Consent_Banner implements ADC_Module_Interface
         );
         $labels = array(
             'accept'    => (string) ($settings['accept_label'] ?? ''),
-            'reject'    => (string) ($settings['reject_label'] ?? ''),
+            'reject'    => self::reject_label($settings),
             'customize' => (string) ($settings['customize_label'] ?? ''),
         );
 
@@ -359,6 +392,7 @@ final class ADC_Consent_Banner implements ADC_Module_Interface
         return array(
             'layout'                => 'bar_bottom',
             'button_order'          => self::DEFAULT_BUTTON_ORDER,
+            'button_alignment'      => 'start',
             'preset'                => 'light',
             'radius'                => 8,
             'shadow'                => true,
@@ -367,7 +401,7 @@ final class ADC_Consent_Banner implements ADC_Module_Interface
             'title'                 => __('Folosim cookie-uri', 'adc-marketing'),
             'message'               => __('Folosim cookie-uri necesare pentru funcționarea site-ului. Cu acordul dumneavoastră, folosim și cookie-uri pentru statistici și marketing. Puteți accepta, refuza sau personaliza alegerile în orice moment.', 'adc-marketing'),
             'accept_label'          => __('Acceptă tot', 'adc-marketing'),
-            'reject_label'          => __('Refuză tot', 'adc-marketing'),
+            'reject_label'          => __('Acceptă doar cele necesare', 'adc-marketing'),
             'customize_label'       => __('Personalizează', 'adc-marketing'),
             'save_label'            => __('Salvează alegerile', 'adc-marketing'),
             'category_labels'       => array(
@@ -498,6 +532,9 @@ final class ADC_Consent_Banner implements ADC_Module_Interface
 
         $order = (string) ($input['button_order'] ?? $current['button_order'] ?? self::DEFAULT_BUTTON_ORDER);
         $out['button_order'] = array_key_exists($order, self::button_orders()) ? $order : self::DEFAULT_BUTTON_ORDER;
+        $alignment = (string) ($input['button_alignment'] ?? $current['button_alignment'] ?? 'start');
+        $out['button_alignment'] = in_array($alignment, array('start', 'center', 'end'), true) ? $alignment : 'start';
+        $out['reject_label'] = self::reject_label($out);
 
         if (isset($input['message'])) {
             $out['message'] = wp_kses_post((string) $input['message']);
@@ -707,7 +744,7 @@ final class ADC_Consent_Banner implements ADC_Module_Interface
             'message'    => (string) $settings['message'],
             'labels'     => array(
                 'accept'     => (string) $settings['accept_label'],
-                'reject'     => (string) $settings['reject_label'],
+                'reject'     => self::reject_label($settings),
                 'customize'  => (string) $settings['customize_label'],
                 'save'       => (string) $settings['save_label'],
             ),
@@ -802,7 +839,7 @@ final class ADC_Consent_Banner implements ADC_Module_Interface
             'actions'      => self::action_buttons($settings),
             'labels'       => array(
                 'accept'    => (string) $settings['accept_label'],
-                'reject'    => (string) $settings['reject_label'],
+                'reject'    => self::reject_label($settings),
                 'customize' => (string) $settings['customize_label'],
                 'save'      => (string) $settings['save_label'],
             ),
@@ -825,7 +862,8 @@ final class ADC_Consent_Banner implements ADC_Module_Interface
             }
         }
         $style .= '--adc-radius:' . max(0, min(24, (int) ($settings['radius'] ?? 8))) . 'px;';
-        $style .= '--adc-shadow:' . (!empty($settings['shadow']) ? '0 8px 28px rgba(0,0,0,.18)' : 'none') . ';';;
+        $style .= '--adc-shadow:' . (!empty($settings['shadow']) ? '0 8px 28px rgba(0,0,0,.18)' : 'none') . ';';
+        $style .= self::actions_style($settings);
         return $style;
     }
 

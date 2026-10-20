@@ -56,8 +56,18 @@ if [ "$JS_COUNT" -eq 0 ]; then
 fi
 
 echo "== offline runtime tests =="
-for t in tests/admin-tabs-load-test.php tests/hook-signatures-test.php tests/cookie-scanner-test.php; do
+for t in tests/admin-tabs-load-test.php tests/hook-signatures-test.php tests/cookie-scanner-test.php tests/banner-settings-test.php tests/gtm-consent-test.php; do
     if php "$t"; then
+        echo "OK   $t"
+    else
+        echo "FAIL $t"
+        FAIL=1
+    fi
+done
+
+echo "== offline JS runtime tests =="
+for t in tests/admin-integration-buttons-test.js tests/consent-cleanup-test.js; do
+    if node "$t"; then
         echo "OK   $t"
     else
         echo "FAIL $t"

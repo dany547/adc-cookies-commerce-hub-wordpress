@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>ADC banner layout regression fixture</title>
+<link rel="stylesheet" href="../assets/css/consent-banner.css">
+<link rel="stylesheet" href="../assets/css/admin-banner.css">
+<style>
+body { margin: 24px; font-family: Arial, sans-serif; }
+section { margin-block-end: 24px; }
+</style>
+<h1>Banner layout checks</h1>
+<p>Open this file in a browser; run adcBannerLayoutResults(). All cases use the shipped CSS. No network tracking or consent writes.</p>
+<div id="cases"></div>
+<script>
+'use strict';
+const layouts = ['bar_bottom', 'bar_top', 'box_bottom_left', 'box_bottom_right', 'box_bottom_center', 'center_modal'];
+const widths = [280, 340, 560, 700, 1200];
+const root = document.getElementById('cases');
+for (const width of widths) {
+    for (const layout of layouts) {
+        const section = document.createElement('section');
+        section.style.width = width + 'px';
+        const title = document.createElement('h2');
+        title.textContent = layout + ' / ' + width;
+        section.appendChild(title);
+        const stage = document.createElement('div');
+        stage.className = 'adc-banner-preview-screen';
+        stage.dataset.case = layout;
+        stage.dataset.width = width;
+        stage.innerHTML = '<div class="adc-consent-banner"><div class="adc-consent-banner__inner"><p class="adc-consent-banner__title">We use cookies</p><p class="adc-consent-banner__message">We use necessary cookies to make the site work. With your agreement we also use cookies for statistics and marketing. You can accept essential cookies or customize your choices at any time.</p><div class="adc-consent-banner__actions"><button class="adc-consent-btn adc-consent-btn--accept adc-consent-btn--equal">Accept all</button><button class="adc-consent-btn adc-consent-btn--customize">Customize</button><button class="adc-consent-btn adc-consent-btn--reject adc-consent-btn--equal">Accept Essential</button></div></div></div>';
+        stage.firstElementChild.dataset.layout = layout;
+        section.appendChild(stage);
+        root.appendChild(section);
+    }
+}
+window.adcBannerLayoutResults = function () {
+    const rows = [...document.querySelectorAll('[data-case]')].map(stage => {
+        const card = stage.querySelector('.adc-consent-banner');
+        const actions = stage.querySelector('.adc-consent-banner__actions');
+        const rect = card.getBoundingClientRect();
+        const bounds = stage.getBoundingClientRect();
+        const overflow = [...card.querySelectorAll('*'), card].some(e => e.clientWidth && e.scrollWidth > e.clientWidth + 1);
+        const clipped = rect.left < bounds.left - 1 || rect.right > bounds.right + 1 || rect.top < bounds.top - 1 || rect.bottom > bounds.bottom + 1;
+        return { layout: stage.dataset.case, width: +stage.dataset.width, overflow, clipped,
+            lines: new Set([...actions.children].map(e => Math.round(e.getBoundingClientRect().top))).size };
+    });
+    const failures = rows.filter(row => row.overflow || row.clipped);
+    const wideModal = rows.find(row => row.layout === 'center_modal' && row.width === 700);
+    if (wideModal.lines !== 1) failures.push({ reason: 'Wide modal should fit all three actions inline', ...wideModal });
+    return { pass: failures.length === 0, count: rows.length, failures };
+};
+</script>
+</html>

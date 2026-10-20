@@ -16,6 +16,7 @@
   var screenOverlay = document.getElementById('adc-banner-preview-overlay');
   var previewActions = document.getElementById('adc-banner-preview-actions');
   var orderSelect = document.getElementById('adc-banner-button-order');
+  var alignmentSelect = document.getElementById('adc-banner-button-alignment');
   var compliancePanel = document.getElementById('adc-banner-compliance');
   var complianceList = document.getElementById('adc-banner-compliance-list');
   var compliance = window.adcBannerCompliance && typeof window.adcBannerCompliance === 'object'
@@ -322,6 +323,14 @@
     });
   }
 
+  function applyAlignment() {
+    if (!preview || !alignmentSelect) {
+      return;
+    }
+    var values = { start: 'flex-start', center: 'center', end: 'flex-end' };
+    preview.style.setProperty('--adc-actions-justify', values[alignmentSelect.value] || 'flex-start');
+  }
+
   function onColorEdited(input) {
     var key = colorKey(input);
     if (key && key !== 'accent') {
@@ -388,6 +397,9 @@
   if (orderSelect) {
     orderSelect.addEventListener('change', applyOrder);
   }
+  if (alignmentSelect) {
+    alignmentSelect.addEventListener('change', applyAlignment);
+  }
   if (shadowInput) {
     shadowInput.addEventListener('change', syncShadow);
   }
@@ -428,6 +440,7 @@
   }
   syncRadius(false);
   applyOrder();
+  applyAlignment();
   syncShadow();
   syncLayout();
   updateWarnings();

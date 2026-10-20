@@ -179,6 +179,7 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
     public function render(): void
     {
         $banner  = ADC_Settings::all('banner');
+        $banner['reject_label'] = ADC_Consent_Banner::reject_label($banner);
         $consent = ADC_Settings::all('consent');
 
         $layout  = self::normalize_layout((string) ($banner['layout'] ?? 'bar_bottom'));
@@ -251,7 +252,7 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
             <?php
             $buttons = array(
                 'accept_label'    => __('Buton acceptare', 'adc-marketing'),
-                'reject_label'    => __('Buton refuzare', 'adc-marketing'),
+                'reject_label'    => __('Buton acceptare cookie-uri necesare', 'adc-marketing'),
                 'customize_label' => __('Buton personalizare', 'adc-marketing'),
                 'save_label'      => __('Buton salvare alegeri', 'adc-marketing'),
             );
@@ -375,6 +376,21 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
                 </tr>
             </tbody></table>
 
+            <h3><?php esc_html_e('Alinierea butoanelor', 'adc-marketing'); ?></h3>
+            <p class="description"><?php esc_html_e('Alegeți poziția grupului de butoane. Pe spații înguste, butoanele trec pe rândul următor fără să ascundă vreo alegere.', 'adc-marketing'); ?></p>
+            <table class="form-table" role="presentation"><tbody>
+                <tr>
+                    <th scope="row"><label for="adc-banner-button-alignment"><?php esc_html_e('Aliniere', 'adc-marketing'); ?></label></th>
+                    <td>
+                        <select id="adc-banner-button-alignment" name="adc_banner[button_alignment]">
+                            <option value="start" <?php selected((string) ($banner['button_alignment'] ?? 'start'), 'start'); ?>><?php esc_html_e('La început', 'adc-marketing'); ?></option>
+                            <option value="center" <?php selected((string) ($banner['button_alignment'] ?? 'start'), 'center'); ?>><?php esc_html_e('Centrat', 'adc-marketing'); ?></option>
+                            <option value="end" <?php selected((string) ($banner['button_alignment'] ?? 'start'), 'end'); ?>><?php esc_html_e('La sfârșit', 'adc-marketing'); ?></option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody></table>
+
             <h3><?php esc_html_e('Culori', 'adc-marketing'); ?> <?php echo ADC_Admin_Help::icon('adc-help-banner-colors-2', __('Culori', 'adc-marketing'), $this->help_banner_colors()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- helper escapes its own output. ?></h3>
             <?php foreach (self::color_groups() as $group_id => $group) : ?>
                 <?php
@@ -429,7 +445,7 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
                 </tr>
             </tbody></table>
 
-            <p class="description adc-equal-note"><?php esc_html_e('Butoanele „Acceptă” și „Refuză” au aceeași mărime, aceeași poziție în rând și aceeași greutate vizuală, conform GDPR; diferă doar culoarea. Ordinea implicită este Acceptă · Setări · Refuză.', 'adc-marketing'); ?></p>
+            <p class="description adc-equal-note"><?php esc_html_e('Butoanele „Acceptă tot” și „Acceptă doar cele necesare” au aceeași mărime și greutate vizuală; diferă doar culoarea. Alegerea cookie-urilor necesare dezactivează categoriile opționale.', 'adc-marketing'); ?></p>
 
             <h3><?php esc_html_e('Previzualizare live', 'adc-marketing'); ?> <?php echo ADC_Admin_Help::icon('adc-help-banner-preview', __('Previzualizare live', 'adc-marketing'), $this->help_banner_preview()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- helper escapes its own output. ?></h3>
             <p>
@@ -437,7 +453,7 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
             </p>
             <div class="adc-banner-preview-screen" id="adc-banner-preview-screen">
                 <div class="adc-banner-preview-overlay" id="adc-banner-preview-overlay"<?php echo ('center_modal' === $layout && $overlay) ? '' : ' hidden'; ?>></div>
-                <div id="adc-consent-banner" class="adc-consent-banner" data-layout="<?php echo esc_attr($layout); ?>" data-preset="<?php echo esc_attr($preset); ?>" style="<?php echo esc_attr(self::style_string($colors, $radius, $shadow)); ?>">
+                <div id="adc-consent-banner" class="adc-consent-banner" data-layout="<?php echo esc_attr($layout); ?>" data-preset="<?php echo esc_attr($preset); ?>" style="<?php echo esc_attr(self::style_string($colors, $radius, $shadow) . ADC_Consent_Banner::actions_style($banner)); ?>">
                     <div class="adc-consent-banner__inner">
                         <p class="adc-consent-banner__title" id="adc-banner-preview-title"><?php echo esc_html((string) ($banner['title'] ?? '')); ?></p>
                         <p class="adc-consent-banner__message" id="adc-banner-preview-message"><?php echo esc_html(wp_strip_all_tags((string) ($banner['message'] ?? ''))); ?></p>

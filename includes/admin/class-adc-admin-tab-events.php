@@ -126,7 +126,7 @@ final class ADC_Admin_Tab_Events implements ADC_Admin_Tab_Interface
                 . '<option value="always_with_defaults" ' . selected(($gtm['mode'] ?? '') === 'always_with_defaults', true, false) . '>' . esc_html__('Întotdeauna (cu seturi implicite de consimțământ)', 'adc-marketing') . '</option>'
                 . '<option value="after_consent" ' . selected(($gtm['mode'] ?? '') === 'after_consent', true, false) . '>' . esc_html__('Doar după acordarea consimțământului', 'adc-marketing') . '</option>'
             . '</select>',
-            __('Când browserul cere script-ul gtm.js: imediat (dar tag-urile rămân blocate de Consent Mode) sau abia după ce vizitatorul acceptă.', 'adc-marketing'),
+            __('Pentru blocare înainte de acord, alegeți „Doar după acordarea consimțământului”. Modul „Întotdeauna” încarcă GTM imediat; Consent Mode nu garantează blocarea tuturor etichetelor din container.', 'adc-marketing'),
             null,
             'adc-help-gtm-load-mode',
             $this->help_gtm_mode()
@@ -293,7 +293,7 @@ final class ADC_Admin_Tab_Events implements ADC_Admin_Tab_Interface
         $keys    = array('container_id', 'mode', 'server_container_url', 'datalayer_name', 'env_auth', 'env_preview');
         $defaults = array(
             'container_id'         => '',
-            'mode'                 => 'always_with_defaults',
+            'mode'                 => 'after_consent',
             'server_container_url' => '',
             'datalayer_name'       => 'dataLayer',
             'env_auth'             => '',
