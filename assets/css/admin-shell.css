@@ -1,6 +1,7 @@
 /* ADC Marketing 2.0 — admin shell styles (design tokens, two-level tab nav, header, sticky save bar, secret fields, copy buttons).
    Contract for tab authors:
    - .adc-admin-tab-content       card wrapping every tab's rendered inner HTML
+   - .adc-admin-shell-inner       max-width wrapper keeping content at the shell cap
    - .adc-admin-groups / .adc-admin-group   level-1 nav pills (group of tabs)
    - .adc-admin-tabs--sub         level-2 nav pills (the tabs of the active group)
    - .adc-admin-save-bar          sticky action bar printed by the shell
@@ -11,15 +12,15 @@
 
    Design tokens (scoped to the shell so every admin tab can reuse them):
    --adc-space-1/2/3 (8/16/24), --adc-radius, --adc-border, --adc-accent,
-   --adc-accent-hover, --adc-surface, --adc-shell-pad-x/y (shell inner padding,
-   also used by the sticky save bar so it can bleed edge-to-edge).
+   --adc-accent-hover, --adc-surface, --adc-shell-pad-x/y (shell inner padding)
+   and --adc-wp-content-pad-x (#wpcontent padding-left; the sticky save bar
+   bleeds both so it reaches the true admin window edges).
    Note: --adc-border / --adc-radius also exist in the frontend banner palette;
    the Banner preview re-declares its own defaults on .adc-banner-preview-screen. */
 
 /* ---------- Shell + tokens ---------- */
 .adc-admin-shell {
     width: 100%;
-    max-width: 1400px;
     margin: 20px 0 0;
     padding: var(--adc-shell-pad-y) var(--adc-shell-pad-x);
     box-sizing: border-box;
@@ -35,6 +36,14 @@
     --adc-muted: #50575e;
     --adc-shell-pad-x: var(--adc-space-3);
     --adc-shell-pad-y: var(--adc-space-2);
+    /* #wpcontent padding-left: 20px desktop (folded identical), 10px <=782px. */
+    --adc-wp-content-pad-x: 20px;
+}
+
+/* The shell cap lives on an inner wrapper so the save bar can escape it and
+   span the full width of the admin window. */
+.adc-admin-shell-inner {
+    max-width: 1400px;
 }
 
 /* ---------- Page header (logo + title + version) ---------- */
@@ -180,8 +189,8 @@
 }
 
 /* ---------- Sticky save bar ---------- */
-/* Bleeds to the shell edges (negative margins = the shell padding) so it reads
-   as a full-width action bar on every width, including mobile. */
+/* Bleeds the shell padding AND #wpcontent padding-left so it reads as a
+   full-width action bar of the admin window on every width, including mobile. */
 .adc-admin-save-bar {
     position: sticky;
     bottom: 0;
@@ -189,7 +198,8 @@
     display: flex;
     align-items: center;
     gap: var(--adc-space-1);
-    margin: var(--adc-space-2) calc(-1 * var(--adc-shell-pad-x)) calc(-1 * var(--adc-shell-pad-y));
+    margin: var(--adc-space-2) calc(-1 * var(--adc-shell-pad-x)) calc(-1 * var(--adc-shell-pad-y))
+        calc(-1 * (var(--adc-shell-pad-x) + var(--adc-wp-content-pad-x)));
     padding: var(--adc-space-2) var(--adc-shell-pad-x);
     background: var(--adc-surface);
     border-top: 1px solid var(--adc-border);
@@ -330,6 +340,7 @@
     .adc-admin-shell {
         --adc-shell-pad-x: var(--adc-space-2);
         --adc-shell-pad-y: var(--adc-space-2);
+        --adc-wp-content-pad-x: 10px;
     }
 
     /* Stack form rows: label above field. */

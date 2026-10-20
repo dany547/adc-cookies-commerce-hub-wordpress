@@ -167,21 +167,23 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
 
         ?>
         <div class="wrap adc-admin-shell">
-            <?php self::render_header(); ?>
+            <div class="adc-admin-shell-inner">
+                <?php self::render_header(); ?>
 
-            <?php if (empty($tabs)) : ?>
-                <div class="notice notice-info"><p>
-                    <?php esc_html_e('Niciun tab de administrare nu este disponibil momentan.', 'adc-marketing'); ?>
-                </p></div>
-            <?php else : ?>
-                <?php self::render_nav(self::navigation($tabs), $slug); ?>
-            <?php endif; ?>
+                <?php if (empty($tabs)) : ?>
+                    <div class="notice notice-info"><p>
+                        <?php esc_html_e('Niciun tab de administrare nu este disponibil momentan.', 'adc-marketing'); ?>
+                    </p></div>
+                <?php else : ?>
+                    <?php self::render_nav(self::navigation($tabs), $slug); ?>
+                <?php endif; ?>
 
-            <?php foreach ($notices as $notice) : ?>
-                <div class="notice notice-<?php echo esc_attr($notice['type']); ?> is-dismissible">
-                    <p><?php echo wp_kses_post($notice['message']); ?></p>
-                </div>
-            <?php endforeach; ?>
+                <?php foreach ($notices as $notice) : ?>
+                    <div class="notice notice-<?php echo esc_attr($notice['type']); ?> is-dismissible">
+                        <p><?php echo wp_kses_post($notice['message']); ?></p>
+                    </div>
+                <?php endforeach; ?>
+            </div>
 
             <?php if (null !== $tab) : ?>
                 <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
@@ -189,8 +191,10 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
                     <input type="hidden" name="tab" value="<?php echo esc_attr($tab->slug()); ?>" />
                     <?php wp_nonce_field('adc_save_tab_' . $tab->slug(), '_adc_nonce'); ?>
 
-                    <div class="adc-admin-tab-content">
-                        <?php $tab->render(); ?>
+                    <div class="adc-admin-shell-inner">
+                        <div class="adc-admin-tab-content">
+                            <?php $tab->render(); ?>
+                        </div>
                     </div>
 
                     <?php
