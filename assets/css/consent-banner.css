@@ -174,7 +174,8 @@
 
 .adc-consent-banner__actions {
     display: flex;
-    flex-wrap: wrap;
+    /* Single row on every layout; wrapping is allowed only under 480px. */
+    flex-wrap: nowrap;
     align-items: stretch;
     gap: 8px;
 }
@@ -356,7 +357,7 @@
 
 .adc-consent-modal__actions {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap; /* single row; wraps only under 480px */
     align-items: stretch;
     justify-content: flex-end;
     gap: 8px;
@@ -431,6 +432,9 @@
         max-inline-size: 1200px;
         margin-inline: auto;
         grid-template-columns: minmax(0, 1fr) auto;
+        /* Clear space between the message and the action group; the row of
+           buttons itself stays on one line. */
+        column-gap: 24px;
         align-items: center;
         padding-block-end: 16px;
     }
@@ -459,25 +463,20 @@
         border-end-end-radius: 0;
     }
 
-    .adc-consent-banner__actions,
-    .adc-consent-modal__actions {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
     .adc-consent-btn--equal {
         max-inline-size: none;
     }
 
-    /* Stacked: the configured spacing moves to the block axis, capped in px. */
-    .adc-consent-btn[data-adc-action="accept"],
-    .adc-consent-btn--accept {
-        margin-inline-end: 0;
-        margin-block-end: min(var(--adc-accept-gap, 16px), 24px);
-    }
-
     .adc-consent-banner__inner {
         padding-block-end: calc(16px + env(safe-area-inset-bottom, 0px));
+    }
+}
+
+/* ---- very narrow screens only: the single action row may wrap ---- */
+@media (max-width: 479px) {
+    .adc-consent-banner__actions,
+    .adc-consent-modal__actions {
+        flex-wrap: wrap;
     }
 }
 

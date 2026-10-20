@@ -326,8 +326,26 @@
 .adc-banner-preview-screen .adc-consent-banner[data-layout="center_modal"] {
   left: 50%;
   top: 50%;
+  /* Kill the frontend modal root chrome (inset: 0 stretch + flex padding);
+     here the root itself is the card, centred by transform. */
+  right: auto;
+  bottom: auto;
+  display: block;
+  padding: 0;
   width: min(420px, calc(100% - 24px));
   transform: translate(-50%, -50%);
+}
+
+/* The frontend modal draws its card on __inner (border + shadow + scroll);
+   left alone it renders a second framed box behind the preview card. */
+.adc-banner-preview-screen .adc-consent-banner[data-layout="center_modal"] .adc-consent-banner__inner {
+  max-block-size: none;
+  overflow: visible;
+  padding: 14px 16px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .adc-banner-preview-screen .adc-consent-banner__inner {
@@ -350,7 +368,7 @@
 
 .adc-banner-preview-screen .adc-consent-banner__actions {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap; /* one row, same as the frontend banner */
   gap: 8px;
 }
 
