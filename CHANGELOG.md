@@ -16,25 +16,25 @@ commit/tag de release — workflow-ul `version-bump.yml` nu rescrie dată; o fac
 responsabilul de release înainte de tag. Intrările viitoare `în lucru` rămân
 neatinse până la publicare.
 
-## [2.2.4] - în lucru
+## [2.2.4] - 2026-10-20
 
 ### Corectat
 - Fatal la autentificare: `ADC_Consent::hydrate_on_login()` primea `user_login` (string) în loc de ID.
 - Audit al semnăturilor hook-urilor (tracking, analytics, coș WooCommerce) și test de runtime `tests/hook-signatures-test.php` legat în `bin/smoke.sh`.
 
-## [2.2.3] - în lucru
+## [2.2.3] - 2026-10-20
 
 ### Adăugat
 - Autoloader: suport pentru trait-uri (trait-adc-*.php).
 
-## [2.2.2] - în lucru
+## [2.2.2] - 2026-10-20
 
 ### Adăugat
 - Contor statistic de trafic anonim și agregat, activabil explicit (Sec-GPC/DNT respectate).
 - Componentul info-icon cu modal pentru explicații ale opțiunilor.
 - Traduceri en_US și en_GB.
 
-## [2.2.1] - în lucru
+## [2.2.1] - 2026-10-20
 
 ### Adăugat
 - Pagină Dashboard dedicată pentru statisticile analitice; tab-ul Analytics păstrează doar setările.
