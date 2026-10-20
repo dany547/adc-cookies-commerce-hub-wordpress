@@ -1,27 +1,35 @@
 /**
- * Admin settings styles
+ * Admin settings styles (Marketing tab: consent message + user export).
+ * Button look (height/padding/radius/hover/focus) lives in admin-shell.css —
+ * here we only handle spacing, scoped to .adc-admin-shell via the markup.
  */
 
 .adc-export-form {
-    margin-top: 20px;
+    margin-top: var(--adc-space-2, 16px);
 }
 
 .adc-export-form .form-table {
-    margin-top: 15px;
+    margin-top: var(--adc-space-2, 16px);
 }
 
 .adc-export-form .button {
-    margin-right: 10px;
+    margin: 0 var(--adc-space-1, 8px) var(--adc-space-1, 8px) 0;
 }
 
-.adc-export-form .button-primary {
-    background-color: #2271b1;
-    border-color: #2271b1;
-    color: #fff;
+/* ---------- Section rhythm (tabul Marketing; tokenii din admin-shell.css) ---------- */
+/* 32px între secțiuni, 16px între opțiuni — structura uniformă a shell-ului. */
+.adc-admin-shell .adc-settings-section {
+    margin-top: var(--adc-space-3, 24px);
 }
 
-.adc-export-form .button-primary:hover {
-    background-color: #135e96;
-    border-color: #135e96;
+.adc-admin-shell .adc-settings-section .adc-admin-section-head {
+    margin-bottom: var(--adc-space-2, 16px);
 }
 
+.adc-admin-shell .adc-admin-section-head + .form-table {
+    margin-top: 0;
+}
+
+.adc-admin-shell .adc-section-gap {
+    margin-top: var(--adc-space-2, 16px);
+}

@@ -3,11 +3,15 @@
  * Server-side traffic collector: exclusions, bot/prefetch detection, page
  * dimension and referer channel classification.
  *
- * Nothing is counted while ADC_Analytics_Settings::traffic_enabled() is false,
- * which is always the case in this release. The classifiers are pure and
+ * Nothing is counted while ADC_Analytics_Settings::traffic_enabled() is false
+ * (switch off, or the privacy confirmation missing). The collectors are pure and
  * testable. The collector never sets cookies, reads sessions, user IDs or IP
  * addresses, ingests UTM parameters, and never stores the user agent or the
- * referer URL.
+ * referer URL: only daily aggregates per page type and channel are written.
+ *
+ * Privacy signals are honoured: a request sending `Sec-GPC: 1` or `DNT: 1` is
+ * never counted, and the admin-configurable exclusions (logged-in
+ * administrators, bot filtering) are applied when enabled.
  *
  * @package ADC_Marketing
  */
@@ -74,8 +78,7 @@ final class ADC_Analytics_Traffic implements ADC_Module_Interface
             return;
         }
 
-        $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? trim((string) wp_unslash($_SERVER['HTTP_USER_AGENT'])) : '';
-        if (self::is_bot($user_agent)) {
+        if (self::bot_filter_enabled() && self::is_bot(self::user_agent())) {
             return;
         }
 
@@ -122,7 +125,12 @@ final class ADC_Analytics_Traffic implements ADC_Module_Interface
             return true;
         }
 
-        if (current_user_can('manage_options')) {
+        if (self::exclude_admins_enabled() && current_user_can('manage_options')) {
+            return true;
+        }
+
+        // Do Not Track / Global Privacy Control: the visitor opted out browser-wide.
+        if (self::is_privacy_mode()) {
             return true;
         }
 
@@ -140,6 +148,46 @@ final class ADC_Analytics_Traffic implements ADC_Module_Interface
         }
 
         return self::is_api_path();
+    }
+
+    /**
+     * True when the visitor's browser signals privacy: `Sec-GPC: 1` (Global
+     * Privacy Control) or `DNT: 1` (Do Not Track). Any other value, an empty
+     * header or a missing header is not an opt-out.
+     */
+    public static function is_privacy_mode(): bool
+    {
+        foreach (array('HTTP_SEC_GPC', 'HTTP_DNT') as $key) {
+            if (isset($_SERVER[$key]) && '1' === trim((string) wp_unslash($_SERVER[$key]))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Raw user agent of the current request (inspected only, never stored).
+     */
+    private static function user_agent(): string
+    {
+        return isset($_SERVER['HTTP_USER_AGENT']) ? trim((string) wp_unslash($_SERVER['HTTP_USER_AGENT'])) : '';
+    }
+
+    /**
+     * Bot filtering toggle; on unless the shop stored an explicit false.
+     */
+    private static function bot_filter_enabled(): bool
+    {
+        return (bool) ADC_Settings::get(ADC_Analytics_Settings::GROUP, 'bot_filter_enabled', true);
+    }
+
+    /**
+     * Logged-in administrator exclusion; on unless stored off.
+     */
+    private static function exclude_admins_enabled(): bool
+    {
+        return (bool) ADC_Settings::get(ADC_Analytics_Settings::GROUP, 'exclude_logged_in_admins', true);
     }
 
     /**

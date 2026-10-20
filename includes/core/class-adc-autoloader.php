@@ -5,6 +5,7 @@
  * Rule (docs/ARCHITECTURE.md §1):
  * - class ADC_Foo_Bar        -> class-adc-foo-bar.php
  * - interface ADC_Foo_Bar_Interface -> interface-adc-foo-bar.php
+ * - trait ADC_Foo_Bar -> trait-adc-foo-bar.php (fallback after class-adc-foo-bar.php)
  *
  * Files are searched in: includes/, includes/core/, includes/consent/,
  * includes/tracking/, includes/integrations/, includes/admin/, includes/analytics/.
@@ -74,11 +75,19 @@ final class ADC_Autoloader
             $file = 'class-adc-' . str_replace('_', '-', $snake);
         }
 
-        foreach (self::search_dirs() as $dir) {
-            $path = $dir . '/' . $file . '.php';
-            if (is_readable($path)) {
-                require_once $path;
-                return;
+        $files = array($file);
+        if (!str_ends_with($snake, '_interface')) {
+            // ADC_Foo_Bar trait -> trait-adc-foo-bar.php (fallback after the class file).
+            $files[] = 'trait-adc-' . str_replace('_', '-', $snake);
+        }
+
+        foreach ($files as $candidate) {
+            foreach (self::search_dirs() as $dir) {
+                $path = $dir . '/' . $candidate . '.php';
+                if (is_readable($path)) {
+                    require_once $path;
+                    return;
+                }
             }
         }
     }

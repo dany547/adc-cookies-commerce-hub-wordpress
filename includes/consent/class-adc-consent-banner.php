@@ -151,7 +151,23 @@ final class ADC_Consent_Banner implements ADC_Module_Interface
         );
         $result = array();
         foreach ($sets as $slug => $v) {
-            $result[$slug] = array('label' => __(array('light' => 'Luminos', 'dark' => 'Întunecat', 'minimal' => 'Minimal (monocrom)', 'contrast' => 'Contrast ridicat (WCAG AAA)')[$slug], 'adc-marketing'), 'colors' => array_combine(self::COLOR_KEYS, array_slice($v, 0, 11)), 'radius' => $v[11]);
+            // Literal gettext calls per slug (a dynamic array key would be invisible
+            // to the POT extractor).
+            switch ($slug) {
+                case 'dark':
+                    $preset_label = __('Întunecat', 'adc-marketing');
+                    break;
+                case 'minimal':
+                    $preset_label = __('Minimal (monocrom)', 'adc-marketing');
+                    break;
+                case 'contrast':
+                    $preset_label = __('Contrast ridicat (WCAG AAA)', 'adc-marketing');
+                    break;
+                default:
+                    $preset_label = __('Luminos', 'adc-marketing');
+                    break;
+            }
+            $result[$slug] = array('label' => $preset_label, 'colors' => array_combine(self::COLOR_KEYS, array_slice($v, 0, 11)), 'radius' => $v[11]);
         }
         $accent  = self::normalize_hex($accent);
         $stored  = self::normalize_hex((string) ADC_Settings::get('banner', 'accent', '#2563eb'));

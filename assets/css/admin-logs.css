@@ -1,15 +1,17 @@
-/* ADC Marketing 2.0 — Logs & Debug tab styles (outbox table, status pills, actions). */
+/* ADC Marketing 2.0 — Logs & Debug tab styles (outbox table, status pills, actions).
+ * Spacing/colors follow the shell tokens from admin-shell.css (fallback local). */
 
 .adc-logs-counts {
     max-width: 420px;
-    margin-bottom: 16px;
+    margin-bottom: var(--adc-space-2, 16px);
 }
 
 .adc-logs-actions {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--adc-space-1, 8px);
     flex-wrap: wrap;
+    margin-bottom: var(--adc-space-1, 8px);
 }
 
 .adc-logs-result {
@@ -22,7 +24,8 @@
 }
 
 .adc-logs-table {
-    margin-top: 8px;
+    margin-top: var(--adc-space-1, 8px);
+    width: 100%;
 }
 
 .adc-logs-table .adc-logs-error-row td {
@@ -37,7 +40,7 @@
 .adc-status {
     display: inline-block;
     padding: 2px 8px;
-    border-radius: 10px;
+    border-radius: 999px;
     font-size: 12px;
     line-height: 18px;
     background: #eee;
@@ -67,11 +70,25 @@
 
 .adc-consent-lookup-result {
     min-height: 22px;
-    margin-bottom: 16px;
+    margin-bottom: var(--adc-space-2, 16px);
     font-size: 13px;
 }
 
 .adc-logs-conflicts {
     max-width: 640px;
-    margin-top: 8px;
+    margin-top: var(--adc-space-1, 8px);
+}
+
+@media (max-width: 600px) {
+    .adc-logs-counts,
+    .adc-logs-conflicts {
+        max-width: 100%;
+    }
+
+    /* Wide log tables scroll horizontally instead of breaking the layout. */
+    .adc-admin-shell .adc-logs-table,
+    .adc-admin-shell .adc-logs-conflicts {
+        display: block;
+        overflow-x: auto;
+    }
 }

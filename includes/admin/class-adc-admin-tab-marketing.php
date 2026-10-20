@@ -20,6 +20,8 @@ if (!defined('ABSPATH')) {
  */
 final class ADC_Admin_Tab_Marketing implements ADC_Admin_Tab_Interface
 {
+    use ADC_Admin_Help_Content;
+
     /**
      * Option holding the checkout consent message (source of truth, unchanged since 1.0).
      */
@@ -70,13 +72,15 @@ final class ADC_Admin_Tab_Marketing implements ADC_Admin_Tab_Interface
      */
     public function render(): void
     {
-        $message = (string) get_option(self::MESSAGE_OPTION, adc_marketing_get_default_consent_message());
+        ADC_Admin_Help::section(
+            __('Mesaj consimțământ la finalizarea comenzii', 'adc-marketing'),
+            __('Ce face această secțiune: controlează textul de lângă bifa de marketing din checkout, textul devine proba consimțământului fiecărui client.', 'adc-marketing'),
+            'adc-help-consent-message',
+            $this->help_consent_message()
+        );
+        $message    = (string) get_option(self::MESSAGE_OPTION, adc_marketing_get_default_consent_message());
         $compliance = ADC_GDPR_Compliance::get_instance()->verify_compliance();
 
-        ?>
-        <h2><?php esc_html_e('Mesaj consimțământ la finalizarea comenzii', 'adc-marketing'); ?></h2>
-        <p><?php esc_html_e('Personalizați mesajul de consimțământ afișat la finalizarea comenzii.', 'adc-marketing'); ?></p>
-        <?php
         wp_editor(
             $message,
             self::MESSAGE_OPTION,
@@ -92,21 +96,24 @@ final class ADC_Admin_Tab_Marketing implements ADC_Admin_Tab_Interface
             )
         );
         ?>
-        <p class="description"><?php esc_html_e('Puteți folosi shortcode-ul [privacy-policy-link] pentru link-ul către Politica de Confidențialitate.', 'adc-marketing'); ?></p>
+        <p class="description adc-section-gap"><?php esc_html_e('Puteți folosi shortcode-ul [privacy-policy-link] pentru link-ul către Politica de Confidențialitate.', 'adc-marketing'); ?></p>
 
-        <hr>
-
-        <h2><?php esc_html_e('Export bază de date consimțământ', 'adc-marketing'); ?></h2>
-        <p><?php esc_html_e('Exportați utilizatorii care au sau nu au consimțit la marketing.', 'adc-marketing'); ?></p>
+        <?php ADC_Admin_Help::section(
+            __('Export bază de date consimțământ', 'adc-marketing'),
+            __('Ce face această secțiune: generează fișiere CSV cu contactele clienților, în funcție de decizia de consimțământ pe care au luat-o la comandă.', 'adc-marketing'),
+            'adc-help-export',
+            $this->help_export()
+        ); ?>
 
         <div class="adc-export-form" id="adc-export-form">
-            <table class="form-table">
+            <table class="form-table adc-form-table-plain">
                 <tr>
                     <th scope="row">
                         <label for="adc_export_start_date"><?php esc_html_e('Data început', 'adc-marketing'); ?></label>
                     </th>
                     <td>
                         <input type="date" id="adc_export_start_date" name="adc_export_start_date" class="regular-text" />
+                        <p class="description"><?php esc_html_e('Exportă doar consimțământele acordate după această dată (inclusiv). Gol = fără limită inferioară.', 'adc-marketing'); ?></p>
                     </td>
                 </tr>
                 <tr>
@@ -115,6 +122,7 @@ final class ADC_Admin_Tab_Marketing implements ADC_Admin_Tab_Interface
                     </th>
                     <td>
                         <input type="date" id="adc_export_end_date" name="adc_export_end_date" class="regular-text" />
+                        <p class="description"><?php esc_html_e('Exportă doar consimțământele acordate până în această dată (inclusiv). Gol = fără limită superioară.', 'adc-marketing'); ?></p>
                     </td>
                 </tr>
             </table>
@@ -131,12 +139,14 @@ final class ADC_Admin_Tab_Marketing implements ADC_Admin_Tab_Interface
                     <?php esc_html_e('Exportă utilizatori care NU au consimțit', 'adc-marketing'); ?>
                 </a>
             </p>
+            <p class="description"><?php esc_html_e('Fișierul CSV (email, telefon, prenume, nume) se descarcă direct în browserul dumneavoastră; primul buton listează contactele permise, al doilea pe cei care NU trebuie contactați.', 'adc-marketing'); ?></p>
         </div>
 
-        <hr>
-
-        <h2><?php esc_html_e('Status Conformitate GDPR', 'adc-marketing'); ?></h2>
-        <table class="form-table">
+        <?php ADC_Admin_Help::section(
+            __('Status Conformitate GDPR', 'adc-marketing'),
+            __('Ce face această secțiune: verifică pe ecran dacă setările curente îndeplinesc condițiile de bază pentru consimțământ valid (nu se salvează nimic aici).', 'adc-marketing')
+        ); ?>
+        <table class="form-table adc-form-table-plain">
             <tr>
                 <th scope="row"><?php esc_html_e('Politică de Confidențialitate', 'adc-marketing'); ?></th>
                 <td>

@@ -860,31 +860,31 @@ final class ADC_Analytics_Reports
             $add('traffic_disabled', 'info', (string) self::gate_reason('traffic'));
         }
 
-        $add('cache_undercount', 'warning', (string) __('Paginile servite din cache sau CDN nu sunt numărate: valorile de trafic sunt subestimate.'));
-        $add('bots', 'warning', (string) __('Traficul automatizat este filtrat, dar filtrul nu este perfect: pot rămâne vizite false sau pot lipsi vizite reale.'));
-        $add('missing_referrer', 'info', (string) __('Lipsa referrer-ului este raportată ca „direct”: o parte din traficul „direct” poate veni din alte surse.'));
-        $add('no_unique_visitors', 'warning', (string) __('Nu se calculează vizitatori unici: module nu stochează identificatori, cookie-uri sau adrese IP.'));
-        $add('no_attribution', 'warning', (string) __('Comenzile nu sunt atribuite surselor de trafic: nu există conversie pe canal și nicio legătură între vizite și comenzi.'));
-        $add('no_abandonment', 'info', (string) __('Rata de abandon al coșului este indisponibilă: nu există evenimente de început de checkout.'));
-        $add('single_currency', 'info', (string) __('Sumele sunt calculate doar într-o singură monedă, fără conversie. Nu se însumează monede diferite.'));
+        $add('cache_undercount', 'warning', (string) __('Paginile servite din cache sau CDN nu sunt numărate: valorile de trafic sunt subestimate.', 'adc-marketing'));
+        $add('bots', 'warning', (string) __('Traficul automatizat este filtrat, dar filtrul nu este perfect: pot rămâne vizite false sau pot lipsi vizite reale.', 'adc-marketing'));
+        $add('missing_referrer', 'info', (string) __('Lipsa referrer-ului este raportată ca „direct”: o parte din traficul „direct” poate veni din alte surse.', 'adc-marketing'));
+        $add('no_unique_visitors', 'warning', (string) __('Nu se calculează vizitatori unici: module nu stochează identificatori, cookie-uri sau adrese IP.', 'adc-marketing'));
+        $add('no_attribution', 'warning', (string) __('Comenzile nu sunt atribuite surselor de trafic: nu există conversie pe canal și nicio legătură între vizite și comenzi.', 'adc-marketing'));
+        $add('no_abandonment', 'info', (string) __('Rata de abandon al coșului este indisponibilă: nu există evenimente de început de checkout.', 'adc-marketing'));
+        $add('single_currency', 'info', (string) __('Sumele sunt calculate doar într-o singură monedă, fără conversie. Nu se însumează monede diferite.', 'adc-marketing'));
         $add('small_cell_policy', 'info', (string) sprintf(
             /* translators: %d: minimum cell count. */
-            __('Celulele cu valori sub %d sunt ascunse, inclusiv prin suprimare complementară, ca să nu poată fi deduse prin diferență.'),
+            __('Celulele cu valori sub %d sunt ascunse, inclusiv prin suprimare complementară, ca să nu poată fi deduse prin diferență.', 'adc-marketing'),
             self::min_cell_count()
         ));
         $add('timezone', 'info', (string) sprintf(
             /* translators: %s: site timezone name. */
-            __('Datele sunt zile locale ale site-ului (%s), calculate pe fusul orar al site-ului.'),
+            __('Datele sunt zile locale ale site-ului (%s), calculate pe fusul orar al site-ului.', 'adc-marketing'),
             self::timezone_name()
         ));
 
         if (($range['prev_complete'] ?? false) === false) {
-            $add('previous_incomplete', 'info', (string) __('Intervalul anterior este incomplet; comparația cu perioada precedentă nu este afișată.'));
+            $add('previous_incomplete', 'info', (string) __('Intervalul anterior este incomplet; comparația cu perioada precedentă nu este afișată.', 'adc-marketing'));
         }
         if (($range['clamped'] ?? false) === true) {
             $add('range_clamped', 'info', (string) sprintf(
                 /* translators: %d: maximum number of days. */
-                __('Intervalul a fost limitat la %d de zile.'),
+                __('Intervalul a fost limitat la %d de zile.', 'adc-marketing'),
                 self::MAX_DAYS
             ));
         }

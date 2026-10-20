@@ -1,0 +1,318 @@
+/* ADC Marketing — "info icon + modal" component (ADC_Admin_Help).
+ * Visual language follows admin-shell.css tokens (--adc-space-*, --adc-border,
+ * --adc-radius, --adc-accent, --adc-muted) with literal fallbacks; tokens are
+ * NOT redefined here. No !important anywhere. */
+
+/* ---------- Info button (20px, inline next to a label) ---------- */
+.adc-help {
+    display: inline-flex;
+    vertical-align: middle;
+    margin-left: 6px;
+}
+
+.adc-admin-shell .adc-help-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--adc-border, #c3c4c7);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--adc-muted, #50575e);
+    cursor: pointer;
+    vertical-align: middle;
+    line-height: 1;
+}
+
+.adc-admin-shell .adc-help-btn:hover {
+    border-color: var(--adc-accent, #2271b1);
+    color: var(--adc-accent, #2271b1);
+    background: #f0f6fc;
+}
+
+.adc-admin-shell .adc-help-btn:focus-visible {
+    outline: 2px solid var(--adc-accent, #2271b1);
+    outline-offset: 2px;
+}
+
+.adc-help-btn svg {
+    display: block;
+}
+
+/* ---------- <details> fallback (shown only without <dialog> support) ---------- */
+.adc-help-details {
+    margin-top: var(--adc-space-1, 8px);
+    padding: var(--adc-space-1, 8px) var(--adc-space-2, 16px);
+    border: 1px solid var(--adc-border, #c3c4c7);
+    border-radius: var(--adc-radius, 4px);
+    background: #f6f7f7;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--adc-muted, #50575e);
+}
+
+.adc-help-details > summary {
+    font-weight: 600;
+    color: #1d2327;
+    cursor: pointer;
+    padding: 2px 0;
+}
+
+.adc-help-details p:last-child,
+.adc-help-details ul:last-child,
+.adc-help-details ol:last-child {
+    margin-bottom: 0;
+}
+
+/* With native <dialog> + JS the modal carries the text; hide the duplicate. */
+.adc-help-dialog-support .adc-admin-shell .adc-help-details,
+.adc-help-dialog-support .adc-help-details {
+    display: none;
+}
+
+/* ---------- Shared modal ---------- */
+.adc-help-dialog {
+    width: auto;
+    max-width: 560px;
+    padding: 0;
+    border: 1px solid var(--adc-border, #c3c4c7);
+    border-radius: var(--adc-radius, 4px);
+    background: #fff;
+    color: #1d2327;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+}
+
+.adc-help-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.adc-help-dialog__inner {
+    padding: var(--adc-space-3, 24px);
+}
+
+.adc-help-dialog__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--adc-space-2, 16px);
+    margin-bottom: var(--adc-space-2, 16px);
+}
+
+.adc-help-dialog__title {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.adc-help-dialog__dismiss {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 28px;
+    height: 28px;
+    margin: -2px -2px 0 0;
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: var(--adc-radius, 4px);
+    background: transparent;
+    color: var(--adc-muted, #50575e);
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.adc-help-dialog__dismiss:hover {
+    border-color: var(--adc-border, #c3c4c7);
+    color: #1d2327;
+    background: #f0f0f1;
+}
+
+.adc-help-dialog__dismiss:focus-visible,
+.adc-help-dialog .adc-help-dialog__actions .button:focus-visible {
+    outline: 2px solid var(--adc-accent, #2271b1);
+    outline-offset: 2px;
+}
+
+.adc-help-dialog__body {
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.adc-help-dialog__body > :first-child {
+    margin-top: 0;
+}
+
+.adc-help-dialog__body p {
+    margin: 0 0 var(--adc-space-1, 8px);
+}
+
+.adc-help-dialog__body ul,
+.adc-help-dialog__body ol {
+    margin: 0 0 var(--adc-space-1, 8px);
+    padding-inline-start: 20px;
+}
+
+.adc-help-dialog__body li {
+    margin-bottom: 4px;
+    list-style: disc;
+}
+
+.adc-help-dialog__body ol li {
+    list-style: decimal;
+}
+
+.adc-help-dialog__body code {
+    font-size: 12px;
+    padding: 1px 5px;
+    background: #f0f0f1;
+    border-radius: var(--adc-radius, 4px);
+}
+
+.adc-help-dialog__actions {
+    margin: var(--adc-space-3, 24px) 0 0;
+    text-align: right;
+}
+
+/* ---------- Option block: label on top, control below, muted one-liner ---------- */
+/* Structural spacing shared by every tab (loaded shell-wide; tab CSS only
+   refines). 16px between options, 32px between sections. */
+.adc-admin-shell .adc-settings-section {
+    margin-top: var(--adc-space-3, 24px);
+}
+
+.adc-admin-shell .adc-settings-section .adc-admin-section-head {
+    margin-bottom: var(--adc-space-2, 16px);
+}
+
+.adc-admin-shell .adc-settings-section .form-table,
+.adc-admin-shell .adc-settings-section .adc-help-options {
+    margin-bottom: var(--adc-space-2, 16px);
+}
+
+.adc-admin-shell .adc-admin-section-head + .form-table {
+    margin-top: 0;
+}
+
+/* 16px visual rhythm inside plain (non-shell-table) option tables. */
+.adc-admin-shell .adc-form-table-plain > tbody > tr > th,
+.adc-admin-shell .adc-form-table-plain > tbody > tr > td {
+    padding-top: var(--adc-space-2, 16px);
+    padding-bottom: var(--adc-space-2, 16px);
+}
+
+.adc-admin-shell .adc-form-table-plain > tbody > tr:first-child > th,
+.adc-admin-shell .adc-form-table-plain > tbody > tr:first-child > td {
+    padding-top: 0;
+}
+
+.adc-admin-shell .adc-section-gap {
+    margin-top: var(--adc-space-2, 16px);
+}
+
+/* Stack of option rows (replaces .form-table where the label-on-top layout
+   is used directly). */
+.adc-help-options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--adc-space-2, 16px);
+    margin: 0 0 var(--adc-space-2, 16px);
+}
+
+.adc-help-row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+.adc-help-row__label {
+    display: inline-flex;
+    align-items: center;
+    font-weight: 600;
+    font-size: 13px;
+    color: #1d2327;
+}
+
+.adc-help-row__label label {
+    font-weight: 600;
+    font-size: 13px;
+    padding: 0;
+    line-height: 1.4;
+}
+
+.adc-help-row .adc-help {
+    margin-left: var(--adc-space-1, 8px);
+}
+
+.adc-help-row__control {
+    max-width: 100%;
+}
+
+.adc-help-row__control input[type="checkbox"],
+.adc-help-row__control input[type="radio"] {
+    margin-left: 0;
+}
+
+.adc-help-row__desc {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--adc-muted, #50575e);
+}
+
+/* Stacked checkbox / radio choices inside an option row. */
+.adc-help-choice {
+    display: block;
+    margin: 0 0 4px;
+}
+
+.adc-help-choice:last-child {
+    margin-bottom: 0;
+}
+
+/* ---------- Section head (h2/h3 + one-line intro) ---------- */
+.adc-admin-section-head {
+    margin: 0 0 var(--adc-space-2, 16px);
+}
+
+.adc-admin-section-head h2 {
+    display: flex;
+    align-items: center;
+    margin: 0 0 4px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.adc-admin-section-head h3 {
+    display: flex;
+    align-items: center;
+    margin: 0 0 4px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.adc-admin-section-intro {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--adc-muted, #50575e);
+    max-width: 640px;
+}
+
+@media (max-width: 600px) {
+    .adc-help-dialog {
+        max-width: calc(100vw - 32px);
+    }
+
+    .adc-help-dialog__inner {
+        padding: var(--adc-space-2, 16px);
+    }
+}

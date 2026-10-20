@@ -358,6 +358,15 @@ class ADC_Consent_Admin
                 'strategy' => 'defer',
             ]
         );
+
+        // UI copy is supplied by PHP so the script stays translation-free.
+        wp_localize_script(
+            'adc-marketing-admin',
+            'adcExportI18n',
+            [
+                'confirmRange' => __('Sunteți sigur că doriți să exportați utilizatorii pentru perioada selectată?', 'adc-marketing'),
+            ]
+        );
     }
 
     /**

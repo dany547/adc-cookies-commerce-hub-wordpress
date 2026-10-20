@@ -2,11 +2,12 @@
 /**
  * Analytics settings group and legal gate status.
  *
- * Gate policy for this release: every traffic, UTM, add-to-cart and
- * begin-checkout collection gate is closed by code. A filled legal reference or
- * approval date is recorded for future review but never opens a gate, and no
- * constant, filter or option can bypass it. Only commerce reporting can be
- * enabled (enabled_commerce AND commerce_ack).
+ * Gate policy: commerce reporting and the anonymous traffic counter are real
+ * switches, each needing an explicit feature toggle AND an acknowledgement
+ * (`enabled_commerce && commerce_ack`, `enabled_traffic && traffic_ack`); both
+ * default to off. UTM, add-to-cart and begin-checkout stay closed by code: a
+ * filled legal reference or approval date is recorded for future review but never
+ * opens those gates, and no constant, filter or option can bypass them.
  *
  * @package ADC_Marketing
  */
@@ -50,8 +51,10 @@ final class ADC_Analytics_Settings implements ADC_Module_Interface
     }
 
     /**
-     * Default values for every key. Traffic and interaction keys are kept as
-     * draft controls for future legal review; they stay inert in this release.
+     * Default values for every key. Off by default: nothing is collected until
+     * the shop turns a switch on and confirms it. The UTM / add-to-cart /
+     * begin-checkout keys are draft controls for a future legal review; they stay
+     * inert because those gates cannot be opened.
      *
      * @return array<string,mixed>
      */
@@ -65,8 +68,9 @@ final class ADC_Analytics_Settings implements ADC_Module_Interface
             'retention_commerce_days'        => 730,
             'retention_ledger_days'          => 365,
 
-            // B. Traffic counting (legal gate closed in this release).
+            // B. Traffic counting (real switch + acknowledgement, off by default).
             'enabled_traffic'                => false,
+            'traffic_ack'                    => false,
             'traffic_legal_basis'            => '',
             'traffic_legal_reference'        => '',
             'traffic_approved_at'            => '',
@@ -91,8 +95,9 @@ final class ADC_Analytics_Settings implements ADC_Module_Interface
     /**
      * Sanitize the whole group into a complete, typed array.
      *
-     * Effective collection toggles are forced to false here, so the stored
-     * option never shows a collection switch as on while its gate is closed.
+     * Commerce and traffic keep their real toggles (both default off). The UTM,
+     * add-to-cart and begin-checkout toggles are forced to false here, so the
+     * stored option never shows a collection switch as on while its gate is closed.
      *
      * @param array<string,mixed> $input   Raw input merged over the current values.
      * @param array<string,mixed> $current Currently stored values.
@@ -113,7 +118,8 @@ final class ADC_Analytics_Settings implements ADC_Module_Interface
             'retention_commerce_days'        => $commerce_days,
             'retention_ledger_days'          => $ledger_days,
 
-            'enabled_traffic'                => false,
+            'enabled_traffic'                => (bool) $merged['enabled_traffic'],
+            'traffic_ack'                    => (bool) $merged['traffic_ack'],
             'traffic_legal_basis'            => ($merged['traffic_legal_basis'] === 'lia') ? 'lia' : '',
             'traffic_legal_reference'        => self::sanitize_reference($merged['traffic_legal_reference']),
             'traffic_approved_at'            => self::sanitize_date($merged['traffic_approved_at']),
@@ -144,12 +150,13 @@ final class ADC_Analytics_Settings implements ADC_Module_Interface
     }
 
     /**
-     * Traffic counting is closed in this release. Legal reference and approval
-     * date are recorded for review but do not open this gate.
+     * Traffic counting is on only when the switch is enabled AND the admin has
+     * confirmed the privacy-policy update. Off by default; the draft legal fields
+     * never open this gate on their own.
      */
     public static function traffic_enabled(): bool
     {
-        return false;
+        return self::flag('enabled_traffic') && self::flag('traffic_ack');
     }
 
     /**
@@ -232,7 +239,14 @@ final class ADC_Analytics_Settings implements ADC_Module_Interface
                 return array('enabled' => true, 'reason' => __('Raportarea comercială este activă.', 'adc-marketing'));
 
             case 'traffic':
-                return array('enabled' => false, 'reason' => __('Numărarea traficului este blocată: nu există încă o aprobare juridică finală (obiecție Art. 21 GDPR și evaluare ePrivacy). Referința și data introduse sunt doar notițe pentru analiza viitoare.', 'adc-marketing'));
+                if (!self::flag('enabled_traffic')) {
+                    return array('enabled' => false, 'reason' => __('Numărarea traficului este dezactivată.', 'adc-marketing'));
+                }
+                if (!self::flag('traffic_ack')) {
+                    return array('enabled' => false, 'reason' => __('Confirmați actualizarea Politicii de Confidențialitate pentru a activa numărarea traficului.', 'adc-marketing'));
+                }
+
+                return array('enabled' => true, 'reason' => __('Numărarea traficului este activă: agregate zilnice fără identificatori.', 'adc-marketing'));
 
             case 'utm':
                 return array('enabled' => false, 'reason' => __('Parametrii UTM nu sunt colectați în această versiune.', 'adc-marketing'));

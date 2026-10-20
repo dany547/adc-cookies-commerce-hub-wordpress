@@ -24,6 +24,8 @@ if (!defined('ABSPATH')) {
  */
 final class ADC_Admin_Tab_Logs implements ADC_Admin_Tab_Interface, ADC_Module_Interface
 {
+    use ADC_Admin_Help_Content;
+
     /**
      * Whether boot() already registered the AJAX handlers.
      *
@@ -145,10 +147,15 @@ final class ADC_Admin_Tab_Logs implements ADC_Admin_Tab_Interface, ADC_Module_In
         $settings = ADC_Settings::all('logs');
         $counts   = ADC_Outbox::counts();
         $jobs     = ADC_Outbox::recent(200);
-        ?>
-        <h2><?php esc_html_e('Jurnale & Debug', 'adc-marketing'); ?></h2>
 
-        <h3 class="title"><?php esc_html_e('Jurnal evenimente (outbox)', 'adc-marketing'); ?></h3>
+        ADC_Admin_Help::section(
+            __('Jurnale & Debug', 'adc-marketing'),
+            __('Ce face această pagină: arată ce a trimis pluginul către platforme, ce a eșuat și ce decizii de consimțământ stau în spatele fiecărei trimiteri.', 'adc-marketing')
+        );
+        ?>
+
+        <h3 class="title"><?php esc_html_e('Jurnal evenimente (outbox)', 'adc-marketing'); ?> <?php echo ADC_Admin_Help::icon('adc-help-outbox', __('Jurnal evenimente (outbox)', 'adc-marketing'), $this->help_outbox()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- helper escapes its own output. ?></h3>
+        <p class="description"><?php esc_html_e('Numărătoarea pe stări a cozii de expediere: „În așteptare”, „Trimis”, „Eșuat definitiv” și „Omis” (fără consimțământ / integrare dezactivată).', 'adc-marketing'); ?></p>
         <table class="widefat striped adc-logs-counts" role="presentation">
             <tbody>
                 <?php foreach (ADC_Outbox::STATUSES as $status) : ?>
@@ -167,10 +174,13 @@ final class ADC_Admin_Tab_Logs implements ADC_Admin_Tab_Interface, ADC_Module_In
             <button type="button" class="button button-secondary" id="adc-send-test-event" data-confirm="<?php esc_attr_e('Trimiți un eveniment de test către platformele activate (conform consimțământului browserului tău)?', 'adc-marketing'); ?>">
                 <?php esc_html_e('Trimite eveniment test', 'adc-marketing'); ?>
             </button>
+            <?php echo ADC_Admin_Help::icon('adc-help-test-event', __('Trimite eveniment test', 'adc-marketing'), $this->help_test_event()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- helper escapes its own output. ?>
             <span class="adc-logs-result" id="adc-logs-result" aria-live="polite"></span>
         </p>
+        <p class="description"><?php esc_html_e('„Curăță jurnalul” aplică imediat limitele de retenție (rândurile trimise/dead se șterg); „Trimite eveniment test” trece prin pipeline-ul real ca să verifici configurarea.', 'adc-marketing'); ?></p>
 
-        <h3 class="title"><?php esc_html_e('Căutare consimțământ după cid', 'adc-marketing'); ?></h3>
+        <h3 class="title"><?php esc_html_e('Căutare consimțământ după cid', 'adc-marketing'); ?> <?php echo ADC_Admin_Help::icon('adc-help-consent-lookup', __('Căutare consimțământ după cid', 'adc-marketing'), $this->help_consent_lookup()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- helper escapes its own output. ?></h3>
+        <p class="description"><?php esc_html_e('Lipește identificatorul anonim de consimțământ (UUID) al unui vizitator pentru a-i vedea deciziile efectiv valabile — util pentru solicitări GDPR.', 'adc-marketing'); ?></p>
         <p>
             <input type="text" id="adc-consent-cid" class="regular-text" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" />
             <button type="button" class="button" id="adc-consent-lookup"><?php esc_html_e('Caută', 'adc-marketing'); ?></button>
@@ -178,6 +188,7 @@ final class ADC_Admin_Tab_Logs implements ADC_Admin_Tab_Interface, ADC_Module_In
         <div id="adc-consent-lookup-result" class="adc-consent-lookup-result" aria-live="polite"></div>
 
         <h3 class="title"><?php esc_html_e('Ultimele 200 intrări', 'adc-marketing'); ?></h3>
+        <p class="description"><?php esc_html_e('Ultimele evenimente înregistrate în coadă, cu starea, încercările și eroarea finală; „Reîncearcă” reprogramează imediat o intrare eșuată.', 'adc-marketing'); ?></p>
         <table class="widefat striped adc-logs-table">
             <thead>
                 <tr>
@@ -227,27 +238,27 @@ final class ADC_Admin_Tab_Logs implements ADC_Admin_Tab_Interface, ADC_Module_In
         </table>
 
         <h3 class="title"><?php esc_html_e('Setări jurnal', 'adc-marketing'); ?></h3>
-        <table class="form-table" role="presentation">
-            <tr>
-                <th scope="row"><label for="adc-logs-level"><?php esc_html_e('Nivel jurnal', 'adc-marketing'); ?></label></th>
-                <td>
-                    <select id="adc-logs-level" name="level">
-                        <?php foreach (array('off' => 'Dezactivat', 'error' => 'Doar erori', 'info' => 'Informativ', 'debug' => 'Debug') as $value => $label) : ?>
-                            <option value="<?php echo esc_attr($value); ?>" <?php selected($value, (string) $settings['level']); ?>><?php echo esc_html__($label, 'adc-marketing'); ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row"><?php esc_html_e('Consolă dataLayer', 'adc-marketing'); ?></th>
-                <td>
-                    <label>
-                        <input type="checkbox" name="debug_console" value="1" <?php checked(!empty($settings['debug_console'])); ?> />
-                        <?php esc_html_e('Afișează evenimentele dataLayer în consolă (doar pentru utilizatori autentificați ca admin)', 'adc-marketing'); ?>
-                    </label>
-                </td>
-            </tr>
-        </table>
+
+        <?php
+        echo '<div class="adc-help-options">';
+        ADC_Admin_Help::row(
+            __('Nivel jurnal', 'adc-marketing'),
+            '<select id="adc-logs-level" name="level">'
+                . '<option value="off" ' . selected('off', (string) $settings['level'], false) . '>' . esc_html__('Dezactivat', 'adc-marketing') . '</option>'
+                . '<option value="error" ' . selected('error', (string) $settings['level'], false) . '>' . esc_html__('Doar erori', 'adc-marketing') . '</option>'
+                . '<option value="info" ' . selected('info', (string) $settings['level'], false) . '>' . esc_html__('Informativ', 'adc-marketing') . '</option>'
+                . '<option value="debug" ' . selected('debug', (string) $settings['level'], false) . '>' . esc_html__('Debug', 'adc-marketing') . '</option>'
+            . '</select>',
+            __('Cât de detaliat scrie pluginul în jurnalul PHP al serverului; „Debug” doar pentru depanare temporară, nu în producție.', 'adc-marketing'),
+            'adc-logs-level'
+        );
+        ADC_Admin_Help::row(
+            __('Consolă dataLayer', 'adc-marketing'),
+            '<label><input type="checkbox" name="debug_console" value="1" ' . checked(!empty($settings['debug_console']), false, false) . ' /> ' . esc_html__('Afișează evenimentele dataLayer în consolă (doar pentru utilizatori autentificați ca admin)', 'adc-marketing') . '</label>',
+            __('Vizualizorii autentificați cu rol de admin văd în consola browserului fiecare eveniment trimis în dataLayer; vizitatorii obișnuiți nu.', 'adc-marketing')
+        );
+        echo '</div>';
+        ?>
 
         <?php self::render_conflicts(); ?>
 

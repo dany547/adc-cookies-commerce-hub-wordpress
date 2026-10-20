@@ -251,7 +251,7 @@ final class ADC_Consent_Rest
     {
         $token = (string) $request->get_header('x-adc-token');
         if ('' === $token) {
-            return new WP_Error('adc_token_missing', 'Token lipsă.', array('status' => 403));
+            return new WP_Error('adc_token_missing', __('Token lipsă.', 'adc-marketing'), array('status' => 403));
         }
 
         $period = (int) floor(time() / self::TOKEN_PERIOD);
@@ -330,6 +330,6 @@ final class ADC_Consent_Rest
      */
     private static function bad_request(string $code): WP_Error
     {
-        return new WP_Error($code, 'Cerere nevalidă.', array('status' => 400));
+        return new WP_Error($code, __('Cerere nevalidă.', 'adc-marketing'), array('status' => 400));
     }
 }

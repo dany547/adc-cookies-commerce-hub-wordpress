@@ -20,6 +20,8 @@ if (!defined('ABSPATH')) {
  */
 final class ADC_Admin_Tab_Matching implements ADC_Admin_Tab_Interface
 {
+    use ADC_Admin_Help_Content;
+
     /**
      * Platforms that may receive matched (hashed) identity data.
      *
@@ -69,94 +71,84 @@ final class ADC_Admin_Tab_Matching implements ADC_Admin_Tab_Interface
     public function render(): void
     {
         $s = ADC_Settings::all('matching');
-        ?>
-        <h2><?php esc_html_e('Potrivire avansată', 'adc-marketing'); ?></h2>
-        <p class="description">
-            <?php esc_html_e('Colectează date de identificare (e-mail, telefon, nume) imediat ce câmpurile de checkout sunt completate, le normalizează și le criptează SHA-256 înainte de a le trimite platformelor. Datele brute nu sunt niciodată stocate; sesiunea păstrează doar valori criptate. Trimiterea are loc doar cu consimțământ pentru categoria „marketing”.', 'adc-marketing'); ?>
-        </p>
+        ADC_Admin_Help::section(
+            __('Potrivire avansată', 'adc-marketing'),
+            __('Ce face această secțiune: pregătește datele de contact ale clienților (hash) pentru ca platformele de reclamă să atribuie comenzile campaniilor corect.', 'adc-marketing'),
+            'adc-help-matching',
+            $this->help_matching()
+        );
 
-        <table class="form-table" role="presentation">
-            <tr>
-                <th scope="row"><?php esc_html_e('Activare potrivire avansată', 'adc-marketing'); ?></th>
-                <td>
-                    <label>
-                        <input type="checkbox" name="enabled" value="1" <?php checked(!empty($s['enabled'])); ?> />
-                        <?php esc_html_e('Activează potrivirea avansată (implicit dezactivat)', 'adc-marketing'); ?>
-                    </label>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row"><?php esc_html_e('Colectare la checkout', 'adc-marketing'); ?></th>
-                <td>
-                    <label>
-                        <input type="checkbox" name="capture_checkout" value="1" <?php checked(!empty($s['capture_checkout'])); ?> />
-                        <?php esc_html_e('Captează e-mailul și telefonul din câmpurile de checkout (la fiecare reîmprospătare a datelor)', 'adc-marketing'); ?>
-                    </label>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row"><?php esc_html_e('Colectare din cont / autentificare', 'adc-marketing'); ?></th>
-                <td>
-                    <label>
-                        <input type="checkbox" name="capture_account" value="1" <?php checked(!empty($s['capture_account'])); ?> />
-                        <?php esc_html_e('Captează datele din contul de utilizator la crearea contului și la autentificare', 'adc-marketing'); ?>
-                    </label>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row"><label for="adc-matching-calling-code"><?php esc_html_e('Prefix telefonic implicit', 'adc-marketing'); ?></label></th>
-                <td>
-                    <input type="text" id="adc-matching-calling-code" name="calling_code" value="<?php echo esc_attr((string) $s['calling_code']); ?>" class="small-text" maxlength="5" />
-                    <p class="description"><?php esc_html_e('Prefixul de țară folosit pentru normalizarea numerelor de telefon fără „+” (ex.: 40 pentru România).', 'adc-marketing'); ?></p>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row"><label for="adc-matching-form-selectors"><?php esc_html_e('Selectoare formulare', 'adc-marketing'); ?></label></th>
-                <td>
-                    <textarea id="adc-matching-form-selectors" name="form_selectors" rows="5" class="large-text code"><?php echo esc_textarea((string) $s['form_selectors']); ?></textarea>
-                    <p class="description"><?php esc_html_e('Selectoare CSS, câte unul pe linie, pentru formulare externe (newsletter, contact). La trimiterea acestora se emite și evenimentul „generate_lead”.', 'adc-marketing'); ?></p>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row"><?php esc_html_e('Platforme destinație', 'adc-marketing'); ?></th>
-                <td>
-                    <fieldset>
-                        <?php foreach (self::SEND_TO_LABELS as $platform => $label) : ?>
-                            <label style="display:block;margin-bottom:4px;">
-                                <input type="checkbox" name="send_to[]" value="<?php echo esc_attr($platform); ?>" <?php checked(in_array($platform, (array) $s['send_to'], true)); ?> />
-                                <?php echo esc_html($label); ?>
-                            </label>
-                        <?php endforeach; ?>
-                        <p class="description"><?php esc_html_e('Doar platformele bifate primesc datele de identificare criptate. Celelalte platforme primesc evenimentele fără aceste date.', 'adc-marketing'); ?></p>
-                    </fieldset>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row"><?php esc_html_e('Identificator extern', 'adc-marketing'); ?></th>
-                <td>
-                    <label>
-                        <input type="checkbox" name="use_external_id" value="1" <?php checked(!empty($s['use_external_id'])); ?> />
-                        <?php esc_html_e('Trimite un identificator extern criptat (sha256 al ID-ului de utilizator sau al cid-ului de consimțământ)', 'adc-marketing'); ?>
-                    </label>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row"><label for="adc-matching-datalayer-format"><?php esc_html_e('Format în dataLayer', 'adc-marketing'); ?></label></th>
-                <td>
-                    <select id="adc-matching-datalayer-format" name="datalayer_format">
-                        <option value="hashed" <?php selected('hashed', (string) $s['datalayer_format']); ?>><?php esc_html_e('Criptat (sha256_*) — implicit', 'adc-marketing'); ?></option>
-                        <option value="plain" <?php selected('plain', (string) $s['datalayer_format']); ?>><?php esc_html_e('Text clar (tag-ul GTM criptează)', 'adc-marketing'); ?></option>
-                    </select>
-                    <p class="description"><?php esc_html_e('Formatul „text clar” transmite valorile necifrate în dataLayer doar după consimțământul de marketing; tag-ul Google le criptează. Implicit rămâne „criptat”.', 'adc-marketing'); ?></p>
-                    <?php if ('plain' === (string) $s['datalayer_format']) : ?>
-                        <div class="notice notice-warning inline" style="margin: 4px 0 0;">
-                            <p><?php esc_html_e('Atenție: formatul „text clar” expune e-mailul, telefonul și numele în text necifrat în dataLayer, unde orice tag GTM sau script terț de pe pagină le poate citi. Recomandăm formatul „criptat (sha256_*)”.', 'adc-marketing'); ?></p>
-                        </div>
-                    <?php endif; ?>
-                </td>
-            </tr>
-        </table>
-        <?php
+        echo '<div class="adc-help-options">';
+
+        ADC_Admin_Help::row(
+            __('Activare potrivire avansată', 'adc-marketing'),
+            '<label><input type="checkbox" name="enabled" value="1" ' . checked(!empty($s['enabled']), false, false) . ' /> ' . esc_html__('Activează potrivirea avansată (implicit dezactivat)', 'adc-marketing') . '</label>',
+            __('Pornește întregul mecanism de colectare și hash; cu opțiunea oprită, niciuna dintre setările de mai jos nu are efect.', 'adc-marketing'),
+            null,
+            'adc-help-matching-enabled',
+            $this->help_matching()
+        );
+
+        ADC_Admin_Help::row(
+            __('Colectare la checkout', 'adc-marketing'),
+            '<label><input type="checkbox" name="capture_checkout" value="1" ' . checked(!empty($s['capture_checkout']), false, false) . ' /> ' . esc_html__('Captează e-mailul și telefonul din câmpurile de checkout (la fiecare reîmprospătare a datelor)', 'adc-marketing') . '</label>',
+            __('Citește câmpurile pe măsură ce clientul le completează; fără această bifă, datele se iau doar din comanda plasată.', 'adc-marketing')
+        );
+
+        ADC_Admin_Help::row(
+            __('Colectare din cont / autentificare', 'adc-marketing'),
+            '<label><input type="checkbox" name="capture_account" value="1" ' . checked(!empty($s['capture_account']), false, false) . ' /> ' . esc_html__('Captează datele din contul de utilizator la crearea contului și la autentificare', 'adc-marketing') . '</label>',
+            __('Permite potrivirea evenitmentelor și din afara checkout-ului (cont nou, login), nu doar de la comandă.', 'adc-marketing')
+        );
+
+        ADC_Admin_Help::row(
+            __('Prefix telefonic implicit', 'adc-marketing'),
+            '<input type="text" id="adc-matching-calling-code" name="calling_code" value="' . esc_attr((string) $s['calling_code']) . '" class="small-text" maxlength="5" />',
+            __('Cu ce prefix de țară se completează numerele de telefon scrise fără „+” înainte de hash (ex.: 40 pentru România).', 'adc-marketing'),
+            'adc-matching-calling-code'
+        );
+
+        ADC_Admin_Help::row(
+            __('Selectoare formulare', 'adc-marketing'),
+            '<textarea id="adc-matching-form-selectors" name="form_selectors" rows="5" class="large-text code">' . esc_textarea((string) $s['form_selectors']) . '</textarea>',
+            __('Formulare externe (newsletter, contact) care, la trimitere, declanșează evenimentul „generate_lead” și captarea datelor de identificare.', 'adc-marketing'),
+            'adc-matching-form-selectors'
+        );
+
+        $platforms = '';
+        foreach (self::SEND_TO_LABELS as $platform => $label) {
+            $platforms .= '<label class="adc-help-choice"><input type="checkbox" name="send_to[]" value="' . esc_attr($platform) . '" ' . checked(in_array($platform, (array) $s['send_to'], true), false, false) . ' /> ' . esc_html($label) . '</label>';
+        }
+        ADC_Admin_Help::row(
+            __('Platforme destinație', 'adc-marketing'),
+            $platforms,
+            __('Doar platformele bifate primesc hash-urile de identificare; celelalte primesc evenimentele fără aceste date.', 'adc-marketing'),
+            null,
+            'adc-help-matching-send-to',
+            $this->help_matching()
+        );
+
+        ADC_Admin_Help::row(
+            __('Identificator extern', 'adc-marketing'),
+            '<label><input type="checkbox" name="use_external_id" value="1" ' . checked(!empty($s['use_external_id']), false, false) . ' /> ' . esc_html__('Trimite un identificator extern criptat (sha256 al ID-ului de utilizator sau al cid-ului de consimțământ)', 'adc-marketing') . '</label>',
+            __('Adaugă un ID stabil, criptat (util pentru public custom-uri pe Meta/TikTok); se trimite doar hash-ul, nu ID-ul brut.', 'adc-marketing')
+        );
+
+        $datalayer_control = '<select id="adc-matching-datalayer-format" name="datalayer_format">'
+            . '<option value="hashed" ' . selected('hashed', (string) $s['datalayer_format'], false) . '>' . esc_html__('Criptat (sha256_*) — implicit', 'adc-marketing') . '</option>'
+            . '<option value="plain" ' . selected('plain', (string) $s['datalayer_format'], false) . '>' . esc_html__('Text clar (tag-ul GTM criptează)', 'adc-marketing') . '</option>'
+            . '</select>';
+        if ('plain' === (string) $s['datalayer_format']) {
+            $datalayer_control .= '<div class="notice notice-warning inline" style="margin: 4px 0 0;"><p>' . esc_html__('Atenție: formatul „text clar” expune e-mailul, telefonul și numele în text necifrat în dataLayer, unde orice tag GTM sau script terț de pe pagină le poate citi. Recomandăm formatul „criptat (sha256_*)”.', 'adc-marketing') . '</p></div>';
+        }
+        ADC_Admin_Help::row(
+            __('Format în dataLayer', 'adc-marketing'),
+            $datalayer_control,
+            __('În ce formă apar datele în stratul de date din browser: hash (implicit, sigur) sau text clar (doar cu consimțământ de marketing, criptate de tag).', 'adc-marketing'),
+            'adc-matching-datalayer-format'
+        );
+
+        echo '</div>';
     }
 
     /**

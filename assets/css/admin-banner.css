@@ -1,13 +1,57 @@
 /* ADC Marketing — "Aspect și poziție" (tabul Banner consimțământ).
  * Carduri preset, miniaturi de poziție, previzualizare live.
- * Fără frameworkuri; clase prefixate cu adc-. */
+ * Fără frameworkuri; clase prefixate cu adc-.
+ * Spațiere pe tokenii din admin-shell.css (--adc-space-*, fallback local).
+ * NOTĂ: --adc-border / --adc-radius sunt și tokeni de shell, și variabile de
+ * paletă banner (setate inline de admin-banner.js pe #adc-consent-banner);
+ * declarația de mai jos restabilește fallback-urile istorice în preview. */
+
+/* ---------- Section rhythm (spațiere; tokenii din admin-shell.css) ---------- */
+/* 32px între secțiuni: 24px peste capul de secțiune (h2 + intro), 8px mai
+   departe sub intro; 16px între tabel și blocul următor. */
+.adc-admin-shell .adc-settings-section {
+  margin-top: var(--adc-space-3, 24px);
+}
+
+.adc-admin-shell .adc-settings-section .adc-admin-section-head {
+  margin-bottom: var(--adc-space-2, 16px);
+}
+
+.adc-admin-shell .adc-settings-section .form-table,
+.adc-admin-shell .adc-settings-section .adc-help-options {
+  margin-bottom: var(--adc-space-2, 16px);
+}
+
+/* 16px între opțiunile dintr-un tabel de setări (padding-urile shell-ului
+   rămân; aici e doar spațiul vizual dintre rânduri). */
+.adc-admin-shell .adc-form-table-plain > tbody > tr > th,
+.adc-admin-shell .adc-form-table-plain > tbody > tr > td {
+  padding-top: var(--adc-space-2, 16px);
+  padding-bottom: var(--adc-space-2, 16px);
+}
+
+.adc-admin-shell .adc-form-table-plain > tbody > tr:first-child > th,
+.adc-admin-shell .adc-form-table-plain > tbody > tr:first-child > td {
+  padding-top: 0;
+}
+
+/* Descriere scurtă sub un grup de controale (fieldsets de checkbox/radio). */
+.adc-admin-shell .adc-help-row__control .description,
+.adc-admin-shell .adc-help-row__control fieldset .description {
+  margin-top: var(--adc-space-1, 8px);
+}
+
+/* Ieșire dintr-o secțiune (ex. nota de subsol a tab-ului). */
+.adc-admin-shell .adc-section-gap {
+  margin-top: var(--adc-space-2, 16px);
+}
 
 /* ---------- Preset cards ---------- */
 .adc-preset-cards {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  margin: 8px 0 4px;
+  gap: var(--adc-space-2, 16px);
+  margin: var(--adc-space-1, 8px) 0;
   padding: 0;
   border: 0;
 }
@@ -60,8 +104,8 @@
 .adc-layout-picker {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  margin: 8px 0 4px;
+  gap: var(--adc-space-2, 16px);
+  margin: var(--adc-space-1, 8px) 0;
   padding: 0;
   border: 0;
 }
@@ -172,22 +216,22 @@
 }
 
 .adc-equal-note {
-  margin-top: 12px;
+  margin-top: var(--adc-space-2, 16px);
   font-style: italic;
 }
 
 /* GDPR / prominence findings panel under the colour fields. */
 .adc-compliance {
-  margin: 14px 0 4px;
-  padding: 12px 14px;
+  margin: var(--adc-space-2, 16px) 0 var(--adc-space-1, 8px);
+  padding: var(--adc-space-2, 16px);
   border: 1px solid #dba617;
   border-inline-start-width: 4px;
-  border-radius: 4px;
+  border-radius: var(--adc-radius, 4px);
   background: #fcf9e8;
 }
 
 .adc-compliance__title {
-  margin: 0 0 6px;
+  margin: 0 0 var(--adc-space-1, 8px);
   font-size: 13px;
   font-weight: 600;
   color: #6e4e00;
@@ -208,13 +252,15 @@
 }
 
 .adc-compliance__hint {
-  margin: 8px 0 0;
+  margin: var(--adc-space-1, 8px) 0 0;
   font-style: italic;
   color: #50575e;
 }
 
 /* ---------- Live preview ---------- */
 .adc-banner-preview-screen {
+  --adc-border: #dcdcde;
+  --adc-radius: 8px;
   position: relative;
   min-height: 280px;
   border: 1px solid #c3c4c7;
@@ -237,8 +283,8 @@
   max-width: none;
   background: var(--adc-bg, #fff);
   color: var(--adc-text, #1d2327);
-  border: 1px solid var(--adc-border, #dcdcde);
-  border-radius: var(--adc-radius, 8px);
+  border: 1px solid var(--adc-border);
+  border-radius: var(--adc-radius);
   box-shadow: var(--adc-shadow, none);
   font-size: 14px;
   line-height: 1.5;
@@ -308,7 +354,9 @@
   gap: 8px;
 }
 
-/* Accept and Reject share size and weight — only colours differ (GDPR). */
+/* Accept and Reject share size and weight — only colours differ (GDPR).
+   These are frontend-mock buttons inside the preview (cursor: default);
+   admin control buttons are styled in admin-shell.css. */
 .adc-banner-preview-screen .adc-consent-btn {
   appearance: none;
   min-height: 44px;
@@ -318,6 +366,24 @@
   font: inherit;
   font-weight: 600;
   cursor: default;
+}
+
+@media (max-width: 782px) {
+  .adc-layout-thumb .adc-screen {
+    width: 96px;
+    height: 64px;
+  }
+}
+
+@media (max-width: 600px) {
+  .adc-color-field {
+    width: 100%;
+    max-width: 160px;
+  }
+
+  .adc-banner-preview-screen {
+    min-height: 220px;
+  }
 }
 
 .adc-banner-preview-screen .adc-consent-btn--accept {

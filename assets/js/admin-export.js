@@ -9,6 +9,10 @@
 (function () {
     'use strict';
 
+    // All UI copy comes from PHP (wp_localize_script -> window.adcExportI18n);
+    // nothing is translated here, so no interface text lives in this file.
+    var i18n = window.adcExportI18n || {};
+
     var links = document.querySelectorAll('a[data-adc-export]');
     var startInput = document.getElementById('adc_export_start_date');
     var endInput = document.getElementById('adc_export_end_date');
@@ -24,8 +28,7 @@
             var url = new URL(link.href);
 
             if (startDate || endDate) {
-                var message = 'Sunteți sigur că doriți să exportați utilizatorii pentru perioada selectată?';
-                if (!window.confirm(message)) {
+                if (i18n.confirmRange && !window.confirm(i18n.confirmRange)) {
                     event.preventDefault();
                     return;
                 }

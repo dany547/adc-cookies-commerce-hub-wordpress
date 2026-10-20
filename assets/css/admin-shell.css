@@ -1,80 +1,295 @@
-/* ADC Marketing 2.0 — admin shell styles (tab nav, secret fields, copy buttons).
+/* ADC Marketing 2.0 — admin shell styles (design tokens, two-level tab nav, header, sticky save bar, secret fields, copy buttons).
    Contract for tab authors:
-   - .adc-admin-tab-content       wraps every tab's rendered inner HTML
+   - .adc-admin-tab-content       card wrapping every tab's rendered inner HTML
+   - .adc-admin-groups / .adc-admin-group   level-1 nav pills (group of tabs)
+   - .adc-admin-tabs--sub         level-2 nav pills (the tabs of the active group)
+   - .adc-admin-save-bar          sticky action bar printed by the shell
    - .adc-secret-field            flex row wrapping a secret input + replace button
    - .adc-secret-input            masked, readonly input ("••••• (salvat)")
    - .adc-secret-replace          "Înlocuiește"/"Renunță" toggle (handled by admin-shell.js)
-   - .adc-copy-btn                copy-to-clipboard button, value from [data-adc-copy] */
+   - .adc-copy-btn                copy-to-clipboard button, value from [data-adc-copy]
+
+   Design tokens (scoped to the shell so every admin tab can reuse them):
+   --adc-space-1/2/3 (8/16/24), --adc-radius, --adc-border, --adc-accent,
+   --adc-accent-hover, --adc-surface, --adc-shell-pad-x/y (shell inner padding,
+   also used by the sticky save bar so it can bleed edge-to-edge).
+   Note: --adc-border / --adc-radius also exist in the frontend banner palette;
+   the Banner preview re-declares its own defaults on .adc-banner-preview-screen. */
+
+/* ---------- Shell + tokens ---------- */
 .adc-admin-shell {
-    max-width: 1100px;
-    margin-top: 20px;
+    width: 100%;
+    max-width: 1400px;
+    margin: 20px 0 0;
+    padding: var(--adc-shell-pad-y) var(--adc-shell-pad-x);
+    box-sizing: border-box;
+
+    --adc-space-1: 8px;
+    --adc-space-2: 16px;
+    --adc-space-3: 24px;
+    --adc-radius: 4px;
+    --adc-border: #c3c4c7;
+    --adc-accent: #2271b1;
+    --adc-accent-hover: #135e96;
+    --adc-surface: #f6f7f7;
+    --adc-muted: #50575e;
+    --adc-shell-pad-x: var(--adc-space-3);
+    --adc-shell-pad-y: var(--adc-space-2);
 }
 
+/* ---------- Page header (logo + title + version) ---------- */
+.adc-admin-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--adc-space-2);
+    margin: 0 0 var(--adc-space-2);
+    padding-bottom: var(--adc-space-2);
+    border-bottom: 1px solid #dcdcde;
+}
+
+.adc-admin-logo {
+    flex: 0 0 auto;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--adc-radius);
+}
+
+.adc-admin-title {
+    margin: 0;
+    padding: 0;
+    font-size: 23px;
+    font-weight: 400;
+    line-height: 1.3;
+}
+
+.adc-admin-version {
+    margin: 0 0 0 auto;
+    color: var(--adc-muted);
+    font-size: 13px;
+}
+
+/* ---------- Tab navigation ---------- */
 .adc-admin-nav {
-    margin: 16px 0;
+    margin: 0 0 var(--adc-space-2);
 }
 
 .adc-admin-tabs {
     display: flex;
     flex-wrap: wrap;
-    gap: 4px;
+    align-items: center;
+    gap: var(--adc-space-1);
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
 .adc-admin-tabs--sub {
-    margin-top: 6px;
+    margin-top: var(--adc-space-1);
     padding-left: 12px;
     border-left: 3px solid #f0f0f1;
 }
 
+/* Level 1: one pill per navigation group; the active group is highlighted. */
+.adc-admin-tabs--groups {
+    margin-bottom: var(--adc-space-1);
+}
+
+.adc-admin-group a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 34px;
+    padding: 0 14px;
+    border: 1px solid transparent;
+    border-radius: var(--adc-radius);
+    background: transparent;
+    color: var(--adc-muted);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color .1s ease-in, border-color .1s ease-in, color .1s ease-in;
+}
+
+.adc-admin-group a:hover {
+    border-color: #dcdcde;
+    background: var(--adc-surface);
+    color: var(--adc-accent);
+}
+
+.adc-admin-group a:focus {
+    outline: 2px solid var(--adc-accent);
+    outline-offset: 2px;
+    box-shadow: none;
+}
+
+.adc-admin-group--active a,
+.adc-admin-group--active a:hover {
+    border-color: var(--adc-border);
+    border-bottom-color: var(--adc-accent);
+    background: #fff;
+    color: var(--adc-accent);
+}
+
 .adc-admin-tab a {
-    display: inline-block;
-    padding: 6px 14px;
-    border-radius: 4px;
-    background: #f0f0f1;
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 0 12px;
+    border: 1px solid var(--adc-border);
+    border-radius: var(--adc-radius);
+    background: var(--adc-surface);
     color: #1d2327;
     font-size: 13px;
-    line-height: 1.6;
+    line-height: 1;
     text-decoration: none;
+    white-space: nowrap;
+    transition: background-color .1s ease-in, border-color .1s ease-in, color .1s ease-in;
 }
 
 .adc-admin-tab a:hover {
     background: #dcdcde;
-    color: #2271b1;
+    border-color: #dcdcde;
+    color: var(--adc-accent);
 }
 
 .adc-admin-tab a:focus {
-    color: #2271b1;
-    box-shadow: 0 0 0 1px #2271b1;
-    outline: 2px solid transparent;
+    color: var(--adc-accent);
 }
 
 .adc-admin-tab--active a {
-    background: #2271b1;
+    border-color: var(--adc-accent);
+    background: var(--adc-accent);
     color: #fff;
 }
 
 .adc-admin-tab--active a:hover {
-    background: #135e96;
+    border-color: var(--adc-accent-hover);
+    background: var(--adc-accent-hover);
     color: #fff;
 }
 
 .adc-admin-tab-content {
-    margin-top: 8px;
+    box-sizing: border-box;
+    margin-top: var(--adc-space-3);
+    padding: var(--adc-space-3);
+    background: #fff;
+    border: 1px solid var(--adc-border);
+    border-radius: var(--adc-radius);
 }
 
-/* Secret fields: masked value + replace toggle */
+/* ---------- Sticky save bar ---------- */
+/* Bleeds to the shell edges (negative margins = the shell padding) so it reads
+   as a full-width action bar on every width, including mobile. */
+.adc-admin-save-bar {
+    position: sticky;
+    bottom: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: var(--adc-space-1);
+    margin: var(--adc-space-2) calc(-1 * var(--adc-shell-pad-x)) calc(-1 * var(--adc-shell-pad-y));
+    padding: var(--adc-space-2) var(--adc-shell-pad-x);
+    background: var(--adc-surface);
+    border-top: 1px solid var(--adc-border);
+}
+
+.adc-admin-save-bar p.submit,
+.adc-admin-save-bar .submit {
+    display: flex;
+    align-items: center;
+    gap: var(--adc-space-1);
+    margin: 0;
+    padding: 0;
+}
+
+/* ---------- Unified controls (buttons) ---------- */
+/* One shared shape for every button rendered inside the shell:
+   .button, .button-primary, .button-secondary, .adc-copy-btn, .adc-secret-replace,
+   and any tab-specific buttons (logs actions, banner, export, ...). */
+.adc-admin-shell .button,
+.adc-admin-shell .button-primary,
+.adc-admin-shell .button-secondary,
+.adc-admin-shell .adc-copy-btn,
+.adc-admin-shell .adc-secret-replace {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-height: 30px;
+    padding: 0 12px;
+    border-radius: var(--adc-radius);
+    font-size: 13px;
+    line-height: 1;
+    white-space: nowrap;
+    vertical-align: middle;
+    transition: background-color .1s ease-in, border-color .1s ease-in, color .1s ease-in;
+}
+
+/* Default / secondary look: outline accent on light surface. */
+.adc-admin-shell .button,
+.adc-admin-shell .button-secondary {
+    border: 1px solid var(--adc-accent);
+    background: #f6f7f7;
+    color: var(--adc-accent);
+    box-shadow: none;
+    text-decoration: none;
+}
+
+.adc-admin-shell .button:hover,
+.adc-admin-shell .button-secondary:hover {
+    border-color: var(--adc-accent);
+    background: #f0f0f1;
+    color: var(--adc-accent);
+}
+
+/* Primary: solid accent. Higher specificity wins over .wp-core-ui .button-primary. */
+.adc-admin-shell .button.button-primary,
+.adc-admin-shell .button-primary {
+    border: 1px solid var(--adc-accent);
+    background: var(--adc-accent);
+    color: #fff;
+    box-shadow: none;
+}
+
+.adc-admin-shell .button.button-primary:hover,
+.adc-admin-shell .button-primary:hover {
+    border-color: var(--adc-accent-hover);
+    background: var(--adc-accent-hover);
+    color: #fff;
+}
+
+/* Identical focus ring for all controls (links included, see tabs above). */
+.adc-admin-shell .button:focus,
+.adc-admin-shell .button-primary:focus,
+.adc-admin-shell .button-secondary:focus,
+.adc-admin-shell .adc-copy-btn:focus,
+.adc-admin-shell .adc-secret-replace:focus,
+.adc-admin-tab a:focus {
+    outline: 2px solid var(--adc-accent);
+    outline-offset: 2px;
+    box-shadow: none;
+}
+
+.adc-admin-shell .button:disabled,
+.adc-admin-shell .button-primary:disabled,
+.adc-admin-shell .button-secondary:disabled {
+    opacity: .55;
+    cursor: default;
+}
+
+/* ---------- Secret fields: masked value + replace toggle ---------- */
 .adc-secret-field {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 8px;
+    gap: var(--adc-space-1);
 }
 
 .adc-secret-input {
     min-width: 260px;
+    max-width: 100%;
     font-family: inherit;
 }
 
@@ -84,12 +299,94 @@
 }
 
 /* Copy buttons */
-.adc-copy-btn {
-    vertical-align: middle;
-    margin-left: 6px;
-}
-
 .adc-copy-btn.is-copied {
     border-color: #00a32a;
     color: #00a32a;
+}
+
+/* ---------- Settings tables (.form-table) ---------- */
+.adc-admin-shell .form-table {
+    margin-top: var(--adc-space-2);
+}
+
+.adc-admin-shell .form-table th,
+.adc-admin-shell .form-table td {
+    padding: var(--adc-space-2) 10px;
+}
+
+.adc-admin-shell .form-table th {
+    width: 220px;
+}
+
+.adc-admin-shell .form-table input:not([type="radio"]):not([type="checkbox"]),
+.adc-admin-shell .form-table select,
+.adc-admin-shell .form-table textarea {
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 782px) {
+    .adc-admin-shell {
+        --adc-shell-pad-x: var(--adc-space-2);
+        --adc-shell-pad-y: var(--adc-space-2);
+    }
+
+    /* Stack form rows: label above field. */
+    .adc-admin-shell .form-table th,
+    .adc-admin-shell .form-table td {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .adc-admin-shell .form-table th {
+        padding-bottom: var(--adc-space-1);
+        border-bottom: 0;
+    }
+
+    .adc-admin-shell .form-table td {
+        padding-top: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .adc-admin-shell {
+        --adc-shell-pad-x: var(--adc-space-1);
+        --adc-shell-pad-y: var(--adc-space-2);
+    }
+
+    .adc-admin-title {
+        font-size: 20px;
+    }
+
+    .adc-admin-version {
+        margin-left: 0;
+    }
+
+    /* Tab pills scroll horizontally instead of wrapping into a tall pile. */
+    .adc-admin-shell .adc-admin-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 4px;
+    }
+
+    .adc-admin-shell .adc-admin-tabs--sub {
+        margin-top: var(--adc-space-1);
+        padding-top: var(--adc-space-1);
+        padding-left: 0;
+        border-top: 1px solid #f0f0f1;
+        border-left: 0;
+    }
+
+    .adc-admin-tab-content {
+        padding: var(--adc-space-2);
+    }
+
+    .adc-admin-shell .adc-secret-input {
+        min-width: 0;
+        width: 100%;
+    }
 }

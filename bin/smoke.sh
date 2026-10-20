@@ -2,7 +2,7 @@
 # ADC Marketing smoke harness (docs/ARCHITECTURE.md §5).
 #
 # Usage:
-#   bin/smoke.sh              Syntax checks only: php -l over all *.php,
+#   bin/smoke.sh              Offline runtime tests, php -l over all *.php,
 #                              node --check over all *.js, phpcs if available.
 #   bin/smoke.sh <wp_path>    Additionally runs the wp-cli C1 smoke checks
 #                              (plugin activate, tables, db version, settings,
@@ -24,7 +24,7 @@ while IFS= read -r -d '' f; do
         echo "$OUT"
         FAIL=1
     fi
-done < <(find . -type f -name '*.php' \
+done < <(find . -path './.local' -prune -o -type f -name '*.php' \
     -not -path './vendor/*' \
     -not -path './node_modules/*' \
     -not -path './.git/*' \
@@ -46,7 +46,7 @@ while IFS= read -r -d '' f; do
         echo "FAIL $f (node not found)"
         FAIL=1
     fi
-done < <(find . -type f -name '*.js' \
+done < <(find . -path './.local' -prune -o -type f -name '*.js' \
     -not -path './vendor/*' \
     -not -path './node_modules/*' \
     -not -path './.git/*' \
@@ -54,6 +54,16 @@ done < <(find . -type f -name '*.js' \
 if [ "$JS_COUNT" -eq 0 ]; then
     echo "(no .js files found)"
 fi
+
+echo "== offline runtime tests =="
+for t in tests/admin-tabs-load-test.php tests/hook-signatures-test.php; do
+    if php "$t"; then
+        echo "OK   $t"
+    else
+        echo "FAIL $t"
+        FAIL=1
+    fi
+done
 
 echo "== phpcs =="
 PHPCS=""

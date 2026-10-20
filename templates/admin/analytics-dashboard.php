@@ -292,11 +292,81 @@ $render_ranking = static function ( array $list, string $id, string $title, stri
 	</section>
 	<?php
 };
+	$help = (array) $get( $v, 'help', array() );
+
+	/**
+	 * Info-icon + modal for one section or option.
+	 *
+	 * The long text is built in PHP (ADC_Admin_Tab_Analytics::settings_help_bodies()
+	 * / ADC_Admin_Analytics_Stats::stats_help_bodies()) and travels through
+	 * ADC_Admin_Help, which escapes it. Returns empty markup when either the help
+	 * component or the copy is missing, so the page degrades to a plain form.
+	 *
+	 * @param string $slot  Key of the help body inside the view.
+	 * @param string $id    Unique content id on the page.
+	 * @param string $title Modal title (plain text).
+	 * @return string
+	 */
+	$icon = static function ( string $slot, string $id, string $title ) use ( $help ): string {
+		$body = trim( (string) ( $help[ $slot ] ?? '' ) );
+
+		if ( '' === $body || ! class_exists( 'ADC_Admin_Help' ) ) {
+			return '';
+		}
+
+		return ADC_Admin_Help::icon( $id, $title, $body );
+	};
+
+	/**
+	 * One option rendered the same way as in the other admin tabs: label on top,
+	 * control below, one-sentence description under it, optional info-icon.
+	 *
+	 * @param string $label      Option label (plain text).
+	 * @param string $control    Pre-escaped control markup (keeps its name=/id=).
+	 * @param string $desc       One sentence: what happens when this is on.
+	 * @param string $for        Input id the label points to ('' for checkbox groups).
+	 * @param string $help_id    Content id for the modal ('' = no modal).
+	 * @param string $help_slot  Key of the modal body in $help.
+	 */
+	$option = static function ( string $label, string $control, string $desc = '', string $for = '', string $help_id = '', string $help_slot = '' ) use ( $help, $icon ): void {
+		$has_component = class_exists( 'ADC_Admin_Help' );
+
+		if ( ! $has_component ) {
+			// Same structure, no modal: the form stays readable without the component.
+			echo '<div class="adc-help-row">';
+			echo '<span class="adc-help-row__label">';
+			if ( '' !== $for ) {
+				echo '<label for="' . esc_attr( $for ) . '">' . esc_html( $label ) . '</label>';
+			} else {
+				echo '<span class="adc-help-row__group-label">' . esc_html( $label ) . '</span>';
+			}
+			echo '</span>';
+			echo '<div class="adc-help-row__control">' . $control . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- control markup is escaped by the caller.
+			if ( '' !== $desc ) {
+				echo '<p class="adc-help-row__desc">' . esc_html( $desc ) . '</p>';
+			}
+			echo '</div>';
+
+			return;
+		}
+
+		$body = trim( (string) ( $help[ $help_slot ] ?? '' ) );
+		$show_help = ( '' !== $help_id && '' !== $body ) ? $help_id : null;
+
+		ADC_Admin_Help::row(
+			$label,
+			$control,
+			$desc,
+			( '' === $for ) ? null : $for,
+			$show_help,
+			null === $show_help ? null : $body
+		);
+	};
 ?>
 <div class="adc-an" data-adc-analytics>
 
 	<section class="adc-an-head">
-		<h2 class="adc-an-title"><?php esc_html_e( 'Analytics operațional', 'adc-marketing' ); ?></h2>
+		<h2 class="adc-an-title"><?php esc_html_e( 'Dashboard', 'adc-marketing' ); ?></h2>
 		<p class="adc-an-meta">
 			<?php echo $e( (string) $get( $v, 'range_label', '' ) ); ?>
 			<?php if ( '' !== $currency ) : ?>
@@ -318,7 +388,7 @@ $render_ranking = static function ( array $list, string $id, string $title, stri
 
 	<section class="adc-an-panel adc-an-gates" aria-labelledby="adc-an-gates-h">
 		<div class="adc-an-panel-head">
-			<h3 id="adc-an-gates-h"><?php esc_html_e( 'Stare colectare', 'adc-marketing' ); ?></h3>
+			<h3 id="adc-an-gates-h"><?php $t = __( 'Stare colectare', 'adc-marketing' ); echo esc_html( $t ) . $icon( 'gates', 'adc-help-an-gates', $t ); // // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ADC_Admin_Help::icon() escapes its own output. ?></h3>
 		</div>
 		<dl class="adc-an-gate-list">
 			<?php foreach ( $gates as $gate ) : ?>
@@ -335,92 +405,110 @@ $render_ranking = static function ( array $list, string $id, string $title, stri
 
 	<section class="adc-an-panel adc-an-filters" aria-labelledby="adc-an-filters-h">
 		<div class="adc-an-panel-head">
-			<h3 id="adc-an-filters-h"><?php esc_html_e( 'Filtre raport', 'adc-marketing' ); ?></h3>
+			<h3 id="adc-an-filters-h"><?php $t = __( 'Filtre raport', 'adc-marketing' ); echo esc_html( $t ) . $icon( 'filters', 'adc-help-an-filters', $t ); // // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ADC_Admin_Help::icon() escapes its own output. ?></h3>
 			<a class="adc-an-reset" href="<?php echo $u( (string) $get( $nav, 'reset', '' ) ); ?>"><?php esc_html_e( 'Resetați filtrele', 'adc-marketing' ); ?></a>
 		</div>
 
-		<div class="adc-an-frow">
-			<span class="adc-an-fkey"><?php esc_html_e( 'Interval', 'adc-marketing' ); ?></span>
-			<div class="adc-an-segment" role="group" aria-label="<?php esc_attr_e( 'Interval de timp', 'adc-marketing' ); ?>">
-				<?php foreach ( (array) $get( $nav, 'presets', array() ) as $preset ) : ?>
-					<a class="adc-an-seg<?php echo ! empty( $preset['active'] ) ? ' is-active' : ''; ?>"
-						href="<?php echo $u( (string) $preset['url'] ); ?>"
-						<?php echo ! empty( $preset['active'] ) ? 'aria-current="true"' : ''; ?>>
-						<?php echo $e( $preset['label'] ); ?>
-					</a>
-				<?php endforeach; ?>
-			</div>
-		</div>
-
-		<div class="adc-an-frow">
-			<span class="adc-an-fkey"><?php esc_html_e( 'Canale', 'adc-marketing' ); ?></span>
-			<div class="adc-an-segment" role="group" aria-label="<?php esc_attr_e( 'Canal de proveniență', 'adc-marketing' ); ?>">
-				<?php foreach ( (array) $get( $nav, 'channels', array() ) as $channel ) : ?>
-					<a class="adc-an-seg<?php echo ! empty( $channel['active'] ) ? ' is-active' : ''; ?>"
-						href="<?php echo $u( (string) $channel['url'] ); ?>"
-						<?php echo ! empty( $channel['active'] ) ? 'aria-current="true"' : ''; ?>>
-						<?php echo $e( $channel['label'] ); ?>
-					</a>
-				<?php endforeach; ?>
-			</div>
-		</div>
-
-		<?php $currency_links = (array) $get( $nav, 'currencies', array() ); ?>
-		<?php if ( $currency_links !== array() ) : ?>
-			<div class="adc-an-frow">
-				<span class="adc-an-fkey"><?php esc_html_e( 'Monedă', 'adc-marketing' ); ?></span>
-				<div class="adc-an-segment" role="group" aria-label="<?php esc_attr_e( 'Monedă pentru cifre financiare', 'adc-marketing' ); ?>">
-					<?php foreach ( $currency_links as $money_link ) : ?>
-						<a class="adc-an-seg<?php echo ! empty( $money_link['active'] ) ? ' is-active' : ''; ?>"
-							href="<?php echo $u( (string) $money_link['url'] ); ?>"
-							<?php echo ! empty( $money_link['active'] ) ? 'aria-current="true"' : ''; ?>>
-							<?php echo $e( $money_link['label'] ); ?>
-						</a>
-					<?php endforeach; ?>
+		<div class="adc-an-fgrid">
+			<div class="adc-an-fseg">
+				<div class="adc-an-fblock">
+					<span class="adc-an-fkey"><?php esc_html_e( 'Interval', 'adc-marketing' ); ?></span>
+					<div class="adc-an-segment" role="group" aria-label="<?php esc_attr_e( 'Interval de timp', 'adc-marketing' ); ?>">
+						<?php foreach ( (array) $get( $nav, 'presets', array() ) as $preset ) : ?>
+							<a class="adc-an-seg<?php echo ! empty( $preset['active'] ) ? ' is-active' : ''; ?>"
+								href="<?php echo $u( (string) $preset['url'] ); ?>"
+								<?php echo ! empty( $preset['active'] ) ? 'aria-current="true"' : ''; ?>>
+								<?php echo $e( $preset['label'] ); ?>
+							</a>
+						<?php endforeach; ?>
+					</div>
 				</div>
+
+				<div class="adc-an-fblock">
+					<span class="adc-an-fkey"><?php esc_html_e( 'Canale', 'adc-marketing' ); ?></span>
+					<div class="adc-an-segment" role="group" aria-label="<?php esc_attr_e( 'Canal de proveniență', 'adc-marketing' ); ?>">
+						<?php foreach ( (array) $get( $nav, 'channels', array() ) as $channel ) : ?>
+							<a class="adc-an-seg<?php echo ! empty( $channel['active'] ) ? ' is-active' : ''; ?>"
+								href="<?php echo $u( (string) $channel['url'] ); ?>"
+								<?php echo ! empty( $channel['active'] ) ? 'aria-current="true"' : ''; ?>>
+								<?php echo $e( $channel['label'] ); ?>
+							</a>
+						<?php endforeach; ?>
+					</div>
+				</div>
+
+				<?php $currency_links = (array) $get( $nav, 'currencies', array() ); ?>
+				<?php if ( $currency_links !== array() ) : ?>
+					<div class="adc-an-fblock">
+						<span class="adc-an-fkey"><?php esc_html_e( 'Monedă', 'adc-marketing' ); ?></span>
+						<div class="adc-an-segment" role="group" aria-label="<?php esc_attr_e( 'Monedă pentru cifre financiare', 'adc-marketing' ); ?>">
+							<?php foreach ( $currency_links as $money_link ) : ?>
+								<a class="adc-an-seg<?php echo ! empty( $money_link['active'] ) ? ' is-active' : ''; ?>"
+									href="<?php echo $u( (string) $money_link['url'] ); ?>"
+									<?php echo ! empty( $money_link['active'] ) ? 'aria-current="true"' : ''; ?>>
+									<?php echo $e( $money_link['label'] ); ?>
+								</a>
+							<?php endforeach; ?>
+						</div>
+					</div>
+				<?php endif; ?>
 			</div>
-		<?php endif; ?>
 
-		<div class="adc-an-frow adc-an-frow--js">
-			<span class="adc-an-fkey"><?php esc_html_e( 'Personalizat', 'adc-marketing' ); ?></span>
-			<div class="adc-an-controls">
-				<label class="adc-an-field" for="adc-an-page-type"><?php esc_html_e( 'Tip pagină', 'adc-marketing' ); ?></label>
-				<select id="adc-an-page-type" data-adc-an-filter="page_type">
-					<?php foreach ( (array) $get( $nav, 'page_types', array() ) as $type ) : ?>
-						<option value="<?php echo esc_attr( (string) $type['value'] ); ?>" <?php selected( ! empty( $type['active'] ) ); ?>>
-							<?php echo $e( $type['label'] ); ?>
-						</option>
-					<?php endforeach; ?>
-				</select>
+			<div class="adc-an-fcustom" role="group" aria-labelledby="adc-an-fcustom-label">
+				<p class="adc-an-fkey" id="adc-an-fcustom-label"><?php esc_html_e( 'Personalizat', 'adc-marketing' ); ?></p>
 
-				<label class="adc-an-field" for="adc-an-top"><?php esc_html_e( 'Lista', 'adc-marketing' ); ?></label>
-				<select id="adc-an-top" data-adc-an-filter="top">
-					<?php foreach ( (array) $get( $nav, 'tops', array() ) as $top ) : ?>
-						<option value="<?php echo esc_attr( (string) $top['value'] ); ?>" <?php selected( ! empty( $top['active'] ) ); ?>>
-							<?php echo $e( $top['label'] ); ?>
-						</option>
-					<?php endforeach; ?>
-				</select>
+				<div class="adc-an-controls">
+					<span class="adc-an-cell">
+						<label class="adc-an-field" for="adc-an-page-type"><?php esc_html_e( 'Tip pagină', 'adc-marketing' ); ?></label>
+						<select id="adc-an-page-type" data-adc-an-filter="page_type">
+							<?php foreach ( (array) $get( $nav, 'page_types', array() ) as $type ) : ?>
+								<option value="<?php echo esc_attr( (string) $type['value'] ); ?>" <?php selected( ! empty( $type['active'] ) ); ?>>
+									<?php echo $e( $type['label'] ); ?>
+								</option>
+							<?php endforeach; ?>
+						</select>
+					</span>
 
-				<label class="adc-an-field" for="adc-an-from"><?php esc_html_e( 'Data început', 'adc-marketing' ); ?></label>
-				<input type="date" id="adc-an-from" data-adc-an-filter="from" value="<?php echo esc_attr( (string) ( $filters['from'] ?? '' ) ); ?>" />
+					<span class="adc-an-cell">
+						<label class="adc-an-field" for="adc-an-top"><?php esc_html_e( 'Lista', 'adc-marketing' ); ?></label>
+						<select id="adc-an-top" data-adc-an-filter="top">
+							<?php foreach ( (array) $get( $nav, 'tops', array() ) as $top ) : ?>
+								<option value="<?php echo esc_attr( (string) $top['value'] ); ?>" <?php selected( ! empty( $top['active'] ) ); ?>>
+									<?php echo $e( $top['label'] ); ?>
+								</option>
+							<?php endforeach; ?>
+						</select>
+					</span>
 
-				<label class="adc-an-field" for="adc-an-to"><?php esc_html_e( 'Data sfârșit', 'adc-marketing' ); ?></label>
-				<input type="date" id="adc-an-to" data-adc-an-filter="to" value="<?php echo esc_attr( (string) ( $filters['to'] ?? '' ) ); ?>" />
+					<span class="adc-an-cell">
+						<label class="adc-an-field" for="adc-an-from"><?php esc_html_e( 'Data început', 'adc-marketing' ); ?></label>
+						<input type="date" id="adc-an-from" data-adc-an-filter="from" value="<?php echo esc_attr( (string) ( $filters['from'] ?? '' ) ); ?>" />
+					</span>
 
-				<label class="adc-an-field" for="adc-an-product"><?php esc_html_e( 'Produs (ID)', 'adc-marketing' ); ?></label>
-				<input type="number" id="adc-an-product" class="small-text" min="0" step="1"
-					data-adc-an-filter="product" value="<?php echo esc_attr( (string) ( (int) ( $filters['product'] ?? 0 ) ?: '' ) ); ?>" />
+					<span class="adc-an-cell">
+						<label class="adc-an-field" for="adc-an-to"><?php esc_html_e( 'Data sfârșit', 'adc-marketing' ); ?></label>
+						<input type="date" id="adc-an-to" data-adc-an-filter="to" value="<?php echo esc_attr( (string) ( $filters['to'] ?? '' ) ); ?>" />
+					</span>
 
-				<a class="button button-primary adc-an-apply" id="adc-an-apply" href="<?php echo $u( (string) $get( $nav, 'apply', '' ) ); ?>">
-					<?php esc_html_e( 'Aplică filtrele', 'adc-marketing' ); ?>
-					<span class="screen-reader-text adc-an-dirty-hint" aria-live="polite"></span>
-				</a>
+					<span class="adc-an-cell">
+						<label class="adc-an-field" for="adc-an-product"><?php esc_html_e( 'Produs (ID)', 'adc-marketing' ); ?></label>
+						<input type="number" id="adc-an-product" class="small-text" min="0" step="1"
+							data-adc-an-filter="product" value="<?php echo esc_attr( (string) ( (int) ( $filters['product'] ?? 0 ) ?: '' ) ); ?>" />
+					</span>
+				</div>
+
+				<div class="adc-an-fcustom-foot">
+					<p class="description"><?php esc_html_e( 'Intervalul personalizat și filtrele de tip pagină, listă sau produs se aplică prin linkul de mai sus (navigare prin URL). Fără JavaScript, folosiți intervalele prestabilite și editați parametrii din URL: range, from, to, currency, channel, page_type, top, product.', 'adc-marketing' ); ?></p>
+					<a class="button button-primary adc-an-apply" id="adc-an-apply" href="<?php echo $u( (string) $get( $nav, 'apply', '' ) ); ?>">
+						<?php esc_html_e( 'Aplică filtrele', 'adc-marketing' ); ?>
+						<span class="screen-reader-text adc-an-dirty-hint" aria-live="polite"></span>
+					</a>
+				</div>
+
+				<noscript>
+					<p class="adc-an-none"><?php esc_html_e( 'JavaScript este dezactivat: filtrele de tip pagină, listă, produs și intervalul personalizat nu pot fi aplicate din formularele de mai sus; folosiți linkurile de interval și parametrii din URL.', 'adc-marketing' ); ?></p>
+				</noscript>
 			</div>
-			<p class="description"><?php esc_html_e( 'Intervalul personalizat și filtrele de tip pagină, listă sau produs se aplică prin linkul de mai sus (navigare prin URL). Fără JavaScript, folosiți intervalele prestabilite și editați parametrii din URL: range, from, to, currency, channel, page_type, top, product.', 'adc-marketing' ); ?></p>
-			<noscript>
-				<p class="adc-an-none"><?php esc_html_e( 'JavaScript este dezactivat: filtrele de tip pagină, listă, produs și intervalul personalizat nu pot fi aplicate din formularele de mai sus; folosiți linkurile de interval și parametrii din URL.', 'adc-marketing' ); ?></p>
-			</noscript>
 		</div>
 
 		<?php if ( 'custom' === (string) ( $filters['range'] ?? '' ) ) : ?>
@@ -440,7 +528,7 @@ $render_ranking = static function ( array $list, string $id, string $title, stri
 	<?php if ( $figures !== array() ) : ?>
 		<section class="adc-an-panel adc-an-figures-panel" aria-labelledby="adc-an-figures-h">
 			<div class="adc-an-panel-head">
-				<h3 id="adc-an-figures-h"><?php esc_html_e( 'Cifre cheie', 'adc-marketing' ); ?></h3>
+				<h3 id="adc-an-figures-h"><?php $t = __( 'Cifre cheie', 'adc-marketing' ); echo esc_html( $t ) . $icon( 'figures', 'adc-help-an-figures', $t ); // // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ADC_Admin_Help::icon() escapes its own output. ?></h3>
 				<span class="adc-an-prov adc-an-prov--fin"><?php esc_html_e( 'Din comenzi WooCommerce', 'adc-marketing' ); ?></span>
 			</div>
 
@@ -600,7 +688,7 @@ $render_ranking = static function ( array $list, string $id, string $title, stri
 		<?php if ( $recon_rows !== array() ) : ?>
 			<section class="adc-an-panel" id="reconciliation" aria-labelledby="recon-h">
 				<div class="adc-an-panel-head">
-					<h3 id="recon-h"><?php esc_html_e( 'Recalculare (agregate vs. comenzi)', 'adc-marketing' ); ?></h3>
+					<h3 id="recon-h"><?php $t = __( 'Recalculare (agregate vs. comenzi)', 'adc-marketing' ); echo esc_html( $t ) . $icon( 'reconciliation', 'adc-help-an-reconciliation', $t ); // // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ADC_Admin_Help::icon() escapes its own output. ?></h3>
 					<p class="adc-an-foot"><?php esc_html_e( 'Diferențele se raportează, nu se corectează automat.', 'adc-marketing' ); ?></p>
 				</div>
 				<details class="adc-an-data">
@@ -644,7 +732,7 @@ $render_ranking = static function ( array $list, string $id, string $title, stri
 		<?php elseif ( ! empty( $recon['reason'] ) ) : ?>
 			<section class="adc-an-panel" id="reconciliation" aria-labelledby="recon-h">
 				<div class="adc-an-panel-head">
-					<h3 id="recon-h"><?php esc_html_e( 'Recalculare (agregate vs. comenzi)', 'adc-marketing' ); ?></h3>
+					<h3 id="recon-h"><?php $t = __( 'Recalculare (agregate vs. comenzi)', 'adc-marketing' ); echo esc_html( $t ) . $icon( 'reconciliation', 'adc-help-an-reconciliation', $t ); // // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ADC_Admin_Help::icon() escapes its own output. ?></h3>
 					<p class="adc-an-foot"><?php esc_html_e( 'Diferențele se raportează, nu se corectează automat.', 'adc-marketing' ); ?></p>
 				</div>
 				<p class="adc-an-none"><?php echo $e( (string) $recon['reason'] ); ?></p>
@@ -655,7 +743,7 @@ $render_ranking = static function ( array $list, string $id, string $title, stri
 	<?php if ( $warnings !== array() ) : ?>
 		<section class="adc-an-panel adc-an-notes" aria-labelledby="adc-an-notes-h">
 			<div class="adc-an-panel-head">
-				<h3 id="adc-an-notes-h"><?php esc_html_e( 'Atenționări și precizii', 'adc-marketing' ); ?></h3>
+				<h3 id="adc-an-notes-h"><?php $t = __( 'Atenționări și precizii', 'adc-marketing' ); echo esc_html( $t ) . $icon( 'warnings', 'adc-help-an-warnings', $t ); // // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ADC_Admin_Help::icon() escapes its own output. ?></h3>
 			</div>
 			<ul class="adc-an-note-list">
 				<?php foreach ( $warnings as $warning ) : ?>
@@ -687,222 +775,236 @@ $render_ranking = static function ( array $list, string $id, string $title, stri
 
 	<h2 class="adc-an-title" id="adc-an-settings"><?php esc_html_e( 'Setări analiză operațională', 'adc-marketing' ); ?></h2>
 
-	<h3 class="title" id="adc-an-settings-commerce"><?php esc_html_e( '1. Rapoarte financiare din comenzi', 'adc-marketing' ); ?></h3>
-	<p class="description"><?php esc_html_e( 'Functionează independent de bannerul de consimțământ: datele provin din comenzile proprii ale magazinului și nu se transmit nicăieri.', 'adc-marketing' ); ?></p>
-	<table class="form-table" role="presentation">
-		<tr>
-			<th scope="row"><?php esc_html_e( 'Activare', 'adc-marketing' ); ?></th>
-			<td>
-				<label for="adc-an-enabled-commerce">
-					<input type="checkbox" id="adc-an-enabled-commerce" name="analytics[enabled_commerce]" value="1"
-						<?php checked( ! empty( $settings['enabled_commerce'] ) ); ?> />
-					<?php esc_html_e( 'Înregistrez agregate financiare pe zile, din comenzile WooCommerce', 'adc-marketing' ); ?>
-				</label>
-				<p class="description"><?php esc_html_e( 'Este nevoie și de confirmarea de mai jos; fără ea, raportarea rămâne oprită.', 'adc-marketing' ); ?></p>
-			</td>
-		</tr>
-		<tr>
-			<th scope="row"><?php esc_html_e( 'Confirmare definiții', 'adc-marketing' ); ?></th>
-			<td>
-				<label for="adc-an-commerce-ack">
-					<input type="checkbox" id="adc-an-commerce-ack" name="analytics[commerce_ack]" value="1"
-						<?php checked( ! empty( $settings['commerce_ack'] ) ); ?> />
-					<?php esc_html_e( 'Confirm că venit brut = suma valorilor comenzilor plătite, venit net = brut minus rambursări, iar retenția de mai jos corespunde politicii magazinului.', 'adc-marketing' ); ?>
-				</label>
-			</td>
-		</tr>
-		<tr>
-			<th scope="row"><?php esc_html_e( 'Stări considerate plătite', 'adc-marketing' ); ?></th>
-			<td>
-				<fieldset>
-					<?php foreach ( (array) $paid['options'] as $slug => $label ) : ?>
-						<label class="adc-an-check">
-							<input type="checkbox" name="analytics[paid_statuses][]" value="<?php echo esc_attr( (string) $slug ); ?>"
-								<?php checked( in_array( (string) $slug, (array) $paid['selected'], true ) ); ?> />
-							<?php echo $e( $label ); ?>
-						</label>
-					<?php endforeach; ?>
-					<p class="description">
-						<?php esc_html_e( 'O comandă se numără o singură dată la prima tranziție într-una dintre aceste stări. Rambursările nu scad numărul de comenzi plătite.', 'adc-marketing' ); ?>
-					</p>
-					<?php if ( ! empty( $paid['diverges'] ) ) : ?>
-						<p class="adc-an-alert-text">
-							<?php esc_html_e( 'Atenție: aceste stări diferă de stările de purchase folosite la evenimentele de marketing; cifrele din cele două module nu vor coincidea.', 'adc-marketing' ); ?>
-						</p>
-					<?php endif; ?>
-				</fieldset>
-			</td>
-		</tr>
-		<tr>
-			<th scope="row"><label for="adc-an-retention-commerce"><?php esc_html_e( 'Retenție agregate financiare (zile)', 'adc-marketing' ); ?></label></th>
-			<td>
-				<input type="number" id="adc-an-retention-commerce" name="analytics[retention_commerce_days]" class="small-text"
-					min="90" max="3650" step="1" value="<?php echo esc_attr( (string) ( $settings['retention_commerce_days'] ?? 730 ) ); ?>" />
-				<p class="description"><?php esc_html_e( 'Între 90 și 3650 de zile.', 'adc-marketing' ); ?></p>
-			</td>
-		</tr>
-		<tr>
-			<th scope="row"><label for="adc-an-retention-ledger"><?php esc_html_e( 'Retenție registru de deduplicare (zile)', 'adc-marketing' ); ?></label></th>
-			<td>
-				<input type="number" id="adc-an-retention-ledger" name="analytics[retention_ledger_days]" class="small-text"
-					min="30" max="1095" step="1" value="<?php echo esc_attr( (string) ( $settings['retention_ledger_days'] ?? 365 ) ); ?>" />
-				<p class="description"><?php esc_html_e( 'Regitrul conține ID-uri interne de comandă pentru a preveni dublarea; nu poate fi reținut mai puțin decât agregatele financiare.', 'adc-marketing' ); ?></p>
-			</td>
-		</tr>
-	</table>
+	<div class="adc-an-settings">
 
-	<h3 class="title" id="adc-an-settings-traffic"><?php esc_html_e( '2. Contorizare trafic fără identificatori', 'adc-marketing' ); ?></h3>
+	<?php $an_t_commerce = __( '1. Rapoarte financiare din comenzi', 'adc-marketing' ); ?>
+	<h3 class="title" id="adc-an-settings-commerce"><?php echo esc_html( $an_t_commerce ) . $icon( 'section_commerce', 'adc-help-an-commerce', $an_t_commerce ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ADC_Admin_Help::icon() escapes its own output. ?></h3>
+	<p class="adc-admin-section-intro">
+		<?php esc_html_e( 'Ce face: adună pe zile valorile comenzilor din WooCommerce (comenzi plătite, venit, TVA, livrare, reduceri, rambursări) și le afișează în Dashboard. Datele provin din comenzile proprii ale magazinului, rămân în baza de date WordPress și nu se transmit nicăieri; funcționează independent de bannerul de consimțământ.', 'adc-marketing' ); ?>
+	</p>
+
+	<div class="adc-help-options">
+		<?php
+		$option(
+			__( 'Înregistrez agregate financiare pe zile, din comenzile WooCommerce', 'adc-marketing' ),
+			'<input type="checkbox" id="adc-an-enabled-commerce" name="analytics[enabled_commerce]" value="1" ' . checked( ! empty( $settings['enabled_commerce'] ), true, false ) . ' />',
+			__( 'Dacă o bifați, la prima intrare a unei comenzi în stările plătite se scrie un rând agregat pe ziua respectivă; fără această bifă (și fără confirmarea de mai jos) nu se scrie nimic.', 'adc-marketing' ),
+			'adc-an-enabled-commerce',
+			'adc-help-an-commerce-enabled',
+			'opt_commerce_enabled'
+		);
+
+		$option(
+			__( 'Confirm că venit brut = suma valorilor comenzilor plătite, venit net = brut minus rambursări, iar retenția de mai jos corespunde politicii magazinului.', 'adc-marketing' ),
+			'<input type="checkbox" id="adc-an-commerce-ack" name="analytics[commerce_ack]" value="1" ' . checked( ! empty( $settings['commerce_ack'] ), true, false ) . ' />',
+			__( 'A doua confirmare este obligatorie: fără ea, cheltuielile și veniturile rămân oprite, chiar dacă ați activat opțiunea de mai sus.', 'adc-marketing' ),
+			'adc-an-commerce-ack',
+			'adc-help-an-commerce-ack',
+			'opt_commerce_ack'
+		);
+
+		$paid_choices = '';
+		foreach ( (array) $paid['options'] as $slug => $label ) {
+			$paid_choices .= '<label class="adc-an-opt"><input type="checkbox" name="analytics[paid_statuses][]" value="' . esc_attr( (string) $slug ) . '" '
+				. checked( in_array( (string) $slug, (array) $paid['selected'], true ), true, false ) . ' /> ' . esc_html( (string) $label ) . '</label>';
+		}
+		if ( ! empty( $paid['diverges'] ) ) {
+			$paid_choices .= '<p class="adc-an-alert-text">' . esc_html__( 'Atenție: aceste stări diferă de stările de purchase folosite la evenimentele de marketing; cifrele din cele două module nu vor coincidea.', 'adc-marketing' ) . '</p>';
+		}
+		$option(
+			__( 'Stări considerate plătite', 'adc-marketing' ),
+			$paid_choices,
+			__( 'O comandă se numără o singură dată, la prima tranziție într-una dintre aceste stări; rambursările nu scad numărul de comenzi plătite.', 'adc-marketing' ),
+			'',
+			'adc-help-an-paid-statuses',
+			'opt_paid_statuses'
+		);
+
+		$option(
+			__( 'Retenție agregate financiare (zile)', 'adc-marketing' ),
+			'<input type="number" id="adc-an-retention-commerce" name="analytics[retention_commerce_days]" class="small-text" min="90" max="3650" step="1" value="' . esc_attr( (string) ( $settings['retention_commerce_days'] ?? 730 ) ) . '" />',
+			__( 'Între 90 și 3650 de zile; agregatele mai vechi decât această perioadă se șterg automat și dispar din rapoarte și din CSV.', 'adc-marketing' ),
+			'adc-an-retention-commerce',
+			'adc-help-an-retention-commerce',
+			'opt_retention_finance'
+		);
+
+		$option(
+			__( 'Retenție registru de deduplicare (zile)', 'adc-marketing' ),
+			'<input type="number" id="adc-an-retention-ledger" name="analytics[retention_ledger_days]" class="small-text" min="30" max="1095" step="1" value="' . esc_attr( (string) ( $settings['retention_ledger_days'] ?? 365 ) ) . '" />',
+			__( 'Regitrul conține ID-uri interne de comandă pentru a preveni dublarea; nu poate fi reținut mai puțin decât agregatele financiare.', 'adc-marketing' ),
+			'adc-an-retention-ledger',
+			'adc-help-an-retention-ledger',
+			'opt_retention_finance'
+		);
+		?>
+	</div>
+
+	<?php $an_t_traffic = __( '2. Contor statistic de trafic (fără identificatori)', 'adc-marketing' ); ?>
+	<h3 class="title" id="adc-an-settings-traffic"><?php echo esc_html( $an_t_traffic ) . $icon( 'section_traffic', 'adc-help-an-traffic', $an_t_traffic ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ADC_Admin_Help::icon() escapes its own output. ?></h3>
+	<p class="adc-admin-section-intro">
+		<?php esc_html_e( 'Ce face: numărul de accesări de pagină pe zi, grupat pe tip de pagină și pe canalul de proveniență. Numărarea se face pe server, fără cookie, fără JavaScript și fără niciun identificator de vizitator; datele rămân în baza de date WordPress.', 'adc-marketing' ); ?>
+	</p>
+	<ul class="adc-an-scope">
+		<li class="adc-an-scope-in">
+			<?php esc_html_e( 'Se numără: cereri de pagină pe zi, grupate pe tip de pagină (produs, articol, coș etc.) și pe canalul de proveniență (direct, căutare, rețea socială, trimitere de pe alt site).', 'adc-marketing' ); ?>
+		</li>
+		<li class="adc-an-scope-out">
+			<?php esc_html_e( 'NU se colectează: adresă IP, cookie, ID de utilizator, user agent sau URL referer. Nu se poate identifica un vizitator individual și nu se creează profiluri.', 'adc-marketing' ); ?>
+		</li>
+		<li class="adc-an-scope-out">
+			<?php esc_html_e( 'Cererile care semnalează confidențialitate (Sec-GPC: 1 sau DNT: 1) nu sunt numărate; parametrii UTM nu sunt stocați; cifrele sunt estimative și subestimate din cauza cache-ului, CDN-ului și a boților.', 'adc-marketing' ); ?>
+		</li>
+	</ul>
 	<p class="adc-an-gate-warning">
 		<?php echo $e( $gate_state( 'traffic' )['reason'] ); ?>
 	</p>
-	<table class="form-table" role="presentation">
-		<tr>
-			<th scope="row"><?php esc_html_e( 'Activare', 'adc-marketing' ); ?></th>
-			<td>
-				<label class="adc-an-check is-disabled" for="adc-an-enabled-traffic">
-					<input type="checkbox" id="adc-an-enabled-traffic" disabled="disabled" />
-					<?php esc_html_e( 'Numărătoare trafic (indisponibilă în această versiune)', 'adc-marketing' ); ?>
-				</label>
-				<p class="description"><?php esc_html_e( 'Comutatorul este prezentat doar ca referință de design: nu există o cale de activare. Câmpurile juridice de mai jos se salvează ca notițe interne.', 'adc-marketing' ); ?></p>
-			</td>
-		</tr>
-		<tr>
-			<th scope="row"><label for="adc-an-traffic-basis"><?php esc_html_e( 'Temei juridic propus', 'adc-marketing' ); ?></label></th>
-			<td>
-				<select id="adc-an-traffic-basis" name="analytics[traffic_legal_basis]">
-					<option value="" <?php selected( '' === (string) ( $settings['traffic_legal_basis'] ?? '' ) ); ?>><?php esc_html_e( '— fără temei stabilit —', 'adc-marketing' ); ?></option>
-					<option value="lia" <?php selected( 'lia' === (string) ( $settings['traffic_legal_basis'] ?? '' ) ); ?>><?php esc_html_e( 'Interes legitim (evaluare LIA)', 'adc-marketing' ); ?></option>
-				</select>
-				<p class="description"><?php esc_html_e( 'Numai „interes legitim” este acceptat de acest modul; selecția nu activează nimic de una singură.', 'adc-marketing' ); ?></p>
-			</td>
-		</tr>
-		<tr>
-			<th scope="row"><label for="adc-an-traffic-ref"><?php esc_html_e( 'Referință LIA (notiță)', 'adc-marketing' ); ?></label></th>
-			<td>
-				<input type="text" id="adc-an-traffic-ref" name="analytics[traffic_legal_reference]" class="regular-text"
-					value="<?php echo esc_attr( (string) ( $settings['traffic_legal_reference'] ?? '' ) ); ?>"
-					placeholder="<?php esc_attr_e( 'ID document / URL / data evaluării', 'adc-marketing' ); ?>" />
-			</td>
-		</tr>
-		<tr>
-			<th scope="row"><label for="adc-an-traffic-date"><?php esc_html_e( 'Data aprobării (notiță)', 'adc-marketing' ); ?></label></th>
-			<td>
-				<input type="date" id="adc-an-traffic-date" name="analytics[traffic_approved_at]"
-					value="<?php echo esc_attr( (string) ( $settings['traffic_approved_at'] ?? '' ) ); ?>" />
-			</td>
-		</tr>
-		<tr>
-			<th scope="row"><label for="adc-an-traffic-retention"><?php esc_html_e( 'Retenție trafic (zile)', 'adc-marketing' ); ?></label></th>
-			<td>
-				<input type="number" id="adc-an-traffic-retention" name="analytics[retention_traffic_days]" class="small-text"
-					min="30" max="180" step="1" value="<?php echo esc_attr( (string) ( $settings['retention_traffic_days'] ?? 90 ) ); ?>" />
-				<p class="description"><?php esc_html_e( 'Se va aplica doar dacă numărătoarea traficului va fi activată vreodată.', 'adc-marketing' ); ?></p>
-			</td>
-		</tr>
-		<tr>
-			<th scope="row"><?php esc_html_e( 'Parametri UTM', 'adc-marketing' ); ?></th>
-			<td>
-				<label class="adc-an-check is-disabled" for="adc-an-utm">
-					<input type="checkbox" id="adc-an-utm" disabled="disabled" />
-					<?php esc_html_e( 'Corespundență UTM (indisponibilă)', 'adc-marketing' ); ?>
-				</label>
-				<p class="description"><?php echo $e( $gate_state( 'utm' )['reason'] ); ?></p>
-				<label class="adc-an-field" for="adc-an-utm-ref"><?php esc_html_e( 'Referință juridică UTM (notiță)', 'adc-marketing' ); ?></label>
-				<input type="text" id="adc-an-utm-ref" name="analytics[traffic_utm_legal_reference]" class="regular-text"
-					value="<?php echo esc_attr( (string) ( $settings['traffic_utm_legal_reference'] ?? '' ) ); ?>" />
-				<label class="adc-an-field" for="adc-an-utm-date"><?php esc_html_e( 'Data aprobării UTM (notiță)', 'adc-marketing' ); ?></label>
-				<input type="date" id="adc-an-utm-date" name="analytics[traffic_utm_approved_at]"
-					value="<?php echo esc_attr( (string) ( $settings['traffic_utm_approved_at'] ?? '' ) ); ?>" />
-			</td>
-		</tr>
-		<tr>
-			<th scope="row"><?php esc_html_e( 'Excluderi și filtrare roboți', 'adc-marketing' ); ?></th>
-			<td>
-				<label class="adc-an-check is-disabled" for="adc-an-exclude-admins">
-					<input type="checkbox" id="adc-an-exclude-admins" disabled="disabled" />
-					<?php esc_html_e( 'Exclude vizitele administratorilor autentificați (inactiv: dependen de trafic)', 'adc-marketing' ); ?>
-				</label>
-				<label class="adc-an-check is-disabled" for="adc-an-bot-filter">
-					<input type="checkbox" id="adc-an-bot-filter" disabled="disabled" />
-					<?php esc_html_e( 'Filtrare roboți conservatoare (inactiv: dependen de trafic)', 'adc-marketing' ); ?>
-				</label>
-			</td>
-		</tr>
-		<tr>
-			<th scope="row"><label for="adc-an-min-cell"><?php esc_html_e( 'Prag minim pentru celule (valori)', 'adc-marketing' ); ?></label></th>
-			<td>
-				<input type="number" id="adc-an-min-cell" name="analytics[min_cell_count]" class="small-text"
-					min="3" max="50" step="1" value="<?php echo esc_attr( (string) ( $settings['min_cell_count'] ?? 5 ) ); ?>" />
-				<p class="description"><?php esc_html_e( 'Celulele mai mici decât această valoare nu se afișează și nu se exportă; se aplică și listelor de produse, care există independent de trafic.', 'adc-marketing' ); ?></p>
-			</td>
-		</tr>
-	</table>
 
-	<h3 class="title"><?php esc_html_e( '3. Evenimente de interacțiune', 'adc-marketing' ); ?></h3>
-	<table class="form-table" role="presentation">
-		<tr>
-			<th scope="row"><?php esc_html_e( 'Adăugare în coș', 'adc-marketing' ); ?></th>
-			<td>
-				<label class="adc-an-check is-disabled" for="adc-an-add-to-cart">
-					<input type="checkbox" id="adc-an-add-to-cart" disabled="disabled" />
-					<?php esc_html_e( 'Numărare evenimente add_to_cart (indisponibilă în această versiune)', 'adc-marketing' ); ?>
-				</label>
-				<p class="description"><?php echo $e( $gate_state( 'add_to_cart' )['reason'] ); ?></p>
-				<label class="adc-an-field" for="adc-an-atc-ref"><?php esc_html_e( 'Referință juridică (notiță)', 'adc-marketing' ); ?></label>
-				<input type="text" id="adc-an-atc-ref" name="analytics[add_to_cart_legal_reference]" class="regular-text"
-					value="<?php echo esc_attr( (string) ( $settings['add_to_cart_legal_reference'] ?? '' ) ); ?>" />
-				<label class="adc-an-field" for="adc-an-atc-date"><?php esc_html_e( 'Data aprobării (notiță)', 'adc-marketing' ); ?></label>
-				<input type="date" id="adc-an-atc-date" name="analytics[add_to_cart_approved_at]"
-					value="<?php echo esc_attr( (string) ( $settings['add_to_cart_approved_at'] ?? '' ) ); ?>" />
-			</td>
-		</tr>
-		<tr>
-			<th scope="row"><?php esc_html_e( 'Începere finalizare', 'adc-marketing' ); ?></th>
-			<td>
-				<span class="adc-an-pill"><?php echo $e( $gate_state( 'begin_checkout' )['text'] ); ?></span>
-				<p class="description"><?php echo $e( $gate_state( 'begin_checkout' )['reason'] ); ?></p>
-			</td>
-		</tr>
-	</table>
+	<div class="adc-help-options">
+		<?php
+		$option(
+			__( 'Activează contorul statistic de trafic', 'adc-marketing' ),
+			'<input type="checkbox" id="adc-an-enabled-traffic" name="analytics[enabled_traffic]" value="1" ' . checked( ! empty( $settings['enabled_traffic'] ), true, false ) . ' />',
+			__( 'Dacă o bifați, fiecare pagină generată de WordPress pe site adaugă unu la contorul zilei respective; oprirea nu șterge ce a fost deja numărat.', 'adc-marketing' ),
+			'adc-an-enabled-traffic',
+			'adc-help-an-traffic-enabled',
+			'opt_traffic_enabled'
+		);
 
-	<h3 class="title"><?php esc_html_e( '4. Retenție și dezinstalare', 'adc-marketing' ); ?></h3>
-	<table class="form-table" role="presentation">
-		<tr>
-			<th scope="row"><?php esc_html_e( 'Retenții active', 'adc-marketing' ); ?></th>
-			<td>
-				<ul class="adc-an-retention">
-					<li>
-						<?php
-						printf(
-							/* translators: %d: days. */
-							esc_html__( 'Agregate financiare: %d zile', 'adc-marketing' ),
-							(int) ( $settings['retention_commerce_days'] ?? 730 )
-						);
-						?>
-					</li>
-					<li>
-						<?php
-						printf(
-							/* translators: %d: days. */
-							esc_html__( 'Registru de deduplicare: %d zile', 'adc-marketing' ),
-							(int) ( $settings['retention_ledger_days'] ?? 365 )
-						);
-						?>
-					</li>
-					<li>
-						<?php
-						printf(
-							/* translators: %d: days. */
-							esc_html__( 'Trafic (inactiv): %d zile', 'adc-marketing' ),
-							(int) ( $settings['retention_traffic_days'] ?? 90 )
-						);
-						?>
-					</li>
-				</ul>
-				<p class="description"><?php esc_html_e( 'Ștergerea la dezinstalare urmează opțiunea existentă „Șterge datele la dezinstalare” din setările de consimțământ; acest modul nu adaugă un al doilea comutator.', 'adc-marketing' ); ?></p>
-			</td>
-		</tr>
-	</table>
+		$option(
+			__( 'Am actualizat Politica de Confidențialitate și descriu acolo acest contor anonim-agregat, inclusiv dreptul de a obiecta.', 'adc-marketing' ),
+			'<input type="checkbox" id="adc-an-traffic-ack" name="analytics[traffic_ack]" value="1" ' . checked( ! empty( $settings['traffic_ack'] ), true, false ) . ' />',
+			__( 'Fără această confirmare, contorul rămâne oprit chiar dacă primul câmp este bifat — este momentul în care vă asumați activarea măsurării.', 'adc-marketing' ),
+			'adc-an-traffic-ack',
+			'adc-help-an-traffic-ack',
+			'opt_traffic_ack'
+		);
+
+		$option(
+			__( 'Retenție agregate trafic (zile)', 'adc-marketing' ),
+			'<input type="number" id="adc-an-traffic-retention" name="analytics[retention_traffic_days]" class="small-text" min="30" max="180" step="1" value="' . esc_attr( (string) ( $settings['retention_traffic_days'] ?? 90 ) ) . '" />',
+			__( 'Între 30 și 180 de zile. Contoarele mai vechi decât această perioadă se șterg automat; o perioadă mai scurtă înseamnă și o bază de date mai mică.', 'adc-marketing' ),
+			'adc-an-traffic-retention',
+			'adc-help-an-traffic-retention',
+			'opt_retention_traffic'
+		);
+
+		$option(
+			__( 'Excluderi din numărare', 'adc-marketing' ),
+			'<label class="adc-an-opt" for="adc-an-exclude-admins"><input type="checkbox" id="adc-an-exclude-admins" name="analytics[exclude_logged_in_admins]" value="1" '
+				. checked( ! empty( $settings['exclude_logged_in_admins'] ), true, false ) . ' /> '
+				. esc_html__( 'Nu număra vizitele administratorilor autentificați', 'adc-marketing' ) . '</label>'
+				. '<label class="adc-an-opt" for="adc-an-bot-filter"><input type="checkbox" id="adc-an-bot-filter" name="analytics[bot_filter_enabled]" value="1" '
+				. checked( ! empty( $settings['bot_filter_enabled'] ), true, false ) . ' /> '
+				. esc_html__( 'Filtrare roboți conservatoare (pe user agent, fără a-l stoca)', 'adc-marketing' ) . '</label>',
+			__( 'Ambele se aplică doar contorului de trafic, după pornirea lui; cu una dezactivată, acea categorie ajunge în cifre.', 'adc-marketing' ),
+			'',
+			'adc-help-an-exclusions',
+			'opt_exclusions'
+		);
+
+		$option(
+			__( 'Prag minim pentru celule (valori)', 'adc-marketing' ),
+			'<input type="number" id="adc-an-min-cell" name="analytics[min_cell_count]" class="small-text" min="3" max="50" step="1" value="' . esc_attr( (string) ( $settings['min_cell_count'] ?? 5 ) ) . '" />',
+			__( 'Celulele mai mici decât această valoare nu se afișează și nu se exportă; se aplică și listelor de produse, care există independent de trafic.', 'adc-marketing' ),
+			'adc-an-min-cell',
+			'adc-help-an-min-cell',
+			'opt_min_cell'
+		);
+		?>
+	</div>
+
+	<details class="adc-an-draft adc-an-internal-notes">
+		<summary><?php esc_html_e( 'Notițe interne (nu activează nimic)', 'adc-marketing' ); ?><?php echo $icon( 'internal_notes', 'adc-help-an-internal-notes', __( 'Notițe interne (nu activează nimic)', 'adc-marketing' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ADC_Admin_Help::icon() escapes its own output. ?></summary>
+		<p class="description"><?php esc_html_e( 'Câmpurile de mai jos sunt doar pentru evidența internă a evaluării juridice. Ele nu pornesc nicio colectare și nu înlocuiesc bifa de confirmare de mai sus.', 'adc-marketing' ); ?></p>
+		<div class="adc-help-options">
+			<?php
+			$basis_control = '<select id="adc-an-traffic-basis" name="analytics[traffic_legal_basis]">'
+				. '<option value="" ' . selected( '' === (string) ( $settings['traffic_legal_basis'] ?? '' ), true, false ) . '>' . esc_html__( '— fără temei stabilit —', 'adc-marketing' ) . '</option>'
+				. '<option value="lia" ' . selected( 'lia' === (string) ( $settings['traffic_legal_basis'] ?? '' ), true, false ) . '>' . esc_html__( 'Interes legitim (evaluare LIA)', 'adc-marketing' ) . '</option>'
+				. '</select>';
+			$option(
+				__( 'Temei juridic propus', 'adc-marketing' ),
+				$basis_control,
+				__( 'Notiță de documentație: doar „interes legitim” este acceptat de modul; selecția nu activează nimic de una singură.', 'adc-marketing' ),
+				'adc-an-traffic-basis'
+			);
+
+			$option(
+				__( 'Referință LIA (notiță)', 'adc-marketing' ),
+				'<input type="text" id="adc-an-traffic-ref" name="analytics[traffic_legal_reference]" class="regular-text" value="' . esc_attr( (string) ( $settings['traffic_legal_reference'] ?? '' ) ) . '" placeholder="' . esc_attr__( 'ID document / URL / data evaluării', 'adc-marketing' ) . '" />',
+				__( 'Unde găsiți evaluarea (ID document, URL, dată). Rămâne în WordPress și nu se trimite nicăieri.', 'adc-marketing' ),
+				'adc-an-traffic-ref'
+			);
+
+			$option(
+				__( 'Data aprobării (notiță)', 'adc-marketing' ),
+				'<input type="date" id="adc-an-traffic-date" name="analytics[traffic_approved_at]" value="' . esc_attr( (string) ( $settings['traffic_approved_at'] ?? '' ) ) . '" />',
+				__( 'Data de la care considerați evaluarea aprobată; o dată viitoare sau invalidă este eliminată la salvare.', 'adc-marketing' ),
+				'adc-an-traffic-date'
+			);
+			?>
+		</div>
+	</details>
+
+	<?php $an_t_blocked = __( '3. Indisponibile în această versiune', 'adc-marketing' ); ?>
+	<h3 class="title"><?php echo esc_html( $an_t_blocked ) . $icon( 'section_unavailable', 'adc-help-an-unavailable', $an_t_blocked ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ADC_Admin_Help::icon() escapes its own output. ?></h3>
+	<p class="adc-admin-section-intro">
+		<?php esc_html_e( 'Ce înseamnă: funcțiile de mai jos au cod și tabele în modul, dar porțile lor sunt închise în cod și nu au comutator. Nicio setare nu le poate activa; interfața nu afișează câmpuri pentru ele ca să nu sugereze că ar merge.', 'adc-marketing' ); ?>
+	</p>
+	<ul class="adc-an-blocked-list">
+		<li>
+			<strong><?php esc_html_e( 'Parametri UTM și atribuirea campaniilor', 'adc-marketing' ); ?><?php echo $icon( 'blocked_utm', 'adc-help-an-utm', __( 'Parametri UTM și atribuirea campaniilor', 'adc-marketing' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ADC_Admin_Help::icon() escapes its own output. ?></strong>
+			<span><?php esc_html_e( 'Ar lega o comandă de campania din linkul de reclamă (utm_source / utm_medium / utm_campaign). Nu sunt stocați și nu sunt citiți din URL.', 'adc-marketing' ); ?></span>
+			<span><?php echo $e( $gate_state( 'utm' )['reason'] ); ?></span>
+		</li>
+		<li>
+			<strong><?php esc_html_e( 'Eveniment „adăugare în coș”', 'adc-marketing' ); ?><?php echo $icon( 'blocked_add_to_cart', 'adc-help-an-add-to-cart', __( 'Eveniment „adăugare în coș”', 'adc-marketing' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ADC_Admin_Help::icon() escapes its own output. ?></strong>
+			<span><?php esc_html_e( 'Ar număra de câte ori intră un produs în coș, înainte de comandă. În schimb, topul produselor vândute din comenzi plătite este disponibil.', 'adc-marketing' ); ?></span>
+			<span><?php echo $e( $gate_state( 'add_to_cart' )['reason'] ); ?></span>
+		</li>
+		<li>
+			<strong><?php esc_html_e( 'Eveniment „începere finalizare”', 'adc-marketing' ); ?><?php echo $icon( 'blocked_begin_checkout', 'adc-help-an-begin-checkout', __( 'Eveniment „începere finalizare”', 'adc-marketing' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ADC_Admin_Help::icon() escapes its own output. ?></strong>
+			<span><?php esc_html_e( 'Ar sta la baza calcului abandonului de coș. WooCommerce nu are un punct verificat pe server pentru „a început finalizarea”, deci abandonul nu poate fi calculat corect.', 'adc-marketing' ); ?></span>
+			<span><?php echo $e( $gate_state( 'begin_checkout' )['reason'] ); ?></span>
+		</li>
+	</ul>
+
+	<?php $an_t_retention = __( '4. Retenție și dezinstalare', 'adc-marketing' ); ?>
+	<h3 class="title"><?php echo esc_html( $an_t_retention ) . $icon( 'section_retention', 'adc-help-an-retention-section', $an_t_retention ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ADC_Admin_Help::icon() escapes its own output. ?></h3>
+	<p class="adc-admin-section-intro">
+		<?php esc_html_e( 'Ce vedeți aici: perioadele de păstrare active acum. Le modificați în secțiunile 1 (financiar) și 2 (trafic); aici sunt doar reamintite.', 'adc-marketing' ); ?>
+	</p>
+	<ul class="adc-an-retention">
+		<li>
+			<?php
+			printf(
+				/* translators: %d: days. */
+				esc_html__( 'Agregate financiare: %d zile', 'adc-marketing' ),
+				(int) ( $settings['retention_commerce_days'] ?? 730 )
+			);
+			?>
+		</li>
+		<li>
+			<?php
+			printf(
+				/* translators: %d: days. */
+				esc_html__( 'Registru de deduplicare: %d zile', 'adc-marketing' ),
+				(int) ( $settings['retention_ledger_days'] ?? 365 )
+			);
+			?>
+		</li>
+		<li>
+			<?php
+			printf(
+				/* translators: %d: days. */
+				esc_html__( 'Trafic: %d zile', 'adc-marketing' ),
+				(int) ( $settings['retention_traffic_days'] ?? 90 )
+			);
+			?>
+		</li>
+	</ul>
+	<p class="description"><?php esc_html_e( 'Ștergerea la dezinstalare urmează opțiunea existentă „Șterge datele la dezinstalare” din setările de consimțământ; acest modul nu adaugă un al doilea comutator.', 'adc-marketing' ); ?></p>
 
 	<details class="adc-an-draft">
 		<summary><?php esc_html_e( 'Draft de notificare de confidențialitate (pentru validare juridică)', 'adc-marketing' ); ?></summary>
@@ -913,4 +1015,6 @@ $render_ranking = static function ( array $list, string $id, string $title, stri
 	<?php if ( $exports === array() ) : ?>
 		<p class="description adc-an-noexport"><?php esc_html_e( 'Exportul CSV nu este disponibil în această instalare (motorul de export lipsește).', 'adc-marketing' ); ?></p>
 	<?php endif; ?>
+
+	</div><!-- .adc-an-settings -->
 </div>

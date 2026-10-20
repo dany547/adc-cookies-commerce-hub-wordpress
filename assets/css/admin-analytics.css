@@ -1,8 +1,12 @@
 /* ADC Marketing — Analytics operațional (admin only).
  *
- * Owns the visual layer of the analytics tab:
+ * Owns the visual layer of the analytics UI, which is split over two shell tabs:
  * - templates/admin/analytics-dashboard.php
- * - includes/admin/class-adc-admin-tab-analytics.php
+ * - includes/admin/class-adc-admin-tab-dashboard.php  (statistics: Dashboard)
+ * - includes/admin/class-adc-admin-tab-analytics.php  (settings: Analytics)
+ *
+ * Both tabs print the `.adc-an` wrapper, so the custom properties below and the
+ * `.adc-an …` descendant selectors resolve on either page.
  *
  * Design contract: WordPress admin language (system UI font, #2271b1 accent,
  * 4 px radii, hairline borders, dense data). No cards-as-structure, no external
@@ -32,8 +36,15 @@
 	--adc-warn-tint: #fcf6ee;
 	--adc-bar: #4a86ba;
 	--adc-radius: 4px;
+	/* Same scale as the admin shell tokens (fallbacks keep this file usable alone). */
+	--adc-space-1: 8px;
+	--adc-space-2: 16px;
+	--adc-space-3: 24px;
+	--adc-space-4: 32px;
 
-	max-width: 1000px;
+	/* The dashboard renders inside the shell's .adc-admin-tab-content card, so it
+	   fills that card instead of centering a second, narrower column. */
+	max-width: none;
 	color: var(--adc-ink);
 	font-variant-numeric: tabular-nums lining-nums;
 }
@@ -80,16 +91,20 @@
 
 /* Panels ------------------------------------------------------------------ */
 
+/* Panels are sections of the dashboard card, not cards inside a card: hierarchy is
+   carried by a hairline separator and 24px of air between sections. */
 .adc-an-panel {
-	margin: 16px 0 0;
-	padding: 16px 18px 18px;
-	background: var(--adc-surface);
-	border: 1px solid var(--adc-line-soft);
-	border-radius: var(--adc-radius);
+	margin: var(--adc-space-3) 0 0;
+	padding: 0;
+	background: none;
+	border: 0;
+	border-radius: 0;
 }
 
 .adc-an-panel + .adc-an-panel {
-	margin-top: 12px;
+	margin-top: var(--adc-space-3);
+	padding-top: var(--adc-space-3);
+	border-top: 1px solid var(--adc-line-soft);
 }
 
 .adc-an-panel-head {
@@ -231,40 +246,57 @@
 
 /* Filters ----------------------------------------------------------------- */
 
-.adc-an-frow {
+/* Report filters ---------------------------------------------------------- */
+
+/* Wide screens: preset segments on the left, the "Personalizat" field group on the
+   right; a single column below 960 px. */
+.adc-an-fgrid {
 	display: grid;
-	grid-template-columns: 92px minmax(0, 1fr);
-	gap: 6px 14px;
+	gap: var(--adc-space-3);
 	align-items: start;
-	padding: 9px 0;
-	border-top: 1px solid var(--adc-line-soft);
 }
 
-.adc-an-frow--js {
-	grid-template-columns: 92px minmax(0, 1fr);
+.adc-an-fseg {
+	display: grid;
+	gap: var(--adc-space-2);
+	min-width: 0;
 }
 
-.adc-an-frow:first-of-type {
-	border-top: 0;
-	padding-top: 0;
+/* One filter row: its label sits above the control, never beside it. */
+.adc-an-fblock {
+	display: grid;
+	gap: var(--adc-space-1);
+	min-width: 0;
 }
 
 .adc-an-fkey {
+	margin: 0;
 	color: var(--adc-muted);
 	font-size: 12.5px;
 	font-weight: 600;
-	padding-top: 5px;
+}
+
+.adc-an-fcustom {
+	display: grid;
+	gap: var(--adc-space-2);
+	min-width: 0;
+	padding-top: var(--adc-space-3);
+	border-top: 1px solid var(--adc-line-soft);
 }
 
 .adc-an-segment {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 4px;
+	gap: var(--adc-space-1);
 }
 
+/* Same 32px control height as the admin shell pills and buttons. */
 .adc-an-seg {
-	display: inline-block;
-	padding: 5px 11px;
+	display: inline-flex;
+	align-items: center;
+	box-sizing: border-box;
+	min-height: 32px;
+	padding: 0 12px;
 	border: 1px solid var(--adc-line-soft);
 	border-radius: var(--adc-radius);
 	background: var(--adc-surface-alt);
@@ -293,11 +325,22 @@
 	color: #fff;
 }
 
+/* Field group: one field per cell, label above control, 16px gutters. */
 .adc-an-controls {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: end;
-	gap: 8px 12px;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+	gap: var(--adc-space-2);
+}
+
+.adc-an-cell {
+	display: grid;
+	align-content: start;
+	gap: 6px;
+	min-width: 0;
+}
+
+.adc-an-cell .adc-an-field {
+	margin-bottom: 0; /* the cell gap owns the label spacing */
 }
 
 .adc-an-field {
@@ -311,12 +354,36 @@
 
 .adc-an-controls select,
 .adc-an-controls input[type="date"],
-.adc-an-controls input[type="number"] {
+.adc-an-controls input[type="number"],
+.adc-an-controls input[type="text"] {
 	display: block;
+	box-sizing: border-box;
+	width: 100%;
+	min-height: 32px;
 	max-width: 100%;
 }
 
+/* Help text and action on one row: text on the left, button bottom-right. */
+.adc-an-fcustom-foot {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: var(--adc-space-2);
+}
+
+.adc-an-fcustom-foot .description {
+	flex: 1 1 260px;
+	margin: 0;
+	max-width: 70ch;
+	color: var(--adc-muted);
+}
+
 .adc-an-apply {
+	display: inline-flex;
+	align-items: center;
+	box-sizing: border-box;
+	min-height: 32px;
 	white-space: nowrap;
 }
 
@@ -329,6 +396,42 @@
 	margin: 10px 0 0;
 	color: var(--adc-ink-soft);
 	font-size: 12.5px;
+}
+
+/* Two columns only when the card is wide enough for both the segments and the
+   five custom fields; below that the grid stacks in reading order. */
+@media (min-width: 960px) {
+	.adc-an-fgrid {
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+	}
+
+	.adc-an-fcustom {
+		padding-top: 0;
+		padding-left: var(--adc-space-3);
+		border-top: 0;
+		border-left: 1px solid var(--adc-line-soft);
+	}
+}
+
+/* WP collapses the admin sidebar under 960 px, so the shell card is already narrow
+   here: tighten the section rhythm and let the fields wrap earlier. */
+@media (max-width: 782px) {
+	.adc-an-panel,
+	.adc-an-panel + .adc-an-panel {
+		margin-top: var(--adc-space-2);
+	}
+
+	.adc-an-panel + .adc-an-panel {
+		padding-top: var(--adc-space-2);
+	}
+
+	.adc-an-fgrid {
+		gap: var(--adc-space-2);
+	}
+
+	.adc-an-controls {
+		grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+	}
 }
 
 /* Key figures ------------------------------------------------------------- */
@@ -744,9 +847,7 @@ rect.adc-an-bar.is-small {
 	cursor: not-allowed;
 }
 
-.adc-an-check input,
-.adc-an-controls input,
-.adc-an-controls select {
+.adc-an-check input {
 	margin-right: 4px;
 }
 
@@ -857,8 +958,10 @@ rect.adc-an-bar.is-small {
 }
 
 @media screen and (max-width: 600px) {
-	.adc-an-panel {
-		padding: 14px 14px 16px;
+	.adc-an-panel,
+	.adc-an-panel + .adc-an-panel {
+		margin-top: var(--adc-space-2);
+		padding-top: var(--adc-space-2);
 	}
 
 	/* Settings rows stack and their fields fill the column: a 25em input next
@@ -893,23 +996,25 @@ rect.adc-an-bar.is-small {
 		max-width: 100%;
 	}
 
-	.adc-an-frow,
-	.adc-an-frow--js {
+	/* Every filter control fills the column on a phone. */
+	.adc-an-controls {
 		grid-template-columns: minmax(0, 1fr);
 	}
 
-	.adc-an-fkey {
-		padding-top: 0;
+	.adc-an-seg {
+		flex: 1 1 auto;
+		justify-content: center;
 	}
 
-	.adc-an-controls {
-		align-items: stretch;
+	.adc-an-fcustom-foot {
 		flex-direction: column;
+		align-items: stretch;
 	}
 
-	.adc-an-controls select,
-	.adc-an-controls input[type="date"],
-	.adc-an-controls input[type="number"],
+	.adc-an-fcustom-foot .description {
+		max-width: none;
+	}
+
 	.adc-an-apply {
 		width: 100%;
 		max-width: 100%;
@@ -951,3 +1056,192 @@ rect.adc-an-bar.is-small {
 		scroll-behavior: auto !important;
 	}
 }
+
+/* Settings tab (Analytics): entry point back to the statistics on the Dashboard. */
+.adc-an-jump {
+	margin: 0 0 16px;
+}
+
+/* Settings area (.adc-an-settings wraps the analytics settings form) --------- */
+
+/* One option per row: label above the control, muted description under it,
+   16px between options and 32px between numbered sections. */
+.adc-an-settings .title {
+	margin: var(--adc-space-4) 0 0;
+	padding: 0;
+	border-bottom: 0;
+	font-size: 15px;
+	font-weight: 600;
+}
+
+.adc-an-settings > .title:first-of-type {
+	margin-top: 0;
+}
+
+.adc-an-settings .description {
+	max-width: 74ch;
+}
+
+/* Options are rendered with ADC_Admin_Help::row() (label on top, control below,
+   one-sentence description under it). admin-help.css owns the 16px rhythm inside
+   the stack; here we only place the stack and keep the section rhythm at 32px. */
+.adc-an-settings .adc-help-options {
+	margin: var(--adc-space-2) 0 var(--adc-space-2);
+}
+
+.adc-an-settings .adc-help-row {
+	max-width: 74ch;
+}
+
+.adc-an-settings .adc-help-row__control {
+	display: grid;
+	justify-content: start;
+	gap: var(--adc-space-1);
+	width: 100%;
+}
+
+.adc-an-settings .adc-help-row__control select {
+	min-width: 220px;
+	max-width: 100%;
+}
+
+/* Checkbox choices inside one option. */
+.adc-an-settings .adc-an-opt {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--adc-space-1);
+	margin: 0;
+	cursor: pointer;
+}
+
+.adc-an-settings .adc-an-opt + .adc-an-opt {
+	margin-top: 0;
+}
+
+.adc-an-settings .adc-an-opt input[type="checkbox"] {
+	flex: 0 0 auto;
+	margin: 3px 0 0;
+}
+
+/* The info icon sits on the heading line, not below it. */
+.adc-an-settings .title .adc-help,
+.adc-an-panel-head .adc-help,
+.adc-an-blocked-list strong .adc-help,
+.adc-an-draft > summary .adc-help {
+	margin-left: var(--adc-space-1);
+	vertical-align: middle;
+}
+
+/* Without <dialog> support the same text falls back to a disclosure: keep it
+   readable, not in the heading's typographic voice. */
+.adc-an-settings .title .adc-help-details,
+.adc-an-panel-head .adc-help-details,
+.adc-an-blocked-list .adc-help-details {
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 1.5;
+	text-align: left;
+}
+
+.adc-an-settings .adc-admin-section-intro {
+	margin: 4px 0 0;
+	max-width: 74ch;
+}
+
+/* Retention summary (read-only recap of sections 1 and 2). */
+.adc-an-settings .adc-an-retention {
+	margin: var(--adc-space-2) 0 0;
+	max-width: 74ch;
+}
+
+/* What is counted versus what is never collected. */
+.adc-an-scope {
+	display: grid;
+	gap: var(--adc-space-1);
+	box-sizing: border-box;
+	margin: var(--adc-space-2) 0 0;
+	padding: 0;
+	list-style: none;
+	max-width: 78ch;
+}
+
+.adc-an-scope li {
+	position: relative;
+	padding-left: 26px;
+	font-size: 13px;
+	line-height: 1.6;
+	color: var(--adc-ink-soft);
+}
+
+.adc-an-scope li::before {
+	position: absolute;
+	left: 0;
+	top: 0;
+	font-weight: 700;
+}
+
+.adc-an-scope-in::before {
+	content: "\2713";
+	color: var(--adc-positive);
+}
+
+.adc-an-scope-out::before {
+	content: "\2715";
+	color: var(--adc-negative);
+}
+
+/* The blocked-features card: a line per feature, with its own info icon. */
+.adc-an-blocked-list {
+	display: grid;
+	gap: var(--adc-space-2);
+	box-sizing: border-box;
+	margin: var(--adc-space-2) 0 0;
+	padding: var(--adc-space-2);
+	list-style: none;
+	background: var(--adc-surface-alt);
+	border: 1px solid var(--adc-line-soft);
+	border-radius: var(--adc-radius);
+	max-width: 78ch;
+}
+
+.adc-an-blocked-list li {
+	display: grid;
+	gap: 2px;
+	font-size: 13px;
+	line-height: 1.6;
+}
+
+.adc-an-blocked-list strong {
+	font-weight: 600;
+	color: var(--adc-ink);
+}
+
+.adc-an-blocked-list span {
+	color: var(--adc-muted);
+}
+
+/* Inert legal notes: closed by default and visually secondary. */
+.adc-an-internal-notes {
+	margin-top: var(--adc-space-2);
+}
+
+.adc-an-internal-notes > summary {
+	font-weight: 600;
+}
+
+/* The shared form-table stacking rules above are less specific, so the option
+   grid is restored here for narrow admin columns. */
+/* Narrow admin columns: the option stack keeps its 16px rhythm and the modal
+   button stays on the heading line. */
+@media (max-width: 782px) {
+	.adc-an-settings .adc-help-options {
+		gap: var(--adc-space-2);
+		margin-bottom: var(--adc-space-2);
+	}
+
+	.adc-an-settings .adc-help-row__control select {
+		min-width: 0;
+		width: 100%;
+	}
+}
+

@@ -632,19 +632,33 @@ ADC_Settings::$values = array(
 );
 
 /* ---------------------------------------------------------------------------
- * 0. Hard-failed legal gates (Art. 21 / ePrivacy override)
+ * 0. Legal gates: traffic = switch + confirmation, UTM/interactions hard-closed
  * ------------------------------------------------------------------------- */
 
-check(!ADC_Analytics_Settings::traffic_enabled(), 'traffic gate hard false');
+check(!ADC_Analytics_Settings::traffic_enabled(), 'traffic off by default');
+check(ADC_Analytics_Settings::legal_gate_status('traffic')['enabled'] === false, 'traffic gate status off by default');
+ADC_Settings::$values['enabled_traffic'] = true; // The switch alone must not start counting.
+check(!ADC_Analytics_Settings::traffic_enabled(), 'traffic switch without confirmation stays off');
+ADC_Settings::$values['traffic_ack'] = true;
+check(ADC_Analytics_Settings::traffic_enabled(), 'traffic switch + confirmation opens the gate');
+check(ADC_Analytics_Settings::legal_gate_status('traffic')['enabled'] === true, 'traffic gate status active once confirmed');
+unset(ADC_Settings::$values['enabled_traffic'], ADC_Settings::$values['traffic_ack']);
+check(!ADC_Analytics_Settings::traffic_enabled(), 'removing the switch closes the gate again');
 check(!ADC_Analytics_Settings::utm_enabled(), 'utm gate hard false');
 check(!ADC_Analytics_Settings::add_to_cart_enabled(), 'add_to_cart gate hard false');
 check(!ADC_Analytics_Settings::begin_checkout_enabled(), 'begin_checkout gate hard false');
 check(ADC_Analytics_Interactions::begin_checkout_supported() === false, 'begin_checkout unsupported');
-ADC_Settings::$values['enabled_traffic'] = true; // Stored values can never open the gate.
+ADC_Settings::$values['traffic_utm_enabled'] = true; // Stored values can never open a closed gate.
 ADC_Settings::$values['enabled_add_to_cart'] = true;
-check(!ADC_Analytics_Settings::traffic_enabled(), 'stored traffic toggle cannot open gate');
+ADC_Settings::$values['enabled_begin_checkout'] = true;
+check(!ADC_Analytics_Settings::utm_enabled(), 'stored UTM toggle cannot open gate');
 check(!ADC_Analytics_Settings::add_to_cart_enabled(), 'stored add-to-cart toggle cannot open gate');
-unset(ADC_Settings::$values['enabled_traffic'], ADC_Settings::$values['enabled_add_to_cart']);
+check(!ADC_Analytics_Settings::begin_checkout_enabled(), 'stored begin-checkout toggle cannot open gate');
+unset(
+	ADC_Settings::$values['traffic_utm_enabled'],
+	ADC_Settings::$values['enabled_add_to_cart'],
+	ADC_Settings::$values['enabled_begin_checkout']
+);
 
 /* ---------------------------------------------------------------------------
  * 1. Gate closed -> hooks enqueue nothing; open gate -> WP-Cron fallback job

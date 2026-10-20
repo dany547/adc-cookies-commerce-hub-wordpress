@@ -3,7 +3,7 @@
  * Plugin Name: ADC Cookies & Commerce Hub
  * Plugin URI: https://github.com/dany547/adc-cookies-commerce-hub-wordpress
  * Description: Gestionează cookies, consimțământul vizitatorilor și preferințele de marketing. Centralizează integrările de tracking și rapoartele comerciale WooCommerce, cu controale distincte pentru colectarea datelor.
- * Version: 2.2.0
+ * Version: 2.2.4
  * Author: Dan Mutu
  * Author URI: https://adcelerum.ro
  * Text Domain: adc-marketing
@@ -26,7 +26,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('ADC_MARKETING_VERSION', '2.2.0');
+define('ADC_MARKETING_VERSION', '2.2.4');
 define('ADC_MARKETING_FILE', __FILE__);
 define('ADC_MARKETING_DB_VERSION', '1');
 define('ADC_MARKETING_PLUGIN_DIR', plugin_dir_path(__FILE__));

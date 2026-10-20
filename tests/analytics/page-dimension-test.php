@@ -250,11 +250,58 @@ $_GET = array('utm_source' => 'newsletter', 'utm_medium' => 'email', 'utm_campai
 adc_test_eq('campaign dimension always empty', array('source' => '', 'medium' => '', 'campaign' => ''), ADC_Analytics_Traffic::campaign_dimension());
 $_GET = array();
 
-// --- maybe_count: the gate is closed, so nothing is counted or written ---
+// --- maybe_count: nothing is written until the switch AND the confirmation ---
 adc_test_reset(array());
 ADC_Settings::$stored = array('enabled_traffic' => true, 'traffic_legal_basis' => 'lia', 'traffic_legal_reference' => 'LIA-2026-01', 'traffic_approved_at' => '2026-01-01');
 ADC_Analytics_Traffic::maybe_count();
-adc_test_eq('maybe_count writes nothing while gate closed', 0, ADC_Analytics_Store::$calls);
+adc_test_eq('legal fields never open the gate', 0, ADC_Analytics_Store::$calls);
+
+ADC_Settings::$stored = array('enabled_traffic' => true);
+ADC_Analytics_Traffic::maybe_count();
+adc_test_eq('switch without ack writes nothing', 0, ADC_Analytics_Store::$calls);
+
+// Gate open: one plain page view is aggregated.
+ADC_Settings::$stored = array('enabled_traffic' => true, 'traffic_ack' => true);
+adc_test_reset(array());
+ADC_Analytics_Traffic::maybe_count();
+adc_test_eq('switch + ack counts one view', 1, ADC_Analytics_Store::$calls);
+
+// Privacy signals: a Sec-GPC / DNT opt-out is never counted.
+adc_test_reset(array());
+$_SERVER['HTTP_SEC_GPC'] = '1';
+adc_test_eq('Sec-GPC: 1 is an opt-out', true, ADC_Analytics_Traffic::is_privacy_mode());
+ADC_Analytics_Traffic::maybe_count();
+adc_test_eq('Sec-GPC request not counted', 1, ADC_Analytics_Store::$calls);
+
+adc_test_reset(array());
+$_SERVER['HTTP_DNT'] = '1';
+adc_test_eq('DNT: 1 is an opt-out', true, ADC_Analytics_Traffic::is_privacy_mode());
+$_SERVER['HTTP_DNT'] = '0';
+adc_test_eq('DNT: 0 is not an opt-out', false, ADC_Analytics_Traffic::is_privacy_mode());
+ADC_Analytics_Traffic::maybe_count();
+adc_test_eq('DNT: 0 request still counted', 2, ADC_Analytics_Store::$calls);
+
+// The stored exclusions are real settings now.
+adc_test_reset(array('manage_options' => true));
+ADC_Analytics_Traffic::maybe_count();
+adc_test_eq('logged-in admin excluded by default', 2, ADC_Analytics_Store::$calls);
+ADC_Settings::$stored = array('enabled_traffic' => true, 'traffic_ack' => true, 'exclude_logged_in_admins' => false);
+ADC_Analytics_Traffic::maybe_count();
+adc_test_eq('admin exclusion can be switched off', 3, ADC_Analytics_Store::$calls);
+
+ADC_Settings::$stored = array('enabled_traffic' => true, 'traffic_ack' => true);
+adc_test_reset(array());
+$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (compatible; SEObot/2.1)';
+ADC_Analytics_Traffic::maybe_count();
+adc_test_eq('bot user agent excluded by default', 3, ADC_Analytics_Store::$calls);
+ADC_Settings::$stored = array('enabled_traffic' => true, 'traffic_ack' => true, 'bot_filter_enabled' => false);
+ADC_Analytics_Traffic::maybe_count();
+adc_test_eq('bot filter can be switched off', 4, ADC_Analytics_Store::$calls);
+
+ADC_Settings::$stored = array();
+adc_test_reset(array());
+ADC_Analytics_Traffic::maybe_count();
+adc_test_eq('closed gate writes nothing again', 4, ADC_Analytics_Store::$calls);
 
 // --- Gate and settings sanitization ---
 ADC_Settings::$stored = array();
@@ -264,7 +311,8 @@ adc_test_eq('add_to_cart gate closed by default', false, ADC_Analytics_Settings:
 adc_test_eq('begin_checkout gate closed by default', false, ADC_Analytics_Settings::begin_checkout_enabled());
 adc_test_eq('commerce off by default', false, ADC_Analytics_Settings::commerce_enabled());
 
-// Every collection gate stays closed even when every stored field is filled in.
+// The traffic gate needs the switch AND the confirmation; the closed gates
+// (UTM, add-to-cart, begin-checkout) ignore every stored field.
 ADC_Settings::$stored = array(
     'enabled_traffic' => true, 'traffic_legal_basis' => 'lia', 'traffic_legal_reference' => 'LIA-1',
     'traffic_approved_at' => '2026-01-01', 'traffic_utm_enabled' => true, 'traffic_utm_legal_reference' => 'UTM-1',
@@ -272,25 +320,32 @@ ADC_Settings::$stored = array(
     'add_to_cart_approved_at' => '2026-01-01', 'enabled_begin_checkout' => true,
     'begin_checkout_legal_reference' => 'BC-1', 'begin_checkout_approved_at' => '2026-01-01',
 );
-adc_test_eq('traffic gate ignores full input', false, ADC_Analytics_Settings::traffic_enabled());
+adc_test_eq('traffic gate ignores legal fields', false, ADC_Analytics_Settings::traffic_enabled());
+ADC_Settings::$stored['traffic_ack'] = true;
+adc_test_eq('traffic gate opens with switch and ack', true, ADC_Analytics_Settings::traffic_enabled());
 adc_test_eq('utm gate ignores full input', false, ADC_Analytics_Settings::utm_enabled());
 adc_test_eq('add_to_cart gate ignores full input', false, ADC_Analytics_Settings::add_to_cart_enabled());
 adc_test_eq('begin_checkout gate ignores full input', false, ADC_Analytics_Settings::begin_checkout_enabled());
 
-// Sanitization forces every effective collection toggle off.
+// Sanitization keeps the traffic switch/ack as real booleans and forces the
+// closed toggles off.
 $sanitized = ADC_Analytics_Settings::sanitize(
     array(
-        'enabled_traffic' => true, 'traffic_legal_basis' => 'lia', 'traffic_legal_reference' => 'LIA-1',
+        'enabled_traffic' => '1', 'traffic_ack' => '1', 'traffic_legal_basis' => 'lia', 'traffic_legal_reference' => 'LIA-1',
         'traffic_approved_at' => '2026-01-01', 'traffic_utm_enabled' => true, 'enabled_add_to_cart' => true,
         'enabled_begin_checkout' => true,
     ),
     ADC_Analytics_Settings::defaults()
 );
-adc_test_eq('sanitize forces traffic off', false, $sanitized['enabled_traffic']);
+adc_test_eq('sanitize keeps traffic switch', true, $sanitized['enabled_traffic']);
+adc_test_eq('sanitize keeps traffic ack', true, $sanitized['traffic_ack']);
 adc_test_eq('sanitize forces utm off', false, $sanitized['traffic_utm_enabled']);
 adc_test_eq('sanitize forces add_to_cart off', false, $sanitized['enabled_add_to_cart']);
 adc_test_eq('sanitize forces begin_checkout off', false, $sanitized['enabled_begin_checkout']);
 adc_test_eq('draft legal reference kept for review', 'LIA-1', $sanitized['traffic_legal_reference']);
+$sanitized = ADC_Analytics_Settings::sanitize(array('traffic_utm_enabled' => '1'), ADC_Analytics_Settings::defaults());
+adc_test_eq('sanitize keeps traffic off by default', false, $sanitized['enabled_traffic']);
+adc_test_eq('sanitize keeps ack off by default', false, $sanitized['traffic_ack']);
 
 // Future and malformed approval dates are dropped; a valid past date is kept.
 $dated = ADC_Analytics_Settings::sanitize(array('traffic_approved_at' => '2099-01-01'), ADC_Analytics_Settings::defaults());

@@ -538,15 +538,21 @@ if (in_array('env', $groups, true)) {
 /* ===== gates ===== */
 if (in_array('gates', $groups, true)) {
     AdcVal::$group = 'gates';
-    // Raw-stored toggles (bypassing sanitize) must not open hard-off gates.
+    // Raw-stored toggles (bypassing sanitize) must not open the closed gates, and
+    // the traffic gate stays closed without its privacy confirmation.
     update_option('adc_settings_analytics', array(
         'enabled_traffic' => true, 'traffic_utm_enabled' => true, 'enabled_add_to_cart' => true, 'enabled_begin_checkout' => true,
         'enabled_commerce' => true, 'commerce_ack' => true,
     ));
-    AdcVal::ok(!ADC_Analytics_Settings::traffic_enabled() && !ADC_Analytics_Settings::utm_enabled() && !ADC_Analytics_Settings::add_to_cart_enabled() && !ADC_Analytics_Settings::begin_checkout_enabled(), 'traffic/utm/add_to_cart/begin_checkout hard OFF with raw stored toggles true');
+    AdcVal::ok(!ADC_Analytics_Settings::traffic_enabled(), 'traffic stays OFF without traffic_ack');
+    AdcVal::ok(!ADC_Analytics_Settings::utm_enabled() && !ADC_Analytics_Settings::add_to_cart_enabled() && !ADC_Analytics_Settings::begin_checkout_enabled(), 'utm/add_to_cart/begin_checkout hard OFF with raw stored toggles true');
     $san = ADC_Analytics_Settings::sanitize(array('enabled_traffic' => '1', 'traffic_utm_enabled' => '1', 'enabled_add_to_cart' => '1', 'enabled_begin_checkout' => '1'), array());
-    AdcVal::ok(false === $san['enabled_traffic'] && false === $san['traffic_utm_enabled'] && false === $san['enabled_add_to_cart'] && false === $san['enabled_begin_checkout'], 'sanitize forces hard-off toggles false');
-    AdcVal::ok(false === ADC_Analytics_Settings::legal_gate_status('traffic')['enabled'], 'legal_gate_status(traffic) closed');
+    AdcVal::ok(true === $san['enabled_traffic'] && false === $san['traffic_ack'], 'sanitize keeps the traffic switch but never its confirmation');
+    AdcVal::ok(false === $san['traffic_utm_enabled'] && false === $san['enabled_add_to_cart'] && false === $san['enabled_begin_checkout'], 'sanitize forces hard-off toggles false');
+    AdcVal::ok(false === ADC_Analytics_Settings::legal_gate_status('traffic')['enabled'], 'legal_gate_status(traffic) closed without ack');
+    $san = ADC_Analytics_Settings::sanitize(array('enabled_traffic' => '1', 'traffic_ack' => '1'), array());
+    update_option('adc_settings_analytics', $san);
+    AdcVal::ok(true === ADC_Analytics_Settings::traffic_enabled() && true === ADC_Analytics_Settings::legal_gate_status('traffic')['enabled'], 'traffic opens only with switch + ack');
 
     delete_option('adc_settings_analytics');
     AdcVal::ok(false === ADC_Analytics_Settings::commerce_enabled(), 'commerce default OFF (no option)');
@@ -1044,7 +1050,7 @@ if (in_array('privacy', $groups, true)) {
     AdcVal::$group = 'privacy';
     global $wpdb;
     adcval_reset_tables();
-    // Raw-stored toggles true: front-end traffic must still write nothing.
+    // Raw-stored toggles true but no traffic_ack: front-end traffic must still write nothing.
     update_option('adc_settings_analytics', array('enabled_traffic' => true, 'traffic_utm_enabled' => true, 'enabled_add_to_cart' => true, 'enabled_begin_checkout' => true, 'enabled_commerce' => true, 'commerce_ack' => true));
     [$a] = adcval_products();
     $jar = tempnam(sys_get_temp_dir(), 'adcval');
@@ -1401,7 +1407,8 @@ if (in_array('ui', $groups, true)) {
     $f = $form_of($r['body']);
     AdcVal::ok('' !== $f['nonce'], 'settings form carries a nonce');
     $names = implode(',', array_keys($f['fields']));
-    AdcVal::ok(!preg_match('/enabled_traffic|traffic_utm_enabled|enabled_add_to_cart|enabled_begin_checkout/', $names), 'settings form exposes no switch for hard-off collection', $names);
+    AdcVal::ok(!preg_match('/traffic_utm_enabled|enabled_add_to_cart|enabled_begin_checkout/', $names), 'settings form exposes no switch for the hard-off collection', $names);
+    AdcVal::ok(str_contains($names, 'enabled_traffic') && str_contains($names, 'traffic_ack'), 'settings form exposes the traffic switch and its confirmation', $names);
     $base = array('action' => 'adc_save_tab', 'tab' => 'analytics', '_adc_nonce' => $f['nonce']);
     $save_ok = static fn(array $r_): bool => in_array($r_['code'], array(302, 303), true);
 
@@ -1418,7 +1425,7 @@ if (in_array('ui', $groups, true)) {
     // Hard-off cannot be forced by crafted fields.
     $r = $sendform($base + array('analytics' => array('enabled_commerce' => '1', 'commerce_ack' => '1', 'enabled_traffic' => '1', 'traffic_utm_enabled' => '1', 'enabled_add_to_cart' => '1', 'enabled_begin_checkout' => '1', 'traffic_legal_basis' => 'lia', 'traffic_legal_reference' => 'DPO-1', 'traffic_approved_at' => '2026-01-01')));
     $o = $opt();
-    AdcVal::ok(!ADC_Analytics_Settings::traffic_enabled() && !ADC_Analytics_Settings::utm_enabled() && !ADC_Analytics_Settings::add_to_cart_enabled() && !ADC_Analytics_Settings::begin_checkout_enabled() && empty($o['enabled_traffic']) && empty($o['traffic_utm_enabled']) && empty($o['enabled_add_to_cart']) && empty($o['enabled_begin_checkout']), 'crafted POST cannot open traffic/utm/add_to_cart/begin_checkout (even legal basis+reference+date supplied)');
+    AdcVal::ok(!ADC_Analytics_Settings::traffic_enabled() && !ADC_Analytics_Settings::utm_enabled() && !ADC_Analytics_Settings::add_to_cart_enabled() && !ADC_Analytics_Settings::begin_checkout_enabled() && empty($o['traffic_utm_enabled']) && empty($o['enabled_add_to_cart']) && empty($o['enabled_begin_checkout']), 'crafted POST cannot open utm/add_to_cart/begin_checkout and cannot confirm traffic without traffic_ack (legal basis+reference+date supplied)');
     // Clamping / allowlists / XSS.
     $r = $sendform($base + array('analytics' => array('enabled_commerce' => '1', 'commerce_ack' => '1', 'retention_commerce_days' => '-5', 'retention_ledger_days' => '99999', 'retention_traffic_days' => '1', 'min_cell_count' => '1', 'paid_statuses' => array('refunded', 'pending', 'processing'), 'traffic_legal_reference' => '<script>alert(1)</script>"><img src=x onerror=alert(2)>')));
     $o = $opt();

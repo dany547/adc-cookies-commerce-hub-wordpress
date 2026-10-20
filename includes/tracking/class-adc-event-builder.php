@@ -536,7 +536,7 @@ final class ADC_Event_Builder
 
         $parts = array();
         foreach ($product->get_variation_attributes() as $name => $value) {
-            $label = wc_get_attribute_taxonomy_label(str_replace('pa_', '', (string) $name));
+            $label = wc_attribute_label((string) $name, $product);
             if (empty($label)) {
                 $label = (string) $name;
             }

@@ -265,7 +265,7 @@ final class ADC_Retention implements ADC_Module_Interface
 
             $export_items[] = array(
                 'group_id'    => 'adc_attribution',
-                'group_label' => __('Atribuire marketing (comandă #' . $order_id . ')', 'adc-marketing'),
+                'group_label' => sprintf(__('Atribuire marketing (comandă #%s)', 'adc-marketing'), (string) $order_id),
                 'item_id'     => 'adc-attribution-' . $order_id,
                 'data'        => $fields,
             );
@@ -307,7 +307,7 @@ final class ADC_Retention implements ADC_Module_Interface
         // proof of consent — reported, not deleted (§6).
         if ($user instanceof WP_User) {
             $retained = array_map(
-                static fn (int $id): string => __('Dovada consimțământului este păstrată pentru comanda #' . $id, 'adc-marketing'),
+                static fn (int $id): string => sprintf(__('Dovada consimțământului este păstrată pentru comanda #%s', 'adc-marketing'), (string) $id),
                 self::order_ids_for_user((int) $user->ID)
             );
         }

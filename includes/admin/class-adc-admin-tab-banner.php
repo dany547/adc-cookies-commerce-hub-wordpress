@@ -24,6 +24,8 @@ if (!defined('ABSPATH')) {
  */
 final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_Interface
 {
+    use ADC_Admin_Help_Content;
+
     /**
      * Whether boot() already registered the admin hooks.
      *
@@ -52,19 +54,24 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
     );
 
     /**
-     * Fallback layouts (slug => Romanian label), used only while
-     * ADC_Consent_Banner::layouts() does not exist yet.
+     * Layout labels used only while ADC_Consent_Banner::layouts() is missing.
      *
-     * @var array<string, string>
+     * Kept in sync with that method (same six gettext strings) instead of a
+     * Romanian class constant, so the catalogue has a single source of text.
+     *
+     * @return array<string, string> Slug => translated label.
      */
-    private const FALLBACK_LAYOUTS = array(
-        'bar_bottom'       => 'Bară jos (toată lățimea)',
-        'box_bottom_left'  => 'Casetă jos stânga',
-        'box_bottom_right' => 'Casetă jos dreapta',
-        'box_bottom_center' => 'Casetă jos centru',
-        'center_modal'     => 'Fereastră centrată',
-        'bar_top'          => 'Bară sus',
-    );
+    private static function fallback_layout_labels(): array
+    {
+        return array(
+            'bar_bottom'        => __('Bară jos (toată lățimea)', 'adc-marketing'),
+            'box_bottom_left'   => __('Casetă jos stânga', 'adc-marketing'),
+            'box_bottom_right'  => __('Casetă jos dreapta', 'adc-marketing'),
+            'box_bottom_center' => __('Casetă jos centru', 'adc-marketing'),
+            'center_modal'      => __('Fereastră centrată', 'adc-marketing'),
+            'bar_top'           => __('Bară sus', 'adc-marketing'),
+        );
+    }
 
     /**
      * Boot the module: enqueue the tab assets on the plugin admin page.
@@ -191,8 +198,11 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
         $shadow = array_key_exists('shadow', $banner) ? (bool) $banner['shadow'] : true;
         $overlay = array_key_exists('overlay', $banner) ? (bool) $banner['overlay'] : true;
         ?>
-        <h2><?php esc_html_e('Activare', 'adc-marketing'); ?></h2>
-        <table class="form-table" role="presentation"><tbody>
+        <?php ADC_Admin_Help::section(
+            __('Activare', 'adc-marketing'),
+            __('Ce face această secțiune: decide dacă bannerul de consimțământ se afișează pe site și dacă vizitatorii trebuie întrebați din nou.', 'adc-marketing')
+        ); ?>
+        <table class="form-table adc-form-table-plain" role="presentation"><tbody>
             <tr>
                 <th scope="row"><?php esc_html_e('Banner cookie-uri', 'adc-marketing'); ?></th>
                 <td>
@@ -200,6 +210,7 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
                         <input type="checkbox" name="adc_consent[enabled]" value="1" <?php checked(!empty($consent['enabled'])); ?> />
                         <?php esc_html_e('Afișează bannerul și managerul de consimțământ pe site', 'adc-marketing'); ?>
                     </label>
+                    <p class="description"><?php esc_html_e('Cu opțiunea bifată, primul lucru pe care îl vede un vizitator nou este bannerul; fără ea, niciun cookie de măsurare nu mai poate fi cerut legal prin interfață.', 'adc-marketing'); ?></p>
                 </td>
             </tr>
             <tr>
@@ -222,8 +233,11 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
             </tr>
         </tbody></table>
 
-        <h2><?php esc_html_e('Texte', 'adc-marketing'); ?></h2>
-        <table class="form-table" role="presentation"><tbody>
+        <?php ADC_Admin_Help::section(
+            __('Texte', 'adc-marketing'),
+            __('Ce face această secțiune: controlează cuvintele exacte pe care vizitatorul le citește în banner și în managerul de consimțământ.', 'adc-marketing')
+        ); ?>
+        <table class="form-table adc-form-table-plain" role="presentation"><tbody>
             <tr>
                 <th scope="row"><label for="adc-banner-title"><?php esc_html_e('Titlu', 'adc-marketing'); ?></label></th>
                 <td><input type="text" id="adc-banner-title" class="regular-text" name="adc_banner[title]" value="<?php echo esc_attr((string) ($banner['title'] ?? '')); ?>" /></td>
@@ -290,10 +304,13 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
             </tr>
         </tbody></table>
 
-        <div id="adc-banner-appearance">
-            <h2><?php esc_html_e('Aspect și poziție', 'adc-marketing'); ?></h2>
+        <div id="adc-banner-appearance" class="adc-settings-section">
+            <?php ADC_Admin_Help::section(
+                __('Aspect și poziție', 'adc-marketing'),
+                __('Ce face această secțiune: unde apare bannerul pe ecran, ce culori folosește și cum arată — cu previzualizare live.', 'adc-marketing')
+            ); ?>
 
-            <h3><?php esc_html_e('Preset culori', 'adc-marketing'); ?></h3>
+            <h3><?php esc_html_e('Preset culori', 'adc-marketing'); ?> <?php echo ADC_Admin_Help::icon('adc-help-banner-colors', __('Preset culori', 'adc-marketing'), $this->help_banner_colors()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- helper escapes its own output. ?></h3>
             <p class="description"><?php esc_html_e('Alegeți un preset pentru a completa automat culorile. Dacă modificați orice culoare, presetul trece pe „Particularizat”.', 'adc-marketing'); ?></p>
             <fieldset class="adc-preset-cards">
                 <legend class="screen-reader-text"><?php esc_html_e('Preset culori', 'adc-marketing'); ?></legend>
@@ -331,6 +348,7 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
             </tbody></table>
 
             <h3><?php esc_html_e('Poziție și format', 'adc-marketing'); ?></h3>
+            <p class="description"><?php esc_html_e('Alegeți cum și unde se așază bannerul pe ecran; miniurile reproduc poziția reală.', 'adc-marketing'); ?></p>
             <fieldset class="adc-layout-picker">
                 <legend class="screen-reader-text"><?php esc_html_e('Poziție și format', 'adc-marketing'); ?></legend>
                 <?php foreach ($layouts as $slug => $caption) : ?>
@@ -343,6 +361,7 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
             </fieldset>
 
             <h3><?php esc_html_e('Ordinea și spațierea butoanelor', 'adc-marketing'); ?></h3>
+            <p class="description"><?php esc_html_e('Cum se așază și în ce ordine apar cele trei butoane — ordinea vizuală este și ordinea din cod (tastatură, cititoare de ecran).', 'adc-marketing'); ?></p>
             <table class="form-table" role="presentation"><tbody>
                 <tr>
                     <th scope="row"><label for="adc-banner-button-order"><?php esc_html_e('Ordinea butoanelor', 'adc-marketing'); ?></label></th>
@@ -365,7 +384,7 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
                 </tr>
             </tbody></table>
 
-            <h3><?php esc_html_e('Culori', 'adc-marketing'); ?></h3>
+            <h3><?php esc_html_e('Culori', 'adc-marketing'); ?> <?php echo ADC_Admin_Help::icon('adc-help-banner-colors-2', __('Culori', 'adc-marketing'), $this->help_banner_colors()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- helper escapes its own output. ?></h3>
             <?php foreach (self::color_groups() as $group_id => $group) : ?>
                 <?php
                 $keys = array_values(array_intersect($group['keys'], self::color_keys()));
@@ -390,6 +409,7 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
             <?php self::render_compliance_panel($colors); ?>
 
             <h3><?php esc_html_e('Colțuri, umbră și fundal', 'adc-marketing'); ?></h3>
+            <p class="description"><?php esc_html_e('Finisaje vizuale minore: colțuri rotunjite, umbră sub banner și întunecarea fundalului paginii (doar la fereastra centrată).', 'adc-marketing'); ?></p>
             <table class="form-table" role="presentation"><tbody>
                 <tr>
                     <th scope="row"><label for="adc-banner-radius"><?php esc_html_e('Rază colțuri', 'adc-marketing'); ?></label></th>
@@ -420,7 +440,7 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
 
             <p class="description adc-equal-note"><?php esc_html_e('Butoanele „Acceptă” și „Refuză” au aceeași mărime, aceeași poziție în rând și aceeași greutate vizuală, conform GDPR; diferă doar culoarea. Ordinea implicită este Acceptă · Setări · Refuză.', 'adc-marketing'); ?></p>
 
-            <h3><?php esc_html_e('Previzualizare live', 'adc-marketing'); ?></h3>
+            <h3><?php esc_html_e('Previzualizare live', 'adc-marketing'); ?> <?php echo ADC_Admin_Help::icon('adc-help-banner-preview', __('Previzualizare live', 'adc-marketing'), $this->help_banner_preview()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- helper escapes its own output. ?></h3>
             <p>
                 <button type="button" class="button" id="adc-banner-reset"><?php esc_html_e('Resetează la preset', 'adc-marketing'); ?></button>
             </p>
@@ -440,9 +460,13 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
             </div>
         </div>
 
-        <h2><?php esc_html_e('Categorii de cookie-uri', 'adc-marketing'); ?></h2>
-        <p class="description"><?php esc_html_e('Categoria „Necesare” este întotdeauna activă. Celelalte categorii sunt dezactivate implicit.', 'adc-marketing'); ?></p>
-        <table class="form-table" role="presentation"><tbody>
+        <?php ADC_Admin_Help::section(
+            __('Categorii de cookie-uri', 'adc-marketing'),
+            __('Ce face această secțiune: definește alegerile pe care vizitatorul le poate face în banner — și ce se întâmplă pentru fiecare când le acordă sau refuză.', 'adc-marketing'),
+            'adc-help-consent-categories',
+            $this->help_consent_categories()
+        ); ?>
+        <table class="form-table adc-form-table-plain" role="presentation"><tbody>
             <?php foreach (ADC_Consent_Banner::CATEGORIES as $category) : ?>
                 <tr>
                     <th scope="row"><?php echo esc_html((string) (($banner['category_labels'][$category] ?? $category))); ?></th>
@@ -464,7 +488,12 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
             <?php endforeach; ?>
         </tbody></table>
 
-        <h2><?php esc_html_e('Lista cookie-urilor', 'adc-marketing'); ?></h2>
+        <?php ADC_Admin_Help::section(
+            __('Lista cookie-urilor', 'adc-marketing'),
+            __('Ce face această secțiune: umple tabelul de cookie-uri din managerul de consimțământ, pentru transparență și conformitate.', 'adc-marketing'),
+            'adc-help-cookie-inventory',
+            $this->help_cookie_inventory()
+        ); ?>
         <p class="description">
             <?php esc_html_e('Un cookie pe linie: nume | categorie (necessary, preferences, statistics, marketing) | furnizor | scop | durată | prefix (da/nu). Pentru prefix, scrieți „da” sau adăugați * la nume.', 'adc-marketing'); ?>
         </p>
@@ -540,7 +569,7 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
             }
         }
 
-        return self::FALLBACK_LAYOUTS;
+        return self::fallback_layout_labels();
     }
 
     /**

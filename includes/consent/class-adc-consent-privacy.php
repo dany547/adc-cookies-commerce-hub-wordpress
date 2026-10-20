@@ -74,7 +74,7 @@ final class ADC_Consent_Privacy implements ADC_Module_Interface
     public static function register_exporter(array $exporters): array
     {
         $exporters[self::EXPORTER_KEY] = array(
-            'exporter_friendly_name' => 'ADC Marketing — consimțământ cookie',
+            'exporter_friendly_name' => __('ADC Marketing — consimțământ cookie', 'adc-marketing'),
             'callback'               => array(self::class, 'export_personal_data'),
         );
 
@@ -90,7 +90,7 @@ final class ADC_Consent_Privacy implements ADC_Module_Interface
     public static function register_eraser(array $erasers): array
     {
         $erasers[self::ERASER_KEY] = array(
-            'eraser_friendly_name' => 'ADC Marketing — consimțământ cookie',
+            'eraser_friendly_name' => __('ADC Marketing — consimțământ cookie', 'adc-marketing'),
             'callback'             => array(self::class, 'erase_personal_data'),
         );
 
@@ -119,7 +119,7 @@ final class ADC_Consent_Privacy implements ADC_Module_Interface
             if (is_string($meta_raw) && '' !== $meta_raw) {
                 $decoded = json_decode($meta_raw, true);
                 $data[]  = array(
-                    'name'  => 'Preferințe cookie (ultima decizie)',
+                    'name'  => __('Preferințe cookie (ultima decizie)', 'adc-marketing'),
                     'value' => is_array($decoded) ? wp_json_encode($decoded, JSON_PRETTY_PRINT) : $meta_raw,
                 );
             }
@@ -127,19 +127,19 @@ final class ADC_Consent_Privacy implements ADC_Module_Interface
             foreach (ADC_Consent_Store::for_user($user_id, 500) as $row) {
                 $items[] = array(
                     'group_id'    => 'adc-consent-log',
-                    'group_label' => 'Jurnal consimțământ cookie',
+                    'group_label' => __('Jurnal consimțământ cookie', 'adc-marketing'),
                     'item_id'     => 'adc-consent-log-' . (int) ($row['id'] ?? 0),
                     'data'        => array(
                         array(
-                            'name' => 'Data deciziei (UTC)',
+                            'name' => __('Data deciziei (UTC)', 'adc-marketing'),
                             'value' => (string) ($row['created_at'] ?? ''),
                         ),
                         array(
-                            'name'  => 'Acțiune',
+                            'name'  => __('Acțiune', 'adc-marketing'),
                             'value' => (string) ($row['action'] ?? ''),
                         ),
                         array(
-                            'name'  => 'Categorii acordate',
+                            'name'  => __('Categorii acordate', 'adc-marketing'),
                             'value' => sprintf(
                                 'preferences=%d, statistics=%d, marketing=%d',
                                 (int) ($row['cat_preferences'] ?? 0),
@@ -148,23 +148,23 @@ final class ADC_Consent_Privacy implements ADC_Module_Interface
                             ),
                         ),
                         array(
-                            'name'  => 'Versiune politică',
+                            'name'  => __('Versiune politică', 'adc-marketing'),
                             'value' => (string) ($row['policy_version'] ?? ''),
                         ),
                         array(
-                            'name'  => 'Sursă',
+                            'name'  => __('Sursă', 'adc-marketing'),
                             'value' => (string) ($row['source'] ?? ''),
                         ),
                         array(
-                            'name'  => 'Identificator consimțământ (cid)',
+                            'name'  => __('Identificator consimțământ (cid)', 'adc-marketing'),
                             'value' => (string) ($row['cid'] ?? ''),
                         ),
                         array(
-                            'name'  => 'Text afișat (hash)',
+                            'name'  => __('Text afișat (hash)', 'adc-marketing'),
                             'value' => (string) ($row['text_hash'] ?? ''),
                         ),
                         array(
-                            'name'  => 'Text afișat',
+                            'name'  => __('Text afișat', 'adc-marketing'),
                             'value' => self::resolve_text_hash((string) ($row['text_hash'] ?? '')),
                         ),
                     ),
@@ -185,19 +185,19 @@ final class ADC_Consent_Privacy implements ADC_Module_Interface
 
                 $items[] = array(
                     'group_id'    => 'adc-consent-orders',
-                    'group_label' => 'Consimțământ la finalizarea comenzii',
+                    'group_label' => __('Consimțământ la finalizarea comenzii', 'adc-marketing'),
                     'item_id'     => 'adc-consent-order-' . $order_id,
                     'data'        => array(
                         array(
-                            'name'  => 'Comandă',
+                            'name'  => __('Comandă', 'adc-marketing'),
                             'value' => '#' . $order_id,
                         ),
                         array(
-                            'name'  => 'Snapshot consimțământ',
+                            'name'  => __('Snapshot consimțământ', 'adc-marketing'),
                             'value' => $snapshot,
                         ),
                         array(
-                            'name'  => 'Identificator consimțământ (cid)',
+                            'name'  => __('Identificator consimțământ (cid)', 'adc-marketing'),
                             'value' => $cid,
                         ),
                     ),

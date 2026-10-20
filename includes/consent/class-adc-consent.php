@@ -390,11 +390,16 @@ final class ADC_Consent implements ADC_Module_Interface
      * Cookie <-> user-meta hydration on wp_login: newest decided ts wins and
      * is written to both sides.
      *
-     * @param int         $user_id Logging-in user id.
-     * @param WP_User|null $user   User object (unused, hook signature).
+     * @param string  $user_login Login name supplied by wp_login.
+     * @param WP_User $user       Authenticated user supplied by wp_login.
      */
-    public static function hydrate_on_login(int $user_id, ?WP_User $user = null): void
+    public static function hydrate_on_login(string $user_login, WP_User $user): void
     {
+        $user_id = (int) $user->ID;
+        if ($user_id <= 0) {
+            return;
+        }
+
         $days   = ADC_Consent_Mode::cookie_days();
         $policy = self::policy_version();
         $now    = time();

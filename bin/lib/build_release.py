@@ -43,7 +43,7 @@ FIXED_DATE_TIME = (1980, 1, 1, 0, 0, 0)
 # (path, extensions) allowlist for recursive trees.
 TREE_ALLOWLIST = {
     "includes": {".php"},
-    "assets": {".css", ".js"},
+    "assets": {".css", ".js", ".svg"},
     "templates": {".php"},
     "languages": {".mo", ".po"},
 }

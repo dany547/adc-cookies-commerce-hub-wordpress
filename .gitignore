@@ -75,3 +75,4 @@ AGENTS.md
 # Python bytecode caches produced by dev tooling (bin/lib scripts)
 __pycache__/
 *.py[cod]
+.local/

@@ -40,12 +40,12 @@ final class ADC_Analytics_Interactions implements ADC_Module_Interface
 	 *
 	 * @param string $cart_item_key Cart item key.
 	 * @param int    $product_id    Product id.
-	 * @param int    $quantity      Quantity added.
+	 * @param int|float $quantity   Quantity added (WC stock amount).
 	 * @param int    $variation_id  Variation id.
 	 * @param array  $variation     Variation attributes.
 	 * @param array  $cart_item_data Other cart item data.
 	 */
-	public static function on_add_to_cart(string $cart_item_key, int $product_id, int $quantity, int $variation_id = 0, array $variation = array(), array $cart_item_data = array()): void
+	public static function on_add_to_cart(string $cart_item_key, int $product_id, int|float $quantity, int $variation_id = 0, array $variation = array(), array $cart_item_data = array()): void
 	{
 		unset($cart_item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data);
 

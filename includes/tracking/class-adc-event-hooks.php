@@ -54,7 +54,7 @@ final class ADC_Event_Hooks implements ADC_Module_Interface
         add_action('woocommerce_add_to_cart', array(self::class, 'on_add_to_cart'), 10, 6);
         add_action('woocommerce_cart_item_removed', array(self::class, 'on_remove_from_cart'), 10, 2);
         add_action('woocommerce_remove_cart_item', array(self::class, 'on_remove_from_cart'), 10, 2);
-        add_filter('woocommerce_add_to_cart_frag', array(self::class, 'filter_cart_fragment'));
+        add_filter('woocommerce_add_to_cart_fragments', array(self::class, 'filter_cart_fragment'));
 
         // purchase — D14 triggers: payment_complete + status change to a paid
         // status inside events.purchase_statuses; both funnel into one guarded
@@ -206,7 +206,7 @@ final class ADC_Event_Hooks implements ADC_Module_Interface
      *
      * @param string $cart_item_key     Cart item key.
      * @param int    $product_id        Product id.
-     * @param int    $quantity          Quantity.
+     * @param int|float $quantity       Quantity (WC stock amounts may be fractional).
      * @param int    $variation_id      Variation id (0 for simple).
      * @param mixed  $variation         Variation data.
      * @param mixed  $cart_item_data    Extra cart item data.
@@ -214,7 +214,7 @@ final class ADC_Event_Hooks implements ADC_Module_Interface
     public static function on_add_to_cart(
         string $cart_item_key,
         int $product_id,
-        int $quantity,
+        int|float $quantity,
         int $variation_id = 0,
         mixed $variation = null,
         mixed $cart_item_data = null
@@ -233,7 +233,7 @@ final class ADC_Event_Hooks implements ADC_Module_Interface
             return;
         }
 
-        $event = self::build_cart_event('add_to_cart', $product, max(1, $quantity));
+        $event = self::build_cart_event('add_to_cart', $product, max(1, (int) $quantity));
         if (null === $event) {
             return;
         }
@@ -245,11 +245,12 @@ final class ADC_Event_Hooks implements ADC_Module_Interface
     /**
      * Classic remove-from-cart. Browser dataLayer only — the catalogue gives
      * remove_from_cart no server mirror, so adc_track_event is NOT fired.
-     * Both documented triggers are hooked with a per-request dedupe because
-     * the two actions pass different argument shapes across WC versions.
+     * Both WC actions pass (cart_item_key, WC_Cart). The pre-removal action
+     * reads cart_contents; the post-removal action reads removed_cart_contents.
+     * Legacy array inputs remain supported, with a per-request dedupe.
      *
-     * @param mixed $arg1 Cart item array (woocommerce_cart_item_removed) or key.
-     * @param mixed $arg2 Cart item key or cart object.
+     * @param mixed $arg1 Cart item key (or legacy item array).
+     * @param mixed $arg2 WC_Cart (or legacy item array/key).
      */
     public static function on_remove_from_cart(mixed $arg1, mixed $arg2 = null): void
     {
@@ -258,7 +259,13 @@ final class ADC_Event_Hooks implements ADC_Module_Interface
         }
 
         $item = is_array($arg1) ? $arg1 : (is_array($arg2) ? $arg2 : null);
-        if (null === $item) {
+        if (is_string($arg1) && $arg2 instanceof WC_Cart) {
+            $item = $arg2->get_cart_item($arg1);
+            if (empty($item)) {
+                $item = $arg2->removed_cart_contents[$arg1] ?? null;
+            }
+        }
+        if (!is_array($item)) {
             return; // Unknown shape — do not risk a double/empty emission.
         }
 

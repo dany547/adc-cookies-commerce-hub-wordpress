@@ -1,7 +1,10 @@
 /**
  * ADC Marketing — Analytics operațional (admin enhancer, no tracking).
  *
- * Scope: the filter controls of templates/admin/analytics-dashboard.php.
+ * Scope: the filter controls of templates/admin/analytics-dashboard.php, which
+ * are rendered by the Dashboard tab (ADC_Admin_Tab_Dashboard); the settings form
+ * of the same template belongs to the Analytics tab (ADC_Admin_Tab_Analytics).
+ * The shell still wraps every tab in a <form>, so the guard below stays needed.
  * The dashboard works without JavaScript (interval presets and channel/currency
  * filters are plain GET links); this script only keeps the "Aplică filtrele"
  * link in sync with the controls and stops Enter inside a filter field from
@@ -16,7 +19,8 @@
 	var APPLY_ID = 'adc-an-apply';
 	var ROOT_SELECTOR = '[data-adc-analytics]';
 	var FILTER_SELECTOR = '[data-adc-an-filter]';
-	var DIRTY_HINT = 'Filtre modificate: activați „Aplică filtrele” pentru a reîncărca raportul.';
+	// Hint text comes from PHP (wp_localize_script -> window.adcAnalyticsI18n).
+	var I18N = window.adcAnalyticsI18n || {};
 
 	function ready( fn ) {
 		if ( document.readyState === 'loading' ) {
@@ -101,7 +105,7 @@
 		var hint = apply.querySelector( '.adc-an-dirty-hint' );
 
 		if ( hint ) {
-			hint.textContent = dirty ? DIRTY_HINT : '';
+			hint.textContent = dirty ? ( I18N.dirtyHint || '' ) : '';
 		}
 	}
 

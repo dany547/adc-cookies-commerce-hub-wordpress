@@ -20,6 +20,8 @@ if (!defined('ABSPATH')) {
  */
 final class ADC_Admin_Tab_Tiktok implements ADC_Admin_Tab_Interface, ADC_Module_Interface
 {
+    use ADC_Admin_Help_Content;
+
     /**
      * Whether boot() already registered the admin hooks.
      *
@@ -121,73 +123,77 @@ final class ADC_Admin_Tab_Tiktok implements ADC_Admin_Tab_Interface, ADC_Module_
     {
         $s         = ADC_Settings::all('tiktok');
         $has_token = '' !== ADC_Settings::secret('tiktok', 'access_token');
-        ?>
-        <h2><?php esc_html_e('TikTok — Events API & Pixel', 'adc-marketing'); ?></h2>
-        <p class="description">
-            <?php esc_html_e('Trimite evenimentele către TikTok Events API 2.0 (server) și încarcă pixelul TikTok în browser. Evenimentele pornesc doar după consimțământul pentru categoria „marketing”; e-mailul și telefonul sunt trimise criptate SHA-256, iar tokenul de acces este stocat criptat și nu se mai afișează după salvare.', 'adc-marketing'); ?>
-        </p>
 
-        <table class="form-table" role="presentation">
-            <tr>
-                <th scope="row"><?php esc_html_e('Trimitere server (Events API)', 'adc-marketing'); ?></th>
-                <td>
-                    <label>
-                        <input type="checkbox" name="enabled_server" value="1" <?php checked(!empty($s['enabled_server'])); ?> />
-                        <?php esc_html_e('Activează trimiterea evenimentelor server-side către TikTok Events API', 'adc-marketing'); ?>
-                    </label>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row"><label for="adc-tiktok-browser-mode"><?php esc_html_e('Mod pixel în browser', 'adc-marketing'); ?></label></th>
-                <td>
-                    <select id="adc-tiktok-browser-mode" name="browser_mode">
-                        <option value="off" <?php selected('off', (string) $s['browser_mode']); ?>><?php esc_html_e('Dezactivat — fără pixel în browser', 'adc-marketing'); ?></option>
-                        <option value="gtm" <?php selected('gtm', (string) $s['browser_mode']); ?>><?php esc_html_e('Gestionat prin Google Tag Manager (recomandat)', 'adc-marketing'); ?></option>
-                        <option value="direct" <?php selected('direct', (string) $s['browser_mode']); ?>><?php esc_html_e('Încărcare directă — doar după consimțământul de marketing', 'adc-marketing'); ?></option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row"><label for="adc-tiktok-pixel-code"><?php esc_html_e('Cod pixel', 'adc-marketing'); ?></label></th>
-                <td>
-                    <input type="text" id="adc-tiktok-pixel-code" name="pixel_code" value="<?php echo esc_attr((string) $s['pixel_code']); ?>" class="regular-text" maxlength="40" autocomplete="off" />
-                    <p class="description"><?php esc_html_e('Pixel Code din TikTok Events Manager (doar cifre și litere).', 'adc-marketing'); ?></p>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row"><label for="adc-tiktok-access-token"><?php esc_html_e('Token de acces', 'adc-marketing'); ?></label></th>
-                <td>
-                    <input type="password" id="adc-tiktok-access-token" name="access_token" value="" class="regular-text code" autocomplete="new-password" spellcheck="false" />
-                    <?php if ($has_token) : ?>
-                        <p class="description"><?php esc_html_e('••••• (salvat) — lasă câmpul gol pentru a păstra tokenul curent.', 'adc-marketing'); ?></p>
-                    <?php else : ?>
-                        <p class="description"><?php esc_html_e('Access-Token generat în TikTok Events Manager. Este stocat criptat pe server. Poate fi suprascris prin constanta ADC_TIKTOK_ACCESS_TOKEN în wp-config.php.', 'adc-marketing'); ?></p>
-                    <?php endif; ?>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row"><label for="adc-tiktok-test-code"><?php esc_html_e('Cod eveniment test', 'adc-marketing'); ?></label></th>
-                <td>
-                    <input type="text" id="adc-tiktok-test-code" name="test_event_code" value="<?php echo esc_attr((string) $s['test_event_code']); ?>" class="regular-text" maxlength="40" autocomplete="off" />
-                    <?php if ('' !== (string) $s['test_event_code']) : ?>
-                        <p class="description" style="color:#e2401c;"><?php esc_html_e('Atenție: cu un cod de test activ, evenimentele ajung în Test Events — șterge codul în producție.', 'adc-marketing'); ?></p>
-                    <?php else : ?>
-                        <p class="description"><?php esc_html_e('Codul de test din TikTok Events Manager, folosit doar pentru testarea conexiunii. Lasă-l gol în producție.', 'adc-marketing'); ?></p>
-                    <?php endif; ?>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row"><?php esc_html_e('Testare conexiune', 'adc-marketing'); ?></th>
-                <td>
-                    <p>
-                        <button type="button" class="button" id="adc-tiktok-test"><?php esc_html_e('Testează conexiunea', 'adc-marketing'); ?></button>
-                        <span class="adc-test-result" id="adc-tiktok-test-result" aria-live="polite"></span>
-                    </p>
-                    <p class="description"><?php esc_html_e('Trimite un eveniment sintetic către Test Events. Necesită cod pixel, token și cod de eveniment test salvate.', 'adc-marketing'); ?></p>
-                </td>
-            </tr>
-        </table>
-        <?php
+        ADC_Admin_Help::section(
+            __('TikTok — Events API & Pixel', 'adc-marketing'),
+            __('Ce face această secțiune: trimite evenimentele de magazin către TikTok pentru optimizarea reclamelor și crearea de publicuri.', 'adc-marketing'),
+            'adc-help-tiktok-data',
+            $this->help_tiktok_data()
+        );
+
+        echo '<div class="adc-help-options adc-settings-section">';
+
+        ADC_Admin_Help::row(
+            __('Trimitere server (Events API)', 'adc-marketing'),
+            '<label><input type="checkbox" name="enabled_server" value="1" ' . checked(!empty($s['enabled_server']), false, false) . ' /> ' . esc_html__('Activează trimiterea evenimentelor server-side către TikTok Events API', 'adc-marketing') . '</label>',
+            __('Pornește expedierea de pe server; evenimentele pleacă doar pentru vizitatorii cu consimțământ de marketing bifat.', 'adc-marketing'),
+            null,
+            'adc-help-tiktok-data-2',
+            $this->help_tiktok_data()
+        );
+
+        $browser_mode_options = array(
+            'off'    => __('Dezactivat — fără pixel în browser', 'adc-marketing'),
+            'gtm'    => __('Gestionat prin Google Tag Manager (recomandat)', 'adc-marketing'),
+            'direct' => __('Încărcare directă — doar după consimțământul de marketing', 'adc-marketing'),
+        );
+        $browser_control = '<select id="adc-tiktok-browser-mode" name="browser_mode">';
+        foreach ($browser_mode_options as $value => $caption) {
+            $browser_control .= '<option value="' . esc_attr($value) . '" ' . selected($value, (string) $s['browser_mode'], false) . '>' . esc_html($caption) . '</option>';
+        }
+        $browser_control .= '</select>';
+        ADC_Admin_Help::row(
+            __('Mod pixel în browser', 'adc-marketing'),
+            $browser_control,
+            __('Cum se încarcă pixelul TikTok în pagini: deloc, prin GTM (îl gestionați din container) sau direct de plugin, după consimțământ.', 'adc-marketing'),
+            'adc-tiktok-browser-mode'
+        );
+
+        ADC_Admin_Help::row(
+            __('Cod pixel', 'adc-marketing'),
+            '<input type="text" id="adc-tiktok-pixel-code" name="pixel_code" value="' . esc_attr((string) $s['pixel_code']) . '" class="regular-text" maxlength="40" autocomplete="off" />',
+            __('Pixel Code din TikTok Events Manager; identifică contul în care ajung evenimentele.', 'adc-marketing'),
+            'adc-tiktok-pixel-code'
+        );
+
+        $token_desc = $has_token
+            ? __('••••• (salvat) — lasă câmpul gol pentru a păstra tokenul curent.', 'adc-marketing')
+            : __('Access-Token din TikTok Events Manager; se stochează criptat și nu se mai afișează după salvare.', 'adc-marketing');
+        ADC_Admin_Help::row(
+            __('Token de acces', 'adc-marketing'),
+            '<input type="password" id="adc-tiktok-access-token" name="access_token" value="" class="regular-text code" autocomplete="new-password" spellcheck="false" />',
+            $token_desc,
+            'adc-tiktok-access-token'
+        );
+
+        ADC_Admin_Help::row(
+            __('Cod eveniment test', 'adc-marketing'),
+            '<input type="text" id="adc-tiktok-test-code" name="test_event_code" value="' . esc_attr((string) $s['test_event_code']) . '" class="regular-text" maxlength="40" autocomplete="off" />',
+            '' !== (string) $s['test_event_code']
+                ? __('Atenție: cu un cod de test activ, evenimentele ajung în Test Events, nu în rapoartele reale — ștergeți codul în producție.', 'adc-marketing')
+                : __('Gol = evenimente reale. Completat, evenimentele se directionează în Test Events pentru verificare.', 'adc-marketing'),
+            'adc-tiktok-test-code',
+            'adc-help-tiktok-test-code',
+            '<p>' . esc_html__('Codul de test se generează în TikTok Events Manager → Test Events. Cât timp este salvat aici, evenimentele — inclusiv comenzile reale — apar doar în fereastra de test, nu în rapoartele campaniilor.', 'adc-marketing') . '</p><p>' . esc_html__('Folosiți-l temporar pentru verificare, apoi ștergeți câmpul și salvați; pluginul avertizează la fiecare salvare cât timp codul este activ.', 'adc-marketing') . '</p>'
+        );
+
+        ADC_Admin_Help::row(
+            __('Testare conexiune', 'adc-marketing'),
+            '<p><button type="button" class="button" id="adc-tiktok-test">' . esc_html__('Testează conexiunea', 'adc-marketing') . '</button> <span class="adc-test-result" id="adc-tiktok-test-result" aria-live="polite"></span></p>',
+            __('Trimite un eveniment sintetic către Test Events; necesită cod pixel, token și cod de eveniment test salvate.', 'adc-marketing')
+        );
+
+        echo '</div>';
     }
 
     /**

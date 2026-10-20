@@ -40,12 +40,22 @@ update_option('adc_settings_analytics', array_merge(is_array($previous) ? $previ
 )));
 
 try {
-    // 1. Legal gates stay hard-false even with stored toggles present.
+    // 1. The closed gates stay hard-false even with stored toggles present, and
+    //    the traffic gate needs its confirmation as well as the switch.
     update_option('adc_settings_analytics', array_merge((array) get_option('adc_settings_analytics', array()), array(
         'enabled_traffic'     => true,
         'enabled_add_to_cart' => true,
     )));
-    $check(!ADC_Analytics_Settings::traffic_enabled(), 'traffic gate hard false in WP runtime');
+    $check(!ADC_Analytics_Settings::traffic_enabled(), 'traffic gate closed without traffic_ack in WP runtime');
+    update_option('adc_settings_analytics', array_merge((array) get_option('adc_settings_analytics', array()), array(
+        'enabled_traffic' => true,
+        'traffic_ack'     => true,
+    )));
+    $check(ADC_Analytics_Settings::traffic_enabled(), 'traffic gate opens with switch + ack in WP runtime');
+    update_option('adc_settings_analytics', array_merge((array) get_option('adc_settings_analytics', array()), array(
+        'enabled_traffic' => false,
+        'traffic_ack'     => false,
+    )));
     $check(!ADC_Analytics_Settings::add_to_cart_enabled(), 'add_to_cart gate hard false in WP runtime');
     $check(!ADC_Analytics_Settings::begin_checkout_enabled(), 'begin_checkout gate hard false in WP runtime');
     $check(!ADC_Analytics_Settings::utm_enabled(), 'utm gate hard false in WP runtime');
