@@ -16,11 +16,21 @@ final class ADC_Consent_Banner { public const CATEGORIES = array('necessary','pr
 final class ADC_Settings { public static function all(string $group): array { return array('title'=>'untouched'); } public static function update(string $group, array $input): array { $GLOBALS['written'] = $input; return $input; } }
 $GLOBALS['opts'] = array(); $GLOBALS['inventory'] = array();
 require dirname(__DIR__) . '/includes/consent/class-adc-cookie-scanner.php';
+if (isset($argv[1]) && $argv[1] === '--missing-data') {
+    rename(dirname(__DIR__) . '/data/open-cookie-database.json', dirname(__DIR__) . '/data/open-cookie-database.json.test-hold');
+    try { check(ADC_Cookie_Scanner::match_known('definitely_unknown') === null, 'missing data unexpectedly matched'); }
+    finally { rename(dirname(__DIR__) . '/data/open-cookie-database.json.test-hold', dirname(__DIR__) . '/data/open-cookie-database.json'); }
+    echo "Missing data guard passed.\n";
+    exit(0);
+}
 function check(bool $ok, string $message): void { if (!$ok) throw new RuntimeException($message); }
 check(ADC_Cookie_Scanner::match_known('wordpress_test_cookie') !== null, 'exact match failed');
 check(ADC_Cookie_Scanner::match_known('wordpress_logged_in_abc') !== null, 'wordpress wildcard failed');
 $ga = ADC_Cookie_Scanner::match_known('_ga_ABC123');
-check($ga !== null && $ga['provider'] === 'Google Analytics' && $ga['category'] === 'statistics', 'GA4 wildcard failed');
+check($ga !== null && $ga['provider'] === 'Google Analytics' && $ga['category'] === 'statistics' && $ga['origin'] === 'curated', 'GA4 curated wildcard failed');
+$ocd = ADC_Cookie_Scanner::match_known('_hjHasCachedUserAttributes');
+check($ocd !== null && $ocd['origin'] === 'opencookie', 'Open Cookie Database exact lookup failed');
+check(ADC_Cookie_Scanner::match_known('adc_test_unknown_cookie') === null, 'unknown cookie unexpectedly matched');
 check(ADC_Cookie_Scanner::record(array('valid_cookie', 'bad name', str_repeat('a', 129)), 'browser') === 1, 'record validation failed');
 $result = ADC_Cookie_Scanner::save_to_inventory(array(array('name'=>'valid_cookie','category'=>'bogus','provider'=>'','purpose'=>'','duration'=>'')));
 check($result['saved'] === 0 && count($result['errors']) === 1, 'invalid category was accepted');

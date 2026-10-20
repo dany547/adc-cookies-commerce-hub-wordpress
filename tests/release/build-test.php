@@ -107,6 +107,9 @@ $must_have = [
     'adc-marketing/assets/js/datalayer.js',
     'adc-marketing/templates/myaccount/marketing-consent.php',
     'adc-marketing/languages/adc-marketing-ro_RO.mo',
+    'adc-marketing/data/open-cookie-database.json',
+    'adc-marketing/data/NOTICE-open-cookie-database.txt',
+    'adc-marketing/data/LICENSE-Apache-2.0.txt',
 ];
 $optional_missing = [];
 foreach ($must_have as $m) {

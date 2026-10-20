@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ADC Marketing 2.2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-20 13:44+0000\n"
+"POT-Creation-Date: 2026-10-20 14:19+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -572,6 +572,14 @@ msgstr ""
 msgid "Scanează acum"
 msgstr ""
 
+#: includes/admin/class-adc-admin-tab-cookies.php:51
+msgid "Salvează toate"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:51
+msgid "Acceptă sugestiile"
+msgstr ""
+
 #: includes/admin/class-adc-admin-tab-cookies.php:52
 msgid "Cookie-urile setate de trackere apar în scanarea din browser numai dacă "
 "administratorul și-a acordat consimțământul pe site. Scanarea săptămânală "
@@ -627,6 +635,10 @@ msgid "Acțiuni"
 msgstr ""
 
 #: includes/admin/class-adc-admin-tab-cookies.php:58
+msgid "sugestie"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:58
 msgid "— alegeți —"
 msgstr ""
 
@@ -642,7 +654,11 @@ msgstr ""
 msgid "Ignoră"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:87
+#: includes/admin/class-adc-admin-tab-cookies.php:89
+msgid "Prea multe rânduri (maximum 200 per cerere)."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:96
 msgid "Starea cookie-ului nu a putut fi actualizată."
 msgstr ""
 
@@ -4279,39 +4295,47 @@ msgid "Păstrează coșul și sesiunea de cumpărături."
 msgstr ""
 
 #: includes/consent/class-adc-cookie-scanner.php:34
-msgid "Măsoară și personalizează publicitatea Meta."
+msgid "Măsoară sursele de trafic și atribuirea comenzilor."
 msgstr ""
 
 #: includes/consent/class-adc-cookie-scanner.php:35
-msgid "Măsoară utilizarea site-ului."
+msgid "Măsoară și personalizează publicitatea Meta."
 msgstr ""
 
 #: includes/consent/class-adc-cookie-scanner.php:36
-msgid "Măsoară eficiența publicității Google."
+msgid "Măsoară utilizarea site-ului."
 msgstr ""
 
 #: includes/consent/class-adc-cookie-scanner.php:37
-msgid "Reține setări și măsoară publicitatea Google."
+msgid "Măsoară eficiența publicității Google."
 msgstr ""
 
 #: includes/consent/class-adc-cookie-scanner.php:38
-msgid "Măsoară eficiența publicității TikTok."
+msgid "Reține setări și măsoară publicitatea Google."
 msgstr ""
 
 #: includes/consent/class-adc-cookie-scanner.php:39
+msgid "Măsoară eficiența publicității TikTok."
+msgstr ""
+
+#: includes/consent/class-adc-cookie-scanner.php:40
 msgid "Reține alegerile privind cookie-urile."
 msgstr ""
 
-#: includes/consent/class-adc-cookie-scanner.php:137
+#: includes/consent/class-adc-cookie-scanner.php:164
 msgid "Rând invalid."
 msgstr ""
 
-#: includes/consent/class-adc-cookie-scanner.php:141
+#: includes/consent/class-adc-cookie-scanner.php:168
 msgid "Numele cookie-ului nu este valid."
 msgstr ""
 
-#: includes/consent/class-adc-cookie-scanner.php:142
+#: includes/consent/class-adc-cookie-scanner.php:169
 msgid "Categoria cookie-ului nu este validă."
+msgstr ""
+
+#: includes/consent/class-adc-cookie-scanner.php:178
+msgid "Inventarul de cookie-uri este plin (maximum 100 de intrări)."
 msgstr ""
 
 #: includes/core/class-adc-github-updater.php:1131

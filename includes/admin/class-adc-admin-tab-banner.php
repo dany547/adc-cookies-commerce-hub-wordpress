@@ -1097,15 +1097,20 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
             if (!is_array($row)) {
                 continue;
             }
+            // "|" is the field separator: a pipe inside a field would shift every later column on save.
             $lines[] = implode(
                 ' | ',
-                array(
-                    (string) ($row['name'] ?? '') . (!empty($row['wildcard']) ? '*' : ''),
-                    (string) ($row['category'] ?? ''),
-                    (string) ($row['provider'] ?? ''),
-                    (string) ($row['purpose'] ?? ''),
-                    (string) ($row['duration'] ?? ''),
-                    !empty($row['wildcard']) ? 'da' : 'nu',
+                str_replace(
+                    array('|', "\r", "\n"),
+                    array('/', ' ', ' '),
+                    array(
+                        (string) ($row['name'] ?? '') . (!empty($row['wildcard']) ? '*' : ''),
+                        (string) ($row['category'] ?? ''),
+                        (string) ($row['provider'] ?? ''),
+                        (string) ($row['purpose'] ?? ''),
+                        (string) ($row['duration'] ?? ''),
+                        !empty($row['wildcard']) ? 'da' : 'nu',
+                    )
                 )
             );
         }

@@ -31,6 +31,7 @@ final class ADC_Cookie_Scanner implements ADC_Module_Interface
         // to bin/i18n-build.py and missing from the POT).
         $add(array('wordpress_logged_in_*','wordpress_sec_*','wordpress_test_cookie','wp-settings-*','wp-settings-time-*','comment_author_*','comment_author_email_*','comment_author_url_*','wp_lang','wordpress_*','PHPSESSID'), 'necessary', 'WordPress', __('Asigură autentificarea și funcționarea site-ului.', 'adc-marketing'));
         $add(array('woocommerce_cart_hash','woocommerce_items_in_cart','woocommerce_recently_viewed','wp_woocommerce_session_*','woocommerce_*','store_notice*','tk_*'), 'necessary', 'WooCommerce', __('Păstrează coșul și sesiunea de cumpărături.', 'adc-marketing'));
+        $add(array('sbjs_*'), 'statistics', 'WooCommerce', __('Măsoară sursele de trafic și atribuirea comenzilor.', 'adc-marketing'));
         $add(array('_fbp','_fbc','fr'), 'marketing', 'Meta', __('Măsoară și personalizează publicitatea Meta.', 'adc-marketing'));
         $add(array('_ga','_ga_*','_gid','_gat*'), 'statistics', 'Google Analytics', __('Măsoară utilizarea site-ului.', 'adc-marketing'));
         $add(array('_gcl_au','_gcl_aw','_gcl_dc','_gcl_*'), 'marketing', 'Google Ads', __('Măsoară eficiența publicității Google.', 'adc-marketing'));
@@ -40,19 +41,45 @@ final class ADC_Cookie_Scanner implements ADC_Module_Interface
         return $rows;
     }
 
-    /** Match exact known names first, then the longest wildcard prefix. */
+    /** Match curated patterns first, then the bundled Open Cookie Database. */
     public static function match_known(string $name): ?array
     {
-        $wildcards = array();
+        $curated_wildcards = array();
         foreach (self::known_cookies() as $row) {
-            if (!$row['wildcard'] && $row['pattern'] === $name) return $row;
-            if ($row['wildcard']) $wildcards[] = $row;
+            if (!$row['wildcard'] && $row['pattern'] === $name) return $row + array('origin' => 'curated');
+            if ($row['wildcard']) $curated_wildcards[] = $row;
         }
-        usort($wildcards, static fn(array $a, array $b): int => strlen($b['pattern']) <=> strlen($a['pattern']));
-        foreach ($wildcards as $row) {
+        usort($curated_wildcards, static fn(array $a, array $b): int => strlen($b['pattern']) <=> strlen($a['pattern']));
+        foreach ($curated_wildcards as $row) {
+            if (str_starts_with($name, substr($row['pattern'], 0, -1))) return $row + array('origin' => 'curated');
+        }
+        $index = self::open_cookie_index();
+        if (isset($index['exact'][$name])) return $index['exact'][$name];
+        foreach ($index['wildcards'] as $row) {
             if (str_starts_with($name, substr($row['pattern'], 0, -1))) return $row;
         }
         return null;
+    }
+
+    /** Load and index bundled data only when matching is requested. */
+    private static function open_cookie_index(): array
+    {
+        static $index = null;
+        if (is_array($index)) return $index;
+        $index = array('exact' => array(), 'wildcards' => array());
+        $path = dirname(__DIR__, 2) . '/data/open-cookie-database.json';
+        if (!is_readable($path)) return $index;
+        $data = json_decode((string) file_get_contents($path), true);
+        if (!is_array($data) || !is_array($data['rows'] ?? null)) return $index;
+        foreach ($data['rows'] as $item) {
+            if (!is_array($item) || count($item) < 6 || !is_string($item[0]) || !in_array($item[2], ADC_Consent_Banner::CATEGORIES, true)) continue;
+            $wildcard = (bool) $item[1];
+            $row = array('pattern' => $wildcard ? rtrim($item[0], '*') . '*' : $item[0], 'wildcard' => $wildcard, 'category' => $item[2], 'provider' => (string) $item[3], 'purpose' => (string) $item[4], 'duration' => (string) $item[5], 'origin' => 'opencookie');
+            if ($wildcard) $index['wildcards'][] = $row;
+            else $index['exact'][$item[0]] = $row;
+        }
+        usort($index['wildcards'], static fn(array $a, array $b): int => strlen($b['pattern']) <=> strlen($a['pattern']));
+        return $index;
     }
 
     /** Scan same-host pages for Set-Cookie headers; cookie values are never retained. */
@@ -145,7 +172,12 @@ final class ADC_Cookie_Scanner implements ADC_Module_Interface
             $entry = array('name' => $clean_name, 'category' => $category, 'provider' => sanitize_text_field((string) ($row['provider'] ?? '')), 'purpose' => sanitize_text_field((string) ($row['purpose'] ?? '')), 'duration' => sanitize_text_field((string) ($row['duration'] ?? '')), 'wildcard' => $wildcard);
             $replaced = false;
             foreach ($inventory as $i => $existing) if (($existing['name'] ?? '') === $clean_name) { $entry['wildcard'] = $entry['wildcard'] || (bool) ($existing['wildcard'] ?? false); $inventory[$i] = $entry; $replaced = true; break; }
-            if (!$replaced) $inventory[] = $entry;
+            if (!$replaced) {
+                // ADC_Consent_Banner::sanitize_inventory() keeps only the first 100 rows; counting
+                // rows past that cap as saved would report success and silently drop them.
+                if (count($inventory) >= 100) { $errors[] = __('Inventarul de cookie-uri este plin (maximum 100 de intrări).', 'adc-marketing'); continue; }
+                $inventory[] = $entry;
+            }
             $saved++;
         }
         if ($saved > 0) {

@@ -14,7 +14,7 @@ Allowlist policy (single source of truth for packaging; a separate
 
   include  adc-marketing.php, uninstall.php, LICENSE, README.txt,
            includes/**/*.php, assets/**.{css,js}, templates/**/*.php,
-           languages/**.{mo,po}
+           languages/**.{mo,po}, data/**.{json,txt}
   exclude  everything else (.git*, tests/, docs/, bin/, .github/, dist/,
            vendor/, node_modules/, AGENTS.md, phpcs.xml.dist, .env*,
            *.md except LICENSE/README.txt, caches, secrets)
@@ -46,6 +46,7 @@ TREE_ALLOWLIST = {
     "assets": {".css", ".js", ".svg"},
     "templates": {".php"},
     "languages": {".mo", ".po"},
+    "data": {".json", ".txt"},
 }
 
 # Exact top-level files.

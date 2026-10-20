@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ADC Marketing 2.2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-20 13:44+0000\n"
+"PO-Revision-Date: 2026-10-20 14:19+0000\n"
 "Last-Translator: ADC Marketing build\n"
 "Language-Team: English\n"
 "Language: en_GB\n"
@@ -4375,3 +4375,21 @@ msgstr "The cookie name is not valid."
 
 msgid "Categoria cookie-ului nu este validă."
 msgstr "The cookie category is not valid."
+
+msgid "Salvează toate"
+msgstr "Save all"
+
+msgid "Acceptă sugestiile"
+msgstr "Accept suggestions"
+
+msgid "sugestie"
+msgstr "suggestion"
+
+msgid "Măsoară sursele de trafic și atribuirea comenzilor."
+msgstr "Measures traffic sources and order attribution."
+
+msgid "Prea multe rânduri (maximum 200 per cerere)."
+msgstr "Too many rows (maximum 200 per request)."
+
+msgid "Inventarul de cookie-uri este plin (maximum 100 de intrări)."
+msgstr "The cookie inventory is full (maximum 100 entries)."

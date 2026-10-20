@@ -5,3 +5,6 @@
 .adc-cookie-table input, .adc-cookie-table select { min-width: 100px; width: 100%; }
 .adc-cookie-table tr[data-status="new"] { background: #fff8e5; }
 .adc-cookie-table tr[hidden] { display: none; }
+.adc-cookie-table tr.adc-cookie-dirty { box-shadow: inset 4px 0 #dba617; }
+.adc-cookie-badge { display: inline-block; margin-left: 5px; padding: 1px 5px; border-radius: 9px; background: #e8f0fe; color: #1d4f91; font-size: 11px; line-height: 1.5; }
+.adc-cookie-draft { background: #fff1c2; color: #674d00; }

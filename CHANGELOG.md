@@ -16,6 +16,17 @@ commit/tag de release — workflow-ul `version-bump.yml` nu rescrie dată; o fac
 responsabilul de release înainte de tag. Intrările viitoare `în lucru` rămân
 neatinse până la publicare.
 
+## [2.3.1] - 2026-10-20
+
+### Adăugat
+- Baza de cookie-uri cunoscute este extinsă cu Open Cookie Database (Apache-2.0, ~2240 de cookie-uri), inclusă offline în plugin; sursa e marcată ca sugestie în tabul Scanner.
+- Scanner: „Salvează toate", „Acceptă sugestiile" și avertisment la părăsirea paginii cu modificări nesalvate.
+- Cookie-uri WooCommerce `sbjs_*` și `tk_*` în baza curată.
+
+### Modificat
+- Scanner: modificările necomplete din rânduri nu se mai pierd la rescanare sau la salvarea altui rând.
+- Inventar cookie-uri (tab Banner): caracterul `|` din descrieri nu mai deplasează coloanele la salvare.
+
 ## [2.3.0] - 2026-10-20
 
 ### Adăugat

@@ -1,0 +1,9 @@
+Open Cookie Database
+
+This product includes data from the Open Cookie Database, maintained by jkwakman:
+https://github.com/jkwakman/Open-Cookie-Database
+
+The Open Cookie Database is licensed under the Apache License, Version 2.0.
+License text: https://www.apache.org/licenses/LICENSE-2.0
+
+The bundled data has been transformed into a compact JSON index for offline use. Cookie descriptions remain in English; retention labels are translated where straightforward. No runtime network requests are made to obtain this data.
