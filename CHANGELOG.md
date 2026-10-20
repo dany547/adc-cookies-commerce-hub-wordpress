@@ -16,6 +16,16 @@ commit/tag de release — workflow-ul `version-bump.yml` nu rescrie dată; o fac
 responsabilul de release înainte de tag. Intrările viitoare `în lucru` rămân
 neatinse până la publicare.
 
+## [2.2.5] - 2026-10-20
+
+### Modificat
+- Banner: butoanele de acțiune stau inline pe toate layout-urile; spațiu între text și butoane la bannerele full width; Accept și Reject au dimensiuni identice (spațiatorul de la Accept a fost eliminat, iar setarea „Spațiu după Acceptă” a fost scoasă).
+- Admin: bara sticky de salvare ocupă toată lățimea ferestrei plugin-ului.
+- Admin: mesajele de test al integrărilor (skip) sunt afișate în română, nu ca sloguri.
+
+### Corectat
+- Previzualizarea bannerului `center_modal` nu mai afișează un artefact în spatele modalului.
+
 ## [2.2.4] - 2026-10-20
 
 ### Corectat
