@@ -100,6 +100,8 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
         add_action('admin_post_adc_save_tab', array(self::class, 'handle_save'));
         add_action('admin_enqueue_scripts', array(self::class, 'enqueue_assets'));
         add_action('in_footer', array(self::class, 'render_help_modal'), 99);
+        add_filter('admin_footer_text', array(self::class, 'footer_text'));
+        add_filter('update_footer', array(self::class, 'footer_version'), 99);
         ADC_Admin_Promo::boot();
     }
 
@@ -119,6 +121,39 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
         }
 
         ADC_Admin_Help::render_shared_dialog();
+    }
+
+    /**
+     * True when the current admin screen is the plugin page.
+     */
+    private static function is_plugin_screen(): bool
+    {
+        $screen = function_exists('get_current_screen') ? get_current_screen() : null;
+
+        return null !== $screen && 'toplevel_page_' . self::PAGE_SLUG === $screen->id;
+    }
+
+    /**
+     * Replace "Thank you for creating with WordPress" with a discreet plugin
+     * line, on the plugin page only.
+     *
+     * @param mixed $text Core footer text.
+     * @return mixed
+     */
+    public static function footer_text(mixed $text): mixed
+    {
+        return self::is_plugin_screen() ? esc_html(self::plugin_title()) : $text;
+    }
+
+    /**
+     * Hide the WordPress version in the footer, on the plugin page only.
+     *
+     * @param mixed $text Core footer version text.
+     * @return mixed
+     */
+    public static function footer_version(mixed $text): mixed
+    {
+        return self::is_plugin_screen() ? '' : $text;
     }
 
     /**
@@ -304,7 +339,7 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
         ?>
         <div class="wrap adc-admin-shell">
             <div class="adc-admin-shell-inner">
-                <?php self::render_header(); ?>
+                <?php self::render_header(null !== $tab ? $tab->label() : self::plugin_title()); ?>
                 <?php ADC_Admin_Promo::render(); ?>
 
                 <?php if (empty($tabs)) : ?>
@@ -525,18 +560,20 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
     /**
      * Page header: plugin logo, page title and the installed plugin version.
      */
-    private static function render_header(): void
+    private static function render_header(string $page_title): void
     {
         $version = defined('ADC_MARKETING_VERSION') ? (string) ADC_MARKETING_VERSION : '';
         ?>
         <header class="adc-admin-header">
             <img class="adc-admin-logo" src="<?php echo esc_url(self::asset_url('svg/adcelerum-commerce-hub-dark.svg')); ?>"
                  alt="<?php echo esc_attr__('Adcelerum Commerce Hub', 'adc-marketing'); ?>" width="163" height="40">
-            <h1 class="adc-admin-title"><?php echo esc_html(get_admin_page_title()); ?></h1>
+            <h1 class="adc-sr-only screen-reader-text"><?php echo esc_html($page_title); ?></h1>
+            <p class="adc-admin-tagline"><?php esc_html_e('Consimțământ GDPR pentru cookies, măsurare prin GTM și conversii server-side (Meta, GA4, TikTok) pentru magazinul tău WooCommerce.', 'adc-marketing'); ?></p>
             <?php if ('' !== $version) : ?>
                 <p class="adc-admin-version"><?php echo esc_html($version); ?></p>
             <?php endif; ?>
         </header>
+        <hr class="wp-header-end">
         <?php
     }
 
@@ -645,7 +682,7 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
     {
         return match ($key) {
             'dashboard'    => __('Prezentare generală', 'adc-marketing'),
-            'consent'      => __('Consimțământ', 'adc-marketing'),
+            'consent'      => __('Cookies', 'adc-marketing'),
             'measurement'  => __('Măsurare', 'adc-marketing'),
             'integrations' => __('Platforme', 'adc-marketing'),
             'logs'         => __('Jurnale', 'adc-marketing'),

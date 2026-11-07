@@ -1222,7 +1222,7 @@
 }
 
 .adc-an-settings .adc-an-settings-block {
-	max-width: 1100px;
+	max-width: none;
 }
 
 .adc-an .adc-an-settings .title {
@@ -1654,4 +1654,4 @@
 }
 
 /* Channel configuration status strip */
-.adc-an-channel-status{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin:0 0 16px}.adc-an-channel-status__item{display:flex;flex-direction:column;gap:4px;padding:10px 12px;background:var(--adc-surface,#fff);border:1px solid var(--adc-border,#c3c4c7);border-radius:6px;color:var(--adc-ink,#1d2327);text-decoration:none}.adc-an-channel-status__item:hover,.adc-an-channel-status__item:focus{text-decoration:underline;box-shadow:0 0 0 2px var(--adc-accent-primary,#3b6ea5)}.adc-an-channel-status__icon{font-weight:700}.adc-an-channel-status__item.is-on .adc-an-channel-status__icon{color:var(--adc-success,#13522a)}.adc-an-channel-status__item.is-off .adc-an-channel-status__icon{color:var(--adc-ink-muted,#50575e)}.adc-an-channel-status__item.is-incomplete .adc-an-channel-status__icon{color:var(--adc-highlight-orange,#f96004)}.adc-an-channel-status__state{font-size:12px;color:var(--adc-ink-muted,#50575e)}.adc-an-warnings{margin:0 0 12px}.adc-an-warnings>summary{cursor:pointer;font-weight:600;color:var(--adc-ink-soft,#40464d)}@media(max-width:900px){.adc-an-channel-status{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:520px){.adc-an-channel-status{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.adc-an-channel-status{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,9.5rem),1fr));gap:8px;margin:0 0 16px}.adc-an-channel-status__item{display:flex;flex-direction:column;gap:4px;padding:10px 12px;background:var(--adc-surface,#fff);border:1px solid var(--adc-border,#c3c4c7);border-radius:6px;color:var(--adc-ink,#1d2327);text-decoration:none}.adc-an-channel-status__item:hover,.adc-an-channel-status__item:focus{text-decoration:underline;box-shadow:0 0 0 2px var(--adc-accent-primary,#3b6ea5)}.adc-an-channel-status__icon{font-weight:700}.adc-an-channel-status__item.is-on .adc-an-channel-status__icon{color:var(--adc-success,#13522a)}.adc-an-channel-status__item.is-off .adc-an-channel-status__icon{color:var(--adc-ink-muted,#50575e)}.adc-an-channel-status__item.is-incomplete .adc-an-channel-status__icon{color:var(--adc-highlight-orange,#f96004)}.adc-an-channel-status__state{font-size:12px;color:var(--adc-ink-muted,#50575e)}.adc-an-warnings{margin:0 0 12px}.adc-an-warnings>summary{cursor:pointer;font-weight:600;color:var(--adc-ink-soft,#40464d)}

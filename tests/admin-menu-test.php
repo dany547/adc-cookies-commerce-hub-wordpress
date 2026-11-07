@@ -68,7 +68,7 @@ check(($menu['slug'] ?? '') === 'adc-marketing', 'top-level page slug stays adc-
 
 $expected = array(
     'Prezentare generală' => array('adc-marketing', 'dashboard'),
-    'Consimțământ'        => array('admin.php?page=adc-marketing&tab=banner', 'banner'),
+    'Cookies'             => array('admin.php?page=adc-marketing&tab=banner', 'banner'),
     'Măsurare'            => array(null, null), // first tab depends on which measurement tabs exist
     'Platforme'           => array('admin.php?page=adc-marketing&tab=platforms', 'platforms'),
     'Jurnale'             => array('admin.php?page=adc-marketing&tab=logs', 'logs'),

@@ -77,16 +77,16 @@
 /* ---- Cards --------------------------------------------------------------- */
 
 .adc-gtm-cards {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+    align-items: start;
     gap: var(--adc-space-2, 16px);
     margin: 0;
 }
 
 .adc-gtm-card {
-    flex: 1 1 420px;
-    min-width: min(100%, 320px);
+    box-sizing: border-box;
+    min-width: 0;
     margin: 0;
     padding: var(--adc-space-2, 16px);
     background: var(--adc-surface, #fff);

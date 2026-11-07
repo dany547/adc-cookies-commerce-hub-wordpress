@@ -309,7 +309,7 @@ $cart = new WC_Cart();
 $fixtures = array(
     'plugins_loaded' => array(), 'before_woocommerce_init' => array(),
     'admin_notices' => array(), 'admin_menu' => array(''), 'admin_head' => array(),
-    'parent_file' => array('index.php'), 'submenu_file' => array(null, 'index.php'),
+    'parent_file' => array('index.php'), 'submenu_file' => array(null, 'index.php'), 'admin_footer_text' => array('Thank you for creating with WordPress.'), 'update_footer' => array('Version 7.1'),
     'admin_init' => array(), 'admin_enqueue_scripts' => array('other_page'),
     'in_footer' => array(), 'wp_enqueue_scripts' => array(), 'wp_head' => array(),
     'wp_footer' => array(), 'wp_body_open' => array(), 'init' => array(),

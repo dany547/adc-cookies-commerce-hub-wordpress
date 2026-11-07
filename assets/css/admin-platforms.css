@@ -8,13 +8,24 @@
  */
 
 .adc-platforms-scroll {
+    max-width: 100%;
+    min-width: 0;
     overflow-x: auto;
+    /* Edge shadows appear only while there is more to scroll (scroll cue). */
+    background-color: var(--adc-surface, #fff);
+    background-image:
+        linear-gradient(to right, var(--adc-surface, #fff) 30%, transparent) 0 0 / 24px 100% no-repeat local,
+        linear-gradient(to left, var(--adc-surface, #fff) 30%, transparent) 100% 0 / 24px 100% no-repeat local,
+        linear-gradient(to right, rgba(18, 26, 41, .16), transparent) 0 0 / 10px 100% no-repeat scroll,
+        linear-gradient(to left, rgba(18, 26, 41, .16), transparent) 100% 0 / 10px 100% no-repeat scroll;
 }
 
 .adc-platforms-matrix {
     width: 100%;
+    /* Below this width the wrapper scrolls instead of clipping a column. */
+    min-width: 34rem;
     border-collapse: collapse;
-    background: var(--adc-surface, #fff);
+    background: transparent;
     border: 1px solid var(--adc-border, #dcdcde);
     border-radius: var(--adc-radius, 8px);
 }

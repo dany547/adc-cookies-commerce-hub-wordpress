@@ -16,6 +16,18 @@ commit/tag de release — workflow-ul `version-bump.yml` nu rescrie dată; o fac
 responsabilul de release înainte de tag. Intrările viitoare `în lucru` rămân
 neatinse până la publicare.
 
+## [2.4.3] - 2026-11-07
+
+### Modificat
+- Panoul admin este fluid pe lățime: wrapperul nu mai are plafon fix, iar header-ul, promo-ul, navigația și conținutul au aceeași lățime; secțiunile se adaptează la lățimea containerului.
+- Grupul „Consimțământ” se numește „Cookies” (navigație și meniul din stânga); slug-urile rămân neschimbate.
+- Headerul afișează o descriere scurtă a modulului în loc de titlul vizibil.
+- Pe paginile pluginului, footerul WordPress este înlocuit cu o linie discretă.
+
+### Corectat
+- Prezentare generală: un `</div>` în plus scotea footerul WordPress din document și îl suprapunea peste conținut.
+- GTM nu mai face scroll orizontal pe mobil; titlul din header nu mai e strivit de notificările WordPress.
+
 ## [2.4.2] - 2026-11-07
 
 ### Modificat

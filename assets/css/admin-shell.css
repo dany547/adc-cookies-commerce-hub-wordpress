@@ -2,7 +2,7 @@
    sticky save bar, native control skin, secret fields, copy buttons, box primitives).
    Contract for tab authors:
    - .adc-admin-tab-content       card wrapping every tab's rendered inner HTML
-   - .adc-admin-shell-inner       max-width wrapper keeping content at the shell cap
+   - .adc-admin-shell-inner       fluid full-width wrapper, size container `adc-shell`
    - .adc-admin-groups / .adc-admin-group   level-1 nav pills (group of tabs)
    - .adc-admin-tabs--sub         level-2 nav pills (the tabs of the active group)
    - .adc-admin-save-bar          sticky action bar printed by the shell
@@ -126,7 +126,12 @@
 /* The shell cap lives on an inner wrapper so the save bar can escape it and
    span the full width of the admin window. */
 .adc-admin-shell-inner {
-    max-width: 1400px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+    /* Fluid: follows the WP content area (menu open/folded, any screen). Inner
+       layouts adapt to THIS width via @container adc-shell, not the viewport. */
+    container: adc-shell / inline-size;
 }
 
 /* ---------- Page header (logo + title + version) ---------- */
@@ -149,18 +154,55 @@
     object-fit: contain;
 }
 
-.adc-admin-title {
+.adc-admin-tagline {
+    flex: 1 1 16rem;
+    min-width: 0;
     margin: 0;
     padding: 0;
-    font-size: 23px;
-    font-weight: 400;
-    line-height: 1.3;
+    color: var(--adc-muted);
+    font-size: 14px;
+    line-height: 1.45;
+    max-width: 74ch;
+}
+
+/* Visible title is the logo; the h1 stays for assistive tech and WP. */
+.adc-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Header, promo, nav and tab content share one fluid width (100% of the
+   shell wrapper): no component carries its own max-width. */
+.adc-admin-shell .adc-admin-shell-inner > :is(.adc-admin-header, .adc-promo, .adc-admin-nav, .adc-admin-tab-content, .notice),
+.adc-admin-shell .adc-admin-tab-content {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
 }
 
 .adc-admin-version {
     margin-inline-start: auto;
     color: var(--adc-muted);
     font-size: 13px;
+}
+
+/* WP admin JS moves .notice elements next to the first h1; the shell pins them
+   below the header (.wp-header-end) and, as a fallback, never lets them squeeze
+   the flex header. */
+.adc-admin-header > .notice {
+    flex: 1 0 100%;
+    margin: 0;
+}
+
+.adc-admin-header .wp-header-end {
+    display: none;
 }
 
 /* ---------- Shell chrome rhythm (header, promo, nav, notices) ---------- */
@@ -175,6 +217,26 @@
 /* WP core gives .notice margin: 5px 15px 2px; the shell owns the spacing. */
 .adc-admin-shell .adc-admin-shell-inner > .notice {
     margin-inline: 0;
+}
+
+/* ---------- Fluid content (container queries on the shell width) ---------- */
+/* Option rows stay at a reading width; sections and cards use the space. */
+.adc-admin-shell .adc-admin-tab-content :is(input[type="text"], input[type="url"], input[type="email"], input[type="password"], input[type="search"], input[type="number"], select, textarea) {
+    max-width: min(100%, 48rem);
+}
+
+@container adc-shell (min-width: 1100px) {
+    .adc-admin-tab-content .adc-help-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 28rem), 1fr));
+        gap: var(--adc-space-2) var(--adc-space-4);
+        align-items: start;
+    }
+
+    .adc-admin-tab-content .adc-help-options > * {
+        margin-block: 0;
+        max-width: none;
+    }
 }
 
 /* ---------- Tab navigation ---------- */
@@ -833,28 +895,27 @@
         --adc-shell-pad-y: var(--adc-space-2);
     }
 
-    .adc-admin-title {
-        font-size: 20px;
-    }
-
-    /* Header stays on one line: the version badge sits right next to the title
-       instead of floating alone on a new row. */
+    /* Logo + title + version fit one line (title keeps >= 12ch); anything that
+       lands in the header (WP notices) wraps onto its own row instead of
+       squeezing the title to zero width. */
     .adc-admin-header {
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
     }
 
     .adc-admin-logo {
         height: 32px;
     }
 
-    .adc-admin-title {
-        flex: 1 1 0;
-        min-width: 0;
+    /* Row 1: logo + version; row 2: the one-sentence description. */
+    .adc-admin-tagline {
+        order: 3;
+        flex-basis: 100%;
+        font-size: 13px;
     }
 
     .adc-admin-version {
         flex: 0 0 auto;
-        margin-inline-start: 0;
+        margin-inline-start: auto;
         white-space: nowrap;
     }
 

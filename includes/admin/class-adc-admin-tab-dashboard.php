@@ -259,8 +259,18 @@ trait ADC_Admin_Analytics_Stats {
 
 		$wrapper = preg_match( self::WRAPPER_PATTERN, $html, $matches ) ? (string) $matches[0] : '';
 		if ( '' !== $wrapper ) {
-			$stats   .= "\n" . self::WRAPPER_CLOSE;
+			// Close only what the statistics half left open: the template already
+			// closes `.adc-an` before the break, and an extra </div> here would end
+			// #wpbody-content early and push #wpfooter outside #wpwrap.
+			$unclosed = (int) preg_match_all( '/<div\b/i', $stats ) - (int) preg_match_all( '/<\/div>/i', $stats );
+			if ( $unclosed > 0 ) {
+				$stats .= "\n" . str_repeat( self::WRAPPER_CLOSE, $unclosed );
+			}
 			$settings = $wrapper . "\n" . $settings;
+			$unclosed = (int) preg_match_all( '/<div\b/i', $settings ) - (int) preg_match_all( '/<\/div>/i', $settings );
+			if ( $unclosed > 0 ) {
+				$settings .= "\n" . str_repeat( self::WRAPPER_CLOSE, $unclosed );
+			}
 		}
 
 		return array(

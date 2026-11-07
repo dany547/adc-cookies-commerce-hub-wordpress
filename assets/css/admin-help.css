@@ -283,7 +283,7 @@
     font-size: 13px;
     line-height: 1.5;
     color: var(--adc-muted, #50575e);
-    max-width: 640px;
+    max-width: 74ch;
 }
 
 @media (max-width: 600px) {

@@ -53,8 +53,11 @@ msgstr "Unknown tab."
 msgid "Dashboard"
 msgstr "Dashboard"
 
-msgid "Consimțământ"
-msgstr "Consent"
+msgid "Cookies"
+msgstr "Cookies"
+
+msgid "Consimțământ GDPR pentru cookies, măsurare prin GTM și conversii server-side (Meta, GA4, TikTok) pentru magazinul tău WooCommerce."
+msgstr "GDPR cookie consent, GTM measurement and server-side conversions (Meta, GA4, TikTok) for your WooCommerce store."
 
 msgid "Măsurare"
 msgstr "Measurement"
