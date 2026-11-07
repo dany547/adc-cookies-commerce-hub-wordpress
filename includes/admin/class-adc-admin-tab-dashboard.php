@@ -405,6 +405,7 @@ trait ADC_Admin_Analytics_Stats {
 			'statuses'      => $statuses,
 			'reconciliation' => $recon,
 			'warnings'      => $warnings,
+			'channel_statuses' => $this->channel_statuses(),
 			'compare'       => $this->compare_summary( $range, $kpis_raw, $reports, $currency ),
 			'figures'       => $this->kpi_figures( $kpis_raw, $currency, $traffic ),
 			'unavailable'   => $this->unavailable_rows(),
@@ -420,6 +421,44 @@ trait ADC_Admin_Analytics_Stats {
 			),
 		);
 	}
+	/**
+	 * Build channel health rows from local settings only; no network checks are made.
+	 *
+	 * @return array<int,array{label:string,state:string,text:string,url:string}>
+	 */
+	private function channel_statuses(): array {
+		$rows = array(
+			array( 'label' => __( 'GTM web', 'adc-marketing' ), 'group' => 'gtm', 'slug' => $this->available_tab_slug( 'gtm', 'events' ), 'enabled' => array( 'enabled', 'gtm_enabled', 'web_enabled' ), 'required' => array( 'container_id', 'gtm_id', 'id' ) ),
+			array( 'label' => __( 'Server GTM', 'adc-marketing' ), 'group' => 'sgtm', 'slug' => 'sgtm', 'enabled' => array( 'enabled' ), 'required' => array( 'server_url', 'url' ) ),
+			array( 'label' => __( 'Meta', 'adc-marketing' ), 'group' => 'meta', 'slug' => 'meta', 'enabled' => array( 'enabled' ), 'required' => array( 'pixel_id', 'access_token' ) ),
+			array( 'label' => __( 'GA4', 'adc-marketing' ), 'group' => 'ga4', 'slug' => 'ga4', 'enabled' => array( 'enabled' ), 'required' => array( 'measurement_id' ) ),
+			array( 'label' => __( 'TikTok', 'adc-marketing' ), 'group' => 'tiktok', 'slug' => 'tiktok', 'enabled' => array( 'enabled' ), 'required' => array( 'pixel_id', 'access_token' ) ),
+			array( 'label' => __( 'Potrivire avansată', 'adc-marketing' ), 'group' => 'matching', 'slug' => 'matching', 'enabled' => array( 'enabled' ), 'required' => array() ),
+		);
+		$out = array();
+		foreach ( $rows as $row ) {
+			$settings = ADC_Settings::all( $row['group'] );
+			$enabled = false;
+			foreach ( $row['enabled'] as $key ) {
+				if ( ! empty( $settings[ $key ] ) && in_array( $settings[ $key ], array( true, 1, '1', 'yes', 'on' ), true ) ) { $enabled = true; break; }
+			}
+			$missing = array_filter( $row['required'], static fn ( string $key ): bool => empty( $settings[ $key ] ) );
+			$state = ! $enabled ? 'off' : ( $missing ? 'incomplete' : 'on' );
+			$text = 'off' === $state ? __( 'Dezactivat', 'adc-marketing' ) : ( 'on' === $state ? __( 'Activ și configurat', 'adc-marketing' ) : __( 'Activ, configurare incompletă', 'adc-marketing' ) );
+			$out[] = array( 'label' => $row['label'], 'state' => $state, 'text' => $text, 'url' => admin_url( 'admin.php?page=' . ADC_Admin_Shell::PAGE_SLUG . '&tab=' . $row['slug'] ) );
+		}
+		return $out;
+	}
+
+	/** Select the preferred tab slug only when that tab is registered. */
+	private function available_tab_slug( string $preferred, string $fallback ): string {
+		if ( class_exists( 'ADC_Admin_Shell' ) && method_exists( 'ADC_Admin_Shell', 'registered_tab_slugs' ) ) {
+			$slugs = ADC_Admin_Shell::registered_tab_slugs();
+			return in_array( $preferred, $slugs, true ) ? $preferred : $fallback;
+		}
+		return $fallback;
+	}
+
 	/**
 	 * Read and sanitize the GET filter state (read-only navigation, no nonce).
 	 *
@@ -2167,7 +2206,7 @@ final class ADC_Admin_Tab_Dashboard implements ADC_Admin_Tab_Interface {
 	 * {@inheritDoc}
 	 */
 	public function label(): string {
-		return __( 'Dashboard', 'adc-marketing' );
+		return __( 'Prezentare generală', 'adc-marketing' );
 	}
 
 	/**

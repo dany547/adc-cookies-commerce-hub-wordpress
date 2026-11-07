@@ -5,54 +5,36 @@
  * - includes/admin/class-adc-admin-tab-dashboard.php  (statistics: Dashboard)
  * - includes/admin/class-adc-admin-tab-analytics.php  (settings: Analytics)
  *
- * Both tabs print the `.adc-an` wrapper, so the custom properties below and the
- * `.adc-an …` descendant selectors resolve on either page.
+ * Both halves print the `.adc-an` wrapper, so the rules below resolve on either page.
  *
- * Design contract: WordPress admin language (system UI font, #2271b1 accent,
- * 4 px radii, hairline borders, dense data). No cards-as-structure, no external
- * fonts, no CDN. Charts are inline SVG + CSS bars; every chart ships with an
- * equivalent table, so the SVG carries no information that text does not.
- *
- * Verified breakpoints: 390 px (phone / narrow admin column) and 1280 px.
+ * Design contract: DESIGN.md (root of the repository).
+ * - §5 Components / §7 CSS Tokens: the shared `.adc-box`, `.adc-kpi`, `.adc-chart`
+ *   primitives and the `--adc-*` tokens are owned by admin-shell.css. This file only
+ *   CONSUMES them through `var(--adc-token, fallback)`, the fallback being the exact
+ *   §7 value, so the dashboard renders correctly before those tokens land. The few
+ *   primitive rules repeated here are the §7 recipes, verbatim, scoped under
+ *   `.adc-an` as a pre-migration fallback — they carry no new values.
+ * - §6 Dashboard Composition: three tiers of boxes (KPI tiles → dark/light instrument
+ *   rows → tables and notes), one filters toolbar, settings never between reports.
+ * - Native WP controls (`.button`, `widefat`, `.notice`, `select`, `details`) stay
+ *   recognisable; every graphic detail (texture, hairline, corner mark, legend dot,
+ *   chevron, bar) is CSS only. No images, no fonts, no libraries.
  */
 
-.adc-an {
-	--adc-ink: #1d2327;
-	--adc-ink-soft: #40464d;
-	--adc-muted: #50575e;
-	--adc-line: #c3c4c7;
-	--adc-line-soft: #dcdcde;
-	--adc-surface: #fff;
-	--adc-surface-alt: #f6f7f7;
-	--adc-shell: #f0f0f1;
-	--adc-accent: #2271b1;
-	--adc-accent-dark: #135e96;
-	--adc-accent-tint: #f0f6fc;
-	--adc-positive: #13522a;
-	--adc-positive-tint: #edf7f0;
-	--adc-negative: #8a2424;
-	--adc-negative-tint: #fcf0f0;
-	--adc-warn: #7a5311;
-	--adc-warn-tint: #fcf6ee;
-	--adc-bar: #4a86ba;
-	--adc-radius: 4px;
-	/* Same scale as the admin shell tokens (fallbacks keep this file usable alone). */
-	--adc-space-1: 8px;
-	--adc-space-2: 16px;
-	--adc-space-3: 24px;
-	--adc-space-4: 32px;
+/* ---------------------------------------------------------------------------
+ * Root + typography
+ * ------------------------------------------------------------------------ */
 
-	/* The dashboard renders inside the shell's .adc-admin-tab-content card, so it
-	   fills that card instead of centering a second, narrower column. */
+.adc-an {
 	max-width: none;
-	color: var(--adc-ink);
+	color: var(--adc-ink, #1d2327);
 	font-variant-numeric: tabular-nums lining-nums;
 }
 
 .adc-an h2,
 .adc-an h3,
 .adc-an .adc-an-title,
-.adc-an .adc-an-panel-head h3 {
+.adc-an .adc-box__title {
 	font-weight: 600;
 	letter-spacing: -0.01em;
 	text-wrap: balance;
@@ -64,120 +46,974 @@
 	line-height: 1.4;
 }
 
-.adc-an-lede {
-	max-width: 68ch;
-	margin: 8px 0 0;
-	color: var(--adc-ink-soft);
-	font-size: 13.5px;
-	line-height: 1.6;
-}
-
 .adc-an-meta {
 	margin: 0;
-	color: var(--adc-muted);
+	color: var(--adc-muted, #50575e);
 	font-size: 13px;
 }
 
 .adc-an-sep {
 	margin: 0 6px;
-	color: var(--adc-line);
+	color: var(--adc-border, #c3c4c7);
 }
 
-.adc-an-rule {
-	margin: 32px 0 24px;
-	border: 0;
-	border-top: 1px solid var(--adc-line-soft);
-}
-
-/* Panels ------------------------------------------------------------------ */
-
-/* Panels are sections of the dashboard card, not cards inside a card: hierarchy is
-   carried by a hairline separator and 24px of air between sections. */
-.adc-an-panel {
-	margin: var(--adc-space-3) 0 0;
-	padding: 0;
-	background: none;
-	border: 0;
-	border-radius: 0;
-}
-
-.adc-an-panel + .adc-an-panel {
-	margin-top: var(--adc-space-3);
-	padding-top: var(--adc-space-3);
-	border-top: 1px solid var(--adc-line-soft);
-}
-
-.adc-an-panel-head {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: baseline;
-	gap: 8px 12px;
-	margin: 0 0 14px;
-	padding-bottom: 10px;
-	border-bottom: 1px solid var(--adc-line-soft);
-}
-
-.adc-an-panel-head h3 {
+.adc-an-lede {
 	margin: 0;
-	font-size: 15px;
+	max-width: 74ch;
+	color: var(--adc-ink-soft, #40464d);
+	font-size: 13px;
+	line-height: 1.6;
+}
+
+/* Break between the statistics half and the settings half (§6: settings never
+   mix with reports). The exact <hr class="adc-an-rule" /> markup is the split
+   marker used by ADC_Admin_Analytics_Stats::render_sections() — keep it styled. */
+.adc-an-rule {
+	margin: 40px 0 8px;
+	border: 0;
+	border-top: 1px solid var(--adc-border-soft, #dcdcde);
+}
+
+/* ---------------------------------------------------------------------------
+ * Shared primitives
+ *
+ * `.adc-box`, `.adc-box--light`, `.adc-box--dark`, `.adc-corner`, `.adc-box__head
+ * / __title / __body`, `.adc-kpi*` and `.adc-chart` are owned by admin-shell.css
+ * (DESIGN.md §5 and §7) and are a registered dependency of this stylesheet, so
+ * they are never redefined here. Only what the dashboard composition needs on
+ * top of them lives below.
+ * ------------------------------------------------------------------------ */
+
+/* Grid children must be allowed to shrink, and the box head wants a wider
+   column gap than the shell default once pills and export links sit in it. */
+.adc-an .adc-box {
+	box-sizing: border-box;
+	min-width: 0;
+}
+
+.adc-an .adc-box__head {
+	column-gap: var(--adc-space-2, 16px);
+}
+
+.adc-an .adc-kpi {
+	min-width: 0;
+}
+
+.adc-an .adc-kpi__label {
 	line-height: 1.4;
 }
 
-.adc-an-panel-head .adc-an-export,
-.adc-an-panel-head .adc-an-reset {
-	margin-left: auto;
+/* ---------------------------------------------------------------------------
+ * Dashboard canvas bed (§2: boxes sit on the admin canvas, not on a white card)
+ * ------------------------------------------------------------------------ */
+
+.adc-an-page {
+	box-sizing: border-box;
+	display: grid;
+	gap: var(--adc-space-4, 32px);
+	align-content: start;
+	margin: calc(-1 * var(--adc-space-3, 24px)) calc(-1 * var(--adc-space-3, 24px));
+	padding: var(--adc-space-3, 24px);
+	background: var(--adc-canvas, #f0f0f1);
+	border-radius: var(--adc-radius, 4px);
+}
+
+.adc-an-hero {
+	display: grid;
+	gap: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+ * Sections (the five titled groups of the composition, §6)
+ * ------------------------------------------------------------------------ */
+
+.adc-an-sec {
+	display: grid;
+	gap: var(--adc-space-2, 16px);
+}
+
+.adc-an-sec__head {
+	display: grid;
+	gap: 2px;
+	max-width: 74ch;
+}
+
+.adc-an-sec__title {
+	margin: 0;
+	font-size: 15px;
+	font-weight: 600;
+	line-height: 1.4;
+	color: var(--adc-ink, #1d2327);
+}
+
+.adc-an-sec__intro {
+	margin: 0;
+	color: var(--adc-muted, #50575e);
+	font-size: 12.5px;
+	line-height: 1.5;
+}
+
+/* Instrument rows: symmetric pairs, dark chart box beside the light mirror (§6). */
+.adc-an-row {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--adc-space-3, 24px);
+	align-items: stretch;
+}
+
+.adc-an-row--single {
+	grid-template-columns: minmax(0, 1fr);
+}
+
+/* ---------------------------------------------------------------------------
+ * Tier 1 — KPI tiles
+ * ------------------------------------------------------------------------ */
+
+.adc-an-kpis {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--adc-space-3, 24px);
+}
+
+/* Certified light-surface series colors only (§2: series 1 becomes the accent on
+   white; orange stays a rare graphic accent; never chart-2/3/4 as a 6px dot). */
+.adc-an-kpis > .adc-kpi:nth-child(1) { --adc-kpi-series: var(--adc-accent, #3b6ea5); }
+.adc-an-kpis > .adc-kpi:nth-child(2) { --adc-kpi-series: var(--adc-info, #1d4f91); }
+.adc-an-kpis > .adc-kpi:nth-child(3) { --adc-kpi-series: var(--adc-success, #13522a); }
+.adc-an-kpis > .adc-kpi:nth-child(4) { --adc-kpi-series: var(--adc-highlight, #f96004); }
+
+.adc-kpi__note {
+	display: block;
+	margin-top: 4px;
+	max-width: 30ch;
+	color: var(--adc-muted, #50575e);
+	font-size: 11.5px;
+	line-height: 1.4;
+}
+
+.adc-kpi.is-money .adc-kpi__value {
+	font-size: 20px;
+}
+
+.adc-kpi--blocked .adc-kpi__value {
+	color: var(--adc-muted, #50575e);
+	font-weight: 500;
+	font-size: 16px;
+}
+
+/* Money figures come from wc_price() — keep them on one line. */
+.adc-kpi__value .woocommerce-Price-amount,
+.adc-an-metric__value .woocommerce-Price-amount {
+	white-space: nowrap;
+}
+
+/* Secondary figures of the same section (§5 table/list, not tiles). */
+.adc-an-metrics {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--adc-space-2, 16px) var(--adc-space-3, 24px);
+	margin: 0;
+}
+
+.adc-an-metric {
+	display: grid;
+	gap: 2px;
+	min-width: 0;
+}
+
+.adc-an-metric dt {
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--adc-muted, #50575e);
+}
+
+.adc-an-metric dd {
+	margin: 0;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 6px 10px;
+}
+
+.adc-an-metric__value {
+	font-size: 18px;
+	font-weight: 600;
+	line-height: 1.25;
+	color: var(--adc-ink, #1d2327);
+}
+
+.adc-an-metric.is-money .adc-an-metric__value {
+	font-size: 16px;
+}
+
+.adc-an-metric__note {
+	color: var(--adc-muted, #50575e);
+	font-size: 11.5px;
+	line-height: 1.4;
+	max-width: 34ch;
+}
+
+.adc-an-metric.is-blocked .adc-an-metric__value {
+	color: var(--adc-muted, #50575e);
+	font-weight: 500;
+}
+
+/* Delta chip: arrow + unsigned number + words (§5 — colour never carries it alone). */
+.adc-an-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 1px 8px;
+	border: 1px solid var(--adc-border-soft, #dcdcde);
+	border-radius: var(--adc-radius-pill, 999px);
+	background: var(--adc-surface-subtle, #f6f7f7);
+	color: var(--adc-ink-soft, #40464d);
+	font-size: 11.5px;
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+.adc-an-chip--up {
+	border-color: var(--adc-border, #c3c4c7);
+	background: var(--adc-success-tint, #edf7f0);
+	color: var(--adc-success, #13522a);
+}
+
+.adc-an-chip--down {
+	border-color: var(--adc-border, #c3c4c7);
+	background: var(--adc-danger-tint, #fcf0f0);
+	color: var(--adc-danger, #8a2424);
+}
+
+.adc-an-compare {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 6px 10px;
+	margin: var(--adc-space-2, 16px) 0 0;
+	padding-top: var(--adc-space-2, 16px);
+	border-top: 1px solid var(--adc-border-soft, #dcdcde);
+	font-size: 12.5px;
+	color: var(--adc-ink-soft, #40464d);
+}
+
+.adc-an-compare.is-incomplete {
+	color: var(--adc-muted, #50575e);
+}
+
+.adc-an-compare-range {
+	color: var(--adc-muted, #50575e);
+}
+
+/* ---------------------------------------------------------------------------
+ * Report filters — one compact toolbar box (§6 tier 3, acts on the whole page)
+ * ------------------------------------------------------------------------ */
+
+.adc-an-toolbar .adc-box__body {
+	display: grid;
+	gap: var(--adc-space-2, 16px);
+}
+
+/* One toolbar row: interval + monedă in the narrow column, channels beside them.
+   Explicit placement: a definite row alone would let grid place the wide channel
+   group first (items with a definite row are placed before auto-placed ones). */
+.adc-an-tool {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+	gap: var(--adc-space-2, 16px) var(--adc-space-3, 24px);
+	align-items: start;
+}
+
+.adc-an-tool > .adc-an-fblock:nth-child(1) {
+	grid-column: 1;
+	grid-row: 1;
+}
+
+.adc-an-tool > .adc-an-fblock:nth-child(2) {
+	grid-column: 2;
+	grid-row: 1 / span 2;
+}
+
+.adc-an-tool > .adc-an-fblock:nth-child(3) {
+	grid-column: 1;
+	grid-row: 2;
+}
+
+.adc-an-fblock {
+	display: grid;
+	gap: var(--adc-space-1, 8px);
+	min-width: 0;
+}
+
+.adc-an-fkey {
+	margin: 0;
+	color: var(--adc-muted, #50575e);
+	font-size: 11.5px;
+	font-weight: 600;
+}
+
+.adc-an-segment {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--adc-space-1, 8px);
+}
+
+/* One control height module-wide: 32px (§5). */
+.adc-an-seg {
+	display: inline-flex;
+	align-items: center;
+	box-sizing: border-box;
+	min-height: 32px;
+	padding: 0 12px;
+	border: 1px solid var(--adc-border-soft, #dcdcde);
+	border-radius: var(--adc-radius, 4px);
+	background: var(--adc-surface-subtle, #f6f7f7);
+	color: var(--adc-ink, #1d2327);
+	font-size: 12.5px;
+	line-height: 1.4;
+	text-decoration: none;
+	transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+
+.adc-an-seg:hover {
+	background: var(--adc-canvas, #f0f0f1);
+	border-color: var(--adc-border, #c3c4c7);
+	color: var(--adc-accent-hover, #2b5580);
+}
+
+.adc-an-seg.is-active {
+	background: var(--adc-accent, #3b6ea5);
+	border-color: var(--adc-accent-hover, #2b5580);
+	color: #fff;
+	font-weight: 600;
+}
+
+.adc-an-seg.is-active:hover {
+	background: var(--adc-accent-hover, #2b5580);
+	color: #fff;
+}
+
+/* Advanced filters: a disclosure, not a second toolbar. */
+.adc-an-adv {
+	border-top: 1px solid var(--adc-border-soft, #dcdcde);
+	padding-top: var(--adc-space-1, 8px);
+}
+
+.adc-an-adv > summary {
+	display: flex;
+	align-items: center;
+	gap: var(--adc-space-1, 8px);
+	cursor: pointer;
+	padding: 6px 0;
+	color: var(--adc-accent, #3b6ea5);
+	font-size: 13px;
+	font-weight: 600;
+	list-style: none;
+}
+
+.adc-an-adv > summary::-webkit-details-marker {
+	display: none;
+}
+
+/* CSS-only disclosure affordance (no icon font, no image). */
+.adc-an-adv > summary::before {
+	content: "";
+	flex: 0 0 auto;
+	width: 7px;
+	height: 7px;
+	border-block-end: 2px solid currentColor;
+	border-inline-end: 2px solid currentColor;
+	transform: rotate(45deg);
+	transition: transform 140ms ease;
+}
+
+.adc-an-adv[open] > summary::before {
+	transform: rotate(135deg);
+}
+
+.adc-an-adv-count {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 18px;
+	height: 18px;
+	padding: 0 5px;
+	border-radius: var(--adc-radius-pill, 999px);
+	background: var(--adc-accent-tint, #eef3fa);
+	color: var(--adc-accent, #3b6ea5);
+	font-size: 11px;
+	font-weight: 600;
+}
+
+/* Field grid inside the disclosure: label above, control, muted helper under. */
+.adc-an-controls {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: var(--adc-space-2, 16px);
+	margin-top: var(--adc-space-1, 8px);
+}
+
+.adc-an-cell {
+	display: grid;
+	align-content: start;
+	gap: 6px;
+	min-width: 0;
+}
+
+.adc-an-cell .adc-an-field {
+	margin-bottom: 0; /* the cell gap owns the label spacing */
+}
+
+.adc-an-field {
+	display: block;
+	color: var(--adc-muted, #50575e);
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.adc-an-help {
+	color: var(--adc-muted, #50575e);
+	font-size: 11.5px;
+	line-height: 1.45;
+}
+
+.adc-an-controls select,
+.adc-an-controls input[type="date"],
+.adc-an-controls input[type="number"],
+.adc-an-controls input[type="text"] {
+	display: block;
+	box-sizing: border-box;
+	width: 100%;
+	min-height: 32px;
+	max-width: 100%;
+}
+
+.adc-an-adv .description {
+	margin: var(--adc-space-1, 8px) 0 0;
+	max-width: 74ch;
+	color: var(--adc-muted, #50575e);
+}
+
+/* Active filters that no segment shows (custom range, advanced fields). */
+.adc-an-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--adc-space-1, 8px);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.adc-an-chip-pill {
+	display: inline-flex;
+	align-items: baseline;
+	gap: 6px;
+	padding: 3px 10px;
+	border: 1px solid var(--adc-border-soft, #dcdcde);
+	border-radius: var(--adc-radius-pill, 999px);
+	background: var(--adc-surface-subtle, #f6f7f7);
+	font-size: 11.5px;
+}
+
+.adc-an-chip-pill__label {
+	color: var(--adc-muted, #50575e);
+}
+
+.adc-an-chip-pill__value {
+	color: var(--adc-ink, #1d2327);
+	font-weight: 600;
+}
+
+/* Actions: primary apply + quiet reset, aligned to the inline end (§5 buttons). */
+.adc-an-tool-foot {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: flex-end;
+	gap: var(--adc-space-1, 8px) var(--adc-space-2, 16px);
+}
+
+.adc-an-apply {
+	display: inline-flex;
+	align-items: center;
+	box-sizing: border-box;
+	min-height: 32px;
+	white-space: nowrap;
+}
+
+/* Filters changed but not yet applied: a ring, not a second colour system. */
+.adc-an-apply.is-dirty {
+	box-shadow: 0 0 0 3px var(--adc-accent-tint, #eef3fa), 0 0 0 2px var(--adc-accent, #3b6ea5);
+}
+
+.adc-an-reset {
+	color: var(--adc-muted, #50575e);
+	font-size: 12.5px;
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.adc-an-reset:hover {
+	color: var(--adc-accent, #3b6ea5);
+}
+
+/* ---------------------------------------------------------------------------
+ * Charts in dark instrument boxes (§4 treatments, §2 chart ramp on navy)
+ * ------------------------------------------------------------------------ */
+
+.adc-an-fig {
+	margin: 0;
+}
+
+.adc-an-fig-title {
+	display: block;
+	margin-bottom: var(--adc-space-1, 8px);
+	color: var(--adc-muted-on-dark, #9fb0c9);
+	font-size: 11.5px;
+	font-weight: 400;
+	line-height: 1.45;
+}
+
+.adc-box--light .adc-an-fig-title {
+	color: var(--adc-muted, #50575e);
+}
+
+.adc-an-fig-summary {
+	display: block;
+	margin-top: 2px;
+	font-size: 11.5px;
+}
+
+/* The plot is laid out inside the shell's `.adc-chart` frame (§4.5): the frame
+   carries the inset panel, this rule only places the axis and the SVG. */
+.adc-an-plot {
+	display: grid;
+	grid-template-columns: 46px minmax(0, 1fr);
+	align-items: stretch;
+	/* Canvas height; the axis labels are positioned in % of it, so both scale. */
+	--adc-plot-h: 220px;
+}
+
+/* A dark instrument box owns the rail: the chart fills the pair it is mirrored in. */
+.adc-box--dark .adc-an-plot {
+	--adc-plot-h: 300px;
+}
+
+/*
+ * Axis alignment: the SVG viewBox is 760×220 and stretches (AspectRatio none),
+ * so the HTML labels share the same linear space: y labels are positioned by
+ * top:% of the 220px canvas, x labels by left:% of the plot width.
+ */
+.adc-an-yaxis {
+	position: relative;
+	height: var(--adc-plot-h, 220px);
+	color: var(--adc-muted-on-dark, #9fb0c9);
+	font-size: 11px;
+	line-height: 1.2;
+}
+
+.adc-an-ylabel {
+	position: absolute;
+	inset-inline-end: 8px;
+	transform: translateY(-50%);
+	white-space: nowrap;
+}
+
+.adc-an-svg {
+	display: block;
+	width: 100%;
+	height: var(--adc-plot-h, 220px);
+	overflow: visible;
+}
+
+.adc-an-gridline {
+	stroke: var(--adc-border-dark, #2e3f5c);
+	stroke-width: 1;
+	vector-effect: non-scaling-stroke;
+}
+
+/* Series on navy: 1 = line/area, 3 = money/orders bars (§2 ramp, order fixed). */
+.adc-box--dark .adc-an-area {
+	fill: var(--adc-chart-1, #688cc8);
+	fill-opacity: 0.14;
+	stroke: none;
+}
+
+.adc-box--dark .adc-an-line {
+	fill: none;
+	stroke: var(--adc-chart-1, #688cc8);
+	stroke-width: 1.75;
+	stroke-linejoin: round;
+	stroke-linecap: round;
+	vector-effect: non-scaling-stroke;
+}
+
+.adc-box--dark .adc-an-dot {
+	fill: var(--adc-surface-dark-raised, #1e293b);
+	stroke: var(--adc-chart-1, #688cc8);
+	stroke-width: 1.25;
+	vector-effect: non-scaling-stroke;
+}
+
+.adc-box--dark .adc-an-dot.is-suppressed {
+	stroke: var(--adc-muted-on-dark, #9fb0c9);
+	stroke-dasharray: 2 2;
+}
+
+.adc-box--dark .adc-an-bar {
+	fill: var(--adc-chart-3, #fbbf24);
+}
+
+.adc-box--dark .adc-an-bar.is-small {
+	fill: var(--adc-border-dark, #2e3f5c);
+}
+
+/* Same chart, should it ever render on a light box: series 1 = the accent (§2). */
+.adc-box--light .adc-an-area {
+	fill: var(--adc-accent, #3b6ea5);
+	fill-opacity: 0.08;
+	stroke: none;
+}
+
+.adc-box--light .adc-an-line {
+	fill: none;
+	stroke: var(--adc-accent, #3b6ea5);
+	stroke-width: 1.75;
+	vector-effect: non-scaling-stroke;
+}
+
+.adc-box--light .adc-an-dot {
+	fill: var(--adc-surface, #fff);
+	stroke: var(--adc-accent-hover, #2b5580);
+	stroke-width: 1.25;
+	vector-effect: non-scaling-stroke;
+}
+
+.adc-box--light .adc-an-gridline {
+	stroke: var(--adc-border-soft, #dcdcde);
+}
+
+.adc-box--light .adc-an-bar {
+	fill: var(--adc-accent, #3b6ea5);
+}
+
+.adc-box--light .adc-an-bar.is-small {
+	fill: var(--adc-border, #c3c4c7);
+}
+
+.adc-an-xaxis {
+	position: relative;
+	height: 20px;
+	margin-top: 6px;
+	margin-inline-start: 46px; /* Aligns with the SVG column (PAD_L). */
+	color: var(--adc-muted-on-dark, #9fb0c9);
+	font-size: 11px;
+}
+
+.adc-box--light .adc-an-xaxis {
+	color: var(--adc-muted, #50575e);
+}
+
+.adc-an-xlabel {
+	position: absolute;
+	top: 0;
+	transform: translateX(-50%);
+	white-space: nowrap;
+}
+
+.adc-an-xlabel.is-start {
+	transform: none;
+}
+
+.adc-an-xlabel.is-end {
+	transform: translateX(-100%);
+}
+
+/* Legend: 6px marker dots in the series colors (§4.6), never an icon font. */
+.adc-an-legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px var(--adc-space-2, 16px);
+	margin: var(--adc-space-2, 16px) 0 0;
+	padding: 0;
+	list-style: none;
+	font-size: 11.5px;
+	color: var(--adc-muted-on-dark, #9fb0c9);
+}
+
+.adc-an-legend__item {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.adc-an-legend__item::before {
+	content: "";
+	flex: 0 0 auto;
+	width: 6px;
+	height: 6px;
+	border-radius: 1px;
+	background: var(--adc-marker, var(--adc-chart-1, #688cc8));
+}
+
+.adc-an-legend__item:nth-child(1) { --adc-marker: var(--adc-chart-1, #688cc8); }
+.adc-an-legend__item:nth-child(2) { --adc-marker: var(--adc-chart-3, #fbbf24); }
+.adc-an-legend__item:nth-child(3) { --adc-marker: var(--adc-chart-2, #2dd4bf); }
+.adc-an-legend__item:nth-child(4) { --adc-marker: var(--adc-chart-4, #a78bfa); }
+.adc-an-legend__item:nth-child(5) { --adc-marker: var(--adc-chart-5, #f96004); }
+
+/* ---------------------------------------------------------------------------
+ * Tables inside a box (§5)
+ * ------------------------------------------------------------------------ */
+
+.adc-an .adc-box .widefat.adc-an-table {
+	margin: 0;
+	border: 0;
+	border-radius: 0;
 	font-size: 12.5px;
 }
 
+.adc-an .adc-an-table th[scope="col"],
+.adc-an .adc-an-table thead th {
+	background: var(--adc-surface-subtle, #f6f7f7);
+	color: var(--adc-ink, #1d2327);
+	font-size: 11.5px;
+	font-weight: 600;
+	text-transform: none;
+}
+
+.adc-an .adc-an-table td,
+.adc-an .adc-an-table th {
+	padding: 8px 12px;
+	border-color: var(--adc-border-soft, #dcdcde);
+}
+
+.adc-an-table .adc-an-num {
+	width: 128px;
+	text-align: right;
+	white-space: nowrap;
+}
+
+.adc-an-ranked .adc-an-num {
+	width: 84px;
+}
+
+.adc-an-table .adc-an-barcol {
+	width: 34%;
+}
+
+/* Tables in a box: the table sits flush under the head, no double border (§5). */
+.adc-an-tbl > .adc-box__body {
+	padding-top: var(--adc-space-1, 8px);
+}
+
+.adc-an-table .adc-an-barcell {
+	padding: 8px 12px !important;
+}
+
+/* Distribution bar on a quiet track: 7px, in the light-surface series color (§2).
+   Scoped to the span inside .adc-an-trk so it never touches the SVG rect bars. */
+.adc-an-trk {
+	display: block;
+	width: 100%;
+	height: 7px;
+	border-radius: 2px;
+	background: var(--adc-surface-subtle, #f6f7f7);
+}
+
+.adc-an-trk > .adc-an-bar {
+	display: block;
+	height: 7px;
+	min-width: 2px;
+	border-radius: 2px;
+	background: var(--adc-accent, #3b6ea5);
+}
+
+.adc-an-table tr.is-hidden,
+.adc-an-hidden {
+	display: none;
+}
+
+.adc-an-alert {
+	background: var(--adc-danger-tint, #fcf0f0);
+	color: var(--adc-danger, #8a2424);
+	font-weight: 600;
+}
+
+.adc-an-thresh {
+	color: var(--adc-muted, #50575e);
+	font-style: italic;
+}
+
+.adc-an-alert-text {
+	margin: 8px 0 0;
+	color: var(--adc-danger, #8a2424);
+	font-size: 12.5px;
+}
+
+/* Disclosure for long tables: closed by default, always with a visible cue. */
+.adc-an-data {
+	margin: 0;
+}
+
+.adc-an-data > summary {
+	display: flex;
+	align-items: center;
+	gap: var(--adc-space-1, 8px);
+	cursor: pointer;
+	color: var(--adc-accent, #3b6ea5);
+	font-size: 12.5px;
+	font-weight: 600;
+	list-style: none;
+}
+
+.adc-an-data[open] > summary {
+	margin-bottom: 6px;
+}
+
+.adc-an-data > summary::-webkit-details-marker {
+	display: none;
+}
+
+.adc-an-data > summary::before {
+	content: "";
+	flex: 0 0 auto;
+	width: 7px;
+	height: 7px;
+	border-block-end: 2px solid currentColor;
+	border-inline-end: 2px solid currentColor;
+	transform: rotate(45deg);
+	transition: transform 140ms ease;
+}
+
+.adc-an-data[open] > summary::before {
+	transform: rotate(135deg);
+}
+
+.adc-an-data-count {
+	color: var(--adc-muted, #50575e);
+	font-weight: 400;
+}
+
+.adc-an-data > summary:hover {
+	color: var(--adc-accent-hover, #2b5580);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.adc-an-data table,
+.adc-an-data .adc-an-scroll {
+	margin-top: var(--adc-space-1, 8px);
+}
+
+/* Bounded scroll for long detail tables. */
+.adc-an-scroll {
+	max-height: 320px;
+	overflow: auto;
+}
+
+/* Muted meta lines inside a box body. */
+.adc-an-foot,
+.adc-an-none {
+	margin: var(--adc-space-1, 8px) 0 0;
+	color: var(--adc-muted, #50575e);
+	font-size: 12.5px;
+	line-height: 1.55;
+	max-width: 74ch;
+}
+
+/* Box head actions: exports / pills pushed to the inline end. */
+.adc-an .adc-box__head > .adc-an-export,
+.adc-an .adc-box__head > .adc-an-reset {
+	margin-inline-start: auto;
+	font-size: 12.5px;
+}
+
+.adc-an .adc-box__head > .adc-an-export + .adc-an-export {
+	margin-inline-start: 0;
+}
+
+.adc-an-export {
+	color: var(--adc-accent, #3b6ea5);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	white-space: nowrap;
+}
+
+.adc-an-export:hover {
+	color: var(--adc-accent-hover, #2b5580);
+}
+
+/* ---------------------------------------------------------------------------
+ * Pills, provenance, gates, notes
+ * ------------------------------------------------------------------------ */
+
 .adc-an-prov {
+	display: inline-block;
 	margin: 0;
 	padding: 2px 8px;
-	border: 1px solid var(--adc-line-soft);
-	border-radius: 100px;
-	background: var(--adc-surface-alt);
-	color: var(--adc-muted);
+	border: 1px solid var(--adc-border-soft, #dcdcde);
+	border-radius: var(--adc-radius-pill, 999px);
+	background: var(--adc-surface-subtle, #f6f7f7);
+	color: var(--adc-muted, #50575e);
 	font-size: 11.5px;
 	font-weight: 500;
 	white-space: nowrap;
 }
 
 .adc-an-prov--est {
-	border-color: #c9d8e8;
-	background: var(--adc-accent-tint);
-	color: var(--adc-accent-dark);
+	border-color: var(--adc-border, #c3c4c7);
+	background: var(--adc-accent-tint, #eef3fa);
+	color: var(--adc-accent-hover, #2b5580);
 }
 
 .adc-an-prov--fin {
-	border-color: #b7d5c1;
-	background: var(--adc-positive-tint);
-	color: var(--adc-positive);
+	border-color: var(--adc-border, #c3c4c7);
+	background: var(--adc-success-tint, #edf7f0);
+	color: var(--adc-success, #13522a);
 }
 
-.adc-an-foot,
-.adc-an-none {
-	margin: 10px 0 0;
-	color: var(--adc-muted);
-	font-size: 12.5px;
-	line-height: 1.55;
+/* Provenance pills on a navy box: the same pair, on-dark semantics (§2). */
+.adc-box--dark .adc-an-prov {
+	border-color: var(--adc-border-dark, #2e3f5c);
+	background: rgba(30, 41, 59, 0.55);
+	color: var(--adc-muted-on-dark, #9fb0c9);
 }
 
-/* Gates ------------------------------------------------------------------- */
+.adc-an-pill {
+	display: inline-block;
+	padding: 1px 8px;
+	border: 1px solid var(--adc-border, #c3c4c7);
+	border-radius: var(--adc-radius-pill, 999px);
+	background: var(--adc-canvas, #f0f0f1);
+	color: var(--adc-ink-soft, #40464d);
+	font-size: 11.5px;
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+.adc-an-gate--on .adc-an-pill,
+.adc-an-pill--paid {
+	border-color: var(--adc-border, #c3c4c7);
+	background: var(--adc-success-tint, #edf7f0);
+	color: var(--adc-success, #13522a);
+}
 
 .adc-an-gate-list,
 .adc-an-unavail-list {
 	display: grid;
-	gap: 2px;
+	gap: var(--adc-space-1, 8px);
 	margin: 0;
 }
 
 .adc-an-gate,
 .adc-an-unavail {
 	display: grid;
-	grid-template-columns: minmax(180px, 1fr) minmax(0, 1.6fr);
-	gap: 4px 16px;
+	grid-template-columns: minmax(160px, 1fr) minmax(0, 1.6fr);
+	gap: 4px var(--adc-space-2, 16px);
 	align-items: baseline;
 	padding: 9px 0;
-	border-top: 1px solid var(--adc-line-soft);
+	border-top: 1px solid var(--adc-border-soft, #dcdcde);
 }
 
 .adc-an-gate:first-child,
@@ -199,8 +1035,8 @@
 	display: flex;
 	flex-wrap: wrap;
 	align-items: baseline;
-	gap: 8px;
-	color: var(--adc-muted);
+	gap: var(--adc-space-1, 8px);
+	color: var(--adc-muted, #50575e);
 	font-size: 12.5px;
 	line-height: 1.55;
 }
@@ -209,582 +1045,74 @@
 	display: block;
 }
 
-.adc-an-pill {
-	display: inline-block;
-	padding: 1px 8px;
-	border: 1px solid var(--adc-line);
-	border-radius: 100px;
-	background: var(--adc-shell);
-	color: var(--adc-ink-soft);
-	font-size: 11.5px;
-	font-weight: 600;
-	white-space: nowrap;
+.adc-an-unavail dt .adc-an-pill {
+	margin-inline-start: 6px;
 }
 
-.adc-an-gate--on .adc-an-pill {
-	border-color: #9dc8ab;
-	background: var(--adc-positive-tint);
-	color: var(--adc-positive);
+.adc-an-note-list {
+	display: grid;
+	gap: var(--adc-space-1, 8px);
+	margin: 0;
+	padding: 0;
+	list-style: none;
 }
 
-.adc-an-pill--paid {
-	border-color: #9dc8ab;
-	background: var(--adc-positive-tint);
-	color: var(--adc-positive);
-	font-weight: 500;
-}
-
-.adc-an-gate-warning {
-	margin: 0 0 12px;
-	padding: 10px 12px;
-	background: var(--adc-warn-tint);
-	border-radius: var(--adc-radius);
-	color: var(--adc-warn);
-	font-size: 13px;
+.adc-an-note {
+	padding: 9px 12px;
+	border-radius: var(--adc-radius, 4px);
+	background: var(--adc-surface-subtle, #f6f7f7);
+	color: var(--adc-ink-soft, #40464d);
+	font-size: 12.5px;
 	line-height: 1.55;
 }
 
-/* Filters ----------------------------------------------------------------- */
-
-/* Report filters ---------------------------------------------------------- */
-
-/* Wide screens: preset segments on the left, the "Personalizat" field group on the
-   right; a single column below 960 px. */
-.adc-an-fgrid {
-	display: grid;
-	gap: var(--adc-space-3);
-	align-items: start;
-}
-
-.adc-an-fseg {
-	display: grid;
-	gap: var(--adc-space-2);
-	min-width: 0;
-}
-
-/* One filter row: its label sits above the control, never beside it. */
-.adc-an-fblock {
-	display: grid;
-	gap: var(--adc-space-1);
-	min-width: 0;
-}
-
-.adc-an-fkey {
-	margin: 0;
-	color: var(--adc-muted);
-	font-size: 12.5px;
-	font-weight: 600;
-}
-
-.adc-an-fcustom {
-	display: grid;
-	gap: var(--adc-space-2);
-	min-width: 0;
-	padding-top: var(--adc-space-3);
-	border-top: 1px solid var(--adc-line-soft);
-}
-
-.adc-an-segment {
-	display: flex;
-	flex-wrap: wrap;
-	gap: var(--adc-space-1);
-}
-
-/* Same 32px control height as the admin shell pills and buttons. */
-.adc-an-seg {
-	display: inline-flex;
-	align-items: center;
-	box-sizing: border-box;
-	min-height: 32px;
-	padding: 0 12px;
-	border: 1px solid var(--adc-line-soft);
-	border-radius: var(--adc-radius);
-	background: var(--adc-surface-alt);
-	color: var(--adc-ink);
-	font-size: 12.5px;
-	line-height: 1.4;
-	text-decoration: none;
-	transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
-}
-
-.adc-an-seg:hover {
-	background: var(--adc-shell);
-	border-color: var(--adc-line);
-	color: var(--adc-accent-dark);
-}
-
-.adc-an-seg.is-active {
-	background: var(--adc-accent);
-	border-color: var(--adc-accent-dark);
-	color: #fff;
-	font-weight: 600;
-}
-
-.adc-an-seg.is-active:hover {
-	background: var(--adc-accent-dark);
-	color: #fff;
-}
-
-/* Field group: one field per cell, label above control, 16px gutters. */
-.adc-an-controls {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-	gap: var(--adc-space-2);
-}
-
-.adc-an-cell {
-	display: grid;
-	align-content: start;
-	gap: 6px;
-	min-width: 0;
-}
-
-.adc-an-cell .adc-an-field {
-	margin-bottom: 0; /* the cell gap owns the label spacing */
-}
-
-.adc-an-field {
-	display: block;
-	color: var(--adc-muted);
-	font-size: 11.5px;
-	font-weight: 600;
-	letter-spacing: 0;
-	margin-bottom: -4px;
-}
-
-.adc-an-controls select,
-.adc-an-controls input[type="date"],
-.adc-an-controls input[type="number"],
-.adc-an-controls input[type="text"] {
-	display: block;
-	box-sizing: border-box;
-	width: 100%;
-	min-height: 32px;
-	max-width: 100%;
-}
-
-/* Help text and action on one row: text on the left, button bottom-right. */
-.adc-an-fcustom-foot {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: flex-end;
-	justify-content: space-between;
-	gap: var(--adc-space-2);
-}
-
-.adc-an-fcustom-foot .description {
-	flex: 1 1 260px;
-	margin: 0;
-	max-width: 70ch;
-	color: var(--adc-muted);
-}
-
-.adc-an-apply {
-	display: inline-flex;
-	align-items: center;
-	box-sizing: border-box;
-	min-height: 32px;
-	white-space: nowrap;
-}
-
-/* Filters changed but not yet applied: a ring, not a second colour system. */
-.adc-an-apply.is-dirty {
-	box-shadow: 0 0 0 3px rgba(34, 113, 177, 0.3);
-}
-
-.adc-an-active {
-	margin: 10px 0 0;
-	color: var(--adc-ink-soft);
-	font-size: 12.5px;
-}
-
-/* Two columns only when the card is wide enough for both the segments and the
-   five custom fields; below that the grid stacks in reading order. */
-@media (min-width: 960px) {
-	.adc-an-fgrid {
-		grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
-	}
-
-	.adc-an-fcustom {
-		padding-top: 0;
-		padding-left: var(--adc-space-3);
-		border-top: 0;
-		border-left: 1px solid var(--adc-line-soft);
-	}
-}
-
-/* WP collapses the admin sidebar under 960 px, so the shell card is already narrow
-   here: tighten the section rhythm and let the fields wrap earlier. */
-@media (max-width: 782px) {
-	.adc-an-panel,
-	.adc-an-panel + .adc-an-panel {
-		margin-top: var(--adc-space-2);
-	}
-
-	.adc-an-panel + .adc-an-panel {
-		padding-top: var(--adc-space-2);
-	}
-
-	.adc-an-fgrid {
-		gap: var(--adc-space-2);
-	}
-
-	.adc-an-controls {
-		grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-	}
-}
-
-/* Key figures ------------------------------------------------------------- */
-
-.adc-an-figures {
-	display: grid;
-	grid-template-columns: repeat(2, minmax(0, 1fr));
-	gap: 0 32px;
-	margin: 0;
-}
-
-.adc-an-figure {
-	display: flex;
-	justify-content: space-between;
-	align-items: baseline;
-	gap: 16px;
-	padding: 10px 0;
-	border-top: 1px solid var(--adc-line-soft);
-}
-
-.adc-an-figure:nth-child(-n+2) {
-	border-top: 0;
-	padding-top: 2px;
-}
-
-.adc-an-figure dt {
-	font-size: 13px;
-	font-weight: 500;
-	color: var(--adc-ink-soft);
-}
-
-.adc-an-figure dd {
-	margin: 0;
-	display: flex;
-	flex-direction: column;
-	align-items: flex-end;
-	gap: 1px;
-	text-align: right;
-}
-
-.adc-an-figure-value {
-	font-size: 18px;
-	font-weight: 600;
-	line-height: 1.25;
-	color: var(--adc-ink);
-}
-
-.adc-an-figure.is-money .adc-an-figure-value {
-	font-size: 17px;
-}
-
-.adc-an-figure-note {
-	color: var(--adc-muted);
-	font-size: 11.5px;
-	line-height: 1.4;
-	max-width: 26ch;
-	text-align: right;
-}
-
-.adc-an-figure.is-blocked .adc-an-figure-value {
-	color: var(--adc-muted);
-	font-weight: 500;
-}
-
-.adc-an-compare {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 6px 14px;
-	margin: 16px 0 0;
-	padding-top: 12px;
-	border-top: 1px solid var(--adc-line-soft);
-	font-size: 12.5px;
-	color: var(--adc-ink-soft);
-}
-
-.adc-an-compare.is-incomplete {
-	color: var(--adc-muted);
-}
-
-.adc-an-delta {
-	white-space: nowrap;
-}
-
-.adc-an-delta--up {
-	color: var(--adc-positive);
-	font-weight: 600;
-}
-
-.adc-an-delta--down {
-	color: var(--adc-negative);
-	font-weight: 600;
-}
-
-.adc-an-compare-range {
-	color: var(--adc-muted);
-}
-
-/* Charts ------------------------------------------------------------------ */
-
-.adc-an-fig {
-	margin: 0;
-}
-
-.adc-an-fig-title {
-	display: block;
-	margin-bottom: 10px;
-	color: var(--adc-ink);
-	font-size: 13px;
-	font-weight: 600;
-}
-
-.adc-an-fig-summary {
-	display: block;
-	margin-top: 2px;
-	color: var(--adc-muted);
-	font-size: 12px;
-	font-weight: 400;
-}
-
-.adc-an-plot {
-	display: grid;
-	grid-template-columns: 46px minmax(0, 1fr);
-	align-items: stretch;
-}
-
-/*
- * Axis alignment: the SVG viewBox is 760×220 and stretches (AspectRatio none),
- * so the HTML labels share the same linear space: y labels are positioned by
- * top:% of the 220px canvas, x labels by left:% of the plot width.
- */
-.adc-an-yaxis {
-	position: relative;
-	height: 220px;
-	color: var(--adc-muted);
-	font-size: 11px;
-	line-height: 1.2;
-}
-
-.adc-an-ylabel {
-	position: absolute;
-	right: 8px;
-	transform: translateY(-50%);
-	white-space: nowrap;
-}
-
-.adc-an-svg {
-	display: block;
-	width: 100%;
-	height: 220px;
-	overflow: visible;
-}
-
-.adc-an-gridline {
-	stroke: var(--adc-line-soft);
-	stroke-width: 1;
-	vector-effect: non-scaling-stroke;
-}
-
-.adc-an-area {
-	fill: var(--adc-accent);
-	fill-opacity: 0.08;
-	stroke: none;
-}
-
-.adc-an-line {
-	fill: none;
-	stroke: var(--adc-accent);
-	stroke-width: 1.75;
-	stroke-linejoin: round;
-	stroke-linecap: round;
-	vector-effect: non-scaling-stroke;
-}
-
-.adc-an-dot {
-	fill: var(--adc-surface);
-	stroke: var(--adc-accent-dark);
-	stroke-width: 1.25;
-	vector-effect: non-scaling-stroke;
-}
-
-.adc-an-dot.is-suppressed {
-	stroke: var(--adc-line);
-	stroke-dasharray: 2 2;
-}
-
-.adc-an-bar {
-	display: block;
-	height: 7px;
-	min-width: 2px;
-	border-radius: 2px;
-	background: var(--adc-bar);
-}
-
-rect.adc-an-bar {
-	fill: var(--adc-bar);
-}
-
-rect.adc-an-bar.is-small {
-	fill: #8c8f94;
-}
-
-.adc-an-xaxis {
-	position: relative;
-	height: 20px;
-	margin-top: 6px;
-	margin-left: 46px; /* Aligns with the SVG column (PAD_L). */
-	color: var(--adc-muted);
-	font-size: 11px;
-}
-
-.adc-an-xlabel {
-	position: absolute;
-	top: 0;
-	transform: translateX(-50%);
-	white-space: nowrap;
-}
-
-.adc-an-xlabel.is-start {
-	transform: none;
-}
-
-.adc-an-xlabel.is-end {
-	transform: translateX(-100%);
-}
-
-/* Sparser x labels on small screens (first and last only). */
-@media (max-width: 600px) {
-	.adc-an-xlabel:not(.is-start):not(.is-end) {
-		display: none;
-	}
-}
-
-.adc-an-data {
-	margin-top: 14px;
-	padding-top: 12px;
-	border-top: 1px solid var(--adc-line-soft);
-}
-
-.adc-an-data > summary {
-	cursor: pointer;
-	color: var(--adc-accent);
-	font-size: 12.5px;
-	font-weight: 600;
-	list-style-position: outside;
-}
-
-.adc-an-data-count {
-	margin-left: 6px;
-	color: var(--adc-muted);
-	font-weight: 400;
-}
-
-.adc-an-data > summary:hover {
-	color: var(--adc-accent-dark);
-	text-decoration: underline;
-	text-underline-offset: 2px;
-}
-
-/* Bounded scroll for long detail tables (reconciliation). */
-.adc-an-scroll {
-	max-height: 320px;
-	overflow: auto;
-}
-
-.adc-an-data table {
-	margin-top: 10px;
-}
-
-/* Tables ------------------------------------------------------------------ */
-
-.adc-an .widefat.adc-an-table {
-	border: 1px solid var(--adc-line-soft);
-	border-radius: var(--adc-radius);
-	font-size: 12.5px;
-}
-
-.adc-an .adc-an-table th[scope="col"],
-.adc-an .adc-an-table thead th {
-	background: var(--adc-surface-alt);
-	color: var(--adc-ink);
-	font-size: 11.5px;
-	font-weight: 600;
-	text-transform: none;
-}
-
-.adc-an-table .adc-an-num {
-	width: 128px;
-	text-align: right;
-	white-space: nowrap;
-}
-
-.adc-an-ranked .adc-an-num {
-	width: 84px;
-}
-
-.adc-an-table .adc-an-barcol {
-	width: 34%;
-}
-
-.adc-an-table .adc-an-barcell {
-	padding: 8px 12px !important;
-}
-
-.adc-an-table tr.is-hidden,
-.adc-an-hidden {
-	display: none;
-}
-
-.adc-an-alert {
-	background: var(--adc-negative-tint);
-	color: var(--adc-negative);
-	font-weight: 600;
-}
-
-.adc-an-thresh {
-	color: var(--adc-muted);
-	font-style: italic;
+.adc-an-note--warning {
+	background: var(--adc-warning-tint, #fcf6ee);
+	color: var(--adc-warning, #7a5311);
 }
 
-.adc-an-alert-text {
-	margin: 8px 0 0;
-	color: var(--adc-negative);
-	font-size: 12.5px;
+.adc-an-note--error {
+	background: var(--adc-danger-tint, #fcf0f0);
+	color: var(--adc-danger, #8a2424);
 }
 
-/* Empty / blocked states -------------------------------------------------- */
+/* ---------------------------------------------------------------------------
+ * Empty / blocked states
+ * ------------------------------------------------------------------------ */
 
 .adc-an-empty,
 .adc-an-blocked {
 	padding: 14px 16px;
-	background: var(--adc-surface-alt);
-	border: 1px dashed var(--adc-line);
-	border-radius: var(--adc-radius);
+	background: var(--adc-surface-subtle, #f6f7f7);
+	border: 1px dashed var(--adc-border, #c3c4c7);
+	border-radius: var(--adc-radius, 4px);
 }
 
+/* Native notice above the boxes (not inside them). */
 .adc-an-blocked {
-	margin: 16px 0 0;
-	border-style: solid;
-	border-color: var(--adc-line-soft);
-	background: var(--adc-accent-tint);
+	margin: 0;
+	border: 0;
+	border-inline-start: 4px solid var(--adc-info, #1d4f91);
+	border-radius: 0;
+	background: var(--adc-surface, #fff);
+}
+
+.adc-an-blocked p {
+	margin: 8px 0;
+	max-width: 74ch;
 }
 
 .adc-an-empty-title {
 	margin: 0 0 4px;
 	font-size: 13.5px;
 	font-weight: 600;
-	color: var(--adc-ink);
+	color: var(--adc-ink, #1d2327);
 }
 
 .adc-an-empty-body {
 	margin: 0;
 	max-width: 62ch;
-	color: var(--adc-ink-soft);
+	color: var(--adc-ink-soft, #40464d);
 	font-size: 12.5px;
 	line-height: 1.6;
 }
@@ -793,106 +1121,41 @@ rect.adc-an-bar.is-small {
 	margin: 10px 0 0;
 }
 
-/* Notes & unavailable ---------------------------------------------------- */
-
-.adc-an-note-list {
-	display: grid;
-	gap: 8px;
-	margin: 0;
-	padding: 0;
-	list-style: none;
+/* The same empty state inside a navy instrument box (Dark-Text Rule, §2). */
+.adc-box--dark .adc-an-empty {
+	background: rgba(30, 41, 59, 0.55);
+	border-color: var(--adc-border-dark, #2e3f5c);
+	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 
-.adc-an-note {
-	padding: 9px 12px;
-	border-radius: var(--adc-radius);
-	background: var(--adc-surface-alt);
-	color: var(--adc-ink-soft);
-	font-size: 12.5px;
-	line-height: 1.55;
+.adc-box--dark .adc-an-empty-title {
+	color: #fff;
 }
 
-.adc-an-note--warning {
-	background: var(--adc-warn-tint);
-	color: var(--adc-warn);
+.adc-box--dark .adc-an-empty-body {
+	color: var(--adc-muted-on-dark, #9fb0c9);
 }
 
-.adc-an-note--error {
-	background: var(--adc-negative-tint);
-	color: var(--adc-negative);
+.adc-box--dark .adc-an-none {
+	color: var(--adc-muted-on-dark, #9fb0c9);
 }
 
-.adc-an-unavail dt .adc-an-pill {
-	margin-left: 6px;
+/* Native .button restyled for a navy surface — still recognisably a WP button. */
+.adc-box--dark .adc-an-empty .button {
+	background: var(--adc-surface-dark-raised, #1e293b);
+	border-color: var(--adc-border-dark, #2e3f5c);
+	color: var(--adc-link-on-dark, #a5c1e4);
 }
 
-/* Settings ---------------------------------------------------------------- */
-
-.adc-an .form-table th {
-	width: 260px;
+.adc-box--dark .adc-an-empty .button:hover {
+	background: var(--adc-surface-dark, #162237);
+	border-color: var(--adc-brand-blue, #688cc8);
+	color: #fff;
 }
 
-.adc-an-check {
-	display: block;
-	margin: 2px 0;
-	font-size: 13px;
-	line-height: 1.5;
-}
-
-.adc-an-check.is-disabled {
-	color: var(--adc-muted);
-}
-
-.adc-an-check.is-disabled input {
-	cursor: not-allowed;
-}
-
-.adc-an-check input {
-	margin-right: 4px;
-}
-
-.adc-an-retention {
-	display: grid;
-	gap: 4px;
-	margin: 0 0 8px;
-	padding: 0;
-	list-style: none;
-	font-size: 13px;
-}
-
-.adc-an-draft {
-	margin: 22px 0 0;
-	padding: 14px 16px;
-	border: 1px solid var(--adc-line-soft);
-	border-radius: var(--adc-radius);
-	background: var(--adc-surface);
-}
-
-.adc-an-draft > summary {
-	cursor: pointer;
-	font-size: 13.5px;
-	font-weight: 600;
-	color: var(--adc-ink);
-}
-
-.adc-an-draft > summary:hover {
-	color: var(--adc-accent);
-}
-
-.adc-an-draft-body {
-	margin: 12px 0 0;
-	max-width: 74ch;
-	color: var(--adc-ink-soft);
-	font-size: 12.5px;
-	line-height: 1.65;
-	white-space: pre-line;
-}
-
-.adc-an-noexport {
-	margin-top: 14px;
-}
-
-/* Screen-reader-only helper (also works when dashicons are absent) -------- */
+/* ---------------------------------------------------------------------------
+ * Screen-reader helper (also works when dashicons are absent)
+ * ------------------------------------------------------------------------ */
 
 .adc-an .screen-reader-text {
 	position: absolute !important;
@@ -906,21 +1169,29 @@ rect.adc-an-bar.is-small {
 	word-wrap: normal !important;
 }
 
-/* Focus, selection, hover chrome ----------------------------------------- */
+/* ---------------------------------------------------------------------------
+ * Focus, selection
+ * ------------------------------------------------------------------------ */
 
 .adc-an a:focus-visible,
 .adc-an button:focus-visible,
 .adc-an input:focus-visible,
 .adc-an select:focus-visible,
-.adc-an summary:focus-visible {
-	border-color: var(--adc-accent);
-	box-shadow: 0 0 0 1px var(--adc-accent), 0 0 0 3px rgba(34, 113, 177, 0.25);
-	outline: 2px solid transparent;
-	outline-offset: 0;
+.adc-an summary:focus-visible,
+.adc-an [tabindex]:focus-visible {
+	outline: 2px solid var(--adc-accent, #3b6ea5);
+	outline-offset: 2px;
+	box-shadow: none;
+	border-color: var(--adc-accent, #3b6ea5);
+}
+
+/* One ring shape everywhere; on navy the light link colour is the only AA pair. */
+.adc-box--dark :is(a, button, summary, [tabindex]):focus-visible {
+	outline-color: var(--adc-link-on-dark, #a5c1e4);
 }
 
 .adc-an ::selection {
-	background: var(--adc-accent);
+	background: var(--adc-accent, #3b6ea5);
 	color: #fff;
 }
 
@@ -928,21 +1199,313 @@ rect.adc-an-bar.is-small {
 	text-underline-offset: 2px;
 }
 
-/* Responsive -------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------
+ * Settings half (§6: one delimited box per settings section, never between reports)
+ * ------------------------------------------------------------------------ */
 
-@media screen and (max-width: 800px) {
-	.adc-an-figures {
+.adc-an-settings-lede {
+	margin: 0 0 var(--adc-space-2, 16px);
+	max-width: 74ch;
+	color: var(--adc-muted, #50575e);
+	font-size: 12.5px;
+	line-height: 1.5;
+}
+
+.adc-an-settings {
+	box-sizing: border-box;
+	display: grid;
+	gap: var(--adc-space-3, 24px);
+	align-content: start;
+	padding: var(--adc-space-3, 24px);
+	background: var(--adc-canvas, #f0f0f1);
+	border-radius: var(--adc-radius-box, 6px);
+}
+
+.adc-an-settings .adc-an-settings-block {
+	max-width: 1100px;
+}
+
+.adc-an .adc-an-settings .title {
+	font-size: 15px;
+}
+
+.adc-an-settings .adc-admin-section-intro {
+	margin: 0 0 var(--adc-space-2, 16px);
+	max-width: 74ch;
+	color: var(--adc-ink-soft, #40464d);
+	font-size: 13px;
+	line-height: 1.6;
+}
+
+.adc-an-settings .adc-help-options {
+	display: grid;
+	gap: var(--adc-space-2, 16px);
+	margin: var(--adc-space-2, 16px) 0 0;
+}
+
+.adc-an-settings .adc-help-row {
+	max-width: 74ch;
+}
+
+.adc-an-settings .adc-help-row__control {
+	display: grid;
+	justify-content: start;
+	gap: var(--adc-space-1, 8px);
+	width: 100%;
+}
+
+.adc-an-settings .adc-help-row__control select {
+	min-width: 220px;
+	max-width: 100%;
+}
+
+.adc-an-settings .adc-an-opt {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--adc-space-1, 8px);
+	margin: 0;
+	cursor: pointer;
+}
+
+.adc-an-settings .adc-an-opt input[type="checkbox"] {
+	flex: 0 0 auto;
+	margin: 3px 0 0;
+}
+
+.adc-an-settings .description {
+	max-width: 74ch;
+}
+
+/* The info icon sits on the heading line, not below it. */
+.adc-an .adc-box__head .adc-help,
+.adc-an-settings .title .adc-help,
+.adc-an-blocked-list strong .adc-help,
+.adc-an-draft > summary .adc-help,
+.adc-an-sec__title .adc-help {
+	margin-inline-start: var(--adc-space-1, 8px);
+	vertical-align: middle;
+}
+
+/* Without <dialog> support the same text falls back to a disclosure: keep it
+   readable, not in the heading's typographic voice. */
+.adc-an .adc-help-details,
+.adc-an-settings .title .adc-help-details,
+.adc-an-blocked-list .adc-help-details {
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 1.5;
+	text-align: start;
+	max-width: 74ch;
+}
+
+/* Info-icon button inside a navy box. */
+.adc-box--dark .adc-help-btn {
+	border-color: var(--adc-border-dark, #2e3f5c);
+	color: var(--adc-muted-on-dark, #9fb0c9);
+}
+
+.adc-an-gate-warning {
+	margin: 0 0 var(--adc-space-2, 16px);
+	padding: 10px 12px;
+	background: var(--adc-warning-tint, #fcf6ee);
+	border-radius: var(--adc-radius, 4px);
+	color: var(--adc-warning, #7a5311);
+	font-size: 13px;
+	line-height: 1.55;
+	max-width: 74ch;
+}
+
+.adc-an-retention {
+	display: grid;
+	gap: 4px;
+	margin: 0 0 8px;
+	padding: 0;
+	list-style: none;
+	font-size: 13px;
+}
+
+.adc-an-draft {
+	margin: var(--adc-space-2, 16px) 0 0;
+	padding: 14px 16px;
+	border: 1px solid var(--adc-border-soft, #dcdcde);
+	border-radius: var(--adc-radius, 4px);
+	background: var(--adc-surface-subtle, #f6f7f7);
+}
+
+.adc-an-draft > summary {
+	cursor: pointer;
+	font-size: 13.5px;
+	font-weight: 600;
+	color: var(--adc-ink, #1d2327);
+}
+
+.adc-an-draft > summary:hover {
+	color: var(--adc-accent, #3b6ea5);
+}
+
+.adc-an-draft-body {
+	margin: 12px 0 0;
+	max-width: 74ch;
+	color: var(--adc-ink-soft, #40464d);
+	font-size: 12.5px;
+	line-height: 1.65;
+	white-space: pre-line;
+}
+
+.adc-an-internal-notes > summary {
+	font-weight: 600;
+}
+
+.adc-an-scope {
+	display: grid;
+	gap: var(--adc-space-1, 8px);
+	box-sizing: border-box;
+	margin: 0 0 var(--adc-space-2, 16px);
+	padding: 0;
+	list-style: none;
+	max-width: 78ch;
+}
+
+.adc-an-scope li {
+	position: relative;
+	padding-inline-start: 26px;
+	font-size: 13px;
+	line-height: 1.6;
+	color: var(--adc-ink-soft, #40464d);
+}
+
+.adc-an-scope li::before {
+	position: absolute;
+	inset-inline-start: 0;
+	top: 0;
+	font-weight: 700;
+}
+
+.adc-an-scope-in::before {
+	content: "\2713";
+	color: var(--adc-success, #13522a);
+}
+
+.adc-an-scope-out::before {
+	content: "\2715";
+	color: var(--adc-danger, #8a2424);
+}
+
+.adc-an-blocked-list {
+	display: grid;
+	gap: var(--adc-space-2, 16px);
+	box-sizing: border-box;
+	margin: 0;
+	padding: var(--adc-space-2, 16px);
+	list-style: none;
+	background: var(--adc-surface-subtle, #f6f7f7);
+	border: 1px solid var(--adc-border-soft, #dcdcde);
+	border-radius: var(--adc-radius, 4px);
+	max-width: 78ch;
+}
+
+.adc-an-blocked-list li {
+	display: grid;
+	gap: 2px;
+	font-size: 13px;
+	line-height: 1.6;
+}
+
+.adc-an-blocked-list strong {
+	font-weight: 600;
+	color: var(--adc-ink, #1d2327);
+}
+
+.adc-an-blocked-list span {
+	color: var(--adc-muted, #50575e);
+}
+
+.adc-an-noexport {
+	margin-top: var(--adc-space-2, 16px);
+}
+
+.adc-an-jump {
+	margin: 0 0 var(--adc-space-2, 16px);
+}
+
+.adc-an-check {
+	display: block;
+	margin: 2px 0;
+	font-size: 13px;
+	line-height: 1.5;
+}
+
+.adc-an-check.is-disabled {
+	color: var(--adc-muted, #50575e);
+}
+
+.adc-an-check.is-disabled input {
+	cursor: not-allowed;
+}
+
+.adc-an-check input {
+	margin-inline-end: 4px;
+}
+
+.adc-an .form-table th {
+	width: 260px;
+}
+
+/* ---------------------------------------------------------------------------
+ * Responsive — 1440 / 1100 / 782 / 390 (§6)
+ * ------------------------------------------------------------------------ */
+
+@media (min-width: 1100px) {
+	.adc-an-kpis {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 1099px) {
+	.adc-an-kpis,
+	.adc-an-metrics {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.adc-an-controls {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+/* WP collapses the admin sidebar at 782: single column, tighter box padding. */
+@media (max-width: 782px) {
+	.adc-an-row,
+	.adc-an-row--single {
 		grid-template-columns: minmax(0, 1fr);
 	}
 
-	.adc-an-figure:nth-child(-n+2) {
-		border-top: 1px solid var(--adc-line-soft);
-		padding-top: 10px;
+	.adc-an-controls {
+		grid-template-columns: minmax(0, 1fr);
 	}
 
-	.adc-an-figure:first-child {
-		border-top: 0;
-		padding-top: 2px;
+	.adc-an-tool,
+	.adc-an-tool > .adc-an-fblock:nth-child(1),
+	.adc-an-tool > .adc-an-fblock:nth-child(2),
+	.adc-an-tool > .adc-an-fblock:nth-child(3) {
+		grid-template-columns: minmax(0, 1fr);
+		grid-column: auto;
+		grid-row: auto;
+	}
+
+	.adc-an-tool {
+		gap: var(--adc-space-2, 16px);
+	}
+
+	.adc-an .adc-box__body {
+		padding: var(--adc-space-2, 16px);
+	}
+
+	.adc-an .adc-box__head {
+		padding: var(--adc-space-2, 16px) var(--adc-space-2, 16px) 0;
+	}
+
+	.adc-an-settings {
+		padding: var(--adc-space-2, 16px);
 	}
 
 	.adc-an-gate,
@@ -955,17 +1518,71 @@ rect.adc-an-bar.is-small {
 		width: auto;
 		padding-bottom: 2px;
 	}
+
+	.adc-an-settings .adc-help-row__control select {
+		min-width: 0;
+		width: 100%;
+	}
 }
 
-@media screen and (max-width: 600px) {
-	.adc-an-panel,
-	.adc-an-panel + .adc-an-panel {
-		margin-top: var(--adc-space-2);
-		padding-top: var(--adc-space-2);
+@media (max-width: 600px) {
+	/* The shell card drops to 16px padding here, so the bed follows it. */
+	.adc-an-page {
+		margin: calc(-1 * var(--adc-space-2, 16px)) calc(-1 * var(--adc-space-2, 16px));
+		padding: var(--adc-space-2, 16px);
+		gap: var(--adc-space-3, 24px);
 	}
 
-	/* Settings rows stack and their fields fill the column: a 25em input next
-	   to a 260px label cannot fit a 390 px admin column. */
+	/* Every filter control fills the column on a phone. */
+	.adc-an-seg {
+		flex: 1 1 auto;
+		justify-content: center;
+	}
+
+	.adc-an-tool-foot {
+		align-items: stretch;
+		justify-content: flex-start;
+	}
+
+	.adc-an-apply {
+		width: 100%;
+		max-width: 100%;
+		justify-content: center;
+	}
+
+	.adc-an-kpis {
+		gap: var(--adc-space-2, 16px);
+	}
+
+	.adc-kpi__value,
+	.adc-kpi--blocked .adc-kpi__value {
+		font-size: 20px;
+	}
+
+	.adc-an-metric__value {
+		font-size: 16px;
+	}
+
+	.adc-an-metrics {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	/* On phones the numeric table drops the bar column; the numbers stay. */
+	.adc-an-ranked .adc-an-barcol,
+	.adc-an-ranked .adc-an-barcell {
+		display: none;
+	}
+
+	.adc-an-table .adc-an-num {
+		width: 96px;
+	}
+
+	.adc-an .widefat.adc-an-table {
+		table-layout: fixed;
+		width: 100%;
+	}
+
+	/* Settings rows stack: a 25em input next to a 260px label cannot fit. */
 	.adc-an .form-table {
 		table-layout: fixed;
 		width: 100%;
@@ -995,56 +1612,35 @@ rect.adc-an-bar.is-small {
 		width: 100%;
 		max-width: 100%;
 	}
+}
 
-	/* Every filter control fills the column on a phone. */
-	.adc-an-controls {
+/* 390: tiles go one across, wide tables keep their numbers and scroll. */
+@media (max-width: 420px) {
+	.adc-an-kpis {
 		grid-template-columns: minmax(0, 1fr);
 	}
 
-	.adc-an-seg {
-		flex: 1 1 auto;
-		justify-content: center;
+	.adc-an .adc-box--dark .adc-corner,
+	.adc-an .adc-corner {
+		top: 8px;
+		inset-inline-end: 8px;
 	}
 
-	.adc-an-fcustom-foot {
-		flex-direction: column;
-		align-items: stretch;
+	.adc-an-plot,
+	.adc-box--dark .adc-an-plot {
+		--adc-plot-h: 220px;
+		grid-template-columns: 40px minmax(0, 1fr);
 	}
 
-	.adc-an-fcustom-foot .description {
-		max-width: none;
+	.adc-an-xaxis {
+		margin-inline-start: 40px;
 	}
+}
 
-	.adc-an-apply {
-		width: 100%;
-		max-width: 100%;
-	}
-
-	.adc-an-field {
-		margin-bottom: 2px;
-	}
-
-	.adc-an-figure-value {
-		font-size: 17px;
-	}
-
-	.adc-an-figure-note {
-		max-width: 20ch;
-	}
-
-	.adc-an-panel-head .adc-an-export,
-	.adc-an-panel-head .adc-an-reset {
-		margin-left: 0;
-	}
-
-	/* On phones the numeric table drops the bar column; the numbers stay. */
-	.adc-an-ranked .adc-an-barcol,
-	.adc-an-ranked .adc-an-barcell {
+/* Sparser x labels on small screens (first and last only). */
+@media (max-width: 600px) {
+	.adc-an-xlabel:not(.is-start):not(.is-end) {
 		display: none;
-	}
-
-	.adc-an-table .adc-an-num {
-		width: 96px;
 	}
 }
 
@@ -1057,191 +1653,5 @@ rect.adc-an-bar.is-small {
 	}
 }
 
-/* Settings tab (Analytics): entry point back to the statistics on the Dashboard. */
-.adc-an-jump {
-	margin: 0 0 16px;
-}
-
-/* Settings area (.adc-an-settings wraps the analytics settings form) --------- */
-
-/* One option per row: label above the control, muted description under it,
-   16px between options and 32px between numbered sections. */
-.adc-an-settings .title {
-	margin: var(--adc-space-4) 0 0;
-	padding: 0;
-	border-bottom: 0;
-	font-size: 15px;
-	font-weight: 600;
-}
-
-.adc-an-settings > .title:first-of-type {
-	margin-top: 0;
-}
-
-.adc-an-settings .description {
-	max-width: 74ch;
-}
-
-/* Options are rendered with ADC_Admin_Help::row() (label on top, control below,
-   one-sentence description under it). admin-help.css owns the 16px rhythm inside
-   the stack; here we only place the stack and keep the section rhythm at 32px. */
-.adc-an-settings .adc-help-options {
-	margin: var(--adc-space-2) 0 var(--adc-space-2);
-}
-
-.adc-an-settings .adc-help-row {
-	max-width: 74ch;
-}
-
-.adc-an-settings .adc-help-row__control {
-	display: grid;
-	justify-content: start;
-	gap: var(--adc-space-1);
-	width: 100%;
-}
-
-.adc-an-settings .adc-help-row__control select {
-	min-width: 220px;
-	max-width: 100%;
-}
-
-/* Checkbox choices inside one option. */
-.adc-an-settings .adc-an-opt {
-	display: flex;
-	align-items: flex-start;
-	gap: var(--adc-space-1);
-	margin: 0;
-	cursor: pointer;
-}
-
-.adc-an-settings .adc-an-opt + .adc-an-opt {
-	margin-top: 0;
-}
-
-.adc-an-settings .adc-an-opt input[type="checkbox"] {
-	flex: 0 0 auto;
-	margin: 3px 0 0;
-}
-
-/* The info icon sits on the heading line, not below it. */
-.adc-an-settings .title .adc-help,
-.adc-an-panel-head .adc-help,
-.adc-an-blocked-list strong .adc-help,
-.adc-an-draft > summary .adc-help {
-	margin-left: var(--adc-space-1);
-	vertical-align: middle;
-}
-
-/* Without <dialog> support the same text falls back to a disclosure: keep it
-   readable, not in the heading's typographic voice. */
-.adc-an-settings .title .adc-help-details,
-.adc-an-panel-head .adc-help-details,
-.adc-an-blocked-list .adc-help-details {
-	font-size: 13px;
-	font-weight: 400;
-	line-height: 1.5;
-	text-align: left;
-}
-
-.adc-an-settings .adc-admin-section-intro {
-	margin: 4px 0 0;
-	max-width: 74ch;
-}
-
-/* Retention summary (read-only recap of sections 1 and 2). */
-.adc-an-settings .adc-an-retention {
-	margin: var(--adc-space-2) 0 0;
-	max-width: 74ch;
-}
-
-/* What is counted versus what is never collected. */
-.adc-an-scope {
-	display: grid;
-	gap: var(--adc-space-1);
-	box-sizing: border-box;
-	margin: var(--adc-space-2) 0 0;
-	padding: 0;
-	list-style: none;
-	max-width: 78ch;
-}
-
-.adc-an-scope li {
-	position: relative;
-	padding-left: 26px;
-	font-size: 13px;
-	line-height: 1.6;
-	color: var(--adc-ink-soft);
-}
-
-.adc-an-scope li::before {
-	position: absolute;
-	left: 0;
-	top: 0;
-	font-weight: 700;
-}
-
-.adc-an-scope-in::before {
-	content: "\2713";
-	color: var(--adc-positive);
-}
-
-.adc-an-scope-out::before {
-	content: "\2715";
-	color: var(--adc-negative);
-}
-
-/* The blocked-features card: a line per feature, with its own info icon. */
-.adc-an-blocked-list {
-	display: grid;
-	gap: var(--adc-space-2);
-	box-sizing: border-box;
-	margin: var(--adc-space-2) 0 0;
-	padding: var(--adc-space-2);
-	list-style: none;
-	background: var(--adc-surface-alt);
-	border: 1px solid var(--adc-line-soft);
-	border-radius: var(--adc-radius);
-	max-width: 78ch;
-}
-
-.adc-an-blocked-list li {
-	display: grid;
-	gap: 2px;
-	font-size: 13px;
-	line-height: 1.6;
-}
-
-.adc-an-blocked-list strong {
-	font-weight: 600;
-	color: var(--adc-ink);
-}
-
-.adc-an-blocked-list span {
-	color: var(--adc-muted);
-}
-
-/* Inert legal notes: closed by default and visually secondary. */
-.adc-an-internal-notes {
-	margin-top: var(--adc-space-2);
-}
-
-.adc-an-internal-notes > summary {
-	font-weight: 600;
-}
-
-/* The shared form-table stacking rules above are less specific, so the option
-   grid is restored here for narrow admin columns. */
-/* Narrow admin columns: the option stack keeps its 16px rhythm and the modal
-   button stays on the heading line. */
-@media (max-width: 782px) {
-	.adc-an-settings .adc-help-options {
-		gap: var(--adc-space-2);
-		margin-bottom: var(--adc-space-2);
-	}
-
-	.adc-an-settings .adc-help-row__control select {
-		min-width: 0;
-		width: 100%;
-	}
-}
-
+/* Channel configuration status strip */
+.adc-an-channel-status{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin:0 0 16px}.adc-an-channel-status__item{display:flex;flex-direction:column;gap:4px;padding:10px 12px;background:var(--adc-surface,#fff);border:1px solid var(--adc-border,#c3c4c7);border-radius:6px;color:var(--adc-ink,#1d2327);text-decoration:none}.adc-an-channel-status__item:hover,.adc-an-channel-status__item:focus{text-decoration:underline;box-shadow:0 0 0 2px var(--adc-accent-primary,#3b6ea5)}.adc-an-channel-status__icon{font-weight:700}.adc-an-channel-status__item.is-on .adc-an-channel-status__icon{color:var(--adc-success,#13522a)}.adc-an-channel-status__item.is-off .adc-an-channel-status__icon{color:var(--adc-ink-muted,#50575e)}.adc-an-channel-status__item.is-incomplete .adc-an-channel-status__icon{color:var(--adc-highlight-orange,#f96004)}.adc-an-channel-status__state{font-size:12px;color:var(--adc-ink-muted,#50575e)}.adc-an-warnings{margin:0 0 12px}.adc-an-warnings>summary{cursor:pointer;font-weight:600;color:var(--adc-ink-soft,#40464d)}@media(max-width:900px){.adc-an-channel-status{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:520px){.adc-an-channel-status{grid-template-columns:repeat(2,minmax(0,1fr))}}

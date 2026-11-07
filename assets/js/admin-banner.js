@@ -1,5 +1,67 @@
 /* ADC Marketing — live preview for the "Aspect și poziție" section.
  * Vanilla JS; jQuery is used only as thin glue for wp-color-picker. */
+
+/* Collapsible sections (Conținut · Aspect · Categorii).
+ * <details> works without JS; this only remembers which sections the admin
+ * left open. Storage access is wrapped in try/catch: private mode, disabled
+ * storage or a stale value must never break the tab. */
+(function () {
+  'use strict';
+
+  var STORAGE_KEY = 'adcBannerSections';
+  var sections = document.querySelectorAll('[data-adc-banner-section]');
+  if (!sections.length) {
+    return;
+  }
+
+  function readState() {
+    try {
+      var raw = window.localStorage.getItem(STORAGE_KEY);
+      var parsed = raw ? JSON.parse(raw) : null;
+      return parsed && typeof parsed === 'object' ? parsed : {};
+    } catch (error) {
+      return {};
+    }
+  }
+
+  function writeState(state) {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (error) {
+      // No persistence available: the sections still open and close normally.
+    }
+  }
+
+  var stored = readState();
+  var state = {};
+
+  Array.prototype.forEach.call(sections, function (section) {
+    var id = section.getAttribute('data-adc-banner-section') || '';
+    if (!id) {
+      return;
+    }
+    if (Object.prototype.hasOwnProperty.call(stored, id)) {
+      section.open = !!stored[id];
+    }
+    state[id] = section.open;
+  });
+
+  Array.prototype.forEach.call(sections, function (section) {
+    var id = section.getAttribute('data-adc-banner-section') || '';
+    if (!id) {
+      return;
+    }
+    section.addEventListener('toggle', function () {
+      state[id] = section.open;
+      var merged = readState();
+      Object.keys(state).forEach(function (key) {
+        merged[key] = state[key];
+      });
+      writeState(merged);
+    });
+  });
+})();
+
 (function () {
   'use strict';
 
@@ -433,6 +495,26 @@
     }
   });
 
+  // wp-color-picker (iris) measures the palette when it is built, so a picker
+  // created inside a closed section renders at the wrong width. Build them on
+  // first use instead: immediately when "Aspect" is already open.
+  var pickersReady = false;
+  function ensurePickers() {
+    if (pickersReady) {
+      return;
+    }
+    pickersReady = true;
+    initPickers();
+  }
+
+  if (root.tagName === 'DETAILS') {
+    root.addEventListener('toggle', function () {
+      if (root.open) {
+        ensurePickers();
+      }
+    });
+  }
+
   // Initial state.
   var initial = checkedRadio(presetRadios());
   if (initial && initial.value !== 'custom' && presets[initial.value]) {
@@ -444,5 +526,7 @@
   syncShadow();
   syncLayout();
   updateWarnings();
-  initPickers();
+  if (root.tagName !== 'DETAILS' || root.open) {
+    ensurePickers();
+  }
 })();

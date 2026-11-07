@@ -1,0 +1,208 @@
+/**
+ * ADC Marketing — "Integrări ▸ Platforme" read-only overview tab.
+ *
+ * One matrix (Meta / GA4 / TikTok × Browser / Server / Stare) plus the
+ * computed warnings list underneath. Styling follows admin-gtm.css: plugin
+ * CSS variables with safe fallbacks, status pills that pair an icon glyph
+ * with text so state never relies on colour alone.
+ */
+
+.adc-platforms-scroll {
+    overflow-x: auto;
+}
+
+.adc-platforms-matrix {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--adc-surface, #fff);
+    border: 1px solid var(--adc-border, #dcdcde);
+    border-radius: var(--adc-radius, 8px);
+}
+
+.adc-platforms-matrix th,
+.adc-platforms-matrix td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--adc-border-subtle, #f0f0f1);
+    vertical-align: top;
+}
+
+.adc-platforms-matrix thead th {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--adc-muted, #50575e);
+    background: var(--adc-surface-subtle, #f6f7f7);
+    border-bottom: 1px solid var(--adc-border, #dcdcde);
+}
+
+.adc-platforms-matrix tbody tr:last-child th,
+.adc-platforms-matrix tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.adc-platforms-matrix tbody th {
+    font-weight: 600;
+    color: var(--adc-text, #1d2327);
+    white-space: nowrap;
+}
+
+/* ---- Browser mode cell --------------------------------------------------- */
+
+.adc-platforms-mode {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: var(--adc-radius-pill, 999px);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px;
+    white-space: nowrap;
+    background: var(--adc-surface-subtle, #f6f7f7);
+    color: var(--adc-muted, #50575e);
+}
+
+.adc-platforms-mode--gtm,
+.adc-platforms-mode--direct {
+    background: var(--adc-info-tint, #eef4fb);
+    color: var(--adc-info, #1d4f91);
+}
+
+.adc-platforms-edit {
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+/* ---- Icon + text pills (server / state) ---------------------------------- */
+
+.adc-platforms-server,
+.adc-platforms-status {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    max-width: 100%;
+}
+
+.adc-platforms-dot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    transform: translateY(3px);
+}
+
+.adc-platforms-server--on .adc-platforms-dot {
+    background: var(--adc-success-tint, #edf7f0);
+    color: var(--adc-success, #13522a);
+}
+
+.adc-platforms-server--off .adc-platforms-dot {
+    background: var(--adc-surface-subtle, #f6f7f7);
+    color: var(--adc-muted, #50575e);
+}
+
+.adc-platforms-status--ok .adc-platforms-dot {
+    background: var(--adc-success-tint, #edf7f0);
+    color: var(--adc-success, #13522a);
+}
+
+.adc-platforms-status--warn .adc-platforms-dot {
+    background: var(--adc-warning-tint, #fcf6ee);
+    color: var(--adc-warning, #7a5311);
+}
+
+.adc-platforms-status--bad .adc-platforms-dot {
+    background: var(--adc-danger-tint, #fcedee);
+    color: var(--adc-danger, #8a1f24);
+}
+
+.adc-platforms-status--off .adc-platforms-dot {
+    background: var(--adc-surface-subtle, #f6f7f7);
+    color: var(--adc-muted, #50575e);
+}
+
+.adc-platforms-status--warn,
+.adc-platforms-status--bad {
+    color: var(--adc-text, #1d2327);
+}
+
+/* ---- Computed warnings ---------------------------------------------------- */
+
+.adc-platforms-warnings {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+}
+
+.adc-platforms-warning {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 12px 16px;
+    border: 1px solid var(--adc-warning, #7a5311);
+    border-left-width: 4px;
+    border-radius: var(--adc-radius, 8px);
+    background: var(--adc-warning-tint, #fcf6ee);
+}
+
+.adc-platforms-warning .adc-platforms-dot {
+    transform: none;
+    background: var(--adc-warning, #7a5311);
+    color: #fff;
+}
+
+.adc-platforms-warning-text {
+    flex: 1 1 auto;
+}
+
+.adc-platforms-warning-fix {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    font-weight: 600;
+}
+
+.adc-platforms-all-clear {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin: 0;
+    padding: 12px 16px;
+    border: 1px solid var(--adc-success, #13522a);
+    border-left-width: 4px;
+    border-radius: var(--adc-radius, 8px);
+    background: var(--adc-success-tint, #edf7f0);
+    color: var(--adc-success, #13522a);
+    font-weight: 600;
+}
+
+.adc-platforms-all-clear .adc-platforms-dot {
+    transform: none;
+    background: var(--adc-success, #13522a);
+    color: #fff;
+}
+
+/* ---- Narrow screens -------------------------------------------------------- */
+
+@media (max-width: 782px) {
+    .adc-platforms-matrix th,
+    .adc-platforms-matrix td {
+        padding: 10px 12px;
+    }
+
+    .adc-platforms-warning {
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .adc-platforms-warning-fix {
+        white-space: normal;
+    }
+}

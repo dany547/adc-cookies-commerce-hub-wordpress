@@ -29,4 +29,20 @@ foreach (glob(ADC_MARKETING_PLUGIN_DIR . 'includes/admin/class-adc-admin-tab-*.p
     echo ($ok ? 'OK      ' : 'MISSING ') . $class . "\n";
     $failed += $ok ? 0 : 1;
 }
+
+// Unified GTM chunk: the new tab resolves with slug 'gtm' and the legacy
+// 'sgtm' class stays loadable as a delegate of ADC_Admin_Tab_Gtm.
+try {
+    $gtm_ok = class_exists('ADC_Admin_Tab_Gtm')
+        && is_subclass_of('ADC_Admin_Tab_Gtm', ADC_Admin_Tab_Interface::class)
+        && (new ADC_Admin_Tab_Gtm())->slug() === 'gtm'
+        && class_exists('ADC_Admin_Tab_Sgtm')
+        && is_subclass_of('ADC_Admin_Tab_Sgtm', ADC_Admin_Tab_Interface::class)
+        && (new ADC_Admin_Tab_Sgtm())->slug() === 'sgtm';
+} catch (Throwable $e) {
+    $gtm_ok = false;
+    fwrite(STDERR, 'ADC_Admin_Tab_Gtm: ' . $e->getMessage() . "\n");
+}
+echo ($gtm_ok ? 'OK      ' : 'MISSING ') . "ADC_Admin_Tab_Gtm (slug gtm; legacy sgtm delegate)\n";
+$failed += $gtm_ok ? 0 : 1;
 exit($failed > 0 ? 1 : 0);

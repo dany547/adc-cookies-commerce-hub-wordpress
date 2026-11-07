@@ -1,10 +1,194 @@
-.adc-cookie-scanner > p { max-width: 1000px; }
-.adc-cookie-filters { display: flex; flex-wrap: wrap; gap: 6px; margin: 16px 0; }
-.adc-cookie-table { table-layout: auto; }
-.adc-cookie-table th, .adc-cookie-table td { vertical-align: middle; }
-.adc-cookie-table input, .adc-cookie-table select { min-width: 100px; width: 100%; }
-.adc-cookie-table tr[data-status="new"] { background: #fff8e5; }
+/* ADC Marketing 2.0 — Cookie Scanner tab ("Scanner cookie-uri").
+ *
+ * Spacing reuses the shell token scale from admin-shell.css (var() with
+ * fallbacks so the file also stands alone):
+ *   --adc-space-1 (8px)  inside groups: toolbar buttons, filter chips,
+ *                        hint under the toolbar, mobile card gaps
+ *   --adc-space-2 (16px) between related blocks: notice, filters -> table
+ *   --adc-space-3 (24px) section separation: toolbar -> filters
+ *   10/12px half-steps carry the in-cell rhythm.
+ * Colors are DESIGN.md §7 token values only (admin-shell.css block; literal
+ * fallbacks are palette colors). Row/badge states use the semantic tint pairs
+ * (§9: the legacy WP hover-tint, pending-yellows and dirty-bar amber are
+ * retired). RTL-safe: logical properties throughout.
+ */
+
+/* ---------- Vertical rhythm: intro, notice, toolbar, hint, filters ---------- */
+.adc-cookie-scanner > p { margin: 0; max-width: 90ch; }
+.adc-cookie-scanner > .notice { margin: var(--adc-space-2, 16px) 0 0; }
+
+.adc-cookie-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--adc-space-1, 8px);
+	margin-top: var(--adc-space-3, 24px);
+}
+
+#adc-cookie-scan-status {
+	margin-inline-start: 4px;
+	font-size: 12px;
+	color: var(--adc-muted, #50575e);
+}
+
+.adc-cookie-scanner > .description { margin-top: var(--adc-space-1, 8px); }
+
+.adc-cookie-filters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--adc-space-1, 8px);
+	margin: var(--adc-space-3, 24px) 0 var(--adc-space-2, 16px);
+}
+/* admin-cookies.js never marks a chip active, so the CSS can only give
+ * hover / keyboard-focus / press feedback — no resting "selected" state. */
+.adc-cookie-filters .button:hover { transform: translateY(-1px); }
+.adc-cookie-filters .button:active { transform: translateY(0); }
+
+/* ---------- Table: fixed grid, even cells ---------- */
+.adc-cookie-table { table-layout: fixed; width: 100%; }
+.adc-cookie-table th, .adc-cookie-table td { box-sizing: border-box; padding: 10px 12px; vertical-align: middle; }
+.adc-cookie-table thead th { padding: 12px; font-size: 12px; font-weight: 600; color: var(--adc-ink, #1d2327); border-bottom: 1px solid var(--adc-border, #c3c4c7); overflow-wrap: normal; } /* headers break at spaces only */
+
+/* Fixed column widths: the grid never jumps when rows are filtered.
+   Nume and Descriere carry the flexible width; Acțiuni is a stable 200px
+   block that always fits both buttons on one line. */
+.adc-cookie-table thead th:nth-child(1) { width: 16%; } /* Nume */
+.adc-cookie-table thead th:nth-child(2) { width: 8%; }  /* Sursă */
+.adc-cookie-table thead th:nth-child(3) { width: 11%; } /* Ultima detectare */
+.adc-cookie-table thead th:nth-child(4) { width: 12%; } /* Categorie */
+.adc-cookie-table thead th:nth-child(5) { width: 10%; } /* Furnizor */
+.adc-cookie-table thead th:nth-child(6) { width: 14%; } /* Descriere */
+.adc-cookie-table thead th:nth-child(7) { width: 12%; } /* Durată */
+.adc-cookie-table thead th:nth-child(8) { width: 200px; } /* Acțiuni */
+
+.adc-cookie-table tbody th, .adc-cookie-table tbody td { border-bottom: 1px solid var(--adc-border-soft, #dcdcde); }
+.adc-cookie-table tbody tr:last-child > :is(th, td) { border-bottom: 0; }
+
+/* Sticky header keeps context while scrolling a long cookie list. */
+@media (min-width: 783px) {
+	.adc-cookie-table thead th { position: sticky; top: 32px; z-index: 5; background: var(--adc-surface-subtle, #f6f7f7); }
+}
+
+/* ---------- Name column: wrapping code + badges ---------- */
+.adc-cookie-table th[scope="row"] {
+	padding-inline-start: 8px;
+	border-inline-start: 4px solid transparent; /* slot for the dirty-row bar */
+	text-align: start; /* neutralize the centered-th default, RTL-safe */
+	font-weight: 400;
+}
+.adc-cookie-table th[scope="row"] code {
+	padding: 1px 5px;
+	background: var(--adc-canvas, #f0f0f1);
+	border-radius: var(--adc-radius, 4px);
+	font-size: 12px;
+	overflow-wrap: anywhere; /* long cookie names wrap instead of bursting the column */
+}
+.adc-cookie-badge {
+	display: inline-block;
+	margin-inline-start: 6px;
+	padding: 1px 7px;
+	border-radius: var(--adc-radius-pill, 999px);
+	background: var(--adc-info-tint, #e8f0fe);
+	color: var(--adc-info, #1d4f91);
+	font-size: 11px;
+	line-height: 1.6;
+	vertical-align: middle;
+}
+.adc-cookie-draft {
+	background: var(--adc-warning-tint, #fcf6ee);
+	color: var(--adc-warning, #7a5311);
+}
+
+/* ---------- Quiet secondary columns ---------- */
+.adc-cookie-table td:nth-child(2), .adc-cookie-table td:nth-child(3) {
+	font-size: 12px;
+	color: var(--adc-muted, #50575e);
+	font-variant-numeric: tabular-nums;
+	overflow-wrap: anywhere;
+}
+
+/* ---------- In-cell controls: one shared height and baseline ---------- */
+.adc-cookie-table input[type="text"], .adc-cookie-table select {
+	box-sizing: border-box;
+	width: 100%;
+	min-width: 0;
+	height: 32px;
+	padding: 5px 8px;
+	font-size: 13px;
+	line-height: 20px;
+	vertical-align: middle;
+}
+/* The single focus ring (§9): 2px accent, 2px offset. */
+.adc-cookie-table :is(input, select, button, .adc-cookie-copy):focus-visible {
+	outline: 2px solid var(--adc-accent, #3b6ea5);
+	outline-offset: 2px;
+}
+
+/* ---------- Actions cell: grouped buttons, quiet "Ignoră" ---------- */
+/* Kept as a table-cell (a flex td would shrink its box below the row height
+   and expose the table background). The 200px column always fits both
+   buttons on one line; nowrap keeps them grouped. */
+.adc-cookie-table td:last-child { white-space: nowrap; }
+.adc-cookie-table td:last-child .button { margin: 0; }
+.adc-cookie-table .button.button-small {
+	min-height: 32px;
+	height: auto;
+	padding-inline: 8px;
+	font-size: 12px;
+}
+.adc-cookie-scanner .adc-cookie-table .adc-cookie-status {
+	border-color: transparent;
+	background: transparent;
+	color: var(--adc-muted, #50575e);
+}
+.adc-cookie-scanner .adc-cookie-table .adc-cookie-status:hover:not(:disabled) {
+	border-color: var(--adc-border, #c3c4c7);
+	background: var(--adc-surface, #fff);
+	color: var(--adc-ink, #1d2327);
+}
+.adc-cookie-table .button:disabled { opacity: 0.5; }
+
+/* ---------- Row states (painted on cells so stripe/hover cannot win) ---------- */
+.widefat.adc-cookie-table tbody tr[data-status="new"] > :is(th, td) { background-color: var(--adc-warning-tint, #fcf6ee); }
+.widefat.adc-cookie-table tbody tr[data-status="new"]:hover > :is(th, td) {
+	background-color: var(--adc-warning-tint, #fcf6ee);
+	/* One step deeper, mixed from palette colors only. */
+	background-color: color-mix(in srgb, var(--adc-warning, #7a5311) 10%, var(--adc-warning-tint, #fcf6ee));
+}
+.widefat.adc-cookie-table tbody tr[data-status="ignored"] > :is(th, td) { background-color: var(--adc-surface-subtle, #f6f7f7); color: var(--adc-muted, #50575e); }
+.widefat.adc-cookie-table tbody tr[data-status="classified"]:hover > :is(th, td) { background-color: var(--adc-accent-tint, #eef3fa); }
+
+/* Dirty rows keep the 4px inset bar, now on the leading edge of the row. */
+.widefat.adc-cookie-table tbody tr.adc-cookie-dirty > th[scope="row"] { border-inline-start-color: var(--adc-warning, #7a5311); }
+
 .adc-cookie-table tr[hidden] { display: none; }
-.adc-cookie-table tr.adc-cookie-dirty { box-shadow: inset 4px 0 #dba617; }
-.adc-cookie-badge { display: inline-block; margin-left: 5px; padding: 1px 5px; border-radius: 9px; background: #e8f0fe; color: #1d4f91; font-size: 11px; line-height: 1.5; }
-.adc-cookie-draft { background: #fff1c2; color: #674d00; }
+
+/* ---------- <=782px: each row becomes a card ---------- */
+@media (max-width: 782px) {
+	.adc-cookie-table { table-layout: auto; }
+	.adc-cookie-table, .adc-cookie-table tbody, .adc-cookie-table tr, .adc-cookie-table th, .adc-cookie-table td { display: block; width: auto; }
+	/* Keep column headers for assistive tech; the visible label comes from data-label. */
+	.adc-cookie-table thead { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); }
+	.adc-cookie-table tbody tr[data-status] {
+		margin-bottom: var(--adc-space-1, 8px);
+		border: 1px solid var(--adc-border, #c3c4c7);
+		border-radius: var(--adc-radius, 4px);
+		overflow: hidden;
+	}
+	.adc-cookie-table tbody th[scope="row"] { padding: 10px 12px; }
+	.adc-cookie-table tbody td { padding: 10px 12px; border: 0; border-top: 1px solid var(--adc-border-soft, #dcdcde); }
+	.adc-cookie-table tbody td::before {
+		content: attr(data-label);
+		display: block;
+		margin-bottom: 6px;
+		font-size: 11px;
+		font-weight: 600;
+		color: var(--adc-muted, #50575e);
+	}
+	.adc-cookie-table input[type="text"], .adc-cookie-table select { min-height: 40px; height: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.adc-cookie-scanner :is(.button, input, select, tr, td, th) { transition: none; }
+	.adc-cookie-filters .button:hover, .adc-cookie-filters .button:active { transform: none; }
+}

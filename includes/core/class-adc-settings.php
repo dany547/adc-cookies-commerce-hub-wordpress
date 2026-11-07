@@ -35,6 +35,13 @@ final class ADC_Settings implements ADC_Module_Interface
     private static bool $register_fired = false;
 
     /**
+     * Request-scoped, in-memory group overrides (never persisted).
+     *
+     * @var array<string, array<string, mixed>>
+     */
+    private static array $overrides = array();
+
+    /**
      * Boot the module: fire `adc_register_settings` on init priority 5.
      */
     public static function boot(): void
@@ -94,7 +101,33 @@ final class ADC_Settings implements ADC_Module_Interface
 
         $defaults = self::$groups[$group]['defaults'] ?? array();
 
-        return array_merge($defaults, $stored);
+        $values   = array_merge($defaults, $stored);
+        $override = self::$overrides[$group] ?? array();
+
+        return array() === $override ? $values : array_merge($values, $override);
+    }
+
+    /**
+     * Override group values for the current request only — memory only, never
+     * written to the database. Used by the admin connection tests, where the
+     * unsaved values typed in the form must reach get()/secret() as they are.
+     *
+     * @param string $group  Group slug.
+     * @param array  $values Values layered over the stored ones.
+     */
+    public static function override_group(string $group, array $values): void
+    {
+        self::$overrides[$group] = array_merge(self::$overrides[$group] ?? array(), $values);
+    }
+
+    /**
+     * Drop a request-scoped override again (no-op when there is none).
+     *
+     * @param string $group Group slug.
+     */
+    public static function clear_override(string $group): void
+    {
+        unset(self::$overrides[$group]);
     }
 
     /**

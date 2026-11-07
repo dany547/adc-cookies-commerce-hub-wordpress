@@ -65,6 +65,7 @@ final class ADC_Gtm implements ADC_Module_Interface
     public static function defaults(): array
     {
         return array(
+            'web_enabled'          => true,
             'container_id'         => '',
             'mode'                 => self::MODE_AFTER,
             'server_container_url' => '',
@@ -93,6 +94,12 @@ final class ADC_Gtm implements ADC_Module_Interface
     {
         $out = array_merge(self::defaults(), $current);
 
+        // Web container switch: absent key keeps the stored value so partial
+        // writers never flip it (unchecked boxes are sent explicitly as '0').
+        if (array_key_exists('web_enabled', $input)) {
+            $out['web_enabled'] = filter_var($input['web_enabled'], FILTER_VALIDATE_BOOLEAN);
+        }
+
         $id = strtoupper(trim(sanitize_text_field((string) ($input['container_id'] ?? ''))));
         if ('' === $id || 1 === preg_match('/^GTM-[A-Z0-9]+$/', $id)) {
             $out['container_id'] = $id;
@@ -103,11 +110,15 @@ final class ADC_Gtm implements ADC_Module_Interface
             ? $mode
             : self::MODE_AFTER;
 
-        $url = esc_url_raw(trim((string) ($input['server_container_url'] ?? '')));
-        if ('' === $url) {
-            $out['server_container_url'] = '';
-        } elseif (self::is_valid_https_url($url)) {
-            $out['server_container_url'] = rtrim($url, '/');
+        // Legacy field: the server URL now lives in the `sgtm` group. Only an
+        // explicit key is honoured, so saving the Events tab never clears it.
+        if (array_key_exists('server_container_url', $input)) {
+            $url = esc_url_raw(trim((string) $input['server_container_url']));
+            if ('' === $url) {
+                $out['server_container_url'] = '';
+            } elseif (self::is_valid_https_url($url)) {
+                $out['server_container_url'] = rtrim($url, '/');
+            }
         }
 
         $datalayer = sanitize_text_field((string) ($input['datalayer_name'] ?? ''));
@@ -122,12 +133,27 @@ final class ADC_Gtm implements ADC_Module_Interface
     }
 
     /**
-     * Configured container id ('' when unset/invalid).
+     * Whether the web (browser) container is switched on. Server-side GTM is
+     * independent: it has its own switch in the "Server GTM" tab.
+     *
+     * @return bool
+     */
+    public static function web_enabled(): bool
+    {
+        return (bool) ADC_Settings::get('gtm', 'web_enabled', true);
+    }
+
+    /**
+     * Configured container id ('' when unset/invalid or web container off).
      *
      * @return string
      */
     public static function container_id(): string
     {
+        if (!self::web_enabled()) {
+            return '';
+        }
+
         $id = (string) ADC_Settings::get('gtm', 'container_id', '');
         return 1 === preg_match('/^GTM-[A-Z0-9]+$/', $id) ? $id : '';
     }
@@ -218,6 +244,12 @@ final class ADC_Gtm implements ADC_Module_Interface
      */
     public static function server_container_url(): string
     {
+        // The `sgtm` group is the single source; the legacy `gtm` value is a fallback.
+        $own = (string) ADC_Settings::get('sgtm', 'server_container_url', '');
+        if ('' !== $own) {
+            return self::is_valid_https_url($own) ? $own : '';
+        }
+
         $url = (string) ADC_Settings::get('gtm', 'server_container_url', '');
         return self::is_valid_https_url($url) ? $url : '';
     }

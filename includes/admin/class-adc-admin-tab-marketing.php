@@ -1,6 +1,6 @@
 <?php
 /**
- * "Mesaje marketing & Export" tab of the ADC Marketing admin shell.
+ * "Marketing (checkout)" tab of the ADC Marketing admin shell.
  *
  * @package ADC_Marketing
  */
@@ -44,7 +44,7 @@ final class ADC_Admin_Tab_Marketing implements ADC_Admin_Tab_Interface
      */
     public function label(): string
     {
-        return __('Mesaje marketing & Export', 'adc-marketing');
+        return __('Marketing (checkout)', 'adc-marketing');
     }
 
     /**
@@ -74,7 +74,7 @@ final class ADC_Admin_Tab_Marketing implements ADC_Admin_Tab_Interface
     {
         ADC_Admin_Help::section(
             __('Mesaj consimțământ la finalizarea comenzii', 'adc-marketing'),
-            __('Ce face această secțiune: controlează textul de lângă bifa de marketing din checkout, textul devine proba consimțământului fiecărui client.', 'adc-marketing'),
+            __('Textul de lângă bifa de marketing din checkout; devine proba consimțământului fiecărui client.', 'adc-marketing'),
             'adc-help-consent-message',
             $this->help_consent_message()
         );
@@ -100,7 +100,7 @@ final class ADC_Admin_Tab_Marketing implements ADC_Admin_Tab_Interface
 
         <?php ADC_Admin_Help::section(
             __('Export bază de date consimțământ', 'adc-marketing'),
-            __('Ce face această secțiune: generează fișiere CSV cu contactele clienților, în funcție de decizia de consimțământ pe care au luat-o la comandă.', 'adc-marketing'),
+            __('Generează fișiere CSV cu contactele clienților, în funcție de decizia de consimțământ luată la comandă.', 'adc-marketing'),
             'adc-help-export',
             $this->help_export()
         ); ?>
@@ -143,20 +143,20 @@ final class ADC_Admin_Tab_Marketing implements ADC_Admin_Tab_Interface
         </div>
 
         <?php ADC_Admin_Help::section(
-            __('Status Conformitate GDPR', 'adc-marketing'),
-            __('Ce face această secțiune: verifică pe ecran dacă setările curente îndeplinesc condițiile de bază pentru consimțământ valid (nu se salvează nimic aici).', 'adc-marketing')
+            __('Verificare GDPR', 'adc-marketing'),
+            __('Arată dacă setările curente îndeplinesc condițiile de bază pentru consimțământ valid. Nu se salvează nimic aici.', 'adc-marketing')
         ); ?>
         <table class="form-table adc-form-table-plain">
             <tr>
                 <th scope="row"><?php esc_html_e('Politică de Confidențialitate', 'adc-marketing'); ?></th>
                 <td>
                     <?php if ($compliance['privacy_policy_set']) : ?>
-                        <span style="color: #46b450;">✓</span> <?php esc_html_e('Setată', 'adc-marketing'); ?>
+                        <span class="dashicons dashicons-yes-alt" style="color: #46b450;" aria-hidden="true"></span> <?php esc_html_e('Setată', 'adc-marketing'); ?>
                         <?php if (!empty($compliance['privacy_policy_url'])) : ?>
                             <a href="<?php echo esc_url((string) $compliance['privacy_policy_url']); ?>" target="_blank" rel="noopener"><?php esc_html_e('Vezi pagina', 'adc-marketing'); ?></a>
                         <?php endif; ?>
                     <?php else : ?>
-                        <span style="color: #dc3232;">✗</span> <?php esc_html_e('Nu este setată', 'adc-marketing'); ?>
+                        <span class="dashicons dashicons-warning" style="color: #dc3232;" aria-hidden="true"></span> <?php esc_html_e('Nu este setată', 'adc-marketing'); ?>
                         <a href="<?php echo esc_url(admin_url('options-privacy.php')); ?>"><?php esc_html_e('Setează acum', 'adc-marketing'); ?></a>
                     <?php endif; ?>
                 </td>
@@ -164,31 +164,31 @@ final class ADC_Admin_Tab_Marketing implements ADC_Admin_Tab_Interface
             <tr>
                 <th scope="row"><?php esc_html_e('Consimțământ opțional', 'adc-marketing'); ?></th>
                 <td>
-                    <span style="color: #46b450;">✓</span> <?php esc_html_e('Da - checkbox-ul este opțional', 'adc-marketing'); ?>
+                    <span class="dashicons dashicons-yes-alt" style="color: #46b450;" aria-hidden="true"></span> <?php esc_html_e('Da - checkbox-ul este opțional', 'adc-marketing'); ?>
                 </td>
             </tr>
             <tr>
                 <th scope="row"><?php esc_html_e('Consimțământ explicit', 'adc-marketing'); ?></th>
                 <td>
-                    <span style="color: #46b450;">✓</span> <?php esc_html_e('Da - checkbox-ul este nebifat implicit', 'adc-marketing'); ?>
+                    <span class="dashicons dashicons-yes-alt" style="color: #46b450;" aria-hidden="true"></span> <?php esc_html_e('Da - checkbox-ul este nebifat implicit', 'adc-marketing'); ?>
                 </td>
             </tr>
             <tr>
                 <th scope="row"><?php esc_html_e('Retragere consimțământ', 'adc-marketing'); ?></th>
                 <td>
-                    <span style="color: #46b450;">✓</span> <?php esc_html_e('Da - utilizatorii pot retrage consimțământul din contul lor', 'adc-marketing'); ?>
+                    <span class="dashicons dashicons-yes-alt" style="color: #46b450;" aria-hidden="true"></span> <?php esc_html_e('Da - utilizatorii pot retrage consimțământul din contul lor', 'adc-marketing'); ?>
                 </td>
             </tr>
             <tr>
                 <th scope="row"><?php esc_html_e('Portabilitate date', 'adc-marketing'); ?></th>
                 <td>
-                    <span style="color: #46b450;">✓</span> <?php esc_html_e('Da - funcție de export disponibilă, inclusiv în uneltele de export ale WordPress', 'adc-marketing'); ?>
+                    <span class="dashicons dashicons-yes-alt" style="color: #46b450;" aria-hidden="true"></span> <?php esc_html_e('Da - funcție de export disponibilă, inclusiv în uneltele de export ale WordPress', 'adc-marketing'); ?>
                 </td>
             </tr>
             <tr>
                 <th scope="row"><?php esc_html_e('Ștergere date', 'adc-marketing'); ?></th>
                 <td>
-                    <span style="color: #46b450;">✓</span> <?php esc_html_e('Da - datele sunt șterse automat la ștergerea utilizatorului sau la cererea de ștergere', 'adc-marketing'); ?>
+                    <span class="dashicons dashicons-yes-alt" style="color: #46b450;" aria-hidden="true"></span> <?php esc_html_e('Da - datele sunt șterse automat la ștergerea utilizatorului sau la cererea de ștergere', 'adc-marketing'); ?>
                 </td>
             </tr>
         </table>

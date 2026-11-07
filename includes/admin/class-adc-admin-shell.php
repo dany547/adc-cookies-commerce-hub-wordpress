@@ -1,6 +1,6 @@
 <?php
 /**
- * The one ADC Marketing admin page + tab router.
+ * The one Adcelerum Commerce Hub admin page + tab router.
  *
  * Menu slug stays `adc-marketing` (admin.php?page=adc-marketing, screen id
  * toplevel_page_adc-marketing). Tabs are collected from the `adc_admin_tabs`
@@ -43,11 +43,16 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
         'ADC_Admin_Tab_Dashboard',
         'ADC_Admin_Tab_Banner',
         'ADC_Admin_Tab_Cookies',
+        // Unified Google Tag Manager tab (web container + optional server).
+        'ADC_Admin_Tab_Gtm',
         'ADC_Admin_Tab_Events',
         'ADC_Admin_Tab_Meta',
         'ADC_Admin_Tab_Ga4',
-        'ADC_Admin_Tab_Sgtm',
+        // 'ADC_Admin_Tab_Sgtm' merged into ADC_Admin_Tab_Gtm; the class stays
+        // booted as a legacy delegate (test-button wiring + delegation).
         'ADC_Admin_Tab_Tiktok',
+        // Read-only overview matrix of the integrations (Meta / GA4 / TikTok).
+        'ADC_Admin_Tab_Platforms',
         'ADC_Admin_Tab_Matching',
         'ADC_Admin_Tab_Marketing',
         'ADC_Admin_Tab_Logs',
@@ -66,8 +71,8 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
     private const NAV_GROUPS = array(
         'dashboard'    => array('dashboard'),
         'consent'      => array('banner', 'cookies', 'marketing'),
-        'measurement'  => array('analytics', 'events', 'matching'),
-        'integrations' => array('meta', 'ga4', 'sgtm', 'tiktok'),
+        'measurement'  => array('analytics', 'gtm', 'events', 'matching'),
+        'integrations' => array('platforms', 'meta', 'ga4', 'tiktok'),
         'logs'         => array('logs'),
     );
 
@@ -89,10 +94,13 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
     public static function boot(): void
     {
         add_action('admin_menu', array(self::class, 'register_menu'), 5);
+        add_filter('parent_file', array(self::class, 'highlight_parent'));
+        add_filter('submenu_file', array(self::class, 'highlight_submenu'));
         add_action('admin_head', array(self::class, 'render_menu_icon_styles'));
         add_action('admin_post_adc_save_tab', array(self::class, 'handle_save'));
         add_action('admin_enqueue_scripts', array(self::class, 'enqueue_assets'));
         add_action('in_footer', array(self::class, 'render_help_modal'), 99);
+        ADC_Admin_Promo::boot();
     }
 
     /**
@@ -114,22 +122,149 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
     }
 
     /**
-     * Register the top-level menu (below WooCommerce, cap manage_options).
+     * Register the top-level menu (below WooCommerce, cap manage_options) and
+     * one submenu per navigation group.
+     *
+     * The first submenu reuses the page slug, so WordPress does not add its
+     * automatic duplicate entry and get_admin_page_title() returns the plugin
+     * name on every tab. The other submenus are plain links to the first tab of
+     * their group (admin.php?page=adc-marketing&tab=<slug>, no callback, so no
+     * extra page is registered); highlight_submenu() marks the right one.
      *
      * The icon is the plugin SVG (assets/svg/icon.svg); render_menu_icon_styles()
      * gives it the box WordPress only computes for dashicon fonts.
      */
     public static function register_menu(): void
     {
+        $title = self::plugin_title();
+
         add_menu_page(
-            __('ADC Cookies & Commerce Hub', 'adc-marketing'),
-            __('ADC Cookies & Commerce Hub', 'adc-marketing'),
+            $title,
+            $title,
             'manage_options',
             self::PAGE_SLUG,
             array(self::class, 'render_page'),
             self::asset_url('svg/icon.svg'),
             56
         );
+
+        foreach (self::menu_entries() as $entry) {
+            add_submenu_page(
+                self::PAGE_SLUG,
+                $title,
+                $entry['label'],
+                'manage_options',
+                $entry['slug'],
+                self::PAGE_SLUG === $entry['slug'] ? array(self::class, 'render_page') : ''
+            );
+        }
+    }
+
+    /**
+     * Plugin display name used in the WP menu, the page title and the header.
+     *
+     * @return string
+     */
+    public static function plugin_title(): string
+    {
+        return __('Adcelerum Commerce Hub', 'adc-marketing');
+    }
+
+    /**
+     * Left-menu submenu entries, one per navigation group, in nav order.
+     *
+     * The group that owns the landing tab (the first one) links to the page slug
+     * itself; every other group links to its first available tab.
+     *
+     * @return array<int, array{key: string, label: string, slug: string, tabs: string[]}>
+     */
+    public static function menu_entries(): array
+    {
+        $entries = array();
+        $first   = true;
+
+        foreach (self::navigation(self::tabs()) as $key => $group) {
+            $slugs = array_map(
+                static fn (ADC_Admin_Tab_Interface $tab): string => $tab->slug(),
+                $group['tabs']
+            );
+
+            $entries[] = array(
+                'key'   => (string) $key,
+                'label' => self::group_label((string) $key),
+                'slug'  => $first ? self::PAGE_SLUG : self::submenu_slug($slugs[0]),
+                'tabs'  => $slugs,
+            );
+            $first = false;
+        }
+
+        return $entries;
+    }
+
+    /**
+     * Submenu slug (= link) for a group whose first tab is $tab_slug.
+     *
+     * @param string $tab_slug First tab of the group.
+     * @return string
+     */
+    private static function submenu_slug(string $tab_slug): string
+    {
+        return 'admin.php?page=' . self::PAGE_SLUG . '&tab=' . $tab_slug;
+    }
+
+    /**
+     * Keep the plugin menu open on every tab (`parent_file` filter).
+     *
+     * @param mixed $parent_file Current parent file.
+     * @return mixed
+     */
+    public static function highlight_parent($parent_file)
+    {
+        return self::is_plugin_page() ? self::PAGE_SLUG : $parent_file;
+    }
+
+    /**
+     * Mark the submenu of the open tab's group as current (`submenu_file` filter).
+     *
+     * @param mixed $submenu_file Current submenu file.
+     * @return mixed
+     */
+    public static function highlight_submenu($submenu_file)
+    {
+        if (!self::is_plugin_page()) {
+            return $submenu_file;
+        }
+
+        return self::submenu_for_tab(self::requested_tab(self::tabs()));
+    }
+
+    /**
+     * Submenu slug that owns one tab (falls back to the page slug).
+     *
+     * @param string $tab_slug Tab slug.
+     * @return string
+     */
+    public static function submenu_for_tab(string $tab_slug): string
+    {
+        foreach (self::menu_entries() as $entry) {
+            if (in_array($tab_slug, $entry['tabs'], true)) {
+                return $entry['slug'];
+            }
+        }
+
+        return self::PAGE_SLUG;
+    }
+
+    /**
+     * Whether the current admin request is the plugin page.
+     *
+     * @return bool
+     */
+    private static function is_plugin_page(): bool
+    {
+        global $plugin_page;
+
+        return is_string($plugin_page) && self::PAGE_SLUG === $plugin_page;
     }
 
     /**
@@ -170,6 +305,7 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
         <div class="wrap adc-admin-shell">
             <div class="adc-admin-shell-inner">
                 <?php self::render_header(); ?>
+                <?php ADC_Admin_Promo::render(); ?>
 
                 <?php if (empty($tabs)) : ?>
                     <div class="notice notice-info"><p>
@@ -194,6 +330,7 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
 
                     <div class="adc-admin-shell-inner">
                         <div class="adc-admin-tab-content">
+                            <?php self::render_page_head($tab); ?>
                             <?php $tab->render(); ?>
                         </div>
                     </div>
@@ -281,6 +418,22 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
             $version
         );
 
+        // Unified GTM tab (3-step schema + two settings cards).
+        wp_enqueue_style(
+            'adc-admin-gtm',
+            self::asset_url('css/admin-gtm.css'),
+            array('adc-admin-shell'),
+            $version
+        );
+
+        // Platforms overview matrix (read-only).
+        wp_enqueue_style(
+            'adc-admin-platforms',
+            self::asset_url('css/admin-platforms.css'),
+            array('adc-admin-shell'),
+            $version
+        );
+
         wp_enqueue_script(
             'adc-admin-help',
             self::asset_url('js/admin-help.js'),
@@ -307,6 +460,22 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
                 'strategy'  => 'defer',
             )
         );
+    }
+
+    /**
+     * Slugs of the registered tabs, in display order (sorted by order(), label).
+     *
+     * Consumers (e.g. the Dashboard status panel) can link to configuration
+     * tabs without hard-coding slugs: the list always includes whatever the
+     * `adc_admin_tabs` filter registered, so it stays correct when tabs are
+     * added, merged or removed (e.g. `gtm` replaced `sgtm` as the unified GTM
+     * tab slug).
+     *
+     * @return array<int, string>
+     */
+    public static function registered_tab_slugs(): array
+    {
+        return array_values(array_keys(self::tabs()));
     }
 
     /**
@@ -361,14 +530,71 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
         $version = defined('ADC_MARKETING_VERSION') ? (string) ADC_MARKETING_VERSION : '';
         ?>
         <header class="adc-admin-header">
-            <img class="adc-admin-logo" src="<?php echo esc_url(self::asset_url('svg/icon-menu.svg')); ?>"
-                 alt="" width="40" height="40">
+            <img class="adc-admin-logo" src="<?php echo esc_url(self::asset_url('svg/adcelerum-commerce-hub-dark.svg')); ?>"
+                 alt="<?php echo esc_attr__('Adcelerum Commerce Hub', 'adc-marketing'); ?>" width="163" height="40">
             <h1 class="adc-admin-title"><?php echo esc_html(get_admin_page_title()); ?></h1>
             <?php if ('' !== $version) : ?>
                 <p class="adc-admin-version"><?php echo esc_html($version); ?></p>
             <?php endif; ?>
         </header>
         <?php
+    }
+
+    /**
+     * Tab page head: title (the tab label), optional active/inactive status and
+     * one direct sentence saying what the page is for.
+     *
+     * A tab can expose `page_status(): ?bool` (null = no status shown) and
+     * `page_status_labels(): array{0: string, 1: string}` (on, off).
+     *
+     * @param ADC_Admin_Tab_Interface $tab Current tab.
+     */
+    public static function render_page_head(ADC_Admin_Tab_Interface $tab): void
+    {
+        $status = method_exists($tab, 'page_status') ? $tab->page_status() : null;
+        $labels = method_exists($tab, 'page_status_labels') ? (array) $tab->page_status_labels() : array();
+        $intro  = self::page_intro($tab->slug());
+        ?>
+        <div class="adc-page-head">
+            <h2 class="adc-page-head__title">
+                <?php echo esc_html($tab->label()); ?>
+                <?php
+                if (is_bool($status)) {
+                    echo ADC_Admin_Help::status($status, $labels[0] ?? null, $labels[1] ?? null); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- status() escapes.
+                }
+                ?>
+            </h2>
+            <?php if ('' !== $intro) : ?>
+                <p class="adc-page-head__intro"><?php echo esc_html($intro); ?></p>
+            <?php endif; ?>
+        </div>
+        <?php
+    }
+
+    /**
+     * One-sentence page intro per tab slug (literals keep the extractor working).
+     *
+     * @param string $slug Tab slug.
+     * @return string
+     */
+    public static function page_intro(string $slug): string
+    {
+        return match ($slug) {
+            'dashboard' => __('Cifrele magazinului și starea colectării datelor, pe intervalul ales.', 'adc-marketing'),
+            'banner'    => __('Ce vede vizitatorul la prima vizită: textele bannerului, aspectul și categoriile de cookie-uri.', 'adc-marketing'),
+            'cookies'   => __('Găsește cookie-urile folosite pe site, apoi confirmă categoria și scopul fiecăruia.', 'adc-marketing'),
+            'marketing' => __('Textul bifei de marketing din checkout, exportul contactelor și verificarea condițiilor GDPR.', 'adc-marketing'),
+            'analytics' => __('Ce date colectează modulul de analiză, cât timp le păstrează și ce rămâne blocat.', 'adc-marketing'),
+            'gtm'       => __('Containerul web Google Tag Manager și, opțional, containerul server, configurate din același loc.', 'adc-marketing'),
+            'events'    => __('Alege ce acțiuni ale vizitatorilor se măsoară și cum se calculează datele trimise platformelor.', 'adc-marketing'),
+            'matching'  => __('Trimite platformelor e-mailul și telefonul clienților doar ca hash, ca să atribuie mai multe comenzi campaniilor.', 'adc-marketing'),
+            'platforms' => __('Starea fiecărei platforme dintr-o privire: ce se încarcă în browser, ce pleacă de pe server și ce trebuie verificat.', 'adc-marketing'),
+            'meta'      => __('Trimite către Meta (Facebook și Instagram) evenimentele magazinului, pentru optimizarea reclamelor și publicuri.', 'adc-marketing'),
+            'ga4'       => __('Trimite evenimentele de pe server către Google Analytics 4, mai fiabil decât o etichetă din browser.', 'adc-marketing'),
+            'tiktok'    => __('Trimite către TikTok evenimentele magazinului, pentru optimizarea reclamelor și publicuri.', 'adc-marketing'),
+            'logs'      => __('Ce a trimis pluginul către platforme, ce a eșuat și ce consimțământ a stat la baza fiecărei trimiteri.', 'adc-marketing'),
+            default     => '',
+        };
     }
 
     /**
@@ -418,11 +644,11 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
     private static function group_label(string $key): string
     {
         return match ($key) {
-            'dashboard'    => __('Dashboard', 'adc-marketing'),
+            'dashboard'    => __('Prezentare generală', 'adc-marketing'),
             'consent'      => __('Consimțământ', 'adc-marketing'),
             'measurement'  => __('Măsurare', 'adc-marketing'),
-            'integrations' => __('Integrări', 'adc-marketing'),
-            'logs'         => __('Jurnale & Debug', 'adc-marketing'),
+            'integrations' => __('Platforme', 'adc-marketing'),
+            'logs'         => __('Jurnale', 'adc-marketing'),
             default        => __('Altele', 'adc-marketing'),
         };
     }
@@ -445,7 +671,7 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
             }
         }
         ?>
-        <nav class="adc-admin-nav" aria-label="<?php esc_attr_e('Navigare setări ADC Cookies & Commerce Hub', 'adc-marketing'); ?>">
+        <nav class="adc-admin-nav" aria-label="<?php esc_attr_e('Navigare Adcelerum Commerce Hub', 'adc-marketing'); ?>">
             <ul class="adc-admin-tabs adc-admin-tabs--groups" role="list">
                 <?php foreach ($groups as $key => $group) : ?>
                     <?php $entry = $group['tabs'][0]; ?>

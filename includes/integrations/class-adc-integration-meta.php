@@ -609,6 +609,6 @@ final class ADC_Integration_Meta implements ADC_Integration_Interface, ADC_Modul
      */
     private static function default_browser_mode(): string
     {
-        return '' !== (string) ADC_Settings::get('gtm', 'container_id', '') ? 'gtm' : 'off';
+        return '' !== (class_exists('ADC_Gtm') ? ADC_Gtm::container_id() : (string) ADC_Settings::get('gtm', 'container_id', '')) ? 'gtm' : 'off';
     }
 }

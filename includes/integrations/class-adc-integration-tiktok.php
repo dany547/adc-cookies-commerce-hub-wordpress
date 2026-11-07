@@ -76,7 +76,7 @@ final class ADC_Integration_Tiktok implements ADC_Integration_Interface, ADC_Mod
             'tiktok',
             array(
                 'enabled_server'  => false,
-                'browser_mode'    => ADC_Settings::get('gtm', 'container_id', '') !== '' ? 'gtm' : 'off',
+                'browser_mode'    => (class_exists('ADC_Gtm') ? ADC_Gtm::container_id() : (string) ADC_Settings::get('gtm', 'container_id', '')) !== '' ? 'gtm' : 'off',
                 'pixel_code'      => '',
                 'access_token'    => '',
                 'test_event_code' => '',

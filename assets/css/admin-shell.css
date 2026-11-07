@@ -1,4 +1,5 @@
-/* ADC Marketing 2.0 — admin shell styles (design tokens, two-level tab nav, header, sticky save bar, secret fields, copy buttons).
+/* ADC Marketing 2.0 — admin shell styles (DESIGN.md §7 tokens, two-level tab nav, header,
+   sticky save bar, native control skin, secret fields, copy buttons, box primitives).
    Contract for tab authors:
    - .adc-admin-tab-content       card wrapping every tab's rendered inner HTML
    - .adc-admin-shell-inner       max-width wrapper keeping content at the shell cap
@@ -9,14 +10,84 @@
    - .adc-secret-input            masked, readonly input ("••••• (salvat)")
    - .adc-secret-replace          "Înlocuiește"/"Renunță" toggle (handled by admin-shell.js)
    - .adc-copy-btn                copy-to-clipboard button, value from [data-adc-copy]
+   - .adc-box / .adc-box--light / .adc-box--dark   shared box primitives (DESIGN.md §5/§7)
+   - .adc-box__head / .adc-box__title / .adc-box__body   box structure
+   - .adc-corner                  aria-hidden corner mark span inside a dark box
+   - .adc-kpi / .adc-kpi__label / .adc-kpi__value / .adc-kpi--on-dark   KPI tile
+   - .adc-chart                   chart frame (inset panel inside a dark box)
 
-   Design tokens (scoped to the shell so every admin tab can reuse them):
-   --adc-space-1/2/3 (8/16/24), --adc-radius, --adc-border, --adc-accent,
-   --adc-accent-hover, --adc-surface, --adc-shell-pad-x/y (shell inner padding)
-   and --adc-wp-content-pad-x (#wpcontent padding-left; the sticky save bar
-   bleeds both so it reaches the true admin window edges).
+   Design tokens (DESIGN.md §7 — single source of truth): declared on the shell root
+   .adc-admin-shell AND mirrored on :root so every admin tab — and any ADC markup
+   rendered outside the shell wrapper (help <dialog> top layer, previews) — resolves
+   them without literal fallbacks. .adc-admin-shell wins on shell content; closer
+   re-declarations (.adc-an, .adc-banner-preview-screen, banner inline vars) still win
+   for their subtrees, exactly as before.
+   Existing names keep working: --adc-space-1/2/3, --adc-radius, --adc-border,
+   --adc-accent, --adc-accent-hover, --adc-surface, --adc-muted, --adc-shell-pad-x/y,
+   --adc-wp-content-pad-x. Flagged value changes (DESIGN.md §7/§9):
+   --adc-surface changes to #fff (new --adc-surface-subtle carries the old
+   value); --adc-accent / --adc-accent-hover move to the brand-derived blues.
    Note: --adc-border / --adc-radius also exist in the frontend banner palette;
    the Banner preview re-declares its own defaults on .adc-banner-preview-screen. */
+
+/* ---------- §7 Design tokens ---------- */
+:root,
+.adc-admin-shell {
+    /* spacing — existing 1/2/3 kept, 4/5 added */
+    --adc-space-1: 8px;
+    --adc-space-2: 16px;
+    --adc-space-3: 24px;
+    --adc-space-4: 32px;
+    --adc-space-5: 48px;
+    /* shape */
+    --adc-radius: 4px;            /* controls — unchanged */
+    --adc-radius-box: 6px;
+    --adc-radius-pill: 999px;
+    /* light family — existing names kept */
+    --adc-canvas: #f0f0f1;
+    --adc-surface: #fff;          /* CHANGED from #f6f7f7; resolves the shell/analytics collision */
+    --adc-surface-subtle: #f6f7f7;/* the old shell --adc-surface value */
+    --adc-border: #c3c4c7;        /* unchanged */
+    --adc-border-soft: #dcdcde;
+    --adc-ink: #1d2327;
+    --adc-ink-soft: #40464d;
+    --adc-muted: #50575e;         /* unchanged */
+    /* action blue — CHANGED from WP #2271b1 (5.17) to brand-derived, still AA */
+    --adc-accent: #3b6ea5;        /* 5.30:1 on white */
+    --adc-accent-hover: #2b5580;  /* 7.74:1; replaces #135e96 */
+    --adc-accent-tint: #eef3fa;
+    /* dark family */
+    --adc-surface-dark: #162237;
+    --adc-surface-dark-raised: #1e293b;
+    --adc-border-dark: #2e3f5c;
+    --adc-ink-on-dark: #e6edf7;
+    --adc-muted-on-dark: #9fb0c9;
+    --adc-link-on-dark: #a5c1e4;
+    --adc-brand-blue: #688cc8;    /* identity on navy + chart series 1 only */
+    --adc-highlight: #f96004;     /* graphic accent; never small text on light */
+    /* semantics: dark shades on light, light shades on dark */
+    --adc-success: #13522a;
+    --adc-warning: #7a5311;
+    --adc-danger: #8a2424;
+    --adc-info: #1d4f91;
+    --adc-success-tint: #edf7f0;
+    --adc-warning-tint: #fcf6ee;
+    --adc-danger-tint: #fcf0f0;
+    --adc-info-tint: #e8f0fe;
+    --adc-success-on-dark: #6fcf97;
+    --adc-warning-on-dark: #f0c674;
+    --adc-danger-on-dark: #f2938c;
+    --adc-info-on-dark: #9fc3ef;
+    /* chart ramp (on navy) */
+    --adc-chart-1: #688cc8;
+    --adc-chart-2: #2dd4bf;
+    --adc-chart-3: #fbbf24;
+    --adc-chart-4: #a78bfa;
+    --adc-chart-5: #f96004;
+    /* elevation */
+    --adc-shadow-box: 0 1px 2px rgba(18, 26, 41, .06);
+    --adc-shadow-pop: 0 12px 32px rgba(18, 26, 41, .18);
+}
 
 /* ---------- Shell + tokens ---------- */
 .adc-admin-shell {
@@ -25,19 +96,14 @@
     padding: var(--adc-shell-pad-y) var(--adc-shell-pad-x);
     box-sizing: border-box;
 
-    --adc-space-1: 8px;
-    --adc-space-2: 16px;
-    --adc-space-3: 24px;
-    --adc-radius: 4px;
-    --adc-border: #c3c4c7;
-    --adc-accent: #2271b1;
-    --adc-accent-hover: #135e96;
-    --adc-surface: #f6f7f7;
-    --adc-muted: #50575e;
+    /* Shell-specific layout tokens (tab authors may override per breakpoint). */
     --adc-shell-pad-x: var(--adc-space-3);
     --adc-shell-pad-y: var(--adc-space-2);
     /* #wpcontent padding-left: 20px desktop (folded identical), 10px <=782px. */
     --adc-wp-content-pad-x: 20px;
+
+    /* The Numerals Rule (§3): every figure in the shell renders tabular. */
+    font-variant-numeric: tabular-nums lining-nums;
 }
 
 /* The shell cap lives on an inner wrapper so the save bar can escape it and
@@ -54,14 +120,16 @@
     gap: var(--adc-space-2);
     margin: 0 0 var(--adc-space-2);
     padding-bottom: var(--adc-space-2);
-    border-bottom: 1px solid #dcdcde;
+    border-bottom: 1px solid var(--adc-border-soft);
 }
 
 .adc-admin-logo {
     flex: 0 0 auto;
-    width: 40px;
+    width: auto;
     height: 40px;
-    border-radius: var(--adc-radius);
+    max-width: 100%;
+    aspect-ratio: 3717 / 911;
+    object-fit: contain;
 }
 
 .adc-admin-title {
@@ -73,7 +141,7 @@
 }
 
 .adc-admin-version {
-    margin: 0 0 0 auto;
+    margin-inline-start: auto;
     color: var(--adc-muted);
     font-size: 13px;
 }
@@ -95,8 +163,8 @@
 
 .adc-admin-tabs--sub {
     margin-top: var(--adc-space-1);
-    padding-left: 12px;
-    border-left: 3px solid #f0f0f1;
+    padding-inline-start: 12px;
+    border-inline-start: 3px solid var(--adc-canvas);
 }
 
 /* Level 1: one pill per navigation group; the active group is highlighted. */
@@ -122,8 +190,8 @@
 }
 
 .adc-admin-group a:hover {
-    border-color: #dcdcde;
-    background: var(--adc-surface);
+    border-color: var(--adc-border-soft);
+    background: var(--adc-surface-subtle);
     color: var(--adc-accent);
 }
 
@@ -137,19 +205,19 @@
 .adc-admin-group--active a:hover {
     border-color: var(--adc-border);
     border-bottom-color: var(--adc-accent);
-    background: #fff;
+    background: var(--adc-surface);
     color: var(--adc-accent);
 }
 
 .adc-admin-tab a {
     display: inline-flex;
     align-items: center;
-    min-height: 30px;
+    min-height: 32px;
     padding: 0 12px;
     border: 1px solid var(--adc-border);
     border-radius: var(--adc-radius);
-    background: var(--adc-surface);
-    color: #1d2327;
+    background: var(--adc-surface-subtle);
+    color: var(--adc-ink);
     font-size: 13px;
     line-height: 1;
     text-decoration: none;
@@ -158,8 +226,8 @@
 }
 
 .adc-admin-tab a:hover {
-    background: #dcdcde;
-    border-color: #dcdcde;
+    background: var(--adc-border-soft);
+    border-color: var(--adc-border-soft);
     color: var(--adc-accent);
 }
 
@@ -183,7 +251,7 @@
     box-sizing: border-box;
     margin-top: var(--adc-space-3);
     padding: var(--adc-space-3);
-    background: #fff;
+    background: var(--adc-surface);
     border: 1px solid var(--adc-border);
     border-radius: var(--adc-radius);
 }
@@ -201,7 +269,7 @@
     margin: var(--adc-space-2) calc(-1 * var(--adc-shell-pad-x)) calc(-1 * var(--adc-shell-pad-y))
         calc(-1 * (var(--adc-shell-pad-x) + var(--adc-wp-content-pad-x)));
     padding: var(--adc-space-2) var(--adc-shell-pad-x);
-    background: var(--adc-surface);
+    background: var(--adc-surface-subtle);
     border-top: 1px solid var(--adc-border);
 }
 
@@ -214,10 +282,11 @@
     padding: 0;
 }
 
-/* ---------- Unified controls (buttons) ---------- */
+/* ---------- Native skin: buttons (DESIGN.md §5 "Buttons (native skin)") ---------- */
 /* One shared shape for every button rendered inside the shell:
    .button, .button-primary, .button-secondary, .adc-copy-btn, .adc-secret-replace,
-   and any tab-specific buttons (logs actions, banner, export, ...). */
+   and any tab-specific buttons (logs actions, banner, export, ...).
+   One control height module-wide: 32px (was 30). */
 .adc-admin-shell .button,
 .adc-admin-shell .button-primary,
 .adc-admin-shell .button-secondary,
@@ -227,7 +296,7 @@
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    min-height: 30px;
+    min-height: 32px;
     padding: 0 12px;
     border-radius: var(--adc-radius);
     font-size: 13px;
@@ -239,19 +308,36 @@
 
 /* Default / secondary look: outline accent on light surface. */
 .adc-admin-shell .button,
-.adc-admin-shell .button-secondary {
+.adc-admin-shell .button-secondary,
+.adc-admin-shell .adc-copy-btn,
+.adc-admin-shell .adc-secret-replace {
     border: 1px solid var(--adc-accent);
-    background: #f6f7f7;
+    background: var(--adc-surface-subtle);
     color: var(--adc-accent);
     box-shadow: none;
     text-decoration: none;
 }
 
 .adc-admin-shell .button:hover,
-.adc-admin-shell .button-secondary:hover {
+.adc-admin-shell .button-secondary:hover,
+.adc-admin-shell .adc-copy-btn:hover,
+.adc-admin-shell .adc-secret-replace:hover {
     border-color: var(--adc-accent);
-    background: #f0f0f1;
+    background: var(--adc-canvas);
     color: var(--adc-accent);
+}
+
+.adc-admin-shell .button:active,
+.adc-admin-shell .button-secondary:active,
+.adc-admin-shell .button.button-primary:active,
+.adc-admin-shell .button-primary:active {
+    border-color: var(--adc-accent-hover);
+    color: var(--adc-accent-hover);
+}
+
+.adc-admin-shell .button.button-primary:active,
+.adc-admin-shell .button-primary:active {
+    color: #fff;
 }
 
 /* Primary: solid accent. Higher specificity wins over .wp-core-ui .button-primary. */
@@ -270,13 +356,11 @@
     color: #fff;
 }
 
-/* Identical focus ring for all controls (links included, see tabs above). */
-.adc-admin-shell .button:focus,
-.adc-admin-shell .button-primary:focus,
-.adc-admin-shell .button-secondary:focus,
-.adc-admin-shell .adc-copy-btn:focus,
-.adc-admin-shell .adc-secret-replace:focus,
-.adc-admin-tab a:focus {
+/* The single focus ring everywhere (§9): replaces the three legacy variants. */
+.adc-admin-shell :is(.button, .button-primary, .button-secondary, .adc-copy-btn, .adc-secret-replace):focus,
+.adc-admin-shell .adc-admin-tab a:focus,
+.adc-admin-shell :is(input, select, textarea):focus-visible,
+.adc-admin-shell .notice-dismiss button:focus-visible {
     outline: 2px solid var(--adc-accent);
     outline-offset: 2px;
     box-shadow: none;
@@ -288,6 +372,64 @@
     opacity: .55;
     cursor: default;
 }
+
+/* ---------- Native skin: form controls ---------- */
+/* Text-like inputs, selects and textareas inside the shell share the token
+   shape language: 4px radius, token border, 32px control height, one focus
+   ring. Checkboxes/radios stay fully native (recognisability rule). */
+.adc-admin-shell :is(input[type="text"], input[type="search"], input[type="email"],
+    input[type="url"], input[type="password"], input[type="number"], input[type="tel"],
+    input[type="date"], input[type="time"], input[type="datetime-local"],
+    input[type="month"], input[type="week"], textarea),
+.adc-admin-shell select {
+    box-sizing: border-box;
+    min-height: 32px;
+    border: 1px solid var(--adc-border);
+    border-radius: var(--adc-radius);
+    background: var(--adc-surface);
+    color: var(--adc-ink);
+    font-size: 13px;
+    transition: border-color .1s ease-in;
+}
+
+.adc-admin-shell :is(input[type="text"], input[type="search"], input[type="email"],
+    input[type="url"], input[type="password"], input[type="number"], input[type="tel"],
+    input[type="date"], input[type="time"], input[type="datetime-local"],
+    input[type="month"], input[type="week"], textarea):hover,
+.adc-admin-shell select:hover {
+    border-color: var(--adc-muted);
+}
+
+.adc-admin-shell :is(input[type="text"], input[type="search"], input[type="email"],
+    input[type="url"], input[type="password"], input[type="number"], input[type="tel"],
+    input[type="date"], input[type="time"], input[type="datetime-local"],
+    input[type="month"], input[type="week"], textarea, select):focus {
+    border-color: var(--adc-accent);
+}
+
+.adc-admin-shell input::placeholder {
+    color: var(--adc-muted);
+}
+
+/* Selection: white on the accent blue (§9). */
+.adc-admin-shell ::selection {
+    background: var(--adc-accent);
+    color: #fff;
+}
+
+/* ---------- Native skin: notices ---------- */
+/* Structure stays fully native (§5): only the 4px start border takes the
+   semantic-pair color and the text stays ink. */
+.adc-admin-shell .notice {
+    border: 1px solid var(--adc-border-soft);
+    border-inline-start: 4px solid var(--adc-info);
+    color: var(--adc-ink);
+}
+
+.adc-admin-shell .notice-success { border-inline-start-color: var(--adc-success); }
+.adc-admin-shell .notice-warning { border-inline-start-color: var(--adc-warning); }
+.adc-admin-shell .notice-error   { border-inline-start-color: var(--adc-danger); }
+.adc-admin-shell .notice-info    { border-inline-start-color: var(--adc-info); }
 
 /* ---------- Secret fields: masked value + replace toggle ---------- */
 .adc-secret-field {
@@ -304,14 +446,14 @@
 }
 
 .adc-secret-input[readonly] {
-    background: #f6f7f7;
-    color: #50575e;
+    background: var(--adc-surface-subtle);
+    color: var(--adc-muted);
 }
 
 /* Copy buttons */
 .adc-copy-btn.is-copied {
-    border-color: #00a32a;
-    color: #00a32a;
+    border-color: var(--adc-success);
+    color: var(--adc-success);
 }
 
 /* ---------- Settings tables (.form-table) ---------- */
@@ -334,6 +476,150 @@
     box-sizing: border-box;
     max-width: 100%;
 }
+
+/* Controls inside cards and rows never push past their container (mobile overflow). */
+.adc-admin-shell .adc-help-row__control :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea),
+.adc-admin-shell .adc-settings-section :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+/* ---------- Box primitives (DESIGN.md §5 / §7) ---------- */
+/* .adc-box is the shared, shell-agnostic container every tab composes with:
+   .adc-box--light for working detail, .adc-box--dark for the instrument
+   panels. Dark boxes carry the CSS-only treatments (dot texture, gradient
+   hairline, corner mark, bottom-end chart glow) — no images, no JS. */
+.adc-box {
+    border-radius: var(--adc-radius-box);
+}
+
+/* box-light */
+.adc-box--light {
+    background: var(--adc-surface);
+    border: 1px solid var(--adc-border-soft);
+    box-shadow: var(--adc-shadow-box);
+}
+
+/* box-dark — dot texture + bottom-end glow over navy, gradient hairline, inner border */
+.adc-box--dark {
+    position: relative;
+    overflow: hidden;
+    color: var(--adc-ink-on-dark);
+    background:
+        radial-gradient(rgba(255, 255, 255, .045) 1px, transparent 1.5px) 0 0 / 16px 16px,
+        radial-gradient(ellipse 120% 90% at 85% 120%, rgba(104, 140, 200, .22), transparent 70%),
+        var(--adc-surface-dark);
+    border: 1px solid var(--adc-border-dark);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .05);
+}
+
+.adc-box--dark::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    inset-block-start: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 10%, rgba(104, 140, 200, .85) 40%,
+                rgba(249, 96, 4, .85) 55%, transparent 90%);
+}
+
+/* Corner mark: 12px orange L, aria-hidden span, one per dark box only. */
+.adc-box--dark .adc-corner {
+    position: absolute;
+    inset-block-start: 10px;
+    inset-inline-end: 10px;
+    width: 12px;
+    height: 12px;
+    border-block-start: 2px solid var(--adc-highlight);
+    border-inline-end: 2px solid var(--adc-highlight);
+}
+
+/* box header: title 14px/600 + optional help icon + actions pushed inline-end */
+.adc-box__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--adc-space-1);
+    padding: var(--adc-space-2) var(--adc-space-3) 0;
+}
+
+.adc-box__title {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.adc-box--dark .adc-box__title {
+    color: #fff;
+}
+
+.adc-box__body {
+    padding: var(--adc-space-2) var(--adc-space-3) var(--adc-space-3);
+}
+
+/* KPI tile */
+.adc-kpi {
+    padding: var(--adc-space-2);
+    border-radius: var(--adc-radius-box);
+    background: var(--adc-surface);
+    border: 1px solid var(--adc-border-soft);
+    box-shadow: var(--adc-shadow-box);
+}
+
+.adc-kpi__label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--adc-muted);
+}
+
+.adc-kpi__label::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 1px;
+    background: var(--adc-kpi-series, var(--adc-accent));
+    margin-inline-end: 6px;
+    vertical-align: 1px;
+}
+
+.adc-kpi__value {
+    display: block;
+    margin-top: 4px;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums lining-nums;
+    color: var(--adc-ink);
+}
+
+/* KPI on a dark box: transparent tile, on-dark inks (§5). */
+.adc-kpi--on-dark {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.adc-kpi--on-dark .adc-kpi__label {
+    color: var(--adc-muted-on-dark);
+}
+
+.adc-kpi--on-dark .adc-kpi__value {
+    color: #fff;
+}
+
+/* chart frame (inset panel inside a dark box; no nested boxes) */
+.adc-chart {
+    border-radius: var(--adc-radius);
+    background: rgba(30, 41, 59, .55);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06);
+    padding: 12px;
+}
+
+.adc-chart .adc-an-line { stroke: var(--adc-chart-1); }
+.adc-chart .adc-an-bar  { fill: var(--adc-chart-3); }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 782px) {
@@ -371,8 +657,25 @@
         font-size: 20px;
     }
 
+    /* Header stays on one line: the version badge sits right next to the title
+       instead of floating alone on a new row. */
+    .adc-admin-header {
+        flex-wrap: nowrap;
+    }
+
+    .adc-admin-logo {
+        height: 32px;
+    }
+
+    .adc-admin-title {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
     .adc-admin-version {
-        margin-left: 0;
+        flex: 0 0 auto;
+        margin-inline-start: 0;
+        white-space: nowrap;
     }
 
     /* Tab pills scroll horizontally instead of wrapping into a tall pile. */
@@ -384,12 +687,23 @@
         padding-bottom: 4px;
     }
 
+    /* Group pills: swipeable row that snaps each pill into view. */
+    .adc-admin-shell .adc-admin-tabs--groups {
+        overflow-x: auto;
+        scroll-snap-type: x proximity;
+    }
+
+    .adc-admin-shell .adc-admin-group {
+        flex: 0 0 auto;
+        scroll-snap-align: start;
+    }
+
     .adc-admin-shell .adc-admin-tabs--sub {
         margin-top: var(--adc-space-1);
         padding-top: var(--adc-space-1);
-        padding-left: 0;
-        border-top: 1px solid #f0f0f1;
-        border-left: 0;
+        padding-inline-start: 0;
+        border-top: 1px solid var(--adc-canvas);
+        border-inline-start: 0;
     }
 
     .adc-admin-tab-content {
@@ -399,5 +713,217 @@
     .adc-admin-shell .adc-secret-input {
         min-width: 0;
         width: 100%;
+    }
+}
+
+/* Reduced motion (§8/§9): no transitions anywhere in the shell. */
+@media (prefers-reduced-motion: reduce) {
+    .adc-admin-shell :is(.button, .button-primary, .button-secondary, .adc-copy-btn,
+        .adc-secret-replace, input, select, textarea,
+        .adc-admin-group a, .adc-admin-tab a) {
+        transition: none;
+    }
+}
+
+/* Unsaved form state in the sticky save bar. */
+.adc-admin-save-bar .adc-unsaved-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-inline-end: auto;
+    color: var(--adc-muted);
+    font-size: 12.5px;
+}
+
+.adc-admin-save-bar .adc-unsaved-status[hidden] {
+    display: none;
+}
+
+.adc-unsaved-status__dot {
+    width: 7px;
+    height: 7px;
+    flex: 0 0 7px;
+    border-radius: 50%;
+    background: var(--adc-highlight);
+}
+
+.adc-admin-save-bar .adc-unsaved-save {
+    box-shadow: 0 0 0 2px var(--adc-accent-tint), 0 0 0 3px var(--adc-accent);
+}
+
+/* ---------- Promo banner (ADC_Admin_Promo) ----------
+   Adcelerum brand surface: navy #162237, CSS sky wash (one warm + one cool
+   blurred radial, static), 16px radius, blue pill CTA with dark label
+   (dense small-text tier, 4.68:1). Orange appears once: the wash only. */
+.adc-promo {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--adc-space-2) var(--adc-space-3);
+    margin: 0 0 var(--adc-space-3);
+    padding: var(--adc-space-3) calc(var(--adc-space-3) + 32px) var(--adc-space-3) var(--adc-space-3);
+    border: 1px solid rgba(255, 255, 255, .1);
+    border-radius: 16px;
+    background: var(--adc-surface-dark, #162237);
+    color: var(--adc-ink-on-dark, #e6edf7);
+}
+
+.adc-promo__aurora,
+.adc-promo__aurora::before,
+.adc-promo__aurora::after {
+    position: absolute;
+    pointer-events: none;
+}
+
+.adc-promo__aurora {
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(135deg, #1e293b 0%, #162237 55%);
+}
+
+.adc-promo__aurora::before,
+.adc-promo__aurora::after {
+    content: "";
+}
+
+/* aurora curtain — brand blue, glowing lower edge, behind the CTA side */
+.adc-promo__aurora::after {
+    width: 70%;
+    height: 170%;
+    inset-inline-end: -4%;
+    bottom: -100%;
+    background:
+        radial-gradient(closest-side, rgba(123, 159, 214, .6), rgba(104, 140, 200, .3) 50%, transparent 78%);
+    filter: blur(24px);
+}
+
+/* second, cooler veil higher up so the light reads as a curtain, not a spot */
+.adc-promo::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+    width: 55%;
+    height: 120%;
+    inset-inline-end: 12%;
+    top: -70%;
+    background: radial-gradient(closest-side, rgba(104, 140, 200, .22), transparent 75%);
+    filter: blur(32px);
+}
+
+/* warm signal — orange, rare, bottom-end corner only */
+.adc-promo__aurora::before {
+    z-index: 1;
+    width: 26%;
+    height: 120%;
+    inset-inline-end: -4%;
+    bottom: -80%;
+    background: radial-gradient(closest-side, rgba(249, 96, 4, .38), transparent 72%);
+    filter: blur(30px);
+}
+
+.adc-promo__body {
+    flex: 1 1 320px;
+    min-width: 0;
+}
+
+.adc-promo__title {
+    margin: 0 0 4px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.35;
+    color: #fff;
+}
+
+.adc-promo__text {
+    margin: 0;
+    max-width: 64ch;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--adc-muted-on-dark, #9fb0c9);
+}
+
+.adc-promo__cta,
+.adc-promo__cta:visited {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex: 0 0 auto;
+    min-height: 36px;
+    padding: 0 18px;
+    border-radius: 999px;
+    background: var(--adc-brand-blue, #688cc8);
+    color: var(--adc-surface-dark, #162237);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform .15s ease, background-color .15s ease;
+}
+
+.adc-promo__cta:hover {
+    background: #7b9fd6;
+    color: var(--adc-surface-dark, #162237);
+    transform: translateY(-2px);
+}
+
+.adc-promo__cta .dashicons {
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+}
+
+.adc-promo__dismiss,
+.adc-promo__dismiss:visited {
+    position: absolute;
+    top: 8px;
+    inset-inline-end: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    color: var(--adc-muted-on-dark, #9fb0c9);
+    text-decoration: none;
+}
+
+.adc-promo__dismiss:hover {
+    background: rgba(255, 255, 255, .08);
+    color: #fff;
+}
+
+.adc-promo__cta:focus-visible,
+.adc-promo__dismiss:focus-visible {
+    outline: 2px solid var(--adc-link-on-dark, #a5c1e4);
+    outline-offset: 2px;
+    box-shadow: none;
+}
+
+@media (max-width: 600px) {
+    .adc-promo {
+        padding: var(--adc-space-2) calc(var(--adc-space-2) + 28px) var(--adc-space-2) var(--adc-space-2);
+    }
+
+    .adc-promo__body {
+        flex-basis: 100%;
+    }
+
+    .adc-promo__cta {
+        justify-content: center;
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .adc-promo__cta {
+        transition: none;
+    }
+
+    .adc-promo__cta:hover {
+        transform: none;
     }
 }

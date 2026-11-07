@@ -427,3 +427,209 @@
   border-color: var(--adc-border, #dcdcde);
   text-decoration: underline;
 }
+
+/* ---------- Collapsible sections (Conținut · Aspect · Categorii) ----------
+   <details> is the native disclosure, so the tab still works without JS:
+   the script only remembers the open/closed state in localStorage.
+   Rhythm: 32px between sections (DESIGN.md §4 --adc-space-4). */
+.adc-admin-shell .adc-banner-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--adc-space-4, 32px);
+  align-items: start;
+}
+
+.adc-admin-shell .adc-banner-layout__main {
+  min-width: 0;
+}
+
+.adc-admin-shell .adc-banner-layout__aside {
+  min-width: 0;
+}
+
+.adc-admin-shell .adc-banner-section {
+  margin: 0 0 var(--adc-space-4, 32px);
+  border: 1px solid var(--adc-border-soft, #dcdcde);
+  border-radius: var(--adc-radius-box, 6px);
+  background: var(--adc-surface, #fff);
+  box-shadow: 0 1px 2px rgba(18, 26, 41, 0.06);
+}
+
+.adc-admin-shell .adc-banner-section:last-child {
+  margin-bottom: 0;
+}
+
+.adc-admin-shell .adc-banner-section__summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px var(--adc-space-2, 16px);
+  padding: var(--adc-space-2, 16px) var(--adc-space-3, 24px);
+  border-radius: var(--adc-radius-box, 6px);
+  cursor: pointer;
+  list-style: none;
+}
+
+/* One disclosure affordance only: the chevron drawn on the title. */
+.adc-admin-shell .adc-banner-section__summary::-webkit-details-marker {
+  display: none;
+}
+
+.adc-admin-shell .adc-banner-section__summary::marker {
+  content: "";
+}
+
+.adc-admin-shell .adc-banner-section__summary:focus-visible {
+  outline: 2px solid var(--adc-accent, #3b6ea5);
+  outline-offset: -2px;
+}
+
+.adc-admin-shell .adc-banner-section__title {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--adc-space-1, 8px);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--adc-ink, #1d2327);
+}
+
+.adc-admin-shell .adc-banner-section__title::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid var(--adc-accent, #3b6ea5);
+  border-bottom: 2px solid var(--adc-accent, #3b6ea5);
+  transform: rotate(-45deg);
+  transition: transform 0.15s ease;
+}
+
+.adc-admin-shell .adc-banner-section[open] > .adc-banner-section__summary .adc-banner-section__title::before {
+  transform: rotate(45deg);
+}
+
+.adc-admin-shell .adc-banner-section__hint {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--adc-muted, #50575e);
+}
+
+.adc-admin-shell .adc-banner-section__body {
+  padding: var(--adc-space-2, 16px) var(--adc-space-3, 24px) var(--adc-space-3, 24px);
+  border-top: 1px solid var(--adc-border-soft, #dcdcde);
+}
+
+/* The section body already owns the outer rhythm; keep the first element flush. */
+.adc-admin-shell .adc-banner-section__body > :first-child {
+  margin-top: 0;
+}
+
+/* ---------- Sticky preview column ----------
+   ≥1280px: preview sits in the second column and follows the scroll, so the
+   settings can grow without the banner leaving the screen. Below that it stays
+   a normal block after the sections. */
+@media (min-width: 1280px) {
+  .adc-admin-shell .adc-banner-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(340px, 420px);
+  }
+
+  .adc-admin-shell .adc-banner-layout__aside {
+    position: sticky;
+    top: calc(32px + var(--adc-space-2, 16px));
+    align-self: start;
+  }
+}
+
+.adc-admin-shell .adc-banner-preview-panel {
+  padding: var(--adc-space-3, 24px);
+  border: 1px solid var(--adc-border-soft, #dcdcde);
+  border-radius: var(--adc-radius-box, 6px);
+  background: var(--adc-surface, #fff);
+  box-shadow: 0 1px 2px rgba(18, 26, 41, 0.06);
+}
+
+.adc-admin-shell .adc-banner-preview-panel__title {
+  margin: 0 0 var(--adc-space-1, 8px);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--adc-ink, #1d2327);
+}
+
+.adc-admin-shell .adc-banner-preview-panel .description {
+  margin-top: 0;
+}
+
+/* ---------- Cookie summary (list lives in the Cookies tab) ---------- */
+.adc-admin-shell .adc-banner-cookies {
+  display: grid;
+  gap: var(--adc-space-1, 8px);
+  padding: var(--adc-space-2, 16px);
+  border: 1px solid var(--adc-border-soft, #dcdcde);
+  border-radius: var(--adc-radius-box, 6px);
+  background: var(--adc-surface-subtle, #f6f7f7);
+}
+
+.adc-admin-shell .adc-banner-cookies__figure {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--adc-ink, #1d2327);
+}
+
+.adc-admin-shell .adc-banner-cookies__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--adc-space-1, 8px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.adc-admin-shell .adc-banner-cookies__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  border: 1px solid var(--adc-border-soft, #dcdcde);
+  border-radius: var(--adc-radius-pill, 999px);
+  background: var(--adc-surface, #fff);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--adc-ink-soft, #40464d);
+}
+
+.adc-admin-shell .adc-banner-cookies__count {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--adc-accent, #3b6ea5);
+}
+
+.adc-admin-shell .adc-banner-cookies__pill--todo {
+  border-color: var(--adc-border, #c3c4c7);
+  color: var(--adc-warning, #7a5311);
+}
+
+.adc-admin-shell .adc-banner-cookies__pill--todo .adc-banner-cookies__count {
+  color: var(--adc-warning, #7a5311);
+}
+
+.adc-admin-shell .adc-banner-cookies .description {
+  margin: 0;
+}
+
+.adc-admin-shell .adc-banner-cookies p:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 782px) {
+  .adc-admin-shell .adc-banner-preview-panel {
+    padding: var(--adc-space-2, 16px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .adc-admin-shell .adc-banner-section__title::before {
+    transition: none;
+  }
+}

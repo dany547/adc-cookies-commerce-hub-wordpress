@@ -52,7 +52,7 @@ final class ADC_Admin_Tab_Analytics implements ADC_Admin_Tab_Interface {
 	 * {@inheritDoc}
 	 */
 	public function label(): string {
-		return __( 'Analytics (setări)', 'adc-marketing' );
+		return __( 'Analiză (setări)', 'adc-marketing' );
 	}
 
 	/**
@@ -89,7 +89,7 @@ final class ADC_Admin_Tab_Analytics implements ADC_Admin_Tab_Interface {
 		printf(
 			'<p class="adc-an-jump"><a class="button button-secondary" href="%1$s">%2$s</a></p>',
 			esc_url( $this->reports_url() ),
-			esc_html__( 'Vezi rapoartele în Dashboard', 'adc-marketing' )
+			esc_html__( 'Vezi rapoartele în Prezentare generală', 'adc-marketing' )
 		);
 
 		echo $parts['settings']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- the analytics template escapes its own output.

@@ -1,10 +1,12 @@
 <?php
 /**
- * Admin tab "Evenimente & GTM" (docs/ARCHITECTURE.md §4, §5 C4 row).
+ * Admin tab "Evenimente" (docs/ARCHITECTURE.md §4, §5 C4 row).
  *
- * Owns the UI for the `gtm` and `events` settings groups (registered by
- * ADC_Gtm / ADC_Event_Hooks). Inner HTML only — the shell wraps form+nonce
- * (ADC_Admin_Shell, nonce adc_save_tab_events).
+ * Owns the UI for the `events` settings group (registered by ADC_Event_Hooks).
+ * The `gtm` group moved to the unified tab ADC_Admin_Tab_Gtm ("Google Tag
+ * Manager", Măsurare group) — this tab no longer renders or saves it.
+ * Inner HTML only — the shell wraps form+nonce (ADC_Admin_Shell, nonce
+ * adc_save_tab_events).
  *
  * @package ADC_Marketing
  */
@@ -16,17 +18,13 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Events & GTM settings tab.
+ * Tracked events settings tab.
  */
 final class ADC_Admin_Tab_Events implements ADC_Admin_Tab_Interface
 {
     use ADC_Admin_Help_Content;
 
     /**
-     * GTM container pattern (§4 validation rules).
-     */
-    private const GTM_PATTERN = '/^GTM-[A-Z0-9]+$/';
-
     /**
      * Toggleable catalogue events (§2.4 table), in display order.
      *
@@ -73,7 +71,7 @@ final class ADC_Admin_Tab_Events implements ADC_Admin_Tab_Interface
      */
     public function label(): string
     {
-        return __('Evenimente & GTM', 'adc-marketing');
+        return __('Evenimente', 'adc-marketing');
     }
 
     /**
@@ -101,70 +99,11 @@ final class ADC_Admin_Tab_Events implements ADC_Admin_Tab_Interface
      */
     public function render(): void
     {
-        $gtm    = ADC_Settings::all('gtm');
         $events = ADC_Settings::all('events');
 
         ADC_Admin_Help::section(
-            __('Google Tag Manager', 'adc-marketing'),
-            __('Ce face această secțiune: decide dacă și cum se încarcă containerul GTM în paginile site-ului, pe browserul vizitatorilor.', 'adc-marketing')
-        );
-
-        echo '<div class="adc-help-options adc-settings-section">';
-
-        ADC_Admin_Help::row(
-            __('ID container GTM', 'adc-marketing'),
-            '<input type="text" id="adc_gtm_container_id" name="gtm[container_id]" class="regular-text" placeholder="GTM-XXXXXXX" value="' . esc_attr((string) ($gtm['container_id'] ?? '')) . '" />',
-            __('Cu ID-ul salvat aici se inserează snippet-ul GTM în site; lăsat gol, containerul nu se încarcă deloc.', 'adc-marketing'),
-            'adc_gtm_container_id',
-            'adc-help-gtm-mode',
-            $this->help_gtm_mode()
-        );
-
-        ADC_Admin_Help::row(
-            __('Mod încărcare', 'adc-marketing'),
-            '<select name="gtm[mode]">'
-                . '<option value="always_with_defaults" ' . selected(($gtm['mode'] ?? '') === 'always_with_defaults', true, false) . '>' . esc_html__('Întotdeauna (cu seturi implicite de consimțământ)', 'adc-marketing') . '</option>'
-                . '<option value="after_consent" ' . selected(($gtm['mode'] ?? '') === 'after_consent', true, false) . '>' . esc_html__('Doar după acordarea consimțământului', 'adc-marketing') . '</option>'
-            . '</select>',
-            __('Pentru blocare înainte de acord, alegeți „Doar după acordarea consimțământului”. Modul „Întotdeauna” încarcă GTM imediat; Consent Mode nu garantează blocarea tuturor etichetelor din container.', 'adc-marketing'),
-            null,
-            'adc-help-gtm-load-mode',
-            $this->help_gtm_mode()
-        );
-
-        ADC_Admin_Help::row(
-            __('URL server GTM (sGTM)', 'adc-marketing'),
-            '<input type="url" id="adc_gtm_server_url" name="gtm[server_container_url]" class="regular-text" placeholder="https://sgtm.exemplu.ro" value="' . esc_attr((string) ($gtm['server_container_url'] ?? '')) . '" />',
-            __('Adresa first-party configurată în tabul „Server GTM”; modificată aici, se suprascrie pentru toate etichetele.', 'adc-marketing'),
-            'adc_gtm_server_url'
-        );
-
-        ADC_Admin_Help::row(
-            __('Nume dataLayer', 'adc-marketing'),
-            '<input type="text" id="adc_gtm_datalayer" name="gtm[datalayer_name]" class="regular-text" value="' . esc_attr((string) ($gtm['datalayer_name'] ?? 'dataLayer')) . '" />',
-            __('Numele variabilei JS în care pluginul scrie evenimentele; schimbă-l doar dacă containerul dumneavoastră folosește alt nume.', 'adc-marketing'),
-            'adc_gtm_datalayer'
-        );
-
-        ADC_Admin_Help::row(
-            __('Mediu: auth', 'adc-marketing'),
-            '<input type="text" id="adc_gtm_env_auth" name="gtm[env_auth]" class="regular-text" value="' . esc_attr((string) ($gtm['env_auth'] ?? '')) . '" />',
-            __('Token-ul de acces al unui mediu GTM (Auth Preview), pentru testarea unei versiuni nepublicate a containerului.', 'adc-marketing'),
-            'adc_gtm_env_auth'
-        );
-
-        ADC_Admin_Help::row(
-            __('Mediu: preview', 'adc-marketing'),
-            '<input type="text" id="adc_gtm_env_preview" name="gtm[env_preview]" class="regular-text" value="' . esc_attr((string) ($gtm['env_preview'] ?? '')) . '" />',
-            __('Eticheta mediului de previzualizare (ex. env-123); ambele valori trebuie completate pentru a activa previzualizarea.', 'adc-marketing'),
-            'adc_gtm_env_preview'
-        );
-
-        echo '</div>';
-
-        ADC_Admin_Help::section(
             __('Evenimente urmărite', 'adc-marketing'),
-            __('Ce face această secțiune: alege ce acțiuni ale vizitatorilor sunt măsurate și trimise către platforme.', 'adc-marketing'),
+            __('Alege ce acțiuni ale vizitatorilor sunt măsurate și trimise către platforme.', 'adc-marketing'),
             'adc-help-events-list',
             $this->help_events_list()
         );
@@ -183,9 +122,9 @@ final class ADC_Admin_Tab_Events implements ADC_Admin_Tab_Interface
         );
         echo '</div>';
 
-        ADC_Admin_Help::section(
-            __('Opțiuni evenimente', 'adc-marketing'),
-            __('Ce face această secțiune: ajustează cum se calculează și unde se înregistrează datele evenimentelor (identificatori, sume, statusuri, excepții).', 'adc-marketing')
+        ADC_Admin_Help::advanced_start(
+            __('Setări avansate', 'adc-marketing'),
+            __('Ajustează cum se calculează și unde se înregistrează datele evenimentelor: identificatori, sume, statusuri, excepții.', 'adc-marketing')
         );
 
         echo '<div class="adc-help-options adc-settings-section">';
@@ -279,62 +218,29 @@ final class ADC_Admin_Tab_Events implements ADC_Admin_Tab_Interface
         );
 
         echo '</div>';
+
+        ADC_Admin_Help::advanced_end();
     }
 
     /**
-     * Save both groups through ADC_Settings::update (typed sanitizers run
-     * inside; unknown/invalid values fall back to stored/default).
+     * Save the events group through ADC_Settings::update (typed sanitizers
+     * run inside; unknown/invalid values fall back to stored/default). The
+     * `gtm` group is saved by ADC_Admin_Tab_Gtm, not here.
      *
      * @param array $post wp_unslash($_POST).
      * @return array<int, array{type: string, message: string}>
      */
     public function save(array $post): array
     {
-        $keys    = array('container_id', 'mode', 'server_container_url', 'datalayer_name', 'env_auth', 'env_preview');
-        $defaults = array(
-            'container_id'         => '',
-            'mode'                 => 'after_consent',
-            'server_container_url' => '',
-            'datalayer_name'       => 'dataLayer',
-            'env_auth'             => '',
-            'env_preview'          => '',
-        );
-
-        $raw    = isset($post['gtm']) && is_array($post['gtm']) ? $post['gtm'] : array();
-        $gtm_input = array();
-        foreach ($keys as $key) {
-            $gtm_input[$key] = isset($raw[$key]) && is_scalar($raw[$key]) ? (string) $raw[$key] : $defaults[$key];
-        }
-
-        $container = strtoupper(trim($gtm_input['container_id']));
-        $url       = trim($gtm_input['server_container_url']);
-
         $events_input = isset($post['events']) && is_array($post['events']) ? $post['events'] : array();
 
-        ADC_Settings::update('gtm', $gtm_input);
         ADC_Settings::update('events', $events_input);
 
-        $notices = array(
+        return array(
             array(
                 'type'    => 'success',
-                'message' => __('Setările de evenimente și GTM au fost salvate.', 'adc-marketing'),
+                'message' => __('Setările de evenimente au fost salvate.', 'adc-marketing'),
             ),
         );
-
-        if ('' !== $container && 1 !== preg_match(self::GTM_PATTERN, $container)) {
-            $notices[] = array(
-                'type'    => 'warning',
-                'message' => __('ID-ul containerului GTM nu este valid (format corect: GTM-XXXXXXX). Valoarea veche a fost păstrată.', 'adc-marketing'),
-            );
-        }
-
-        if ('' !== $url && !str_starts_with($url, 'https://')) {
-            $notices[] = array(
-                'type'    => 'warning',
-                'message' => __('URL-ul serverului GTM trebuie să înceapă cu https://. Valoarea invalidă a fost ignorată.', 'adc-marketing'),
-            );
-        }
-
-        return $notices;
     }
 }

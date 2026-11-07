@@ -91,6 +91,84 @@
         });
     }
 
+    function statesEqual(current, initial) {
+        return current.length === initial.length && current.every(function (value, index) {
+            return value === initial[index];
+        });
+    }
+
+    if (typeof module !== 'undefined' && module.exports) {
+        module.exports = { statesEqual: statesEqual };
+    }
+
+    function controlState(control) {
+        if (control.type === 'checkbox' || control.type === 'radio') {
+            return control.checked ? '1' : '0';
+        }
+        if (control.type === 'select-multiple') {
+            return Array.prototype.map.call(control.options, function (option) {
+                return option.selected ? '1' : '0';
+            }).join('');
+        }
+        return String(control.value);
+    }
+
+    function initUnsavedChanges() {
+        var bar = document.querySelector('.adc-admin-save-bar');
+        if (!bar) {
+            return;
+        }
+
+        var form = bar.closest('form') || document.querySelector('.adc-admin-tab-content form');
+        if (!form) {
+            return;
+        }
+
+        var controls = Array.prototype.filter.call(form.querySelectorAll('input[name], select[name], textarea[name]'), function (control) {
+            return control.type !== 'button' && control.type !== 'submit' && control.type !== 'reset' && control.type !== 'image';
+        });
+        if (!controls.length) {
+            return;
+        }
+
+        var initial = controls.map(controlState);
+        var status = document.createElement('span');
+        status.className = 'adc-unsaved-status';
+        status.setAttribute('aria-live', 'polite');
+        status.hidden = true;
+
+        var dot = document.createElement('span');
+        dot.className = 'adc-unsaved-status__dot';
+        dot.setAttribute('aria-hidden', 'true');
+        status.appendChild(dot);
+        status.appendChild(document.createTextNode('Ai modificări nesalvate'));
+        bar.insertBefore(status, bar.firstChild);
+
+        function update() {
+            var changed = !statesEqual(controls.map(controlState), initial);
+            status.hidden = !changed;
+            Array.prototype.forEach.call(bar.querySelectorAll('button[type="submit"], input[type="submit"], .button-primary'), function (button) {
+                button.classList.toggle('adc-unsaved-save', changed);
+            });
+        }
+
+        controls.forEach(function (control) {
+            control.addEventListener('input', update);
+            control.addEventListener('change', update);
+        });
+        function warnBeforeUnload(event) {
+            if (!statesEqual(controls.map(controlState), initial)) {
+                event.preventDefault();
+                event.returnValue = '';
+            }
+        }
+
+        window.addEventListener('beforeunload', warnBeforeUnload);
+        form.addEventListener('submit', function () {
+            window.removeEventListener('beforeunload', warnBeforeUnload);
+        });
+    }
+
     function initCopyButtons() {
         var buttons = document.querySelectorAll('.adc-copy-btn[data-adc-copy]');
         Array.prototype.forEach.call(buttons, function (button) {
@@ -111,8 +189,32 @@
         });
     }
 
-    onReady(function () {
-        initSecretToggles();
-        initCopyButtons();
-    });
+    // Promo banner: dismiss in place; the link still works without JS.
+    function initPromoDismiss() {
+        var link = document.querySelector('[data-adc-promo-dismiss]');
+        if (!link || typeof window.fetch !== 'function') {
+            return;
+        }
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
+            var banner = link.closest('[data-adc-promo]');
+            window.fetch(link.href, { credentials: 'same-origin', redirect: 'manual' }).catch(function () {});
+            if (banner) {
+                var next = document.querySelector('.adc-admin-nav a');
+                banner.parentNode.removeChild(banner);
+                if (next) {
+                    next.focus();
+                }
+            }
+        });
+    }
+
+    if (typeof document !== 'undefined') {
+        onReady(function () {
+            initSecretToggles();
+            initCopyButtons();
+            initUnsavedChanges();
+            initPromoDismiss();
+        });
+    }
 }());

@@ -66,39 +66,61 @@ final class ADC_Admin_Tab_Matching implements ADC_Admin_Tab_Interface
     }
 
     /**
+     * Master switch state for the page-head badge.
+     */
+    public function page_status(): ?bool
+    {
+        $s = ADC_Settings::all('matching');
+
+        return !empty($s['enabled']);
+    }
+
+    /**
      * Render the tab inner HTML (no form tag, no nonce — the shell wraps them).
      */
     public function render(): void
     {
         $s = ADC_Settings::all('matching');
-        ADC_Admin_Help::section(
-            __('Potrivire avansată', 'adc-marketing'),
-            __('Ce face această secțiune: pregătește datele de contact ale clienților (hash) pentru ca platformele de reclamă să atribuie comenzile campaniilor corect.', 'adc-marketing'),
-            'adc-help-matching',
-            $this->help_matching()
-        );
-
         echo '<div class="adc-help-options">';
 
         ADC_Admin_Help::row(
             __('Activare potrivire avansată', 'adc-marketing'),
-            '<label><input type="checkbox" name="enabled" value="1" ' . checked(!empty($s['enabled']), false, false) . ' /> ' . esc_html__('Activează potrivirea avansată (implicit dezactivat)', 'adc-marketing') . '</label>',
+            '<label><input type="checkbox" name="enabled" value="1" ' . checked(!empty($s['enabled']), true, false) . ' /> ' . esc_html__('Activează potrivirea avansată (implicit dezactivat)', 'adc-marketing') . '</label>',
             __('Pornește întregul mecanism de colectare și hash; cu opțiunea oprită, niciuna dintre setările de mai jos nu are efect.', 'adc-marketing'),
             null,
             'adc-help-matching-enabled',
             $this->help_matching()
         );
 
+        $platforms = '';
+        foreach (self::SEND_TO_LABELS as $platform => $label) {
+            $platforms .= '<label class="adc-help-choice"><input type="checkbox" name="send_to[]" value="' . esc_attr($platform) . '" ' . checked(in_array($platform, (array) $s['send_to'], true), true, false) . ' /> ' . esc_html($label) . '</label>';
+        }
+        ADC_Admin_Help::row(
+            __('Platforme destinație', 'adc-marketing'),
+            $platforms,
+            __('Doar platformele bifate primesc hash-urile de identificare; celelalte primesc evenimentele fără aceste date.', 'adc-marketing'),
+            null,
+            'adc-help-matching-send-to',
+            $this->help_matching()
+        );
+
         ADC_Admin_Help::row(
             __('Colectare la checkout', 'adc-marketing'),
-            '<label><input type="checkbox" name="capture_checkout" value="1" ' . checked(!empty($s['capture_checkout']), false, false) . ' /> ' . esc_html__('Captează e-mailul și telefonul din câmpurile de checkout (la fiecare reîmprospătare a datelor)', 'adc-marketing') . '</label>',
+            '<label><input type="checkbox" name="capture_checkout" value="1" ' . checked(!empty($s['capture_checkout']), true, false) . ' /> ' . esc_html__('Captează e-mailul și telefonul din câmpurile de checkout (la fiecare reîmprospătare a datelor)', 'adc-marketing') . '</label>',
             __('Citește câmpurile pe măsură ce clientul le completează; fără această bifă, datele se iau doar din comanda plasată.', 'adc-marketing')
         );
 
         ADC_Admin_Help::row(
             __('Colectare din cont / autentificare', 'adc-marketing'),
-            '<label><input type="checkbox" name="capture_account" value="1" ' . checked(!empty($s['capture_account']), false, false) . ' /> ' . esc_html__('Captează datele din contul de utilizator la crearea contului și la autentificare', 'adc-marketing') . '</label>',
-            __('Permite potrivirea evenitmentelor și din afara checkout-ului (cont nou, login), nu doar de la comandă.', 'adc-marketing')
+            '<label><input type="checkbox" name="capture_account" value="1" ' . checked(!empty($s['capture_account']), true, false) . ' /> ' . esc_html__('Captează datele din contul de utilizator la crearea contului și la autentificare', 'adc-marketing') . '</label>',
+            __('Permite potrivirea evenimentelor și din afara checkout-ului (cont nou, login), nu doar de la comandă.', 'adc-marketing')
+        );
+
+        ADC_Admin_Help::advanced_start(
+            '',
+            __('Prefix telefonic, selectoare de formulare, identificator extern și formatul datelor în dataLayer.', 'adc-marketing'),
+            'plain' === (string) $s['datalayer_format']
         );
 
         ADC_Admin_Help::row(
@@ -115,22 +137,9 @@ final class ADC_Admin_Tab_Matching implements ADC_Admin_Tab_Interface
             'adc-matching-form-selectors'
         );
 
-        $platforms = '';
-        foreach (self::SEND_TO_LABELS as $platform => $label) {
-            $platforms .= '<label class="adc-help-choice"><input type="checkbox" name="send_to[]" value="' . esc_attr($platform) . '" ' . checked(in_array($platform, (array) $s['send_to'], true), false, false) . ' /> ' . esc_html($label) . '</label>';
-        }
-        ADC_Admin_Help::row(
-            __('Platforme destinație', 'adc-marketing'),
-            $platforms,
-            __('Doar platformele bifate primesc hash-urile de identificare; celelalte primesc evenimentele fără aceste date.', 'adc-marketing'),
-            null,
-            'adc-help-matching-send-to',
-            $this->help_matching()
-        );
-
         ADC_Admin_Help::row(
             __('Identificator extern', 'adc-marketing'),
-            '<label><input type="checkbox" name="use_external_id" value="1" ' . checked(!empty($s['use_external_id']), false, false) . ' /> ' . esc_html__('Trimite un identificator extern criptat (sha256 al ID-ului de utilizator sau al cid-ului de consimțământ)', 'adc-marketing') . '</label>',
+            '<label><input type="checkbox" name="use_external_id" value="1" ' . checked(!empty($s['use_external_id']), true, false) . ' /> ' . esc_html__('Trimite un identificator extern criptat (sha256 al ID-ului de utilizator sau al cid-ului de consimțământ)', 'adc-marketing') . '</label>',
             __('Adaugă un ID stabil, criptat (util pentru public custom-uri pe Meta/TikTok); se trimite doar hash-ul, nu ID-ul brut.', 'adc-marketing')
         );
 
@@ -147,6 +156,8 @@ final class ADC_Admin_Tab_Matching implements ADC_Admin_Tab_Interface
             __('În ce formă apar datele în stratul de date din browser: hash (implicit, sigur) sau text clar (doar cu consimțământ de marketing, criptate de tag).', 'adc-marketing'),
             'adc-matching-datalayer-format'
         );
+
+        ADC_Admin_Help::advanced_end();
 
         echo '</div>';
     }

@@ -16,6 +16,27 @@ commit/tag de release — workflow-ul `version-bump.yml` nu rescrie dată; o fac
 responsabilul de release înainte de tag. Intrările viitoare `în lucru` rămân
 neatinse până la publicare.
 
+## [2.4.0] - 2026-11-07
+
+### Adăugat
+- Tab unic „Google Tag Manager" cu două carduri: container web (cu bifă proprie de activare) și Server GTM opțional, cu schemă în 3 pași și stare pe card.
+- Tab „Platforme": matrice Meta / GA4 / TikTok × browser / server cu avertismente calculate (dublare, container oprit, credențiale lipsă).
+- Rând de stare a canalelor în Dashboard; avertismentele sunt strânse într-un bloc pliabil.
+- Submeniuri în meniul din stânga al WordPress pentru fiecare secțiune principală, cu evidențiere corectă.
+- Indicator „Modificări nesalvate" și avertizare la părăsirea paginii.
+- Banner Adcelerum în antetul adminului, logo dreptunghiular nou.
+- Banner de consimțământ: secțiuni pliabile (Conținut · Aspect · Categorii) și previzualizare sticky.
+
+### Modificat
+- Pluginul apare consecvent ca „Adcelerum Commerce Hub" în admin.
+- „Testează conexiunea" folosește valorile curente din formular, fără să le salveze.
+- URL-ul containerului server se setează doar în tabul Google Tag Manager; lista de cookie-uri se gestionează doar în Scanner.
+- Retenția datelor Analytics este într-un bloc pliabil; texte de admin rescrise, fără prefixe repetate.
+- Optimizări responsive pentru panoul admin pe mobil.
+
+### Corectat
+- Bifele din admin (Server GTM, Meta, GA4, TikTok, Potrivire avansată, Jurnale) apăreau inversate față de starea reală.
+
 ## [2.3.1] - 2026-10-20
 
 ### Adăugat

@@ -163,6 +163,7 @@ function __return_true(): bool { return true; }
 function get_current_screen(): mixed { return null; }
 function do_shortcode(string $text): string { return $text; }
 function add_menu_page(mixed ...$args): string { return 'toplevel_page_adc-marketing'; }
+function add_submenu_page(mixed ...$args): string|false { return 'adc-marketing_page_x'; }
 function wp_print_inline_script_tag(string $script, array $attributes = array()): void {}
 function wp_parse_url(string $url, int $component = -1): array|string|int|false|null { return parse_url($url, $component); }
 function is_front_page(): bool { return false; }
@@ -308,6 +309,7 @@ $cart = new WC_Cart();
 $fixtures = array(
     'plugins_loaded' => array(), 'before_woocommerce_init' => array(),
     'admin_notices' => array(), 'admin_menu' => array(''), 'admin_head' => array(),
+    'parent_file' => array('index.php'), 'submenu_file' => array(null, 'index.php'),
     'admin_init' => array(), 'admin_enqueue_scripts' => array('other_page'),
     'in_footer' => array(), 'wp_enqueue_scripts' => array(), 'wp_head' => array(),
     'wp_footer' => array(), 'wp_body_open' => array(), 'init' => array(),

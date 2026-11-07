@@ -63,11 +63,18 @@ final class ADC_Admin_Tab_Tiktok implements ADC_Admin_Tab_Interface, ADC_Module_
                 'ajaxUrl'  => admin_url('admin-ajax.php'),
                 'nonce'    => wp_create_nonce('adc_admin'),
                 'platform' => 'tiktok',
+                // Unsaved form fields sent with the test (secret: empty keeps the stored value).
+                'fields'   => array(
+                    'pixel_code'      => array('id' => 'adc-tiktok-pixel-code'),
+                    'test_event_code' => array('id' => 'adc-tiktok-test-code'),
+                    'access_token'    => array('id' => 'adc-tiktok-access-token', 'secret' => true),
+                ),
                 'i18n'     => array(
-                    'testing' => __('Se testează conexiunea…', 'adc-marketing'),
-                    'ok'      => __('Conexiune reușită', 'adc-marketing'),
-                    'failed'  => __('Conexiunea a eșuat', 'adc-marketing'),
-                    'error'   => __('Eroare de rețea — încearcă din nou.', 'adc-marketing'),
+                    'testing'  => __('Se testează conexiunea…', 'adc-marketing'),
+                    'ok'       => __('Conexiune reușită', 'adc-marketing'),
+                    'failed'   => __('Conexiunea a eșuat', 'adc-marketing'),
+                    'error'    => __('Eroare de rețea — încearcă din nou.', 'adc-marketing'),
+                    'fromForm' => __('s-au folosit valorile curente din formular, fără salvare', 'adc-marketing'),
                 ),
             ),
             JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
@@ -80,7 +87,7 @@ final class ADC_Admin_Tab_Tiktok implements ADC_Admin_Tab_Interface, ADC_Module_
         wp_add_inline_script('adc-admin-shell', 'window.adcTiktokTest = ' . $config . ';', 'before');
         wp_add_inline_script(
             'adc-admin-shell',
-            '(function(){var b=document.getElementById("adc-tiktok-test"),o=document.getElementById("adc-tiktok-test-result");if(!b||!o||!window.adcTiktokTest){return}var c=window.adcTiktokTest,i=c.i18n;b.addEventListener("click",function(){b.disabled=true;o.textContent=i.testing;o.className="adc-test-result";var f=new FormData();f.append("action","adc_test_integration");f.append("platform",c.platform);f.append("nonce",c.nonce);fetch(c.ajaxUrl,{method:"POST",credentials:"same-origin",body:f}).then(function(r){return r.json()}).then(function(j){var d=j&&j.data?j.data:{},ok=!!(j&&j.success&&d.status==="sent");o.textContent=(ok?i.ok:i.failed)+(d.message?" — "+d.message:"");o.className="adc-test-result "+(ok?"adc-test-ok":"adc-test-fail")}).catch(function(){o.textContent=i.error;o.className="adc-test-result adc-test-fail"}).finally(function(){b.disabled=false})});})();'
+            '(function(){var b=document.getElementById("adc-tiktok-test"),o=document.getElementById("adc-tiktok-test-result");if(!b||!o||!window.adcTiktokTest){return}var c=window.adcTiktokTest,i=c.i18n;function v(el){return el&&typeof el.value==="string"?el.value:""}b.addEventListener("click",function(){b.disabled=true;o.textContent=i.testing;o.className="adc-test-result";var f=new FormData(),p={},n=0,k,spec,val;f.append("action","adc_test_integration");f.append("platform",c.platform);f.append("nonce",c.nonce);for(k in c.fields){if(!Object.prototype.hasOwnProperty.call(c.fields,k)){continue}spec=c.fields[k];val=v(document.getElementById(spec.id));if(""===val&&spec.secret){continue}p[k]=val;n=n+1}if(n>0){f.append("fields",JSON.stringify(p))}fetch(c.ajaxUrl,{method:"POST",credentials:"same-origin",body:f}).then(function(r){return r.json()}).then(function(j){var d=j&&j.data?j.data:{},ok=!!(j&&j.success&&d.status==="sent");o.textContent=(ok?i.ok:i.failed)+(d.message?" — "+d.message:"")+(d.from_form?" — "+i.fromForm:"");o.className="adc-test-result "+(ok?"adc-test-ok":"adc-test-fail")}).catch(function(){o.textContent=i.error;o.className="adc-test-result adc-test-fail"}).finally(function(){b.disabled=false})});})();'
         );
     }
 
@@ -117,6 +124,16 @@ final class ADC_Admin_Tab_Tiktok implements ADC_Admin_Tab_Interface, ADC_Module_
     }
 
     /**
+     * Master switch state for the page-head badge.
+     */
+    public function page_status(): ?bool
+    {
+        $s = ADC_Settings::all('tiktok');
+
+        return !empty($s['enabled_server']) || 'off' !== (string) ($s['browser_mode'] ?? 'off');
+    }
+
+    /**
      * Render the tab inner HTML (no form tag, no nonce — the shell wraps them).
      */
     public function render(): void
@@ -125,8 +142,8 @@ final class ADC_Admin_Tab_Tiktok implements ADC_Admin_Tab_Interface, ADC_Module_
         $has_token = '' !== ADC_Settings::secret('tiktok', 'access_token');
 
         ADC_Admin_Help::section(
-            __('TikTok — Events API & Pixel', 'adc-marketing'),
-            __('Ce face această secțiune: trimite evenimentele de magazin către TikTok pentru optimizarea reclamelor și crearea de publicuri.', 'adc-marketing'),
+            __('Conexiune', 'adc-marketing'),
+            __('Trimite evenimentele magazinului către TikTok, pentru optimizarea reclamelor și crearea de publicuri.', 'adc-marketing'),
             'adc-help-tiktok-data',
             $this->help_tiktok_data()
         );
@@ -135,7 +152,7 @@ final class ADC_Admin_Tab_Tiktok implements ADC_Admin_Tab_Interface, ADC_Module_
 
         ADC_Admin_Help::row(
             __('Trimitere server (Events API)', 'adc-marketing'),
-            '<label><input type="checkbox" name="enabled_server" value="1" ' . checked(!empty($s['enabled_server']), false, false) . ' /> ' . esc_html__('Activează trimiterea evenimentelor server-side către TikTok Events API', 'adc-marketing') . '</label>',
+            '<label><input type="checkbox" name="enabled_server" value="1" ' . checked(!empty($s['enabled_server']), true, false) . ' /> ' . esc_html__('Activează trimiterea evenimentelor server-side către TikTok Events API', 'adc-marketing') . '</label>',
             __('Pornește expedierea de pe server; evenimentele pleacă doar pentru vizitatorii cu consimțământ de marketing bifat.', 'adc-marketing'),
             null,
             'adc-help-tiktok-data-2',
@@ -177,21 +194,29 @@ final class ADC_Admin_Tab_Tiktok implements ADC_Admin_Tab_Interface, ADC_Module_
         );
 
         ADC_Admin_Help::row(
+            __('Testare conexiune', 'adc-marketing'),
+            '<p><button type="button" class="button" id="adc-tiktok-test">' . esc_html__('Testează conexiunea', 'adc-marketing') . '</button> <span class="adc-test-result" id="adc-tiktok-test-result" aria-live="polite"></span></p>',
+            __('Trimite un eveniment sintetic către Test Events; necesită cod pixel, token și cod de eveniment test salvate.', 'adc-marketing')
+        );
+
+        ADC_Admin_Help::advanced_start(
+            '',
+            __('Codul de eveniment test; folosește-l doar temporar, pentru verificare.', 'adc-marketing'),
+            '' !== (string) $s['test_event_code']
+        );
+
+        ADC_Admin_Help::row(
             __('Cod eveniment test', 'adc-marketing'),
             '<input type="text" id="adc-tiktok-test-code" name="test_event_code" value="' . esc_attr((string) $s['test_event_code']) . '" class="regular-text" maxlength="40" autocomplete="off" />',
             '' !== (string) $s['test_event_code']
                 ? __('Atenție: cu un cod de test activ, evenimentele ajung în Test Events, nu în rapoartele reale — ștergeți codul în producție.', 'adc-marketing')
-                : __('Gol = evenimente reale. Completat, evenimentele se directionează în Test Events pentru verificare.', 'adc-marketing'),
+                : __('Gol = evenimente reale. Completat, evenimentele se direcționează în Test Events pentru verificare.', 'adc-marketing'),
             'adc-tiktok-test-code',
             'adc-help-tiktok-test-code',
             '<p>' . esc_html__('Codul de test se generează în TikTok Events Manager → Test Events. Cât timp este salvat aici, evenimentele — inclusiv comenzile reale — apar doar în fereastra de test, nu în rapoartele campaniilor.', 'adc-marketing') . '</p><p>' . esc_html__('Folosiți-l temporar pentru verificare, apoi ștergeți câmpul și salvați; pluginul avertizează la fiecare salvare cât timp codul este activ.', 'adc-marketing') . '</p>'
         );
 
-        ADC_Admin_Help::row(
-            __('Testare conexiune', 'adc-marketing'),
-            '<p><button type="button" class="button" id="adc-tiktok-test">' . esc_html__('Testează conexiunea', 'adc-marketing') . '</button> <span class="adc-test-result" id="adc-tiktok-test-result" aria-live="polite"></span></p>',
-            __('Trimite un eveniment sintetic către Test Events; necesită cod pixel, token și cod de eveniment test salvate.', 'adc-marketing')
-        );
+        ADC_Admin_Help::advanced_end();
 
         echo '</div>';
     }

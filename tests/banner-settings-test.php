@@ -64,3 +64,47 @@ $proof = get_option(ADC_Consent_Banner::TEXTS_OPTION)[$hash];
 check($proof['texts']['labels'] === $config['labels'], 'consent proof labels match displayed labels');
 check($proof['texts']['labels']['reject'] === $defaults['reject_label'], 'legacy default proof records essential-only label');
 check(hash('sha256', (string) wp_json_encode($proof['texts'], JSON_UNESCAPED_UNICODE)) === $hash, 'consent text proof hash matches stored exact text');
+
+// ---- Banner tab: cookie summary + preserved inventory (list moved to the Cookies tab) ----
+
+require dirname(__DIR__) . '/includes/admin/interface-adc-admin-tab.php';
+require dirname(__DIR__) . '/includes/admin/trait-adc-admin-help-content.php';
+require dirname(__DIR__) . '/includes/admin/class-adc-admin-tab-banner.php';
+
+$rows = array(
+    array('name' => '_ga', 'category' => 'statistics', 'provider' => 'Google', 'purpose' => '', 'duration' => '2 ani', 'wildcard' => false),
+    array('name' => '_gid', 'category' => 'statistics', 'provider' => 'Google', 'purpose' => '', 'duration' => '1 zi', 'wildcard' => false),
+    array('name' => 'woocommerce_cart_hash', 'category' => 'necessary', 'provider' => 'Magazin', 'purpose' => '', 'duration' => 'sesiune', 'wildcard' => false),
+    array('name' => '_fbp', 'category' => '', 'provider' => '', 'purpose' => '', 'duration' => '', 'wildcard' => false),
+    array('name' => '', 'category' => 'marketing'),
+    'not a row',
+);
+$summary = ADC_Admin_Tab_Banner::inventory_summary($rows);
+check($summary['total'] === 4, 'summary counts only rows with a name');
+check($summary['categorized'] === 3, 'summary counts categorised cookies');
+check($summary['uncategorized'] === 1, 'summary counts cookies without a valid category');
+check($summary['by_category'] === array('necessary' => 1, 'preferences' => 0, 'statistics' => 2, 'marketing' => 0), 'summary buckets every known category');
+check(ADC_Admin_Tab_Banner::inventory_summary(array())['total'] === 0, 'empty inventory summarises to zero');
+check(
+    ADC_Admin_Tab_Banner::inventory_summary(array(array('name' => 'x_cookie', 'category' => 'bogus')))['categorized'] === 0,
+    'unknown categories are reported as uncategorised'
+);
+
+// Saving the Banner without the (now removed) textarea keeps the stored rows:
+// ADC_Consent_Banner::sanitize() only replaces the inventory when it is posted.
+$stored = array_replace($defaults, array('inventory' => $rows));
+$saved  = ADC_Consent_Banner::sanitize(array('title' => 'Titlu nou', 'shadow' => '1'), $stored);
+check($saved['title'] === 'Titlu nou', 'banner save applies the posted fields');
+// A save that does not post the list must keep the stored rows in place (the
+// regression would replace them with the built-in defaults).
+$kept = array_slice($saved['inventory'], 0, count($rows));
+check(array_column($kept, 'name') === array_column($rows, 'name'), 'banner save keeps the stored cookie rows');
+check(array_column($kept, 'category') === array_column($rows, 'category'), 'banner save keeps the stored cookie categories');
+
+// Structural guard: the tab renders three collapsible sections and no editable
+// cookie textarea; the list now lives in the "cookies" tab it links to.
+$source = (string) file_get_contents(dirname(__DIR__) . '/includes/admin/class-adc-admin-tab-banner.php');
+check(substr_count($source, 'data-adc-banner-section="') === 3, 'three collapsible sections');
+check(str_contains($source, "data-adc-banner-section=\"content\" open"), 'first section is open by default');
+check(!str_contains($source, 'name="adc_banner[inventory]"'), 'cookie list textarea removed from the Banner');
+check(str_contains($source, "'tab'  => 'cookies'"), 'summary links to the cookies tab');

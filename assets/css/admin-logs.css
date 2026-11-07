@@ -1,5 +1,8 @@
 /* ADC Marketing 2.0 — Logs & Debug tab styles (outbox table, status pills, actions).
- * Spacing/colors follow the shell tokens from admin-shell.css (fallback local). */
+ * Spacing/colors follow the shell tokens from admin-shell.css (DESIGN.md §7);
+ * literal fallbacks are palette values only. Status pills use the semantic
+ * tint pairs (§9: the legacy slate, bootstrap-alert and WP greens/reds are
+ * retired). */
 
 .adc-logs-counts {
     max-width: 420px;
@@ -16,11 +19,11 @@
 
 .adc-logs-result {
     font-size: 13px;
-    color: #2e7d32;
+    color: var(--adc-success, #13522a);
 }
 
 .adc-logs-result.is-error {
-    color: #e2401c;
+    color: var(--adc-danger, #8a2424);
 }
 
 .adc-logs-table {
@@ -29,7 +32,7 @@
 }
 
 .adc-logs-table .adc-logs-error-row td {
-    background: #fdf3f2;
+    background: var(--adc-danger-tint, #fcf0f0);
 }
 
 .adc-logs-table .adc-logs-error-row code {
@@ -40,32 +43,34 @@
 .adc-status {
     display: inline-block;
     padding: 2px 8px;
-    border-radius: 999px;
+    border-radius: var(--adc-radius-pill, 999px);
     font-size: 12px;
     line-height: 18px;
-    background: #eee;
+    background: var(--adc-surface-subtle, #f6f7f7);
+    color: var(--adc-muted, #50575e);
 }
 
 .adc-status--pending {
-    background: #fff3cd;
-    color: #6b5300;
+    background: var(--adc-warning-tint, #fcf6ee);
+    color: var(--adc-warning, #7a5311);
 }
 
 .adc-status--sent {
-    background: #d4edda;
-    color: #1d5c2e;
+    background: var(--adc-success-tint, #edf7f0);
+    color: var(--adc-success, #13522a);
 }
 
 .adc-status--dead {
-    background: #f8d7da;
-    color: #7d171c;
+    background: var(--adc-danger-tint, #fcf0f0);
+    color: var(--adc-danger, #8a2424);
 }
 
+/* "Skipped" states carry no semantic state — neutral surface + muted ink. */
 .adc-status--skipped,
 .adc-status--skipped_no_consent,
 .adc-status--skipped_disabled {
-    background: #e2e8f0;
-    color: #33445b;
+    background: var(--adc-surface-subtle, #f6f7f7);
+    color: var(--adc-muted, #50575e);
 }
 
 .adc-consent-lookup-result {

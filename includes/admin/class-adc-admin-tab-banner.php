@@ -158,6 +158,26 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
     }
 
     /**
+     * Page status: whether the consent banner is shown on the site (read-only).
+     */
+    public function page_status(): ?bool
+    {
+        $consent = ADC_Settings::all('consent');
+
+        return !empty($consent['enabled']);
+    }
+
+    /**
+     * Page status labels: [on, off].
+     *
+     * @return array{0: string, 1: string}
+     */
+    public function page_status_labels(): array
+    {
+        return array(__('Afișat pe site', 'adc-marketing'), __('Oprit', 'adc-marketing'));
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function group(): string
@@ -197,10 +217,31 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
         $radius = self::clamped_radius($banner['radius'] ?? null, $presets, $preset);
         $shadow = array_key_exists('shadow', $banner) ? (bool) $banner['shadow'] : true;
         $overlay = array_key_exists('overlay', $banner) ? (bool) $banner['overlay'] : true;
+
+        // The cookie list itself is owned by the "Scanner cookie-uri" tab (slug `cookies`);
+        // the Banner only reports how much of it is already categorised.
+        $summary = self::inventory_summary(is_array($banner['inventory'] ?? null) ? $banner['inventory'] : array());
+        $cookies = add_query_arg(
+            array(
+                'page' => ADC_Admin_Shell::PAGE_SLUG,
+                'tab'  => 'cookies',
+            ),
+            admin_url('admin.php')
+        );
         ?>
+
+        <div class="adc-banner-layout">
+            <div class="adc-banner-layout__main">
+                <details class="adc-banner-section" data-adc-banner-section="content" open>
+                    <summary class="adc-banner-section__summary">
+                        <span class="adc-banner-section__title"><?php esc_html_e('Conținut', 'adc-marketing'); ?></span>
+                        <span class="adc-banner-section__hint"><?php esc_html_e('Activarea bannerului, textele, butoanele și paginile legale.', 'adc-marketing'); ?></span>
+                    </summary>
+                    <div class="adc-banner-section__body">
+
         <?php ADC_Admin_Help::section(
             __('Activare', 'adc-marketing'),
-            __('Ce face această secțiune: decide dacă bannerul de consimțământ se afișează pe site și dacă vizitatorii trebuie întrebați din nou.', 'adc-marketing')
+            __('Decide dacă bannerul de consimțământ se afișează pe site și dacă vizitatorii sunt întrebați din nou.', 'adc-marketing')
         ); ?>
         <table class="form-table adc-form-table-plain" role="presentation"><tbody>
             <tr>
@@ -235,7 +276,7 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
 
         <?php ADC_Admin_Help::section(
             __('Texte', 'adc-marketing'),
-            __('Ce face această secțiune: controlează cuvintele exacte pe care vizitatorul le citește în banner și în managerul de consimțământ.', 'adc-marketing')
+            __('Cuvintele exacte pe care vizitatorul le citește în banner și în managerul de consimțământ.', 'adc-marketing')
         ); ?>
         <table class="form-table adc-form-table-plain" role="presentation"><tbody>
             <tr>
@@ -304,11 +345,16 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
             </tr>
         </tbody></table>
 
-        <div id="adc-banner-appearance" class="adc-settings-section">
-            <?php ADC_Admin_Help::section(
-                __('Aspect și poziție', 'adc-marketing'),
-                __('Ce face această secțiune: unde apare bannerul pe ecran, ce culori folosește și cum arată — cu previzualizare live.', 'adc-marketing')
-            ); ?>
+                    </div>
+                </details>
+
+                <details id="adc-banner-appearance" class="adc-banner-section" data-adc-banner-section="appearance">
+                    <summary class="adc-banner-section__summary">
+                        <span class="adc-banner-section__title"><?php esc_html_e('Aspect', 'adc-marketing'); ?></span>
+                        <span class="adc-banner-section__hint"><?php esc_html_e('Poziția, culorile și finisajele bannerului.', 'adc-marketing'); ?></span>
+                    </summary>
+                    <div class="adc-banner-section__body">
+                        <p class="adc-admin-section-intro"><?php esc_html_e('Alegi unde apare bannerul pe ecran, ce culori folosește și cum arată; previzualizarea din dreapta se actualizează imediat.', 'adc-marketing'); ?></p>
 
             <h3><?php esc_html_e('Preset culori', 'adc-marketing'); ?> <?php echo ADC_Admin_Help::icon('adc-help-banner-colors', __('Preset culori', 'adc-marketing'), $this->help_banner_colors()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- helper escapes its own output. ?></h3>
             <p class="description"><?php esc_html_e('Alegeți un preset pentru a completa automat culorile. Dacă modificați orice culoare, presetul trece pe „Particularizat”.', 'adc-marketing'); ?></p>
@@ -447,32 +493,16 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
 
             <p class="description adc-equal-note"><?php esc_html_e('Butoanele „Acceptă tot” și „Acceptă doar cele necesare” au aceeași mărime și greutate vizuală; diferă doar culoarea. Alegerea cookie-urilor necesare dezactivează categoriile opționale.', 'adc-marketing'); ?></p>
 
-            <h3><?php esc_html_e('Previzualizare live', 'adc-marketing'); ?> <?php echo ADC_Admin_Help::icon('adc-help-banner-preview', __('Previzualizare live', 'adc-marketing'), $this->help_banner_preview()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- helper escapes its own output. ?></h3>
-            <p>
-                <button type="button" class="button" id="adc-banner-reset"><?php esc_html_e('Resetează la preset', 'adc-marketing'); ?></button>
-            </p>
-            <div class="adc-banner-preview-screen" id="adc-banner-preview-screen">
-                <div class="adc-banner-preview-overlay" id="adc-banner-preview-overlay"<?php echo ('center_modal' === $layout && $overlay) ? '' : ' hidden'; ?>></div>
-                <div id="adc-consent-banner" class="adc-consent-banner" data-layout="<?php echo esc_attr($layout); ?>" data-preset="<?php echo esc_attr($preset); ?>" style="<?php echo esc_attr(self::style_string($colors, $radius, $shadow) . ADC_Consent_Banner::actions_style($banner)); ?>">
-                    <div class="adc-consent-banner__inner">
-                        <p class="adc-consent-banner__title" id="adc-banner-preview-title"><?php echo esc_html((string) ($banner['title'] ?? '')); ?></p>
-                        <p class="adc-consent-banner__message" id="adc-banner-preview-message"><?php echo esc_html(wp_strip_all_tags((string) ($banner['message'] ?? ''))); ?></p>
-                        <div class="adc-consent-banner__actions" id="adc-banner-preview-actions">
-                            <?php foreach (self::preview_order($banner) as $action) : ?>
-                                <button type="button" class="adc-consent-btn adc-consent-btn--<?php echo esc_attr($action); ?><?php echo 'customize' === $action ? '' : ' adc-consent-btn--equal'; ?>" data-adc-order="<?php echo esc_attr($action); ?>" id="adc-banner-preview-<?php echo esc_attr($action); ?>" tabindex="-1"><?php echo esc_html((string) ($banner[$action . '_label'] ?? '')); ?></button>
-                            <?php endforeach; ?>
-                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
+                </details>
 
-        <?php ADC_Admin_Help::section(
-            __('Categorii de cookie-uri', 'adc-marketing'),
-            __('Ce face această secțiune: definește alegerile pe care vizitatorul le poate face în banner — și ce se întâmplă pentru fiecare când le acordă sau refuză.', 'adc-marketing'),
-            'adc-help-consent-categories',
-            $this->help_consent_categories()
-        ); ?>
+                <details class="adc-banner-section" data-adc-banner-section="categories">
+                    <summary class="adc-banner-section__summary">
+                        <span class="adc-banner-section__title"><?php esc_html_e('Categorii', 'adc-marketing'); ?></span>
+                        <span class="adc-banner-section__hint"><?php esc_html_e('Alegerile din banner și cookie-urile declarate.', 'adc-marketing'); ?></span>
+                    </summary>
+                    <div class="adc-banner-section__body">
+                        <p class="adc-admin-section-intro"><?php esc_html_e('Alegerile pe care vizitatorul le poate face în banner și ce se întâmplă pentru fiecare când le acordă sau le refuză.', 'adc-marketing'); ?> <?php echo ADC_Admin_Help::icon('adc-help-consent-categories', __('Categorii de cookie-uri', 'adc-marketing'), $this->help_consent_categories()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- helper escapes its own output. ?></p>
         <table class="form-table adc-form-table-plain" role="presentation"><tbody>
             <?php foreach (ADC_Consent_Banner::CATEGORIES as $category) : ?>
                 <tr>
@@ -495,16 +525,69 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
             <?php endforeach; ?>
         </tbody></table>
 
-        <?php ADC_Admin_Help::section(
-            __('Lista cookie-urilor', 'adc-marketing'),
-            __('Ce face această secțiune: umple tabelul de cookie-uri din managerul de consimțământ, pentru transparență și conformitate.', 'adc-marketing'),
-            'adc-help-cookie-inventory',
-            $this->help_cookie_inventory()
-        ); ?>
-        <p class="description">
-            <?php esc_html_e('Un cookie pe linie: nume | categorie (necessary, preferences, statistics, marketing) | furnizor | scop | durată | prefix (da/nu). Pentru prefix, scrieți „da” sau adăugați * la nume.', 'adc-marketing'); ?>
-        </p>
-        <textarea class="large-text code" rows="12" name="adc_banner[inventory]"><?php echo esc_textarea(self::inventory_to_text(is_array($banner['inventory'] ?? null) ? $banner['inventory'] : array())); ?></textarea>
+        <h3><?php esc_html_e('Cookie-uri declarate', 'adc-marketing'); ?> <?php echo ADC_Admin_Help::icon('adc-help-cookie-inventory', __('Cookie-uri declarate', 'adc-marketing'), $this->help_cookie_inventory()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- helper escapes its own output. ?></h3>
+        <div class="adc-banner-cookies">
+            <p class="adc-banner-cookies__figure">
+                <?php
+                printf(
+                    /* translators: 1: number of cookies in the inventory, 2: number of cookies that have a category. */
+                    esc_html__('%1$s cookie-uri în inventar, %2$s categorisite', 'adc-marketing'),
+                    esc_html((string) $summary['total']),
+                    esc_html((string) $summary['categorized'])
+                );
+                ?>
+            </p>
+            <?php if ($summary['total'] > 0) : ?>
+                <ul class="adc-banner-cookies__pills">
+                    <?php foreach ($summary['by_category'] as $category => $count) : ?>
+                        <li class="adc-banner-cookies__pill">
+                            <?php echo esc_html((string) ($banner['category_labels'][$category] ?? $category)); ?>
+                            <span class="adc-banner-cookies__count"><?php echo esc_html((string) $count); ?></span>
+                        </li>
+                    <?php endforeach; ?>
+                    <?php if ($summary['uncategorized'] > 0) : ?>
+                        <li class="adc-banner-cookies__pill adc-banner-cookies__pill--todo">
+                            <?php esc_html_e('Necategorisite', 'adc-marketing'); ?>
+                            <span class="adc-banner-cookies__count"><?php echo esc_html((string) $summary['uncategorized']); ?></span>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+            <?php else : ?>
+                <p class="description"><?php esc_html_e('Niciun cookie nu este în inventar încă: rulați o scanare pentru a-i detecta pe cei folosiți de site.', 'adc-marketing'); ?></p>
+            <?php endif; ?>
+            <p class="description"><?php esc_html_e('Lista de cookie-uri se editează acum într-un singur loc, în tabul „Scanner cookie-uri”; aici rămâne doar rezumatul.', 'adc-marketing'); ?></p>
+            <p>
+                <a class="button" href="<?php echo esc_url($cookies); ?>"><?php esc_html_e('Deschide Scanner cookie-uri', 'adc-marketing'); ?></a>
+            </p>
+        </div>
+                    </div>
+                </details>
+            </div>
+
+            <aside class="adc-banner-layout__aside" aria-label="<?php esc_attr_e('Previzualizare banner', 'adc-marketing'); ?>">
+                <div class="adc-banner-preview-panel">
+                    <h2 class="adc-banner-preview-panel__title"><?php esc_html_e('Previzualizare live', 'adc-marketing'); ?> <?php echo ADC_Admin_Help::icon('adc-help-banner-preview', __('Previzualizare live', 'adc-marketing'), $this->help_banner_preview()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- helper escapes its own output. ?></h2>
+                    <p class="description"><?php esc_html_e('Se actualizează imediat ce modificați textele, poziția sau culorile.', 'adc-marketing'); ?></p>
+                    <p>
+                        <button type="button" class="button" id="adc-banner-reset"><?php esc_html_e('Resetează la preset', 'adc-marketing'); ?></button>
+                    </p>
+                    <div class="adc-banner-preview-screen" id="adc-banner-preview-screen">
+                        <div class="adc-banner-preview-overlay" id="adc-banner-preview-overlay"<?php echo ('center_modal' === $layout && $overlay) ? '' : ' hidden'; ?>></div>
+                        <div id="adc-consent-banner" class="adc-consent-banner" data-layout="<?php echo esc_attr($layout); ?>" data-preset="<?php echo esc_attr($preset); ?>" style="<?php echo esc_attr(self::style_string($colors, $radius, $shadow) . ADC_Consent_Banner::actions_style($banner)); ?>">
+                            <div class="adc-consent-banner__inner">
+                                <p class="adc-consent-banner__title" id="adc-banner-preview-title"><?php echo esc_html((string) ($banner['title'] ?? '')); ?></p>
+                                <p class="adc-consent-banner__message" id="adc-banner-preview-message"><?php echo esc_html(wp_strip_all_tags((string) ($banner['message'] ?? ''))); ?></p>
+                                <div class="adc-consent-banner__actions" id="adc-banner-preview-actions">
+                                    <?php foreach (self::preview_order($banner) as $action) : ?>
+                                        <button type="button" class="adc-consent-btn adc-consent-btn--<?php echo esc_attr($action); ?><?php echo 'customize' === $action ? '' : ' adc-consent-btn--equal'; ?>" data-adc-order="<?php echo esc_attr($action); ?>" id="adc-banner-preview-<?php echo esc_attr($action); ?>" tabindex="-1"><?php echo esc_html((string) ($banner[$action . '_label'] ?? '')); ?></button>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
         <?php
     }
 
@@ -526,7 +609,13 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
         $input['show_floating_button'] = isset($raw['show_floating_button']);
         $input['shadow']               = !empty($raw['shadow']);
         $input['overlay']              = !empty($raw['overlay']);
-        $input['inventory']            = self::text_to_inventory((string) ($raw['inventory'] ?? ''));
+        // The cookie list is edited in the "Scanner cookie-uri" tab now. The textarea is
+        // no longer rendered, so a missing (or empty) value must not wipe the stored rows:
+        // ADC_Consent_Banner::sanitize() keeps the current inventory when the key is absent.
+        $inventory_text = isset($raw['inventory']) && is_string($raw['inventory']) ? trim((string) $raw['inventory']) : '';
+        if ('' !== $inventory_text) {
+            $input['inventory'] = self::text_to_inventory($inventory_text);
+        }
         $stored                        = ADC_Settings::update('banner', $input);
 
         // Activation and policy version live in the consent group (owned by C2).
@@ -1100,38 +1189,39 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
     }
 
     /**
-     * Inventory rows to editable text (one cookie per line).
+     * Count the cookie inventory for the "Categorii" summary.
      *
-     * @param array $rows Inventory rows.
-     * @return string
+     * The list itself is edited in the "Scanner cookie-uri" tab (single source);
+     * the Banner tab only reports it, so this helper stays local and read-only.
+     *
+     * @param array $rows Stored inventory rows.
+     * @return array{total: int, categorized: int, uncategorized: int, by_category: array<string, int>}
      */
-    private static function inventory_to_text(array $rows): string
+    public static function inventory_summary(array $rows): array
     {
-        $lines = array();
+        $by_category = array_fill_keys(ADC_Consent_Banner::CATEGORIES, 0);
+        $total       = 0;
+        $categorized = 0;
 
         foreach ($rows as $row) {
-            if (!is_array($row)) {
+            if (!is_array($row) || '' === trim((string) ($row['name'] ?? ''))) {
                 continue;
             }
-            // "|" is the field separator: a pipe inside a field would shift every later column on save.
-            $lines[] = implode(
-                ' | ',
-                str_replace(
-                    array('|', "\r", "\n"),
-                    array('/', ' ', ' '),
-                    array(
-                        (string) ($row['name'] ?? '') . (!empty($row['wildcard']) ? '*' : ''),
-                        (string) ($row['category'] ?? ''),
-                        (string) ($row['provider'] ?? ''),
-                        (string) ($row['purpose'] ?? ''),
-                        (string) ($row['duration'] ?? ''),
-                        !empty($row['wildcard']) ? 'da' : 'nu',
-                    )
-                )
-            );
+
+            ++$total;
+            $category = (string) ($row['category'] ?? '');
+            if (isset($by_category[$category])) {
+                ++$by_category[$category];
+                ++$categorized;
+            }
         }
 
-        return implode("\n", $lines);
+        return array(
+            'total'         => $total,
+            'categorized'   => $categorized,
+            'uncategorized' => $total - $categorized,
+            'by_category'   => $by_category,
+        );
     }
 
     /**

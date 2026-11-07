@@ -172,7 +172,7 @@ trait ADC_Admin_Help_Content
         return '<p>' . esc_html__('Jurnalul (outbox) este coada internă de expediere: fiecare eveniment generat de plugin primește o înregistrare pe platformă (meta, ga4, tiktok), care se procesează prin Action Scheduler.', 'adc-marketing') . '</p>'
             . '<p><strong>' . esc_html__('Ce stochează:', 'adc-marketing') . '</strong> ' . esc_html__('numele evenimentului, platforma, ID-ul comenzii (dacă există), payload-ul JSON trimis, starea, numărul de încercări, codul HTTP primit și ultimul mesaj de eroare. În payload apar doar hash-uri SHA-256, nu date personale în clar.', 'adc-marketing') . '</p>'
             . '<p><strong>' . esc_html__('Stări:', 'adc-marketing') . '</strong> «' . esc_html__('În așteptare', 'adc-marketing') . '» — ' . esc_html__('de trimis;', 'adc-marketing') . ' «' . esc_html__('Trimis', 'adc-marketing') . '» — ' . esc_html__('confirmat de platformă;', 'adc-marketing') . ' «' . esc_html__('Eșuat definitiv', 'adc-marketing') . '» — ' . esc_html__('după epuizarea reîncercărilor;', 'adc-marketing') . ' «' . esc_html__('Omis', 'adc-marketing') . '» — ' . esc_html__('fără consimțământ sau integrare dezactivată.', 'adc-marketing') . '</p>'
-            . '<p><strong>' . esc_html__('Retenție:', 'adc-marketing') . '</strong> ' . esc_html__('rândurile „Trimis” se șterg după 14 zile, cele „Eșuat definitiv” după 30 de zile (modificabil din tabul „Evenimente & GTM”). Butonul „Curăță jurnalul” aplică imediat aceste limite. Conținutul jurnalului este vizibil doar administratorilor.', 'adc-marketing') . '</p>';
+            . '<p><strong>' . esc_html__('Retenție:', 'adc-marketing') . '</strong> ' . esc_html__('rândurile „Trimis” se șterg după 14 zile, cele „Eșuat definitiv” după 30 de zile (modificabil din tabul „Evenimente”). Butonul „Curăță jurnalul” aplică imediat aceste limite. Conținutul jurnalului este vizibil doar administratorilor.', 'adc-marketing') . '</p>';
     }
 
     /**
@@ -204,6 +204,17 @@ trait ADC_Admin_Help_Content
             . '<li><strong>' . esc_html__('Întotdeauna (cu setări implicite)', 'adc-marketing') . '</strong> — ' . esc_html__('containerul se încarcă imediat, dar tag-urile de marketing/statistici rămân blocate de Consent Mode până la decizia vizitatorului.', 'adc-marketing') . '</li>'
             . '<li><strong>' . esc_html__('Doar după consimțământ', 'adc-marketing') . '</strong> — ' . esc_html__('scriptul gtm.js este cerut de la server abia după ce vizitatorul acceptă statistici sau marketing; variantă mai strictă, dar primul eveniment poate lipsi.', 'adc-marketing') . '</li>'
             . '</ul>';
+    }
+
+    /**
+     * Unified GTM tab: how the browser, web container and optional server
+     * container relate (plain-language schema explanation).
+     */
+    protected function help_gtm_schema(): string
+    {
+        return '<p>' . esc_html__('Măsurarea are maximum trei pași: vizitatorul deschide site-ul în browser; containerul web (GTM-…) se încarcă în pagină și scrie evenimentele în dataLayer; dacă Server GTM este activat, evenimentele trec mai întâi prin containerul de pe serverul dumneavoastră înainte să ajungă la GA4, Meta sau TikTok.', 'adc-marketing') . '</p>'
+            . '<p>' . esc_html__('Cardul „Container web” este suficient pentru majoritatea magazinelor. Cardul „Server GTM” este opțional: fără un URL de container server salvat, pasul 3 este ignorat complet și nimic din ce aveți deja configurat nu se schimbă.', 'adc-marketing') . '</p>'
+            . '<p>' . esc_html__('Statusul de lângă titlul fiecărui card arată pe loc dacă pasul respectiv este activ, dezactivat din bifă sau așteaptă o valoare lipsă (ID-ul, respectiv URL-ul).', 'adc-marketing') . '</p>';
     }
 
     /**
@@ -390,7 +401,7 @@ trait ADC_Admin_Help_Content
     {
         return '<p>' . esc_html__('Ar însemna să numărăm de câte ori a fost adăugat fiecare produs în coș, pe zi, ca să vedeți ce articole stârnesc intenție de cumpărare înainte de plasarea comenzii.', 'adc-marketing') . '</p>'
             . '<p><strong>' . esc_html__('De ce este indisponibil acum:', 'adc-marketing') . '</strong> ' . esc_html__('adăugarea în coș este un semnal de intenție, folosit în mod normal pentru publicuri asemănătoare și retargetare, deci pentru marketing — are nevoie de un temei juridic separat și de consimțământ pe categoria respectivă. În plus, produsul poate fi adăugat și prin Store API / AJAX, iar un contor bazat doar pe hook-ul clasic WooCommerce ar fi incomplet, deci înșelător.', 'adc-marketing') . '</p>'
-            . '<p>' . esc_html__('Ce aveți în schimb: topul produselor vândute, din comenzi plătite, este disponibil în Dashboard și este complet, pentru că pornește de la comanda fermă.', 'adc-marketing') . '</p>';
+            . '<p>' . esc_html__('Ce aveți în schimb: topul produselor vândute, din comenzi plătite, este disponibil în Prezentare generală și este complet, pentru că pornește de la comanda fermă.', 'adc-marketing') . '</p>';
     }
 
     /**
@@ -473,7 +484,7 @@ trait ADC_Admin_Help_Content
             . '<li>' . esc_html__('O diferență mai mare decât pragul de alertare este marcată cu „necesită atenție”. Nimic nu este corectat automat.', 'adc-marketing') . '</li>'
             . '</ul>'
             . '<p><strong>' . esc_html__('Ce puteți face:', 'adc-marketing') . '</strong> ' . esc_html__('reconstruirea agregatelor pentru o perioadă recitește comenzile și suprascrie cifrele pe zile. Este o operațiune internă: nu trimite date nicăieri și nu modifică comenzile.', 'adc-marketing') . '</p>'
-            . '<p>' . esc_html__('Până la reconstrucție, cifrele din Dashboard rămân cele din agregate; diferențele de aici nu se adaugă la venit.', 'adc-marketing') . '</p>';
+            . '<p>' . esc_html__('Până la reconstrucție, cifrele din Prezentare generală rămân cele din agregate; diferențele de aici nu se adaugă la venit.', 'adc-marketing') . '</p>';
     }
 
     /**

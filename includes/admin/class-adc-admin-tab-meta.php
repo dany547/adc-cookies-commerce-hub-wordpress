@@ -66,11 +66,18 @@ final class ADC_Admin_Tab_Meta implements ADC_Admin_Tab_Interface, ADC_Module_In
                 'ajaxUrl'  => admin_url('admin-ajax.php'),
                 'nonce'    => wp_create_nonce('adc_admin'),
                 'platform' => 'meta',
+                // Unsaved form fields sent with the test (secret: empty keeps the stored value).
+                'fields'   => array(
+                    'pixel_id'        => array('id' => 'adc-meta-pixel-id'),
+                    'test_event_code' => array('id' => 'adc-meta-test-code'),
+                    'access_token'    => array('id' => 'adc-meta-access-token', 'secret' => true),
+                ),
                 'i18n'     => array(
-                    'testing' => __('Se testează conexiunea…', 'adc-marketing'),
-                    'ok'      => __('Conexiune reușită', 'adc-marketing'),
-                    'failed'  => __('Conexiunea a eșuat', 'adc-marketing'),
-                    'error'   => __('Eroare de rețea — încearcă din nou.', 'adc-marketing'),
+                    'testing'  => __('Se testează conexiunea…', 'adc-marketing'),
+                    'ok'       => __('Conexiune reușită', 'adc-marketing'),
+                    'failed'   => __('Conexiunea a eșuat', 'adc-marketing'),
+                    'error'    => __('Eroare de rețea — încearcă din nou.', 'adc-marketing'),
+                    'fromForm' => __('s-au folosit valorile curente din formular, fără salvare', 'adc-marketing'),
                 ),
             ),
             JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
@@ -83,7 +90,7 @@ final class ADC_Admin_Tab_Meta implements ADC_Admin_Tab_Interface, ADC_Module_In
         wp_add_inline_script('adc-admin-shell', 'window.adcMetaTest = ' . $config . ';', 'before');
         wp_add_inline_script(
             'adc-admin-shell',
-            '(function(){var b=document.getElementById("adc-meta-test"),o=document.getElementById("adc-meta-test-result");if(!b||!o||!window.adcMetaTest){return}var c=window.adcMetaTest,i=c.i18n;b.addEventListener("click",function(){b.disabled=true;o.textContent=i.testing;o.className="adc-test-result";var f=new FormData();f.append("action","adc_test_integration");f.append("platform",c.platform);f.append("nonce",c.nonce);fetch(c.ajaxUrl,{method:"POST",credentials:"same-origin",body:f}).then(function(r){return r.json()}).then(function(j){var d=j&&j.data?j.data:{},ok=!!(j&&j.success&&d.status==="sent");o.textContent=(ok?i.ok:i.failed)+(d.message?" — "+d.message:"");o.className="adc-test-result "+(ok?"adc-test-ok":"adc-test-fail")}).catch(function(){o.textContent=i.error;o.className="adc-test-result adc-test-fail"}).finally(function(){b.disabled=false})});})();'
+            '(function(){var b=document.getElementById("adc-meta-test"),o=document.getElementById("adc-meta-test-result");if(!b||!o||!window.adcMetaTest){return}var c=window.adcMetaTest,i=c.i18n;function v(el){return el&&typeof el.value==="string"?el.value:""}b.addEventListener("click",function(){b.disabled=true;o.textContent=i.testing;o.className="adc-test-result";var f=new FormData(),p={},n=0,k,spec,val;f.append("action","adc_test_integration");f.append("platform",c.platform);f.append("nonce",c.nonce);for(k in c.fields){if(!Object.prototype.hasOwnProperty.call(c.fields,k)){continue}spec=c.fields[k];val=v(document.getElementById(spec.id));if(""===val&&spec.secret){continue}p[k]=val;n=n+1}if(n>0){f.append("fields",JSON.stringify(p))}fetch(c.ajaxUrl,{method:"POST",credentials:"same-origin",body:f}).then(function(r){return r.json()}).then(function(j){var d=j&&j.data?j.data:{},ok=!!(j&&j.success&&d.status==="sent");o.textContent=(ok?i.ok:i.failed)+(d.message?" — "+d.message:"")+(d.from_form?" — "+i.fromForm:"");o.className="adc-test-result "+(ok?"adc-test-ok":"adc-test-fail")}).catch(function(){o.textContent=i.error;o.className="adc-test-result adc-test-fail"}).finally(function(){b.disabled=false})});})();'
         );
     }
 
@@ -120,6 +127,16 @@ final class ADC_Admin_Tab_Meta implements ADC_Admin_Tab_Interface, ADC_Module_In
     }
 
     /**
+     * Master switch state for the page-head badge.
+     */
+    public function page_status(): ?bool
+    {
+        $s = ADC_Settings::all('meta');
+
+        return !empty($s['enabled_server']) || 'off' !== (string) ($s['browser_mode'] ?? 'off');
+    }
+
+    /**
      * Render the tab inner HTML (no form tag, no nonce — the shell wraps them).
      */
     public function render(): void
@@ -128,8 +145,8 @@ final class ADC_Admin_Tab_Meta implements ADC_Admin_Tab_Interface, ADC_Module_In
         $has_token = '' !== ADC_Settings::secret('meta', 'access_token');
 
         ADC_Admin_Help::section(
-            __('Meta — Conversions API & Pixel', 'adc-marketing'),
-            __('Ce face această secțiune: conectează magazinul la Meta (Facebook/Instagram) pentru ca evenimentele — produse, coș, comenzi — să ajungă la reclame și publicuri.', 'adc-marketing'),
+            __('Conexiune', 'adc-marketing'),
+            __('Pixelul rulează în browser, Conversions API trimite aceleași evenimente de pe server.', 'adc-marketing'),
             'adc-help-meta-data',
             $this->help_meta_data()
         );
@@ -138,7 +155,7 @@ final class ADC_Admin_Tab_Meta implements ADC_Admin_Tab_Interface, ADC_Module_In
 
         ADC_Admin_Help::row(
             __('Trimitere server (CAPI)', 'adc-marketing'),
-            '<label><input type="checkbox" name="enabled_server" value="1" ' . checked(!empty($s['enabled_server']), false, false) . ' /> ' . esc_html__('Activează trimiterea evenimentelor server-side către Conversions API', 'adc-marketing') . '</label>',
+            '<label><input type="checkbox" name="enabled_server" value="1" ' . checked(!empty($s['enabled_server']), true, false) . ' /> ' . esc_html__('Activează trimiterea evenimentelor server-side către Conversions API', 'adc-marketing') . '</label>',
             __('Pornește expedierea de pe server; evenimentele pleacă doar pentru vizitatorii cu consimțământ de marketing bifat.', 'adc-marketing'),
             null,
             'adc-help-meta-data-2',
@@ -180,6 +197,18 @@ final class ADC_Admin_Tab_Meta implements ADC_Admin_Tab_Interface, ADC_Module_In
         );
 
         ADC_Admin_Help::row(
+            __('Testare conexiune', 'adc-marketing'),
+            '<p><button type="button" class="button" id="adc-meta-test">' . esc_html__('Testează conexiunea', 'adc-marketing') . '</button> <span class="adc-test-result" id="adc-meta-test-result" aria-live="polite"></span></p>',
+            __('Trimite un eveniment sintetic către Test Events; necesită Pixel/Dataset ID, token și cod de eveniment test salvate.', 'adc-marketing')
+        );
+
+        ADC_Admin_Help::advanced_start(
+            '',
+            __('Versiunea API și codul de eveniment test; schimbă-le doar dacă ai un motiv concret.', 'adc-marketing'),
+            '' !== (string) $s['test_event_code']
+        );
+
+        ADC_Admin_Help::row(
             __('Versiune API Graph', 'adc-marketing'),
             '<input type="text" id="adc-meta-api-version" name="api_version" value="' . esc_attr((string) $s['api_version']) . '" class="small-text" maxlength="10" />',
             __('Versiunea API Meta folosită la trimitere (ex. v26.0); schimbați doar la cererea platformei.', 'adc-marketing'),
@@ -191,17 +220,13 @@ final class ADC_Admin_Tab_Meta implements ADC_Admin_Tab_Interface, ADC_Module_In
             '<input type="text" id="adc-meta-test-code" name="test_event_code" value="' . esc_attr((string) $s['test_event_code']) . '" class="regular-text" maxlength="40" autocomplete="off" />',
             '' !== (string) $s['test_event_code']
                 ? __('Atenție: cu un cod de test activ, evenimentele nu mai ajung în rapoartele reale — ștergeți codul în producție.', 'adc-marketing')
-                : __('Gol = evenimente reale. Completat, toate evenimentele se directionează doar în Test Events.', 'adc-marketing'),
+                : __('Gol = evenimente reale. Completat, toate evenimentele se direcționează doar în Test Events.', 'adc-marketing'),
             'adc-meta-test-code',
             'adc-help-meta-test-code',
             '<p>' . esc_html__('Codul de eveniment test (TEST123...) se generează în Meta Events Manager → Test Events. Cât timp este salvat aici, NICIUN eveniment nu mai este raportat ca producție — toate merg în fereastra de test, inclusiv comenzile reale.', 'adc-marketing') . '</p><p>' . esc_html__('Folosiți-l temporar pentru verificare, apoi ștergeți câmpul și salvați. Pluginul afișează un avertisment la fiecare salvare cât timp codul este activ.', 'adc-marketing') . '</p>'
         );
 
-        ADC_Admin_Help::row(
-            __('Testare conexiune', 'adc-marketing'),
-            '<p><button type="button" class="button" id="adc-meta-test">' . esc_html__('Testează conexiunea', 'adc-marketing') . '</button> <span class="adc-test-result" id="adc-meta-test-result" aria-live="polite"></span></p>',
-            __('Trimite un eveniment sintetic către Test Events; necesită Pixel/Dataset ID, token și cod de eveniment test salvate.', 'adc-marketing')
-        );
+        ADC_Admin_Help::advanced_end();
 
         echo '</div>';
 

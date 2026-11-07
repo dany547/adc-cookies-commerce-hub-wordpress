@@ -86,7 +86,7 @@ final class ADC_Admin_Help
     }
 
     /**
-     * Section heading with a one-line introduction ("Ce face această secțiune").
+     * Section heading with a one-line, direct introduction.
      *
      * Call inside a tab's render(). The heading + intro travel together in one
      * echo of pre-escaped HTML.
@@ -139,6 +139,55 @@ final class ADC_Admin_Help
             echo '<p class="adc-help-row__desc">' . esc_html($desc) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped above.
         }
         echo '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- closing tag.
+    }
+
+    /**
+     * Open a collapsible "advanced" block (native <details>, closed by default).
+     *
+     * Pair every call with advanced_end(). Controls inside keep their name=/id=,
+     * so a closed block still submits its values with the form.
+     *
+     * @param string $summary Visible summary text (plain text, translated by the caller).
+     * @param string $hint    Optional one-line muted hint next to the summary.
+     * @param bool   $open    Whether the block starts open.
+     */
+    public static function advanced_start(string $summary = '', string $hint = '', bool $open = false): void
+    {
+        if ('' === $summary) {
+            $summary = __('Setări avansate', 'adc-marketing');
+        }
+
+        echo '<details class="adc-advanced"' . ($open ? ' open' : '') . '><summary class="adc-advanced__summary">' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static markup.
+            . '<span class="adc-advanced__title">' . esc_html($summary) . '</span>'
+            . ('' !== $hint ? '<span class="adc-advanced__hint">' . esc_html($hint) . '</span>' : '')
+            . '</summary><div class="adc-advanced__body">';
+    }
+
+    /**
+     * Close a block opened by advanced_start().
+     */
+    public static function advanced_end(): void
+    {
+        echo '</div></details>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- closing tags.
+    }
+
+    /**
+     * Active / inactive status as text + icon (never colour alone).
+     *
+     * @param bool        $on        Current state.
+     * @param string|null $on_label  Label when active (default "Activ").
+     * @param string|null $off_label Label when inactive (default "Inactiv").
+     * @return string Escaped HTML.
+     */
+    public static function status(bool $on, ?string $on_label = null, ?string $off_label = null): string
+    {
+        $label = $on
+            ? ($on_label ?? __('Activ', 'adc-marketing'))
+            : ($off_label ?? __('Inactiv', 'adc-marketing'));
+
+        return '<span class="adc-status adc-status--' . ($on ? 'on' : 'off') . '">'
+            . '<span class="dashicons ' . ($on ? 'dashicons-yes-alt' : 'dashicons-minus') . '" aria-hidden="true"></span>'
+            . esc_html($label) . '</span>';
     }
 
     /**

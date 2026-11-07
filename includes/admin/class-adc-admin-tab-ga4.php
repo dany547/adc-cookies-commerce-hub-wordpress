@@ -66,11 +66,17 @@ final class ADC_Admin_Tab_Ga4 implements ADC_Admin_Tab_Interface, ADC_Module_Int
                 'ajaxUrl'  => admin_url('admin-ajax.php'),
                 'nonce'    => wp_create_nonce('adc_admin'),
                 'platform' => 'ga4',
+                // Unsaved form fields sent with the test (secret: empty keeps the stored value).
+                'fields'   => array(
+                    'measurement_id' => array('id' => 'adc-ga4-measurement-id'),
+                    'api_secret'     => array('id' => 'adc-ga4-api-secret', 'secret' => true),
+                ),
                 'i18n'     => array(
-                    'testing' => __('Se testează conexiunea…', 'adc-marketing'),
-                    'ok'      => __('Conexiune reușită', 'adc-marketing'),
-                    'failed'  => __('Conexiunea a eșuat', 'adc-marketing'),
-                    'error'   => __('Eroare de rețea — încearcă din nou.', 'adc-marketing'),
+                    'testing'  => __('Se testează conexiunea…', 'adc-marketing'),
+                    'ok'       => __('Conexiune reușită', 'adc-marketing'),
+                    'failed'   => __('Conexiunea a eșuat', 'adc-marketing'),
+                    'error'    => __('Eroare de rețea — încearcă din nou.', 'adc-marketing'),
+                    'fromForm' => __('s-au folosit valorile curente din formular, fără salvare', 'adc-marketing'),
                 ),
             ),
             JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
@@ -83,7 +89,7 @@ final class ADC_Admin_Tab_Ga4 implements ADC_Admin_Tab_Interface, ADC_Module_Int
         wp_add_inline_script('adc-admin-shell', 'window.adcGa4Test = ' . $config . ';', 'before');
         wp_add_inline_script(
             'adc-admin-shell',
-            '(function(){var b=document.getElementById("adc-ga4-test"),o=document.getElementById("adc-ga4-test-result");if(!b||!o||!window.adcGa4Test){return}var c=window.adcGa4Test,i=c.i18n;b.addEventListener("click",function(){b.disabled=true;o.textContent=i.testing;o.className="adc-test-result";var f=new FormData();f.append("action","adc_test_integration");f.append("platform",c.platform);f.append("nonce",c.nonce);fetch(c.ajaxUrl,{method:"POST",credentials:"same-origin",body:f}).then(function(r){return r.json()}).then(function(j){var d=j&&j.data?j.data:{},ok=!!(j&&j.success&&d.status==="sent");o.textContent=(ok?i.ok:i.failed)+(d.message?" — "+d.message:"");o.className="adc-test-result "+(ok?"adc-test-ok":"adc-test-fail")}).catch(function(){o.textContent=i.error;o.className="adc-test-result adc-test-fail"}).finally(function(){b.disabled=false})});})();'
+            '(function(){var b=document.getElementById("adc-ga4-test"),o=document.getElementById("adc-ga4-test-result");if(!b||!o||!window.adcGa4Test){return}var c=window.adcGa4Test,i=c.i18n;function v(el){return el&&typeof el.value==="string"?el.value:""}b.addEventListener("click",function(){b.disabled=true;o.textContent=i.testing;o.className="adc-test-result";var f=new FormData(),p={},n=0,k,spec,val;f.append("action","adc_test_integration");f.append("platform",c.platform);f.append("nonce",c.nonce);for(k in c.fields){if(!Object.prototype.hasOwnProperty.call(c.fields,k)){continue}spec=c.fields[k];val=v(document.getElementById(spec.id));if(""===val&&spec.secret){continue}p[k]=val;n=n+1}if(n>0){f.append("fields",JSON.stringify(p))}fetch(c.ajaxUrl,{method:"POST",credentials:"same-origin",body:f}).then(function(r){return r.json()}).then(function(j){var d=j&&j.data?j.data:{},ok=!!(j&&j.success&&d.status==="sent");o.textContent=(ok?i.ok:i.failed)+(d.message?" — "+d.message:"")+(d.from_form?" — "+i.fromForm:"");o.className="adc-test-result "+(ok?"adc-test-ok":"adc-test-fail")}).catch(function(){o.textContent=i.error;o.className="adc-test-result adc-test-fail"}).finally(function(){b.disabled=false})});})();'
         );
     }
 
@@ -120,6 +126,16 @@ final class ADC_Admin_Tab_Ga4 implements ADC_Admin_Tab_Interface, ADC_Module_Int
     }
 
     /**
+     * Master switch state for the page-head badge.
+     */
+    public function page_status(): ?bool
+    {
+        $s = ADC_Settings::all('ga4');
+
+        return !empty($s['enabled_server']);
+    }
+
+    /**
      * Render the tab inner HTML (no form tag, no nonce — the shell wraps them).
      */
     public function render(): void
@@ -128,8 +144,8 @@ final class ADC_Admin_Tab_Ga4 implements ADC_Admin_Tab_Interface, ADC_Module_Int
         $has_secret = '' !== ADC_Settings::secret('ga4', 'api_secret');
 
         ADC_Admin_Help::section(
-            __('GA4 — Measurement Protocol (server-side)', 'adc-marketing'),
-            __('Ce face această secțiune: trimite evenimentele direct de pe serverul dumneavoastră către Google Analytics 4, mai fiabil decât o etichetă din browser.', 'adc-marketing'),
+            __('Conexiune', 'adc-marketing'),
+            __('Trimite evenimentele direct de pe serverul tău către Google Analytics 4, mai fiabil decât o etichetă din browser.', 'adc-marketing'),
             'adc-help-ga4-data',
             $this->help_ga4_data()
         );
@@ -138,7 +154,7 @@ final class ADC_Admin_Tab_Ga4 implements ADC_Admin_Tab_Interface, ADC_Module_Int
 
         ADC_Admin_Help::row(
             __('Trimitere server (Measurement Protocol)', 'adc-marketing'),
-            '<label><input type="checkbox" name="enabled_server" value="1" ' . checked(!empty($s['enabled_server']), false, false) . ' /> ' . esc_html__('Activează trimiterea evenimentelor server-side către GA4', 'adc-marketing') . '</label>',
+            '<label><input type="checkbox" name="enabled_server" value="1" ' . checked(!empty($s['enabled_server']), true, false) . ' /> ' . esc_html__('Activează trimiterea evenimentelor server-side către GA4', 'adc-marketing') . '</label>',
             __('Pornește/oprește complet trimiterea de pe server către GA4; cu opțiunea oprită, evenimentele rămân doar în browser.', 'adc-marketing')
         );
 
@@ -202,18 +218,21 @@ final class ADC_Admin_Tab_Ga4 implements ADC_Admin_Tab_Interface, ADC_Module_Int
             '<p>' . esc_html__('GA4 nu elimină duplicatele dintre evenimentele trimise din browser (gtag/GTM) și cele trimise prin Measurement Protocol: dacă ambele surse trimit „purchase”, fiecare comandă apare de două ori în rapoarte și venitul este umflat.', 'adc-marketing') . '</p><p>' . esc_html__('De aceea alegeți UN SINGUR canal pentru purchase. Recomandat: Browser, cu eticheta prin GTM. Dacă alegeți Server, opriți trimiterea purchase din tag-ul GTM (condiție de custom event) și verificați dublarea în DebugView.', 'adc-marketing') . '</p>'
         );
 
-        echo '</div>';
-
-        ADC_Admin_Help::section(
-            __('Opțiuni avansate', 'adc-marketing'),
-            __('Ce face această secțiune: trei cazuri limită — cum identificăm evenimentele fără cookie de browser și ce se trimite când vizitatorul refuză.', 'adc-marketing')
+        ADC_Admin_Help::row(
+            __('Testare conexiune', 'adc-marketing'),
+            '<p><button type="button" class="button" id="adc-ga4-test">' . esc_html__('Testează conexiunea', 'adc-marketing') . '</button> <span class="adc-test-result" id="adc-ga4-test-result" aria-live="polite"></span></p>',
+            __('Trimite un eveniment sintetic prin endpoint-ul de validare Google; necesită Measurement ID și cheie API salvate.', 'adc-marketing')
         );
 
-        echo '<div class="adc-help-options adc-settings-section">';
+        ADC_Admin_Help::advanced_start(
+            '',
+            __('Trei cazuri limită: cum identificăm evenimentele fără cookie de browser, ce se trimite când vizitatorul refuză și modul de depanare.', 'adc-marketing'),
+            !empty($s['debug']) || !empty($s['send_when_denied'])
+        );
 
         ADC_Admin_Help::row(
             __('Identificator de rezervă (client_id)', 'adc-marketing'),
-            '<label><input type="checkbox" name="fallback_client_id" value="1" ' . checked(!empty($s['fallback_client_id']), false, false) . ' /> ' . esc_html__('Folosește identificatorul de consimțământ (cid) când lipsește client_id din browser', 'adc-marketing') . '</label>',
+            '<label><input type="checkbox" name="fallback_client_id" value="1" ' . checked(!empty($s['fallback_client_id']), true, false) . ' /> ' . esc_html__('Folosește identificatorul de consimțământ (cid) când lipsește client_id din browser', 'adc-marketing') . '</label>',
             __('Evenimentele fără cookie _ga se pot trimite mai departe, dar sub un identificator nou — sesiunile nu se mai leagă de cele din browser.', 'adc-marketing'),
             null,
             'adc-help-ga4-fallback',
@@ -222,8 +241,8 @@ final class ADC_Admin_Tab_Ga4 implements ADC_Admin_Tab_Interface, ADC_Module_Int
 
         ADC_Admin_Help::row(
             __('Trimitere chiar și fără consimțământ', 'adc-marketing'),
-            '<label><input type="checkbox" name="send_when_denied" value="1" ' . checked(!empty($s['send_when_denied']), false, false) . ' /> ' . esc_html__('Trimite evenimente server-side chiar și fără consimțământ de statistici (anonimizat, fără date de identificare)', 'adc-marketing') . '</label>',
-            __('Numberă și vizitatorii care au refuzat cookie-urile, fără niciun identificator; activați doar dacă politica de confidențialitate permite explicit.', 'adc-marketing'),
+            '<label><input type="checkbox" name="send_when_denied" value="1" ' . checked(!empty($s['send_when_denied']), true, false) . ' /> ' . esc_html__('Trimite evenimente server-side chiar și fără consimțământ de statistici (anonimizat, fără date de identificare)', 'adc-marketing') . '</label>',
+            __('Numără și vizitatorii care au refuzat cookie-urile, fără niciun identificator; activați doar dacă politica de confidențialitate permite explicit.', 'adc-marketing'),
             null,
             'adc-help-ga4-denied',
             '<p>' . esc_html__('Implicit, refuzul categoriei „statistici” oprește complet trimiterea către GA4. Cu această opțiune activă, evenimentele se trimit anonim: fără client_id, fără cid, fără date de identificare — rămân doar numele evenimentului, valoarea și contextul.', 'adc-marketing') . '</p><p>' . esc_html__('Pentru vizitatorii care au refuzat, nu se folosește NICIUN identificator persistent. Activați doar dacă politica dumneavoastră de confidențialitate descrie măsurarea anonimă fără cookie-uri; altfel, lăsați opțiunea oprită.', 'adc-marketing') . '</p>'
@@ -231,18 +250,12 @@ final class ADC_Admin_Tab_Ga4 implements ADC_Admin_Tab_Interface, ADC_Module_Int
 
         ADC_Admin_Help::row(
             __('Mod depanare', 'adc-marketing'),
-            '<label><input type="checkbox" name="debug" value="1" ' . checked(!empty($s['debug']), false, false) . ' /> ' . esc_html__('Trimite prin endpoint-ul de validare; evenimentele NU ajung în rapoarte', 'adc-marketing') . '</label>',
+            '<label><input type="checkbox" name="debug" value="1" ' . checked(!empty($s['debug']), true, false) . ' /> ' . esc_html__('Trimite prin endpoint-ul de validare; evenimentele NU ajung în rapoarte', 'adc-marketing') . '</label>',
             __('Test fără poluarea rapoartelor: evenimentele merg în DebugView-ul Google, nu în rapoartele reale — dezactivați în producție.', 'adc-marketing')
         );
 
-        echo '</div>';
+        ADC_Admin_Help::advanced_end();
 
-        echo '<div class="adc-help-options adc-settings-section">';
-        ADC_Admin_Help::row(
-            __('Testare conexiune', 'adc-marketing'),
-            '<p><button type="button" class="button" id="adc-ga4-test">' . esc_html__('Testează conexiunea', 'adc-marketing') . '</button> <span class="adc-test-result" id="adc-ga4-test-result" aria-live="polite"></span></p>',
-            __('Trimite un eveniment sintetic prin endpoint-ul de validare Google; necesită Measurement ID și cheie API salvate.', 'adc-marketing')
-        );
         echo '</div>';
 
         echo '<p class="description adc-section-intro">' . esc_html__('Notă: client_id este luat din cookie-ul _ga capturat la momentul comenzii, doar cu consimțământ de statistici. Pentru transport first-party (Server GTM) folosiți tabul „Server GTM”.', 'adc-marketing') . '</p>';

@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin tab "Jurnale & Debug" (docs/ARCHITECTURE.md §4).
+ * Admin tab "Jurnale" (docs/ARCHITECTURE.md §4).
  *
  * Outbox table + status counts + retry/purge, consent lookup by cid,
  * "Trimite eveniment test", snippet-conflict detector, Site Health test and
@@ -120,7 +120,7 @@ final class ADC_Admin_Tab_Logs implements ADC_Admin_Tab_Interface, ADC_Module_In
      */
     public function label(): string
     {
-        return __('Jurnale & Debug', 'adc-marketing');
+        return __('Jurnale', 'adc-marketing');
     }
 
     /**
@@ -148,13 +148,9 @@ final class ADC_Admin_Tab_Logs implements ADC_Admin_Tab_Interface, ADC_Module_In
         $counts   = ADC_Outbox::counts();
         $jobs     = ADC_Outbox::recent(200);
 
-        ADC_Admin_Help::section(
-            __('Jurnale & Debug', 'adc-marketing'),
-            __('Ce face această pagină: arată ce a trimis pluginul către platforme, ce a eșuat și ce decizii de consimțământ stau în spatele fiecărei trimiteri.', 'adc-marketing')
-        );
         ?>
 
-        <h3 class="title"><?php esc_html_e('Jurnal evenimente (outbox)', 'adc-marketing'); ?> <?php echo ADC_Admin_Help::icon('adc-help-outbox', __('Jurnal evenimente (outbox)', 'adc-marketing'), $this->help_outbox()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- helper escapes its own output. ?></h3>
+        <h3 class="title"><?php esc_html_e('Evenimente trimise', 'adc-marketing'); ?> <?php echo ADC_Admin_Help::icon('adc-help-outbox', __('Evenimente trimise', 'adc-marketing'), $this->help_outbox()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- helper escapes its own output. ?></h3>
         <p class="description"><?php esc_html_e('Numărătoarea pe stări a cozii de expediere: „În așteptare”, „Trimis”, „Eșuat definitiv” și „Omis” (fără consimțământ / integrare dezactivată).', 'adc-marketing'); ?></p>
         <table class="widefat striped adc-logs-counts" role="presentation">
             <tbody>
@@ -178,14 +174,6 @@ final class ADC_Admin_Tab_Logs implements ADC_Admin_Tab_Interface, ADC_Module_In
             <span class="adc-logs-result" id="adc-logs-result" aria-live="polite"></span>
         </p>
         <p class="description"><?php esc_html_e('„Curăță jurnalul” aplică imediat limitele de retenție (rândurile trimise/dead se șterg); „Trimite eveniment test” trece prin pipeline-ul real ca să verifici configurarea.', 'adc-marketing'); ?></p>
-
-        <h3 class="title"><?php esc_html_e('Căutare consimțământ după cid', 'adc-marketing'); ?> <?php echo ADC_Admin_Help::icon('adc-help-consent-lookup', __('Căutare consimțământ după cid', 'adc-marketing'), $this->help_consent_lookup()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- helper escapes its own output. ?></h3>
-        <p class="description"><?php esc_html_e('Lipește identificatorul anonim de consimțământ (UUID) al unui vizitator pentru a-i vedea deciziile efectiv valabile — util pentru solicitări GDPR.', 'adc-marketing'); ?></p>
-        <p>
-            <input type="text" id="adc-consent-cid" class="regular-text" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" />
-            <button type="button" class="button" id="adc-consent-lookup"><?php esc_html_e('Caută', 'adc-marketing'); ?></button>
-        </p>
-        <div id="adc-consent-lookup-result" class="adc-consent-lookup-result" aria-live="polite"></div>
 
         <h3 class="title"><?php esc_html_e('Ultimele 200 intrări', 'adc-marketing'); ?></h3>
         <p class="description"><?php esc_html_e('Ultimele evenimente înregistrate în coadă, cu starea, încercările și eroarea finală; „Reîncearcă” reprogramează imediat o intrare eșuată.', 'adc-marketing'); ?></p>
@@ -237,6 +225,16 @@ final class ADC_Admin_Tab_Logs implements ADC_Admin_Tab_Interface, ADC_Module_In
             </tbody>
         </table>
 
+        <?php ADC_Admin_Help::advanced_start(__('Instrumente și setări avansate', 'adc-marketing')); ?>
+
+        <h3 class="title"><?php esc_html_e('Căutare consimțământ după cid', 'adc-marketing'); ?> <?php echo ADC_Admin_Help::icon('adc-help-consent-lookup', __('Căutare consimțământ după cid', 'adc-marketing'), $this->help_consent_lookup()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- helper escapes its own output. ?></h3>
+        <p class="description"><?php esc_html_e('Lipește identificatorul anonim de consimțământ (UUID) al unui vizitator pentru a-i vedea deciziile efectiv valabile — util pentru solicitări GDPR.', 'adc-marketing'); ?></p>
+        <p>
+            <input type="text" id="adc-consent-cid" class="regular-text" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" />
+            <button type="button" class="button" id="adc-consent-lookup"><?php esc_html_e('Caută', 'adc-marketing'); ?></button>
+        </p>
+        <div id="adc-consent-lookup-result" class="adc-consent-lookup-result" aria-live="polite"></div>
+
         <h3 class="title"><?php esc_html_e('Setări jurnal', 'adc-marketing'); ?></h3>
 
         <?php
@@ -254,13 +252,15 @@ final class ADC_Admin_Tab_Logs implements ADC_Admin_Tab_Interface, ADC_Module_In
         );
         ADC_Admin_Help::row(
             __('Consolă dataLayer', 'adc-marketing'),
-            '<label><input type="checkbox" name="debug_console" value="1" ' . checked(!empty($settings['debug_console']), false, false) . ' /> ' . esc_html__('Afișează evenimentele dataLayer în consolă (doar pentru utilizatori autentificați ca admin)', 'adc-marketing') . '</label>',
+            '<label><input type="checkbox" name="debug_console" value="1" ' . checked(!empty($settings['debug_console']), true, false) . ' /> ' . esc_html__('Afișează evenimentele dataLayer în consolă (doar pentru utilizatori autentificați ca admin)', 'adc-marketing') . '</label>',
             __('Vizualizorii autentificați cu rol de admin văd în consola browserului fiecare eveniment trimis în dataLayer; vizitatorii obișnuiți nu.', 'adc-marketing')
         );
         echo '</div>';
         ?>
 
         <?php self::render_conflicts(); ?>
+
+        <?php ADC_Admin_Help::advanced_end(); ?>
 
         <?php self::localize_config(); ?>
         <?php
@@ -358,6 +358,11 @@ final class ADC_Admin_Tab_Logs implements ADC_Admin_Tab_Interface, ADC_Module_In
 
     /**
      * Platform connection test (documented admin AJAX, used by integration tabs).
+     *
+     * The tab script sends the unsaved values of its own fields as a JSON
+     * object in `fields`; they are sanitised against a closed per-platform
+     * allowlist and applied in memory only for this request (never saved,
+     * never logged, never echoed back). An empty secret keeps the stored one.
      */
     public static function ajax_test_integration(): void
     {
@@ -370,13 +375,170 @@ final class ADC_Admin_Tab_Logs implements ADC_Admin_Tab_Interface, ADC_Module_In
             wp_send_json_error(array('message' => __('Platforma nu este disponibilă.', 'adc-marketing')), 400);
         }
 
-        $result = $integration->test();
+        $overrides = self::sanitize_test_fields($platform);
+        $group     = self::test_group($platform);
+
+        // Unsaved form values shadow the stored ones in memory for this test
+        // only: nothing is written to the database and nothing is echoed back.
+        if (array() !== $overrides) {
+            ADC_Settings::override_group($group, $overrides);
+        }
+
+        try {
+            $result = $integration->test();
+        } finally {
+            ADC_Settings::clear_override($group);
+        }
 
         wp_send_json_success(array(
             'status'    => $result->status,
             'http_code' => $result->http_code,
+            'from_form' => array() !== $overrides,
             'message'   => 'skipped' === $result->status ? self::skip_message($result->message) : $result->message,
         ));
+    }
+
+    /**
+     * Settings group a connection test reads for a platform.
+     *
+     * @param string $platform Platform id.
+     * @return string Group slug.
+     */
+    private static function test_group(string $platform): string
+    {
+        $spec = self::test_field_spec($platform);
+
+        return null !== $spec ? $spec['group'] : $platform;
+    }
+
+    /**
+     * Closed allowlist of the fields a connection test may override, per
+     * platform: settings group + accepted key => sanitiser kind and length.
+     *
+     * @param string $platform Platform id.
+     * @return array{group: string, fields: array<string, array{kind: string, max: int}>}|null
+     */
+    private static function test_field_spec(string $platform): ?array
+    {
+        $specs = array(
+            'meta'   => array(
+                'group'  => 'meta',
+                'fields' => array(
+                    'pixel_id'        => array('kind' => 'id', 'max' => 30),
+                    'test_event_code' => array('kind' => 'id', 'max' => 40),
+                    'access_token'    => array('kind' => 'secret', 'max' => 512),
+                ),
+            ),
+            'tiktok' => array(
+                'group'  => 'tiktok',
+                'fields' => array(
+                    'pixel_code'      => array('kind' => 'id', 'max' => 40),
+                    'test_event_code' => array('kind' => 'id', 'max' => 40),
+                    'access_token'    => array('kind' => 'secret', 'max' => 512),
+                ),
+            ),
+            'ga4'    => array(
+                'group'  => 'ga4',
+                'fields' => array(
+                    'measurement_id' => array('kind' => 'id', 'max' => 20),
+                    'api_secret'     => array('kind' => 'secret', 'max' => 128),
+                ),
+            ),
+            'sgtm'   => array(
+                'group'  => 'sgtm',
+                'fields' => array(
+                    'server_container_url' => array('kind' => 'url', 'max' => 200),
+                    'measurement_id'       => array('kind' => 'id', 'max' => 20),
+                    'mode'                 => array('kind' => 'mode', 'max' => 16),
+                    'api_secret'           => array('kind' => 'secret', 'max' => 128),
+                ),
+            ),
+        );
+
+        return $specs[$platform] ?? null;
+    }
+
+    /**
+     * Sanitise the unsaved tab values sent with a connection test. Only
+     * allowlisted keys are considered; an empty secret is dropped so the
+     * stored secret is used (secrets are never echoed back into the form).
+     *
+     * @param string $platform Platform id.
+     * @return array<string, mixed> Sanitised overrides (empty when none).
+     */
+    private static function sanitize_test_fields(string $platform): array
+    {
+        $spec = self::test_field_spec($platform);
+        if (null === $spec) {
+            return array();
+        }
+
+        $raw = isset($_POST['fields']) ? wp_unslash((string) $_POST['fields']) : '';
+        if (!is_string($raw) || '' === trim($raw) || strlen($raw) > 8192) {
+            return array();
+        }
+
+        $decoded = json_decode($raw, true);
+        if (!is_array($decoded)) {
+            return array();
+        }
+
+        $overrides = array();
+        foreach ($spec['fields'] as $key => $rule) {
+            if (!array_key_exists($key, $decoded) || !is_scalar($decoded[$key])) {
+                continue;
+            }
+
+            $value = self::sanitize_test_value($rule['kind'], (string) $decoded[$key], (int) $rule['max']);
+
+            // 'secret': empty means "keep the stored secret". 'mode': an invalid
+            // choice keeps the stored mode. Everything else mirrors the form.
+            if (('secret' === $rule['kind'] || 'mode' === $rule['kind']) && '' === $value) {
+                continue;
+            }
+
+            $overrides[$key] = $value;
+        }
+
+        return $overrides;
+    }
+
+    /**
+     * Per-field sanitiser for test values.
+     *
+     * @param string $kind  Sanitiser kind (id|secret|url|mode).
+     * @param string $value Raw value.
+     * @param int    $max   Maximum accepted length.
+     * @return string Sanitised value ('' when it must not be used).
+     */
+    private static function sanitize_test_value(string $kind, string $value, int $max): string
+    {
+        $value = trim($value);
+
+        return match ($kind) {
+            'secret' => substr(sanitize_text_field($value), 0, $max),
+            'url'    => self::sanitize_test_url($value, $max),
+            'mode'   => in_array($value, array('loader', 'mp_forward'), true) ? $value : '',
+            default  => substr((string) preg_replace('/[^0-9A-Za-z._-]/', '', sanitize_text_field($value)), 0, $max),
+        };
+    }
+
+    /**
+     * https-only URL sanitiser (same SSRF baseline as the settings sanitizer).
+     *
+     * @param string $value Raw URL.
+     * @param int    $max   Maximum accepted length.
+     * @return string Sanitised URL, '' when it is not a valid https URL.
+     */
+    private static function sanitize_test_url(string $value, int $max): string
+    {
+        $url = substr((string) esc_url_raw($value), 0, $max);
+
+        if ('' === $url || !str_starts_with($url, 'https://') || !wp_http_validate_url($url)) {
+            return '';
+        }
+
+        return rtrim($url, '/');
     }
 
     /**
@@ -602,7 +764,7 @@ final class ADC_Admin_Tab_Logs implements ADC_Admin_Tab_Interface, ADC_Module_In
     public static function site_health_test(array $tests): array
     {
         $tests['direct']['adc_marketing_tracking'] = array(
-            'label' => __('ADC Cookies & Commerce Hub: pipeline de urmărire', 'adc-marketing'),
+            'label' => __('Adcelerum Commerce Hub: pipeline de urmărire', 'adc-marketing'),
             'test'  => array(self::class, 'run_site_health_check'),
         );
 
@@ -617,10 +779,10 @@ final class ADC_Admin_Tab_Logs implements ADC_Admin_Tab_Interface, ADC_Module_In
     public static function run_site_health_check(): array
     {
         $result = array(
-            'label'       => __('ADC Cookies & Commerce Hub: pipeline-ul de trimitere este operațional', 'adc-marketing'),
+            'label'       => __('Adcelerum Commerce Hub: pipeline-ul de trimitere este operațional', 'adc-marketing'),
             'status'      => 'good',
             'badge'       => array(
-                'label' => __('ADC Cookies & Commerce Hub', 'adc-marketing'),
+                'label' => __('Adcelerum Commerce Hub', 'adc-marketing'),
                 'color' => 'green',
             ),
             'test'        => 'adc_marketing_tracking',
