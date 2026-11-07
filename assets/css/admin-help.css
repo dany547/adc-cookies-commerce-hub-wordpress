@@ -186,38 +186,7 @@
 /* ---------- Option block: label on top, control below, muted one-liner ---------- */
 /* Structural spacing shared by every tab (loaded shell-wide; tab CSS only
    refines). 16px between options, 32px between sections. */
-.adc-admin-shell .adc-settings-section {
-    margin-top: var(--adc-space-3, 24px);
-}
-
-.adc-admin-shell .adc-settings-section .adc-admin-section-head {
-    margin-bottom: var(--adc-space-2, 16px);
-}
-
-.adc-admin-shell .adc-settings-section .form-table,
-.adc-admin-shell .adc-settings-section .adc-help-options {
-    margin-bottom: var(--adc-space-2, 16px);
-}
-
-.adc-admin-shell .adc-admin-section-head + .form-table {
-    margin-top: 0;
-}
-
-/* 16px visual rhythm inside plain (non-shell-table) option tables. */
-.adc-admin-shell .adc-form-table-plain > tbody > tr > th,
-.adc-admin-shell .adc-form-table-plain > tbody > tr > td {
-    padding-top: var(--adc-space-2, 16px);
-    padding-bottom: var(--adc-space-2, 16px);
-}
-
-.adc-admin-shell .adc-form-table-plain > tbody > tr:first-child > th,
-.adc-admin-shell .adc-form-table-plain > tbody > tr:first-child > td {
-    padding-top: 0;
-}
-
-.adc-admin-shell .adc-section-gap {
-    margin-top: var(--adc-space-2, 16px);
-}
+/* Spacing between sections/options is owned by the flow rules in admin-shell.css. */
 
 /* Stack of option rows (replaces .form-table where the label-on-top layout
    is used directly). */
@@ -225,14 +194,14 @@
     display: flex;
     flex-direction: column;
     gap: var(--adc-space-2, 16px);
-    margin: 0 0 var(--adc-space-2, 16px);
+    margin: 0;
 }
 
 .adc-help-row {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 6px;
+    gap: var(--adc-space-1, 8px);
 }
 
 .adc-help-row__label {
@@ -273,22 +242,22 @@
 /* Stacked checkbox / radio choices inside an option row. */
 .adc-help-choice {
     display: block;
-    margin: 0 0 4px;
+    margin: 0;
 }
 
-.adc-help-choice:last-child {
-    margin-bottom: 0;
+.adc-help-choice + .adc-help-choice {
+    margin-block-start: var(--adc-space-0, 4px);
 }
 
 /* ---------- Section head (h2/h3 + one-line intro) ---------- */
 .adc-admin-section-head {
-    margin: 0 0 var(--adc-space-2, 16px);
+    margin: 0;
 }
 
 .adc-admin-section-head h2 {
     display: flex;
     align-items: center;
-    margin: 0 0 4px;
+    margin: 0;
     font-size: 16px;
     font-weight: 600;
 }
@@ -296,9 +265,17 @@
 .adc-admin-section-head h3 {
     display: flex;
     align-items: center;
-    margin: 0 0 4px;
+    margin: 0;
     font-size: 14px;
     font-weight: 600;
+}
+
+.adc-admin-section-intro:empty {
+    display: none;
+}
+
+.adc-admin-section-head > :is(h2, h3) + .adc-admin-section-intro {
+    margin-block-start: var(--adc-space-0, 4px);
 }
 
 .adc-admin-section-intro {
@@ -427,7 +404,7 @@
 
 /* ---------- Page head (shell: tab title + one-sentence intro) ---------- */
 .adc-page-head {
-    margin: 0 0 var(--adc-space-3, 24px);
+    margin: 0;
 }
 
 .adc-page-head__title {
@@ -435,7 +412,7 @@
     flex-wrap: wrap;
     align-items: center;
     gap: var(--adc-space-1, 8px);
-    margin: 0 0 4px;
+    margin: 0 0 var(--adc-space-0, 4px);
     padding: 0;
     font-size: 20px;
     font-weight: 600;

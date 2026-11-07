@@ -189,6 +189,44 @@
         });
     }
 
+    // Navigation: keep the active pill visible and fade the edges that hide more pills
+    // when a nav level turns into a single swipeable line (container query in admin-shell.css).
+    function updateNavFades(list) {
+        var max = list.scrollWidth - list.clientWidth;
+        var pos = Math.abs(list.scrollLeft);
+        var scrollable = max > 1;
+        list.classList.toggle('has-more-start', scrollable && pos > 1);
+        list.classList.toggle('has-more-end', scrollable && pos < max - 1);
+    }
+
+    function revealActive(list) {
+        var active = list.querySelector('[aria-current]');
+        if (!active || list.scrollWidth <= list.clientWidth + 1) {
+            return;
+        }
+        var left = active.getBoundingClientRect().left - list.getBoundingClientRect().left;
+        var target = left - (list.clientWidth - active.offsetWidth) / 2;
+        list.scrollLeft += target;
+    }
+
+    function initNavScroll() {
+        var lists = document.querySelectorAll('.adc-admin-nav .adc-admin-tabs');
+        Array.prototype.forEach.call(lists, function (list) {
+            var refresh = function () { updateNavFades(list); };
+            list.addEventListener('scroll', refresh, { passive: true });
+            if (typeof window.ResizeObserver === 'function') {
+                new window.ResizeObserver(function () {
+                    revealActive(list);
+                    refresh();
+                }).observe(list);
+            } else {
+                window.addEventListener('resize', refresh);
+            }
+            revealActive(list);
+            refresh();
+        });
+    }
+
     // Promo banner: dismiss in place; the link still works without JS.
     function initPromoDismiss() {
         var link = document.querySelector('[data-adc-promo-dismiss]');
@@ -215,6 +253,7 @@
             initCopyButtons();
             initUnsavedChanges();
             initPromoDismiss();
+            initNavScroll();
         });
     }
 }());

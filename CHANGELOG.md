@@ -16,6 +16,12 @@ commit/tag de release — workflow-ul `version-bump.yml` nu rescrie dată; o fac
 responsabilul de release înainte de tag. Intrările viitoare `în lucru` rămân
 neatinse până la publicare.
 
+## [2.4.2] - 2026-11-07
+
+### Modificat
+- Navigația din plugin (grupuri și taburi) se adaptează la lățimea containerului: linie derulabilă pe ecrane înguste, două rânduri curate pe lățimi medii, tabul activ rămâne vizibil.
+- Spațiere unificată în tot adminul: scară unică de tokeni și reguli de flux în locul marginilor ad-hoc; corectat spațiul dintre „De verificat” și matricea din Platforme.
+
 ## [2.4.1] - 2026-11-07
 
 ### Corectat

@@ -6,7 +6,6 @@
 
 .adc-logs-counts {
     max-width: 420px;
-    margin-bottom: var(--adc-space-2, 16px);
 }
 
 .adc-logs-actions {
@@ -14,7 +13,6 @@
     align-items: center;
     gap: var(--adc-space-1, 8px);
     flex-wrap: wrap;
-    margin-bottom: var(--adc-space-1, 8px);
 }
 
 .adc-logs-result {
@@ -27,7 +25,6 @@
 }
 
 .adc-logs-table {
-    margin-top: var(--adc-space-1, 8px);
     width: 100%;
 }
 
@@ -75,13 +72,11 @@
 
 .adc-consent-lookup-result {
     min-height: 22px;
-    margin-bottom: var(--adc-space-2, 16px);
     font-size: 13px;
 }
 
 .adc-logs-conflicts {
     max-width: 640px;
-    margin-top: var(--adc-space-1, 8px);
 }
 
 @media (max-width: 600px) {

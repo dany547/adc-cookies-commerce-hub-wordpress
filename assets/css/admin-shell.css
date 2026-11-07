@@ -28,12 +28,29 @@
    --adc-surface changes to #fff (new --adc-surface-subtle carries the old
    value); --adc-accent / --adc-accent-hover move to the brand-derived blues.
    Note: --adc-border / --adc-radius also exist in the frontend banner palette;
-   the Banner preview re-declares its own defaults on .adc-banner-preview-screen. */
+   the Banner preview re-declares its own defaults on .adc-banner-preview-screen.
+
+   SPACING SCALE (single source for every admin page; no other literal gaps):
+     --adc-space-0   4px   heading -> its own description; icon/label pairs
+     --adc-space-1   8px   inside a group (pills, button rows, label -> control)
+     --adc-space-2  16px   between siblings: options, notices, tables, button groups
+     --adc-space-3  24px   page head -> content; card padding
+     --adc-space-4  32px   between titled sections (heading + intro + body)
+     --adc-space-5  48px   reserved (page-level breaks)
+   Rhythm is applied by "lobotomized owl" rules on the flow containers
+   (.adc-admin-tab-content, .adc-settings-section, .adc-banner-section__body,
+   .adc-gtm-card, .adc-cookie-scanner, .adc-export-form, .adc-admin-shell-inner):
+   children carry NO outer margin; `> * + *` supplies 16px, a titled section
+   (.adc-admin-section-head, h3, .adc-settings-section) gets 32px above it and
+   16px below its head. Alerts and tables therefore get the same space above and
+   below wherever they appear. Component CSS must not add margin-top/bottom to
+   a direct child of those containers; use the container's gap instead. */
 
 /* ---------- §7 Design tokens ---------- */
 :root,
 .adc-admin-shell {
-    /* spacing — existing 1/2/3 kept, 4/5 added */
+    /* spacing — see the scale in the file header */
+    --adc-space-0: 4px;
     --adc-space-1: 8px;
     --adc-space-2: 16px;
     --adc-space-3: 24px;
@@ -118,7 +135,7 @@
     flex-wrap: wrap;
     align-items: center;
     gap: var(--adc-space-2);
-    margin: 0 0 var(--adc-space-2);
+    margin: 0;
     padding-bottom: var(--adc-space-2);
     border-bottom: 1px solid var(--adc-border-soft);
 }
@@ -146,9 +163,28 @@
     font-size: 13px;
 }
 
+/* ---------- Shell chrome rhythm (header, promo, nav, notices) ---------- */
+.adc-admin-shell .adc-admin-shell-inner > * {
+    margin-block: 0;
+}
+
+.adc-admin-shell .adc-admin-shell-inner > * + * {
+    margin-block-start: var(--adc-space-2);
+}
+
+/* WP core gives .notice margin: 5px 15px 2px; the shell owns the spacing. */
+.adc-admin-shell .adc-admin-shell-inner > .notice {
+    margin-inline: 0;
+}
+
 /* ---------- Tab navigation ---------- */
+/* The nav is a size container: pills adapt to the width the nav actually has
+   (WP menu open / folded / mobile), not to the viewport. Wide: wrapping pills.
+   Mid: tighter padding. Narrow: one swipeable line with edge fades, 44px targets. */
 .adc-admin-nav {
-    margin: 0 0 var(--adc-space-2);
+    container: adc-nav / inline-size;
+    display: grid;
+    gap: var(--adc-space-1);
 }
 
 .adc-admin-tabs {
@@ -159,19 +195,15 @@
     margin: 0;
     padding: 0;
     list-style: none;
+    min-width: 0;
 }
 
 .adc-admin-tabs--sub {
-    margin-top: var(--adc-space-1);
     padding-inline-start: 12px;
     border-inline-start: 3px solid var(--adc-canvas);
 }
 
 /* Level 1: one pill per navigation group; the active group is highlighted. */
-.adc-admin-tabs--groups {
-    margin-bottom: var(--adc-space-1);
-}
-
 .adc-admin-group a {
     display: inline-flex;
     align-items: center;
@@ -195,7 +227,7 @@
     color: var(--adc-accent);
 }
 
-.adc-admin-group a:focus {
+.adc-admin-group a:focus-visible {
     outline: 2px solid var(--adc-accent);
     outline-offset: 2px;
     box-shadow: none;
@@ -247,13 +279,148 @@
     color: #fff;
 }
 
+/* Mid widths: tighter pills so five groups and four tabs still fit on one row. */
+@container adc-nav (max-width: 640px) {
+    .adc-admin-tabs {
+        gap: var(--adc-space-0);
+    }
+
+    .adc-admin-group a {
+        padding-inline: 10px;
+    }
+
+    .adc-admin-tab a {
+        padding-inline: 10px;
+    }
+
+    .adc-admin-tabs--sub {
+        padding-inline-start: var(--adc-space-1);
+    }
+}
+
+/* Narrow: a single swipeable line per level, never a tall pile and never a
+   clipped label. Vertical padding/negative margin keeps the focus ring inside
+   the scroll box; fades (toggled by admin-shell.js) hint at hidden pills. */
+@container adc-nav (max-width: 520px) {
+    .adc-admin-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scroll-snap-type: x proximity;
+        scroll-padding-inline: var(--adc-space-2);
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        padding-block: var(--adc-space-0);
+        padding-inline: var(--adc-space-0);
+        margin-block: calc(-1 * var(--adc-space-0));
+        --adc-fade-start: 0px;
+        --adc-fade-end: 0px;
+        -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--adc-fade-start),
+            #000 calc(100% - var(--adc-fade-end)), transparent 100%);
+        mask-image: linear-gradient(to right, transparent 0, #000 var(--adc-fade-start),
+            #000 calc(100% - var(--adc-fade-end)), transparent 100%);
+    }
+
+    .adc-admin-tabs:dir(rtl) {
+        -webkit-mask-image: linear-gradient(to left, transparent 0, #000 var(--adc-fade-start),
+            #000 calc(100% - var(--adc-fade-end)), transparent 100%);
+        mask-image: linear-gradient(to left, transparent 0, #000 var(--adc-fade-start),
+            #000 calc(100% - var(--adc-fade-end)), transparent 100%);
+    }
+
+    .adc-admin-tabs::-webkit-scrollbar {
+        display: none;
+    }
+
+    .adc-admin-tabs.has-more-start {
+        --adc-fade-start: var(--adc-space-4);
+    }
+
+    .adc-admin-tabs.has-more-end {
+        --adc-fade-end: var(--adc-space-4);
+    }
+
+    .adc-admin-group,
+    .adc-admin-tab {
+        flex: 0 0 auto;
+        scroll-snap-align: start;
+    }
+
+    .adc-admin-group a,
+    .adc-admin-tab a {
+        min-height: 44px;
+    }
+
+    .adc-admin-tabs--sub {
+        padding-inline-start: var(--adc-space-0);
+        border-inline-start: 0;
+    }
+}
+
+/* Touch devices get 44px targets at any width. */
+@media (pointer: coarse) {
+    .adc-admin-group a,
+    .adc-admin-tab a {
+        min-height: 44px;
+    }
+}
+
 .adc-admin-tab-content {
     box-sizing: border-box;
-    margin-top: var(--adc-space-3);
     padding: var(--adc-space-3);
     background: var(--adc-surface);
     border: 1px solid var(--adc-border);
     border-radius: var(--adc-radius);
+}
+
+/* The tab card sits in its own inner wrapper (inside the form), after the
+   header/nav wrapper: same 16px as the rest of the chrome. */
+.adc-admin-shell form > .adc-admin-shell-inner {
+    margin-block-start: var(--adc-space-2);
+}
+
+/* ---------- Content flow: the single spacing system (see scale in header) ---------- */
+.adc-admin-shell :is(.adc-admin-tab-content, .adc-settings-section, .adc-banner-section__body,
+    .adc-gtm-card, .adc-cookie-scanner, .adc-export-form) > * {
+    margin-block: 0;
+}
+
+.adc-admin-shell :is(.adc-admin-tab-content, .adc-settings-section, .adc-banner-section__body,
+    .adc-gtm-card, .adc-cookie-scanner, .adc-export-form) > * + * {
+    margin-block-start: var(--adc-space-2);
+}
+
+/* Titled sections: 32px above, 16px between head and body. */
+.adc-admin-shell :is(.adc-admin-tab-content, .adc-settings-section, .adc-banner-section__body,
+    .adc-export-form) > * + :is(.adc-admin-section-head, .adc-settings-section, h3) {
+    margin-block-start: var(--adc-space-4);
+}
+
+/* A heading and its own description are one unit: 4px. */
+.adc-admin-shell :is(.adc-admin-tab-content, .adc-settings-section, .adc-banner-section__body,
+    .adc-export-form) > :is(h3, h4) + :is(p, .description) {
+    margin-block-start: var(--adc-space-0);
+}
+
+/* Page head -> first block. */
+.adc-admin-shell .adc-admin-tab-content > .adc-page-head + * {
+    margin-block-start: var(--adc-space-3);
+}
+
+/* A heading-like head and its one-line description inside a card: 4px. */
+.adc-admin-shell .adc-gtm-card > .adc-gtm-card-head + .adc-gtm-card-intro {
+    margin-block-start: var(--adc-space-0);
+}
+
+/* A hint under its own button row stays close to it: 8px. */
+.adc-admin-shell :is(.adc-admin-tab-content, .adc-cookie-scanner) > :is(.adc-cookie-toolbar, .adc-logs-actions) + .description {
+    margin-block-start: var(--adc-space-1);
+}
+
+/* Alerts inside flow containers: no WP default margins, no side offsets. */
+.adc-admin-shell :is(.adc-admin-tab-content, .adc-settings-section, .adc-banner-section__body,
+    .adc-gtm-card, .adc-cookie-scanner, .adc-export-form) > .notice {
+    margin-inline: 0;
 }
 
 /* ---------- Sticky save bar ---------- */
@@ -358,7 +525,7 @@
 
 /* The single focus ring everywhere (§9): replaces the three legacy variants. */
 .adc-admin-shell :is(.button, .button-primary, .button-secondary, .adc-copy-btn, .adc-secret-replace):focus,
-.adc-admin-shell .adc-admin-tab a:focus,
+.adc-admin-shell .adc-admin-tab a:focus-visible,
 .adc-admin-shell :is(input, select, textarea):focus-visible,
 .adc-admin-shell .notice-dismiss button:focus-visible {
     outline: 2px solid var(--adc-accent);
@@ -457,13 +624,20 @@
 }
 
 /* ---------- Settings tables (.form-table) ---------- */
-.adc-admin-shell .form-table {
-    margin-top: var(--adc-space-2);
-}
-
+/* Tables carry no outer margin (the flow container spaces them). 16px between option rows (8px above + 8px below each cell); the first row
+   touches the table top and the last the bottom, so the surrounding flow
+   container owns every outer gap. Cells align to the content edge. */
 .adc-admin-shell .form-table th,
 .adc-admin-shell .form-table td {
-    padding: var(--adc-space-2) 10px;
+    padding: var(--adc-space-1) var(--adc-space-2) var(--adc-space-1) 0;
+}
+
+.adc-admin-shell .form-table tr:first-child > :is(th, td) {
+    padding-top: 0;
+}
+
+.adc-admin-shell .form-table tr:last-child > :is(th, td) {
+    padding-bottom: 0;
 }
 
 .adc-admin-shell .form-table th {
@@ -639,11 +813,17 @@
 
     .adc-admin-shell .form-table th {
         padding-bottom: var(--adc-space-1);
+        padding-inline-end: 0;
         border-bottom: 0;
     }
 
     .adc-admin-shell .form-table td {
         padding-top: 0;
+        padding-inline-end: 0;
+    }
+
+    .adc-admin-shell .form-table tr:last-child > td {
+        padding-bottom: 0;
     }
 }
 
@@ -676,34 +856,6 @@
         flex: 0 0 auto;
         margin-inline-start: 0;
         white-space: nowrap;
-    }
-
-    /* Tab pills scroll horizontally instead of wrapping into a tall pile. */
-    .adc-admin-shell .adc-admin-tabs {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        overscroll-behavior-x: contain;
-        -webkit-overflow-scrolling: touch;
-        padding-bottom: 4px;
-    }
-
-    /* Group pills: swipeable row that snaps each pill into view. */
-    .adc-admin-shell .adc-admin-tabs--groups {
-        overflow-x: auto;
-        scroll-snap-type: x proximity;
-    }
-
-    .adc-admin-shell .adc-admin-group {
-        flex: 0 0 auto;
-        scroll-snap-align: start;
-    }
-
-    .adc-admin-shell .adc-admin-tabs--sub {
-        margin-top: var(--adc-space-1);
-        padding-top: var(--adc-space-1);
-        padding-inline-start: 0;
-        border-top: 1px solid var(--adc-canvas);
-        border-inline-start: 0;
     }
 
     .adc-admin-tab-content {
@@ -763,7 +915,6 @@
     flex-wrap: wrap;
     align-items: center;
     gap: var(--adc-space-2) var(--adc-space-3);
-    margin: 0 0 var(--adc-space-3);
     padding: var(--adc-space-3) calc(var(--adc-space-3) + 32px) var(--adc-space-3) var(--adc-space-3);
     border: 1px solid rgba(255, 255, 255, .1);
     border-radius: 16px;
@@ -831,7 +982,7 @@
 }
 
 .adc-promo__title {
-    margin: 0 0 4px;
+    margin: 0 0 var(--adc-space-0);
     font-size: 16px;
     font-weight: 600;
     line-height: 1.35;

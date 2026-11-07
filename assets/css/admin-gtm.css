@@ -8,7 +8,7 @@
 /* ---- 3-step schema ------------------------------------------------------ */
 
 .adc-gtm-schema {
-    margin: 0 0 var(--adc-space-2, 16px);
+    margin: 0;
 }
 
 .adc-gtm-schema-steps {
@@ -81,7 +81,7 @@
     flex-wrap: wrap;
     align-items: flex-start;
     gap: var(--adc-space-2, 16px);
-    margin-top: var(--adc-space-2, 16px);
+    margin: 0;
 }
 
 .adc-gtm-card {
@@ -99,7 +99,7 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--adc-space-1, 8px);
-    margin: 0 0 4px;
+    margin: 0;
 }
 
 .adc-gtm-card-head h3 {
@@ -112,12 +112,12 @@
 }
 
 .adc-gtm-card-intro {
-    margin: 0 0 var(--adc-space-2, 16px);
+    margin: 0;
     color: var(--adc-muted, #50575e);
 }
 
 .adc-gtm-note {
-    margin: var(--adc-space-2, 16px) 0 0;
+    margin: 0;
     color: var(--adc-muted, #50575e);
 }
 
@@ -147,7 +147,7 @@
     flex-wrap: wrap;
     align-items: center;
     gap: var(--adc-space-1, 8px);
-    margin: calc(-1 * var(--adc-space-2, 16px)) 0 var(--adc-space-3, 24px);
+    margin: 0;
 }
 
 .adc-gtm-summary__label {

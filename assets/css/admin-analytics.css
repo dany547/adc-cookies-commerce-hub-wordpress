@@ -1214,7 +1214,7 @@
 .adc-an-settings {
 	box-sizing: border-box;
 	display: grid;
-	gap: var(--adc-space-3, 24px);
+	gap: var(--adc-space-4, 32px);
 	align-content: start;
 	padding: var(--adc-space-3, 24px);
 	background: var(--adc-canvas, #f0f0f1);

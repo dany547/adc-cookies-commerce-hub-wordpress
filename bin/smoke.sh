@@ -66,7 +66,7 @@ for t in tests/admin-tabs-load-test.php tests/hook-signatures-test.php tests/coo
 done
 
 echo "== offline JS runtime tests =="
-for t in tests/admin-integration-buttons-test.js tests/consent-cleanup-test.js tests/admin-unsaved-test.js; do
+for t in tests/admin-integration-buttons-test.js tests/consent-cleanup-test.js tests/admin-unsaved-test.js tests/admin-shell-layout-test.js; do
     if node "$t"; then
         echo "OK   $t"
     else

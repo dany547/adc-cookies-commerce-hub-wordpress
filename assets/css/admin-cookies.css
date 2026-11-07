@@ -14,30 +14,26 @@
  */
 
 /* ---------- Vertical rhythm: intro, notice, toolbar, hint, filters ---------- */
-.adc-cookie-scanner > p { margin: 0; max-width: 90ch; }
-.adc-cookie-scanner > .notice { margin: var(--adc-space-2, 16px) 0 0; }
+.adc-cookie-scanner > p { max-width: 90ch; }
 
 .adc-cookie-toolbar {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
 	gap: var(--adc-space-1, 8px);
-	margin-top: var(--adc-space-3, 24px);
 }
 
 #adc-cookie-scan-status {
-	margin-inline-start: 4px;
+	margin-inline-start: var(--adc-space-0, 4px);
 	font-size: 12px;
 	color: var(--adc-muted, #50575e);
 }
-
-.adc-cookie-scanner > .description { margin-top: var(--adc-space-1, 8px); }
 
 .adc-cookie-filters {
 	display: flex;
 	flex-wrap: wrap;
 	gap: var(--adc-space-1, 8px);
-	margin: var(--adc-space-3, 24px) 0 var(--adc-space-2, 16px);
+	margin: 0;
 }
 /* admin-cookies.js never marks a chip active, so the CSS can only give
  * hover / keyboard-focus / press feedback — no resting "selected" state. */

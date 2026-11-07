@@ -6,34 +6,8 @@
  * paletă banner (setate inline de admin-banner.js pe #adc-consent-banner);
  * declarația de mai jos restabilește fallback-urile istorice în preview. */
 
-/* ---------- Section rhythm (spațiere; tokenii din admin-shell.css) ---------- */
-/* 32px între secțiuni: 24px peste capul de secțiune (h2 + intro), 8px mai
-   departe sub intro; 16px între tabel și blocul următor. */
-.adc-admin-shell .adc-settings-section {
-  margin-top: var(--adc-space-3, 24px);
-}
-
-.adc-admin-shell .adc-settings-section .adc-admin-section-head {
-  margin-bottom: var(--adc-space-2, 16px);
-}
-
-.adc-admin-shell .adc-settings-section .form-table,
-.adc-admin-shell .adc-settings-section .adc-help-options {
-  margin-bottom: var(--adc-space-2, 16px);
-}
-
-/* 16px între opțiunile dintr-un tabel de setări (padding-urile shell-ului
-   rămân; aici e doar spațiul vizual dintre rânduri). */
-.adc-admin-shell .adc-form-table-plain > tbody > tr > th,
-.adc-admin-shell .adc-form-table-plain > tbody > tr > td {
-  padding-top: var(--adc-space-2, 16px);
-  padding-bottom: var(--adc-space-2, 16px);
-}
-
-.adc-admin-shell .adc-form-table-plain > tbody > tr:first-child > th,
-.adc-admin-shell .adc-form-table-plain > tbody > tr:first-child > td {
-  padding-top: 0;
-}
+/* ---------- Section rhythm ---------- */
+/* Spațierea dintre secțiuni/opțiuni vine din regulile de flux din admin-shell.css. */
 
 /* Descriere scurtă sub un grup de controale (fieldsets de checkbox/radio). */
 .adc-admin-shell .adc-help-row__control .description,
@@ -41,17 +15,12 @@
   margin-top: var(--adc-space-1, 8px);
 }
 
-/* Ieșire dintr-o secțiune (ex. nota de subsol a tab-ului). */
-.adc-admin-shell .adc-section-gap {
-  margin-top: var(--adc-space-2, 16px);
-}
-
 /* ---------- Preset cards ---------- */
 .adc-preset-cards {
   display: flex;
   flex-wrap: wrap;
   gap: var(--adc-space-2, 16px);
-  margin: var(--adc-space-1, 8px) 0;
+  margin: 0;
   padding: 0;
   border: 0;
 }
