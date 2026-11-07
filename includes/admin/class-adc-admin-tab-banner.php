@@ -230,6 +230,30 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
         );
         ?>
 
+            <section class="adc-banner-preview-panel-wrap" aria-label="<?php esc_attr_e('Previzualizare banner', 'adc-marketing'); ?>">
+                <div class="adc-banner-preview-panel">
+                    <h2 class="adc-banner-preview-panel__title"><?php esc_html_e('Previzualizare live', 'adc-marketing'); ?> <?php echo ADC_Admin_Help::icon('adc-help-banner-preview', __('Previzualizare live', 'adc-marketing'), $this->help_banner_preview()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- helper escapes its own output. ?></h2>
+                    <p class="description"><?php esc_html_e('Se actualizează imediat ce modificați textele, poziția sau culorile.', 'adc-marketing'); ?></p>
+                    <p>
+                        <button type="button" class="button" id="adc-banner-reset"><?php esc_html_e('Resetează la preset', 'adc-marketing'); ?></button>
+                    </p>
+                    <div class="adc-banner-preview-screen" id="adc-banner-preview-screen">
+                        <div class="adc-banner-preview-overlay" id="adc-banner-preview-overlay"<?php echo ('center_modal' === $layout && $overlay) ? '' : ' hidden'; ?>></div>
+                        <div id="adc-consent-banner" class="adc-consent-banner" data-layout="<?php echo esc_attr($layout); ?>" data-preset="<?php echo esc_attr($preset); ?>" style="<?php echo esc_attr(self::style_string($colors, $radius, $shadow) . ADC_Consent_Banner::actions_style($banner)); ?>">
+                            <div class="adc-consent-banner__inner">
+                                <p class="adc-consent-banner__title" id="adc-banner-preview-title"><?php echo esc_html((string) ($banner['title'] ?? '')); ?></p>
+                                <p class="adc-consent-banner__message" id="adc-banner-preview-message"><?php echo esc_html(wp_strip_all_tags((string) ($banner['message'] ?? ''))); ?></p>
+                                <div class="adc-consent-banner__actions" id="adc-banner-preview-actions">
+                                    <?php foreach (self::preview_order($banner) as $action) : ?>
+                                        <button type="button" class="adc-consent-btn adc-consent-btn--<?php echo esc_attr($action); ?><?php echo 'customize' === $action ? '' : ' adc-consent-btn--equal'; ?>" data-adc-order="<?php echo esc_attr($action); ?>" id="adc-banner-preview-<?php echo esc_attr($action); ?>" tabindex="-1"><?php echo esc_html((string) ($banner[$action . '_label'] ?? '')); ?></button>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         <div class="adc-banner-layout">
             <div class="adc-banner-layout__main">
                 <details class="adc-banner-section" data-adc-banner-section="content" open>
@@ -563,30 +587,6 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
                     </div>
                 </details>
             </div>
-
-            <aside class="adc-banner-layout__aside" aria-label="<?php esc_attr_e('Previzualizare banner', 'adc-marketing'); ?>">
-                <div class="adc-banner-preview-panel">
-                    <h2 class="adc-banner-preview-panel__title"><?php esc_html_e('Previzualizare live', 'adc-marketing'); ?> <?php echo ADC_Admin_Help::icon('adc-help-banner-preview', __('Previzualizare live', 'adc-marketing'), $this->help_banner_preview()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- helper escapes its own output. ?></h2>
-                    <p class="description"><?php esc_html_e('Se actualizează imediat ce modificați textele, poziția sau culorile.', 'adc-marketing'); ?></p>
-                    <p>
-                        <button type="button" class="button" id="adc-banner-reset"><?php esc_html_e('Resetează la preset', 'adc-marketing'); ?></button>
-                    </p>
-                    <div class="adc-banner-preview-screen" id="adc-banner-preview-screen">
-                        <div class="adc-banner-preview-overlay" id="adc-banner-preview-overlay"<?php echo ('center_modal' === $layout && $overlay) ? '' : ' hidden'; ?>></div>
-                        <div id="adc-consent-banner" class="adc-consent-banner" data-layout="<?php echo esc_attr($layout); ?>" data-preset="<?php echo esc_attr($preset); ?>" style="<?php echo esc_attr(self::style_string($colors, $radius, $shadow) . ADC_Consent_Banner::actions_style($banner)); ?>">
-                            <div class="adc-consent-banner__inner">
-                                <p class="adc-consent-banner__title" id="adc-banner-preview-title"><?php echo esc_html((string) ($banner['title'] ?? '')); ?></p>
-                                <p class="adc-consent-banner__message" id="adc-banner-preview-message"><?php echo esc_html(wp_strip_all_tags((string) ($banner['message'] ?? ''))); ?></p>
-                                <div class="adc-consent-banner__actions" id="adc-banner-preview-actions">
-                                    <?php foreach (self::preview_order($banner) as $action) : ?>
-                                        <button type="button" class="adc-consent-btn adc-consent-btn--<?php echo esc_attr($action); ?><?php echo 'customize' === $action ? '' : ' adc-consent-btn--equal'; ?>" data-adc-order="<?php echo esc_attr($action); ?>" id="adc-banner-preview-<?php echo esc_attr($action); ?>" tabindex="-1"><?php echo esc_html((string) ($banner[$action . '_label'] ?? '')); ?></button>
-                                    <?php endforeach; ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </aside>
         </div>
         <?php
     }

@@ -16,6 +16,11 @@ commit/tag de release — workflow-ul `version-bump.yml` nu rescrie dată; o fac
 responsabilul de release înainte de tag. Intrările viitoare `în lucru` rămân
 neatinse până la publicare.
 
+## [2.4.1] - 2026-11-07
+
+### Corectat
+- Banner: previzualizarea live revine într-un container propriu, pe lățime completă, deasupra secțiunilor; nu se mai comprimă într-o coloană îngustă.
+
 ## [2.4.0] - 2026-11-07
 
 ### Adăugat

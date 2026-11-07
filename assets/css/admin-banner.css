@@ -265,7 +265,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 280px;
+  min-height: 340px;
   border: 1px solid #c3c4c7;
   border-radius: 8px;
   background:
@@ -322,6 +322,7 @@
 }
 
 .adc-banner-preview-screen .adc-consent-banner[data-layout="box_bottom_right"] {
+  margin-inline-start: auto;
   margin-inline-end: 12px;
 }
 
@@ -443,10 +444,6 @@
   min-width: 0;
 }
 
-.adc-admin-shell .adc-banner-layout__aside {
-  min-width: 0;
-}
-
 .adc-admin-shell .adc-banner-section {
   margin: 0 0 var(--adc-space-4, 32px);
   border: 1px solid var(--adc-border-soft, #dcdcde);
@@ -523,20 +520,9 @@
   margin-top: 0;
 }
 
-/* ---------- Sticky preview column ----------
-   ≥1280px: preview sits in the second column and follows the scroll, so the
-   settings can grow without the banner leaving the screen. Below that it stays
-   a normal block after the sections. */
-@media (min-width: 1280px) {
-  .adc-admin-shell .adc-banner-layout {
-    grid-template-columns: minmax(0, 1fr) minmax(340px, 420px);
-  }
-
-  .adc-admin-shell .adc-banner-layout__aside {
-    position: sticky;
-    top: calc(32px + var(--adc-space-2, 16px));
-    align-self: start;
-  }
+/* ---------- Preview panel: own full-width card above the sections ---------- */
+.adc-admin-shell .adc-banner-preview-panel-wrap {
+  margin: 0 0 var(--adc-space-4, 32px);
 }
 
 .adc-admin-shell .adc-banner-preview-panel {
