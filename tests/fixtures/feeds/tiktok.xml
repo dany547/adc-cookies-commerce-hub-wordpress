@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0"><channel><title>Catalog</title><link>https://shop.example/</link><description>Catalog</description><item><title>Ceai, negru</title><link>https://shop.example/ceai</link><description>Ceai organic</description><g:sku_id>sku-1</g:sku_id><g:availability>in stock</g:availability><g:condition>new</g:condition><g:price>25.50 RON</g:price><g:image_link>https://shop.example/ceai.jpg</g:image_link><g:brand>Acme</g:brand><g:shipping_weight>0.2 kg</g:shipping_weight></item></channel></rss>

@@ -328,8 +328,7 @@
       }
     }
 
-    if (acceptBg === rejectBg && (!acceptText || !rejectText || acceptText === rejectText)) {
-      add('indistinguishable');
+    if (acceptBg === rejectBg && acceptText === rejectText) {
       return findings;
     }
 
@@ -447,6 +446,17 @@
         if (event && event.target) {
           onColorEdited(event.target);
         }
+      }
+    });
+  }
+
+  var fontModeInput = document.getElementById('adc-banner-font-mode');
+  if (fontModeInput && preview) {
+    fontModeInput.addEventListener('change', function () {
+      if (fontModeInput.value === 'system') {
+        preview.style.setProperty('--adc-font', '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif');
+      } else {
+        preview.style.removeProperty('--adc-font');
       }
     });
   }

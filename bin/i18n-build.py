@@ -707,6 +707,7 @@ def main() -> None:
     if cmd == "extract":
         return
     if cmd in ("check", "all", "compile", "derive"):
+        pot = pot if cmd == "all" else parse_po(POT_PATH)
         us = step_check(pot)
         if cmd == "check":
             return

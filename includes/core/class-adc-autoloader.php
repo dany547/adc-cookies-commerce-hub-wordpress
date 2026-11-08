@@ -113,6 +113,7 @@ final class ADC_Autoloader
             self::$root . '/includes/integrations',
             self::$root . '/includes/admin',
             self::$root . '/includes/analytics',
+            self::$root . '/includes/feeds',
         );
     }
 }

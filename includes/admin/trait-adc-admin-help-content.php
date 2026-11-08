@@ -214,7 +214,7 @@ trait ADC_Admin_Help_Content
     {
         return '<p>' . esc_html__('Măsurarea are maximum trei pași: vizitatorul deschide site-ul în browser; containerul web (GTM-…) se încarcă în pagină și scrie evenimentele în dataLayer; dacă Server GTM este activat, evenimentele trec mai întâi prin containerul de pe serverul dumneavoastră înainte să ajungă la GA4, Meta sau TikTok.', 'adc-marketing') . '</p>'
             . '<p>' . esc_html__('Cardul „Container web” este suficient pentru majoritatea magazinelor. Cardul „Server GTM” este opțional: fără un URL de container server salvat, pasul 3 este ignorat complet și nimic din ce aveți deja configurat nu se schimbă.', 'adc-marketing') . '</p>'
-            . '<p>' . esc_html__('Statusul de lângă titlul fiecărui card arată pe loc dacă pasul respectiv este activ, dezactivat din bifă sau așteaptă o valoare lipsă (ID-ul, respectiv URL-ul).', 'adc-marketing') . '</p>';
+            . '<p>' . esc_html__('Starea de lângă titlul fiecărui card arată pe loc dacă pasul respectiv este activ, dezactivat din bifă sau așteaptă o valoare lipsă (ID-ul, respectiv URL-ul).', 'adc-marketing') . '</p>';
     }
 
     /**

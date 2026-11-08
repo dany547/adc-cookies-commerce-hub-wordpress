@@ -163,6 +163,9 @@ final class ADC_Consent_Banner implements ADC_Module_Interface
         );
     }
 
+    /** Font stack used when the banner must not follow the theme font. */
+    public const SYSTEM_FONT_STACK = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+
     /**
      * Preset colour catalogue.
      *
@@ -172,10 +175,10 @@ final class ADC_Consent_Banner implements ADC_Module_Interface
     public static function presets(string $accent = ''): array
     {
         $sets = array(
-            'light' => array('#ffffff', '#172033', '#526078', '#d5dbe5', '#174ea6', '#174ea6', '#ffffff', '#354052', '#ffffff', '#ffffff', '#253149', 8),
-            'dark' => array('#171923', '#f7f8fa', '#c2c7d0', '#454957', '#a9c7ff', '#a9c7ff', '#111827', '#d8dee9', '#111827', '#171923', '#f7f8fa', 8),
-            'minimal' => array('#ffffff', '#111111', '#444444', '#777777', '#111111', '#111111', '#ffffff', '#444444', '#ffffff', '#ffffff', '#111111', 0),
-            'contrast' => array('#ffffff', '#000000', '#222222', '#000000', '#0000a8', '#000000', '#ffffff', '#333333', '#ffffff', '#ffffff', '#000000', 2),
+            'light' => array('#ffffff', '#172033', '#526078', '#d5dbe5', '#174ea6', '#174ea6', '#ffffff', '#174ea6', '#ffffff', '#ffffff', '#253149', 8),
+            'dark' => array('#171923', '#f7f8fa', '#c2c7d0', '#454957', '#a9c7ff', '#a9c7ff', '#111827', '#a9c7ff', '#111827', '#171923', '#f7f8fa', 8),
+            'minimal' => array('#ffffff', '#111111', '#444444', '#777777', '#111111', '#111111', '#ffffff', '#111111', '#ffffff', '#ffffff', '#111111', 0),
+            'contrast' => array('#ffffff', '#000000', '#222222', '#000000', '#0000a8', '#000000', '#ffffff', '#000000', '#ffffff', '#ffffff', '#000000', 2),
         );
         $result = array();
         foreach ($sets as $slug => $v) {
@@ -274,9 +277,9 @@ final class ADC_Consent_Banner implements ADC_Module_Interface
 
         $findings = array();
 
-        if ($hex['accept_bg'] === $hex['reject_bg'] && ('' === $hex['accept_text'] || '' === $hex['reject_text'] || $hex['accept_text'] === $hex['reject_text'])) {
-            $findings[] = self::audit_finding('indistinguishable', array('accept_bg', 'reject_bg', 'accept_text', 'reject_text'), array(), $rules);
-
+        // Identical Accept/Reject colours are the recommended default (equal
+        // prominence); only the legibility checks below still apply.
+        if ($hex['accept_bg'] === $hex['reject_bg'] && $hex['accept_text'] === $hex['reject_text']) {
             return $findings;
         }
 
@@ -395,6 +398,7 @@ final class ADC_Consent_Banner implements ADC_Module_Interface
             'button_alignment'      => 'start',
             'preset'                => 'light',
             'radius'                => 8,
+            'font_mode'             => 'theme',
             'shadow'                => true,
             'overlay'               => true,
             'accent'                => '#2563eb',
@@ -576,6 +580,8 @@ final class ADC_Consent_Banner implements ADC_Module_Interface
             $out['radius'] = $presets[$out['preset']]['radius'];
         }
         $out['radius'] = max(0, min(24, (int) ($input['radius'] ?? $out['radius'] ?? 8)));
+        $font_mode = (string) ($input['font_mode'] ?? $current['font_mode'] ?? 'theme');
+        $out['font_mode'] = in_array($font_mode, array('theme', 'system'), true) ? $font_mode : 'theme';
         $out['shadow'] = (bool) ($input['shadow'] ?? $current['shadow'] ?? true);
         $out['overlay'] = (bool) ($input['overlay'] ?? $current['overlay'] ?? true);
 
@@ -862,6 +868,9 @@ final class ADC_Consent_Banner implements ADC_Module_Interface
             }
         }
         $style .= '--adc-radius:' . max(0, min(24, (int) ($settings['radius'] ?? 8))) . 'px;';
+        if ('system' === ($settings['font_mode'] ?? 'theme')) {
+            $style .= '--adc-font:' . self::SYSTEM_FONT_STACK . ';';
+        }
         $style .= '--adc-shadow:' . (!empty($settings['shadow']) ? '0 8px 28px rgba(0,0,0,.18)' : 'none') . ';';
         $style .= self::actions_style($settings);
         return $style;

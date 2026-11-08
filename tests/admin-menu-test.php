@@ -71,6 +71,7 @@ $expected = array(
     'Cookies'             => array('admin.php?page=adc-marketing&tab=banner', 'banner'),
     'Măsurare'            => array(null, null), // first tab depends on which measurement tabs exist
     'Platforme'           => array('admin.php?page=adc-marketing&tab=platforms', 'platforms'),
+    'Catalog'             => array('admin.php?page=adc-marketing&tab=feeds', 'feeds'),
     'Jurnale'             => array('admin.php?page=adc-marketing&tab=logs', 'logs'),
 );
 
@@ -100,7 +101,7 @@ foreach ($entries as $entry) {
         $tab_to_sub[$tab_slug] = $entry['slug'];
     }
 }
-check(isset($tab_to_sub['dashboard'], $tab_to_sub['banner'], $tab_to_sub['cookies'], $tab_to_sub['marketing'], $tab_to_sub['gtm'], $tab_to_sub['events'], $tab_to_sub['matching'], $tab_to_sub['platforms'], $tab_to_sub['meta'], $tab_to_sub['ga4'], $tab_to_sub['tiktok'], $tab_to_sub['logs']), 'all known tab slugs are reachable from a submenu group');
+check(isset($tab_to_sub['dashboard'], $tab_to_sub['banner'], $tab_to_sub['cookies'], $tab_to_sub['marketing'], $tab_to_sub['gtm'], $tab_to_sub['events'], $tab_to_sub['matching'], $tab_to_sub['platforms'], $tab_to_sub['meta'], $tab_to_sub['ga4'], $tab_to_sub['tiktok'], $tab_to_sub['feeds'], $tab_to_sub['logs']), 'all known tab slugs are reachable from a submenu group');
 
 $group_of = array(
     'dashboard' => 'adc-marketing',
@@ -111,6 +112,7 @@ $group_of = array(
     'meta' => 'admin.php?page=adc-marketing&tab=platforms',
     'ga4' => 'admin.php?page=adc-marketing&tab=platforms',
     'tiktok' => 'admin.php?page=adc-marketing&tab=platforms',
+    'feeds' => 'admin.php?page=adc-marketing&tab=feeds',
     'logs' => 'admin.php?page=adc-marketing&tab=logs',
 );
 $measurement = $entries[2]['slug'] ?? '';

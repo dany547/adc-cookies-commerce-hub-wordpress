@@ -1,0 +1,2 @@
+﻿sku_id,title,description,availability,condition,price,link,image_link,brand,additional_image_link,google_product_category,product_type,item_group_id,gtin,mpn,color,size,gender,material,pattern,custom_label_0,custom_label_1,custom_label_2,custom_label_3,custom_label_4,sale_price,sale_price_effective_date,shipping_weight
+sku-1,"Ceai, negru","Ceai organic","in stock",new,"25.50 RON",https://shop.example/ceai,https://shop.example/ceai.jpg,Acme,,,,,,,,,,,,,,,,,,,"0.2 kg"

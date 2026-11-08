@@ -16,6 +16,23 @@ commit/tag de release — workflow-ul `version-bump.yml` nu rescrie dată; o fac
 responsabilul de release înainte de tag. Intrările viitoare `în lucru` rămân
 neatinse până la publicare.
 
+## [2.5.0] - 2026-11-07
+
+### Adăugat
+- Catalog ▸ Feeduri: feeduri de produse pentru Google Shopping, Meta și TikTok, cu wizard în 4 pași (destinație și format, produse, setări per destinație, verificare și publicare). Meta și TikTok au condiție, marcă implicită și, pentru Meta, până la 5 etichete interne; CSV poate fi exportat compatibil cu Excel.
+- Snapshot-uri protejate: fișierele feedului sunt .php cu `exit` la început și se servesc doar prin adresa `/adc-feed/…`. Tabul afișează dacă protecția a fost confirmată automat pe server, iar în caz contrar spune că verificarea nu a putut confirma protecția.
+- Validatoare pentru Google, Meta și TikTok, cu rezultate separate pe erori și avertismente.
+- Listă de parametri per feed: rând pe parametru, doar cei obligatori ai platformei sunt precompletați, restul se adaugă din dropdown; fiecare are sursă (câmp nativ, atribut, taxonomie, meta, valoare fixă, șablon, mapare categorii) și transformări; previzualizare pe 5 produse.
+- Opțiune „Omite produsele invalide”, acțiune „Editează” pe feed, cerințele Catalog în Jurnale, protecție implicită CSV împotriva formulelor, mesaje traduse după limba utilizatorului.
+- Diagnostic per feed: ultima rulare, erorile în roșu și avertismentele în galben, pliabile, cu etichete în română pentru codurile cunoscute.
+- Cerințe afișate în tab: extensiile PHP necesare și starea stocării.
+- Banner: butoanele Accept și Refuză au același stil implicit; fontul poate urma tema activă (opțiunea „theme”) sau fontul de sistem.
+- Traduceri en_US și en_GB pentru toate șirurile PHP ale pluginului.
+
+### Modificat
+- Butoanele din banner sunt afișate inline.
+- Feedurile sunt disponibile doar cu WooCommerce activ; fără WooCommerce, tabul arată pașii de instalare sau activare.
+
 ## [2.4.3] - 2026-11-07
 
 ### Modificat

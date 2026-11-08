@@ -159,7 +159,7 @@ final class ADC_Admin_Tab_Gtm implements ADC_Admin_Tab_Interface
             . '<span class="adc-gtm-schema-step-desc">' . esc_html__('paginile deschise de vizitatori', 'adc-marketing') . '</span></li>';
         echo '<li class="adc-gtm-schema-step adc-gtm-schema-step--' . esc_attr($web_status['state']) . '"><span class="adc-gtm-schema-step-num">2</span>'
             . '<span class="adc-gtm-schema-step-title">' . esc_html__('Container web', 'adc-marketing') . '</span>'
-            . '<span class="adc-gtm-schema-step-desc">' . esc_html__('snippet-ul GTM din site (GTM-…)', 'adc-marketing') . '</span></li>';
+            . '<span class="adc-gtm-schema-step-desc">' . esc_html__('codul GTM din site (GTM-…)', 'adc-marketing') . '</span></li>';
         echo '<li class="adc-gtm-schema-step adc-gtm-schema-step--optional adc-gtm-schema-step--' . esc_attr($server_status['state']) . '"><span class="adc-gtm-schema-step-num">3</span>'
             . '<span class="adc-gtm-schema-step-title">' . esc_html__('Container server (opțional)', 'adc-marketing') . '</span>'
             . '<span class="adc-gtm-schema-step-desc">' . esc_html__('etichetele trec prin propriul server', 'adc-marketing') . '</span></li>';

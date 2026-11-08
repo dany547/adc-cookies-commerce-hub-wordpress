@@ -38,6 +38,8 @@ class WP_Error {
 class WP_REST_Server {
     public const READABLE = 'GET';
     public const CREATABLE = 'POST';
+    public const EDITABLE = 'POST, PUT, PATCH';
+    public const DELETABLE = 'DELETE';
 }
 class WP_REST_Request {
     public function get_header(string $name): string { return ''; }
@@ -154,6 +156,8 @@ function get_user_meta(int $id, string $key, bool $single = false): mixed { retu
 function update_user_meta(int $id, string $key, mixed $value): bool { $GLOBALS['adc_test_meta'][$id][$key] = $value; return true; }
 function delete_user_meta(int $id, string $key): bool { unset($GLOBALS['adc_test_meta'][$id][$key]); return true; }
 function get_current_user_id(): int { return 0; }
+function switch_to_user_locale(int $user_id): bool { return true; }
+function restore_previous_locale(): bool { return true; }
 function is_user_logged_in(): bool { return false; }
 function get_userdata(int $id): WP_User|false { return new WP_User(); }
 function get_user_by(string $field, mixed $value): WP_User|false { return false; }
@@ -314,6 +318,7 @@ $fixtures = array(
     'in_footer' => array(), 'wp_enqueue_scripts' => array(), 'wp_head' => array(),
     'wp_footer' => array(), 'wp_body_open' => array(), 'init' => array(),
     'rest_api_init' => array(null), 'wp' => array(new WP()), 'template_redirect' => array(),
+    'query_vars' => array(array()),
     'wp_login' => array('user', $user), 'user_register' => array(23, array('user_login' => 'user')),
     'delete_user' => array(23, null, $user),
     'show_user_profile' => array($user), 'edit_user_profile' => array($user),
@@ -358,6 +363,12 @@ $fixtures = array(
     ADC_Retention::CRON_HOOK => array(), ADC_Retention::ERASE_HOOK => array(0),
     ADC_Analytics_Retention::HOOK => array(), 'adc_cookie_scan_weekly' => array(),
     ADC_Analytics_Commerce::JOB_HOOK => array('placed', 0, 0, '2026-01-01', 0),
+    ADC_Feed_Scheduler::JOB_HOOK => array(1),
+    'save_post_product' => array(42, new WP_Post(), true),
+    'save_post_product_variation' => array(43, new WP_Post(), true),
+    'woocommerce_product_set_stock' => array(new WC_Product()),
+    'woocommerce_variation_set_stock' => array(new WC_Product_Variation()),
+    'woocommerce_product_object_updated_props' => array(new WC_Product(), array('regular_price')),
 );
 
 // Activation executes schema installation (requires WP dbDelta), covered by

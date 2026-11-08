@@ -31,12 +31,20 @@
     --_link: var(--adc-link, var(--adc-consent-accent, #174ea6));
     --_accept-bg: var(--adc-accept-bg, var(--adc-consent-accent, #174ea6));
     --_accept-text: var(--adc-accept-text, #ffffff);
-    --_reject-bg: var(--adc-reject-bg, #354052);
-    --_reject-text: var(--adc-reject-text, #ffffff);
+    --_reject-bg: var(--adc-reject-bg, var(--_accept-bg));
+    --_reject-text: var(--adc-reject-text, var(--_accept-text));
     --_cust-bg: var(--adc-customize-bg, #ffffff);
     --_cust-text: var(--adc-customize-text, #253149);
     --_radius: var(--adc-radius, 8px);
     --_shadow: var(--adc-shadow, 0 -2px 16px rgba(0, 0, 0, 0.15));
+}
+
+/* Font: follows the theme by default (inherit); `--adc-font` is only set when
+   the admin picks the neutral system stack. */
+.adc-consent-banner,
+.adc-consent-modal,
+.adc-consent-fab {
+    font-family: var(--adc-font, inherit);
 }
 
 /* ---- base ---- */
@@ -473,6 +481,44 @@
 
     .adc-consent-banner__inner {
         padding-block-end: calc(16px + env(safe-area-inset-bottom, 0px));
+    }
+}
+
+/* ---- buttons: always on ONE row (every layout, every width) ----
+   Buttons share the row equally (flex 1 1 0) and shrink with the viewport
+   instead of wrapping; text may break inside a button as a last resort. */
+.adc-consent-banner__actions,
+.adc-consent-modal__actions {
+    flex-wrap: nowrap;
+    align-items: stretch;
+}
+
+.adc-consent-banner__actions > .adc-consent-btn,
+.adc-consent-modal__actions > .adc-consent-btn {
+    flex: 1 1 0;
+    inline-size: auto;
+    min-inline-size: 0;
+    max-inline-size: none;
+    padding-inline: clamp(4px, 1.6vw, 18px);
+    font-size: clamp(11px, 3.2vw, 15px);
+    /* Break only between words; a single word is never split mid-letter. */
+    overflow-wrap: break-word;
+    word-break: normal;
+    hyphens: manual;
+}
+
+.adc-consent-banner__actions > .adc-consent-btn--icon,
+.adc-consent-modal__actions > .adc-consent-btn--icon {
+    flex: 0 0 auto;
+    min-inline-size: 44px;
+}
+
+/* Wide bars: keep buttons a comfortable size next to the text column. */
+@media (min-width: 768px) {
+    .adc-consent-banner:is([data-layout="bar_bottom"], [data-layout="bar_top"]) .adc-consent-banner__actions > .adc-consent-btn {
+        flex: 0 1 11em;
+        font-size: 15px;
+        padding-inline: 18px;
     }
 }
 

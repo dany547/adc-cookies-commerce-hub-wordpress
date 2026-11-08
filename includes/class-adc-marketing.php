@@ -131,6 +131,8 @@ final class ADC_Marketing
             // (gate + ack, default OFF), inert traffic/interactions, retention,
             // schema lifecycle; boots its own submodules.
             'ADC_Operational_Analytics',
+            // Catalog Manager feed foundation (independent schema and jobs).
+            'ADC_Feed_Module',
             // Self-hosted updates from GitHub Releases (README.md "Release
             // pipeline'). Boots only once class-adc-github-updater.php lands;
             // the class_exists guard above makes this entry safe meanwhile.

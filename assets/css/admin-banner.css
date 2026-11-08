@@ -341,10 +341,19 @@
 
 .adc-banner-preview-screen .adc-consent-banner__actions {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: var(--adc-actions-justify, flex-start);
   min-inline-size: 0;
   gap: 8px;
+}
+
+.adc-banner-preview-screen .adc-consent-banner__actions > .adc-consent-btn {
+  flex: 1 1 0;
+  min-inline-size: 0;
+  padding-inline: clamp(4px, 1.6vw, 18px);
+  overflow-wrap: break-word;
+  word-break: normal;
+  font-size: 13px;
 }
 
 /* Accept and Reject share size and weight — only colours differ (GDPR).

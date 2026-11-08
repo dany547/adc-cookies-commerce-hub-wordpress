@@ -74,12 +74,17 @@ final class ADC_Admin_Tab_Logs implements ADC_Admin_Tab_Interface, ADC_Module_In
             return;
         }
 
-        wp_enqueue_style('adc-admin-logs', $base . 'css/admin-logs.css', array(), $version);
+        wp_enqueue_style(
+            'adc-admin-logs',
+            $base . 'css/admin-logs.css',
+            array(),
+            ADC_Admin_Shell::asset_version('css/admin-logs.css', $version)
+        );
         wp_enqueue_script(
             'adc-admin-logs',
             $base . 'js/admin-logs.js',
             array('adc-admin-shell'),
-            $version,
+            ADC_Admin_Shell::asset_version('js/admin-logs.js', $version),
             array('in_footer' => true, 'strategy' => 'defer')
         );
     }
@@ -148,6 +153,7 @@ final class ADC_Admin_Tab_Logs implements ADC_Admin_Tab_Interface, ADC_Module_In
         $counts   = ADC_Outbox::counts();
         $jobs     = ADC_Outbox::recent(200);
 
+        self::render_catalog_requirements();
         ?>
 
         <h3 class="title"><?php esc_html_e('Evenimente trimise', 'adc-marketing'); ?> <?php echo ADC_Admin_Help::icon('adc-help-outbox', __('Evenimente trimise', 'adc-marketing'), $this->help_outbox()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- helper escapes its own output. ?></h3>
@@ -264,6 +270,45 @@ final class ADC_Admin_Tab_Logs implements ADC_Admin_Tab_Interface, ADC_Module_In
 
         <?php self::localize_config(); ?>
         <?php
+    }
+
+    /** Render the Catalog runtime/storage requirements checklist in Logs. */
+    public static function render_catalog_requirements(): void
+    {
+        echo '<section class="adc-logs-catalog-requirements" aria-labelledby="adc-catalog-requirements-title">';
+        echo '<h3 class="title" id="adc-catalog-requirements-title">' . esc_html__('Cerințe Catalog', 'adc-marketing') . '</h3>';
+        if (!class_exists('ADC_Feed_Module') || !method_exists('ADC_Feed_Module', 'requirements')) {
+            echo '<p class="description">' . esc_html__('Verificarea cerințelor Catalog nu este disponibilă în această versiune.', 'adc-marketing') . '</p></section>';
+            return;
+        }
+
+        $requirements = ADC_Feed_Module::requirements();
+        if (!is_array($requirements) || $requirements === array()) {
+            echo '<p class="description">' . esc_html__('Nu au fost raportate cerințe Catalog.', 'adc-marketing') . '</p></section>';
+            return;
+        }
+
+        echo '<table class="widefat striped adc-logs-catalog-requirements__table"><thead><tr>'
+            . '<th scope="col">' . esc_html__('Cerință', 'adc-marketing') . '</th>'
+            . '<th scope="col">' . esc_html__('Stare', 'adc-marketing') . '</th></tr></thead><tbody>';
+        foreach ($requirements as $item) {
+            if (!is_array($item) || !isset($item['label'])) {
+                continue;
+            }
+            $ok = (bool) ($item['ok'] ?? false);
+            $warning = (bool) ($item['warning'] ?? false);
+            $unverified_probe = 'storage_autotest' === ($item['code'] ?? '')
+                && 'storage_exposed' !== ($item['status'] ?? '');
+            $status = $unverified_probe
+                ? __('Neverificat', 'adc-marketing')
+                : ($warning
+                    ? __('Atenție', 'adc-marketing')
+                    : ($ok ? __('Disponibil', 'adc-marketing') : __('Lipsește', 'adc-marketing')));
+            $class = $warning ? 'warning' : ($ok ? 'ok' : 'error');
+            echo '<tr><th scope="row">' . esc_html((string) $item['label']) . '</th>'
+                . '<td><span class="adc-status adc-status--' . esc_attr($class) . '">' . esc_html($status) . '</span></td></tr>';
+        }
+        echo '</tbody></table></section>';
     }
 
     /**

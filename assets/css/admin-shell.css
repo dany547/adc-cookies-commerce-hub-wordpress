@@ -1067,8 +1067,8 @@
     min-height: 36px;
     padding: 0 18px;
     border-radius: 999px;
-    background: var(--adc-brand-blue, #688cc8);
-    color: var(--adc-surface-dark, #162237);
+    background: var(--adc-accent, #3b6ea5);
+    color: #fff;
     font-size: 13px;
     font-weight: 600;
     text-decoration: none;
@@ -1076,8 +1076,8 @@
 }
 
 .adc-promo__cta:hover {
-    background: #7b9fd6;
-    color: var(--adc-surface-dark, #162237);
+    background: var(--adc-accent-hover, #2b5580);
+    color: #fff;
     transform: translateY(-2px);
 }
 

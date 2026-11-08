@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ADC Marketing 2.2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-19 20:04+0000\n"
+"PO-Revision-Date: 2026-11-08 06:50+0000\n"
 "Last-Translator: ADC Marketing build\n"
 "Language-Team: English\n"
 "Language: en_US\n"
@@ -15,6 +15,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid ""
+msgstr "Project-Id-Version: ADC Marketing 2.2.1\nReport-Msgid-Bugs-To: "
+"\nPO-Revision-Date: 2026-10-19 20:04+0000\nLast-Translator: ADC Marketing "
+"build\nLanguage-Team: English\nLanguage: en_US\nMIME-Version: "
+"1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: "
+"8bit\nPlural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "ADC Cookies & Commerce Hub"
 msgstr "ADC Cookies & Commerce Hub"
@@ -56,8 +63,10 @@ msgstr "Dashboard"
 msgid "Cookies"
 msgstr "Cookies"
 
-msgid "Consimțământ GDPR pentru cookies, măsurare prin GTM și conversii server-side (Meta, GA4, TikTok) pentru magazinul tău WooCommerce."
-msgstr "GDPR cookie consent, GTM measurement and server-side conversions (Meta, GA4, TikTok) for your WooCommerce store."
+msgid "Consimțământ GDPR pentru cookies, măsurare prin GTM și conversii "
+"server-side (Meta, GA4, TikTok) pentru magazinul tău WooCommerce."
+msgstr "GDPR cookie consent, GTM measurement and server-side conversions (Meta, "
+"GA4, TikTok) for your WooCommerce store."
 
 msgid "Măsurare"
 msgstr "Measurement"
@@ -1449,6 +1458,57 @@ msgstr "Another CMP active: Cookiebot"
 
 msgid "Alt CMP activ: CookieYes"
 msgstr "Another CMP active: CookieYes"
+
+msgid "Protecția snapshot-urilor a fost verificată automat pe acest server: "
+"fișierele sunt .php cu exit la început, deci nu pot fi citite direct. "
+"Feed-ul se servește doar prin adresa /adc-feed/…"
+msgstr "Snapshot protection was verified automatically on this server: files are "
+".php with exit at the beginning, so they cannot be read directly. The feed "
+"is served only through the /adc-feed/… URL."
+
+msgid "Snapshot-urile sunt fișiere .php cu exit la început; verificarea automată "
+"nu a putut confirma protecția pe acest server"
+msgstr "Snapshots are .php files with exit at the beginning; the automatic check "
+"could not confirm protection on this server."
+
+msgid "Atenție"
+msgstr "Warning"
+
+msgid "Neverificat"
+msgstr "Unverified"
+
+msgid "Copiază adresa feedului %s"
+msgstr "Copy feed URL for %s"
+
+msgid "Șterge transformarea %s"
+msgstr "Delete transformation %s"
+
+msgid "Diagnostic necunoscut (%s)"
+msgstr "Unknown diagnostic (%s)"
+
+msgid "Pentru categoria „%s”"
+msgstr "For category “%s”"
+
+msgid "Ștergi feedul „%s”? Adresa publică nu va mai funcționa."
+msgstr "Delete feed “%s”? The public URL will stop working."
+
+msgid "Atribut WooCommerce"
+msgstr "WooCommerce attribute"
+
+msgid "Taxonomie"
+msgstr "Taxonomy"
+
+msgid "Maparea categoriilor"
+msgstr "Category mapping"
+
+msgid "Majuscule"
+msgstr "Uppercase"
+
+msgid "Minuscule"
+msgstr "Lowercase"
+
+msgid "Mapare valori"
+msgstr "Value mapping"
 
 msgid "1 apariție în HTML."
 msgid_plural "%d apariții în HTML."
@@ -3553,14 +3613,20 @@ msgstr "Essential only · Settings · Accept all"
 msgid "Setări · Doar necesare · Acceptă tot"
 msgstr "Settings · Essential only · Accept all"
 
-msgid "Pentru blocare înainte de acord, alegeți „Doar după acordarea consimțământului”. Modul „Întotdeauna” încarcă GTM imediat; Consent Mode nu garantează blocarea tuturor etichetelor din container."
-msgstr "To block loading before consent, choose Only after consent. Always mode loads GTM immediately; Consent Mode does not guarantee that all container tags are blocked."
+msgid "Pentru blocare înainte de acord, alegeți „Doar după acordarea "
+"consimțământului”. Modul „Întotdeauna” încarcă GTM imediat; Consent Mode nu "
+"garantează blocarea tuturor etichetelor din container."
+msgstr "To block loading before consent, choose Only after consent. Always mode "
+"loads GTM immediately; Consent Mode does not guarantee that all container "
+"tags are blocked."
 
 msgid "Alinierea butoanelor"
 msgstr "Button alignment"
 
-msgid "Alegeți poziția grupului de butoane. Pe spații înguste, butoanele trec pe rândul următor fără să ascundă vreo alegere."
-msgstr "Choose the position of the button group. In narrow spaces, buttons wrap onto the next line without hiding any choice."
+msgid "Alegeți poziția grupului de butoane. Pe spații înguste, butoanele trec pe "
+"rândul următor fără să ascundă vreo alegere."
+msgstr "Choose the position of the button group. In narrow spaces, buttons wrap "
+"onto the next line without hiding any choice."
 
 msgid "Aliniere"
 msgstr "Alignment"
@@ -3574,8 +3640,12 @@ msgstr "Center"
 msgid "La sfârșit"
 msgstr "End"
 
-msgid "Butoanele „Acceptă tot” și „Acceptă doar cele necesare” au aceeași mărime și greutate vizuală; diferă doar culoarea. Alegerea cookie-urilor necesare dezactivează categoriile opționale."
-msgstr "The Accept all and Accept Essential buttons have the same size and visual weight; only their colors differ. Choosing essential cookies disables optional categories."
+msgid "Butoanele „Acceptă tot” și „Acceptă doar cele necesare” au aceeași mărime "
+"și greutate vizuală; diferă doar culoarea. Alegerea cookie-urilor necesare "
+"dezactivează categoriile opționale."
+msgstr "The Accept all and Accept Essential buttons have the same size and visual "
+"weight; only their colors differ. Choosing essential cookies disables "
+"optional categories."
 
 msgid "Personalizează"
 msgstr "Customize"
@@ -4268,11 +4338,15 @@ msgstr "Cookie preferences"
 msgid "Scanner cookie-uri"
 msgstr "Cookie scanner"
 
-msgid "Identificați cookie-urile folosite pe site, apoi confirmați categoria și scopul fiecăruia."
-msgstr "Identify the cookies used on the site, then confirm the category and purpose of each one."
+msgid "Identificați cookie-urile folosite pe site, apoi confirmați categoria și "
+"scopul fiecăruia."
+msgstr "Identify the cookies used on the site, then confirm the category and "
+"purpose of each one."
 
-msgid "Informați vizitatorii: adăugați shortcode-ul [adc_cookie_table] în pagina Politicii de cookie-uri."
-msgstr "Inform your visitors: add the [adc_cookie_table] shortcode to your Cookie Policy page."
+msgid "Informați vizitatorii: adăugați shortcode-ul [adc_cookie_table] în pagina "
+"Politicii de cookie-uri."
+msgstr "Inform your visitors: add the [adc_cookie_table] shortcode to your Cookie "
+"Policy page."
 
 msgid "Editează pagina"
 msgstr "Edit page"
@@ -4286,8 +4360,12 @@ msgstr "Copy shortcode"
 msgid "Scanează acum"
 msgstr "Scan now"
 
-msgid "Cookie-urile setate de trackere apar în scanarea din browser numai dacă administratorul și-a acordat consimțământul pe site. Scanarea săptămânală din fundal vede doar cookie-urile setate de server."
-msgstr "Cookies set by trackers appear in the browser scan only if the administrator has given consent on the site. The weekly background scan only sees cookies set by the server."
+msgid "Cookie-urile setate de trackere apar în scanarea din browser numai dacă "
+"administratorul și-a acordat consimțământul pe site. Scanarea săptămânală "
+"din fundal vede doar cookie-urile setate de server."
+msgstr "Cookies set by trackers appear in the browser scan only if the "
+"administrator has given consent on the site. The weekly background scan "
+"only sees cookies set by the server."
 
 msgid "Filtrare cookie-uri"
 msgstr "Cookie filters"
@@ -4325,32 +4403,48 @@ msgstr "Ignore"
 msgid "Starea cookie-ului nu a putut fi actualizată."
 msgstr "The cookie status could not be updated."
 
-msgid "Integrarea este dezactivată. Activează platforma din setări și testează din nou."
-msgstr "The integration is disabled. Enable the platform in settings and test again."
+msgid "Integrarea este dezactivată. Activează platforma din setări și testează din "
+"nou."
+msgstr "The integration is disabled. Enable the platform in settings and test "
+"again."
 
-msgid "Browserul curent nu a acordat consimțământ pentru măsurare. Acordă-l din bannerul de cookie-uri și testează din nou."
-msgstr "The current browser has not given consent for measurement. Grant it from the cookie banner and test again."
+msgid "Browserul curent nu a acordat consimțământ pentru măsurare. Acordă-l din "
+"bannerul de cookie-uri și testează din nou."
+msgstr "The current browser has not given consent for measurement. Grant it from "
+"the cookie banner and test again."
 
-msgid "Comenzile (purchase) se trimit doar prin canalul server, deci testul din browser este omis intenționat."
-msgstr "Orders (purchase) are sent through the server channel only, so the browser test is intentionally skipped."
+msgid "Comenzile (purchase) se trimit doar prin canalul server, deci testul din "
+"browser este omis intenționat."
+msgstr "Orders (purchase) are sent through the server channel only, so the browser "
+"test is intentionally skipped."
 
-msgid "Lipsește identificatorul de client al browserului (client_id). Vizitează site-ul cu consimțământ acordat și testează din nou."
-msgstr "The browser client identifier (client_id) is missing. Visit the site with consent granted and test again."
+msgid "Lipsește identificatorul de client al browserului (client_id). Vizitează "
+"site-ul cu consimțământ acordat și testează din nou."
+msgstr "The browser client identifier (client_id) is missing. Visit the site with "
+"consent granted and test again."
 
-msgid "Lipsește ID-ul de măsurare GA4 (Measurement ID). Completează-l, salvează și testează din nou."
+msgid "Lipsește ID-ul de măsurare GA4 (Measurement ID). Completează-l, salvează și "
+"testează din nou."
 msgstr "The GA4 Measurement ID is missing. Fill it in, save and test again."
 
-msgid "Lipsește API secret pentru GA4. Completează-l, salvează și testează din nou."
+msgid "Lipsește API secret pentru GA4. Completează-l, salvează și testează din "
+"nou."
 msgstr "The GA4 API secret is missing. Fill it in, save and test again."
 
-msgid "Containerul server GTM rulează în mod „loader”, deci evenimentele nu se trimit direct. Testul este omis."
-msgstr "The GTM server container runs in \"loader\" mode, so events are not sent directly. The test is skipped."
+msgid "Containerul server GTM rulează în mod „loader”, deci evenimentele nu se "
+"trimit direct. Testul este omis."
+msgstr "The GTM server container runs in \"loader\" mode, so events are not sent "
+"directly. The test is skipped."
 
-msgid "Lipsește URL-ul containerului server (sGTM). Completează-l, salvează și testează din nou."
-msgstr "The server container URL (sGTM) is missing. Fill it in, save and test again."
+msgid "Lipsește URL-ul containerului server (sGTM). Completează-l, salvează și "
+"testează din nou."
+msgstr "The server container URL (sGTM) is missing. Fill it in, save and test "
+"again."
 
-msgid "Datele despre utilizator sunt insuficiente pentru potrivirea avansată. Folosește un test cu e-mail și telefon completate."
-msgstr "User data is insufficient for advanced matching. Use a test with email and phone filled in."
+msgid "Datele despre utilizator sunt insuficiente pentru potrivirea avansată. "
+"Folosește un test cu e-mail și telefon completate."
+msgstr "User data is insufficient for advanced matching. Use a test with email and "
+"phone filled in."
 
 msgid "Lipsește ID-ul de pixel Meta. Completează-l, salvează și testează din nou."
 msgstr "The Meta pixel ID is missing. Fill it in, save and test again."
@@ -4358,10 +4452,13 @@ msgstr "The Meta pixel ID is missing. Fill it in, save and test again."
 msgid "Lipsește token-ul de acces. Completează-l, salvează și testează din nou."
 msgstr "The access token is missing. Fill it in, save and test again."
 
-msgid "Lipsește codul de test al evenimentelor (Test Event Code) din Meta Events Manager. Completează-l, salvează și testează din nou."
-msgstr "The Test Event Code from Meta Events Manager is missing. Fill it in, save and test again."
+msgid "Lipsește codul de test al evenimentelor (Test Event Code) din Meta Events "
+"Manager. Completează-l, salvează și testează din nou."
+msgstr "The Test Event Code from Meta Events Manager is missing. Fill it in, save "
+"and test again."
 
-msgid "Lipsește codul de pixel TikTok (Pixel Code). Completează-l, salvează și testează din nou."
+msgid "Lipsește codul de pixel TikTok (Pixel Code). Completează-l, salvează și "
+"testează din nou."
 msgstr "The TikTok Pixel Code is missing. Fill it in, save and test again."
 
 msgid "Mai jos găsiți cookie-urile cunoscute, grupate pe categorii."
@@ -4417,3 +4514,3286 @@ msgstr "Too many rows (maximum 200 per request)."
 
 msgid "Inventarul de cookie-uri este plin (maximum 100 de intrări)."
 msgstr "The cookie inventory is full (maximum 100 entries)."
+
+msgid "Setări avansate"
+msgstr "Advanced settings"
+
+msgid "Inactiv"
+msgstr "Inactive"
+
+msgid "Dorești o soluție personalizată pentru afacerea ta?"
+msgstr "Looking for a solution tailored to your business?"
+
+msgid "Echipa Adcelerum construiește integrări, automatizări și funcționalități pe "
+"măsura magazinului tău."
+msgstr "The Adcelerum team builds integrations, automations, and features tailored "
+"to your store."
+
+msgid "Discută cu Adcelerum"
+msgstr "Talk to Adcelerum"
+
+msgid "(se deschide într-o filă nouă)"
+msgstr "(opens in a new tab)"
+
+msgid "Ascunde acest mesaj"
+msgstr "Dismiss this message"
+
+msgid "Adcelerum Commerce Hub"
+msgstr "Adcelerum Commerce Hub"
+
+msgid "Cifrele magazinului și starea colectării datelor, pe intervalul ales."
+msgstr "Store figures and data collection status for the selected date range."
+
+msgid "Ce vede vizitatorul la prima vizită: textele bannerului, aspectul și "
+"categoriile de cookie-uri."
+msgstr "What visitors see on their first visit: banner text, appearance, and cookie "
+"categories."
+
+msgid "Găsește cookie-urile folosite pe site, apoi confirmă categoria și scopul "
+"fiecăruia."
+msgstr "Find the cookies used on your site, then confirm the category and purpose "
+"of each one."
+
+msgid "Textul bifei de marketing din checkout, exportul contactelor și verificarea "
+"condițiilor GDPR."
+msgstr "The checkout marketing opt-in text, contact exports, and GDPR requirements "
+"check."
+
+msgid "Ce date colectează modulul de analiză, cât timp le păstrează și ce rămâne "
+"blocat."
+msgstr "What data the analytics module collects, how long it keeps it, and what "
+"remains disabled."
+
+msgid "Containerul web Google Tag Manager și, opțional, containerul server, "
+"configurate din același loc."
+msgstr "Configure your Google Tag Manager web container and, optionally, your "
+"server container in one place."
+
+msgid "Alege ce acțiuni ale vizitatorilor se măsoară și cum se calculează datele "
+"trimise platformelor."
+msgstr "Choose which visitor actions to measure and how data sent to platforms is "
+"calculated."
+
+msgid "Trimite platformelor e-mailul și telefonul clienților doar ca hash, ca să "
+"atribuie mai multe comenzi campaniilor."
+msgstr "Send customers’ email addresses and phone numbers to platforms only as "
+"hashes to attribute more orders to campaigns."
+
+msgid "Starea fiecărei platforme dintr-o privire: ce se încarcă în browser, ce "
+"pleacă de pe server și ce trebuie verificat."
+msgstr "See each platform’s status at a glance: what loads in the browser, what is "
+"sent from the server, and what needs attention."
+
+msgid "Trimite către Meta (Facebook și Instagram) evenimentele magazinului, pentru "
+"optimizarea reclamelor și publicuri."
+msgstr "Send store events to Meta (Facebook and Instagram) to optimize ads and "
+"build audiences."
+
+msgid "Trimite evenimentele de pe server către Google Analytics 4, mai fiabil "
+"decât o etichetă din browser."
+msgstr "Send events from your server to Google Analytics 4, more reliably than a "
+"browser tag."
+
+msgid "Trimite către TikTok evenimentele magazinului, pentru optimizarea "
+"reclamelor și publicuri."
+msgstr "Send store events to TikTok to optimize ads and build audiences."
+
+msgid "Ce a trimis pluginul către platforme, ce a eșuat și ce consimțământ a stat "
+"la baza fiecărei trimiteri."
+msgstr "What the plugin sent to platforms, what failed, and the consent behind each "
+"send."
+
+msgid "Prezentare generală"
+msgstr "Overview"
+
+msgid "Platforme"
+msgstr "Platforms"
+
+msgid "Jurnale"
+msgstr "Logs"
+
+msgid "Navigare Adcelerum Commerce Hub"
+msgstr "Adcelerum Commerce Hub navigation"
+
+msgid "Analiză (setări)"
+msgstr "Analytics (settings)"
+
+msgid "Vezi rapoartele în Prezentare generală"
+msgstr "View reports in Overview"
+
+msgid "Afișat pe site"
+msgstr "Visible on site"
+
+msgid "Previzualizare banner"
+msgstr "Banner preview"
+
+msgid "Se actualizează imediat ce modificați textele, poziția sau culorile."
+msgstr "Updates as soon as you change the text, position, or colors."
+
+msgid "Conținut"
+msgstr "Content"
+
+msgid "Activarea bannerului, textele, butoanele și paginile legale."
+msgstr "Banner activation, text, buttons, and legal pages."
+
+msgid "Decide dacă bannerul de consimțământ se afișează pe site și dacă "
+"vizitatorii sunt întrebați din nou."
+msgstr "Choose whether to show the consent banner and ask visitors again."
+
+msgid "Cuvintele exacte pe care vizitatorul le citește în banner și în managerul "
+"de consimțământ."
+msgstr "The exact wording visitors see in the banner and consent manager."
+
+msgid "Aspect"
+msgstr "Appearance"
+
+msgid "Poziția, culorile și finisajele bannerului."
+msgstr "Banner position, colors, and styling."
+
+msgid "Alegi unde apare bannerul pe ecran, ce culori folosește și cum arată; "
+"previzualizarea din dreapta se actualizează imediat."
+msgstr "Choose where the banner appears, its colors, and its style. The preview on "
+"the right updates instantly."
+
+msgid "Font"
+msgstr "Font"
+
+msgid "Moștenește fontul temei (recomandat)"
+msgstr "Inherit the theme font (recommended)"
+
+msgid "Font de sistem (neutru)"
+msgstr "System font (neutral)"
+
+msgid "Cu opțiunea implicită, bannerul și fereastra de preferințe folosesc același "
+"font ca restul site-ului."
+msgstr "By default, the banner and preferences window use the same font as the rest "
+"of your site."
+
+msgid "Categorii"
+msgstr "Categories"
+
+msgid "Alegerile din banner și cookie-urile declarate."
+msgstr "Choices in the banner and declared cookies."
+
+msgid "Alegerile pe care vizitatorul le poate face în banner și ce se întâmplă "
+"pentru fiecare când le acordă sau le refuză."
+msgstr "The choices visitors can make in the banner and what happens when they "
+"accept or reject each one."
+
+msgid "Cookie-uri declarate"
+msgstr "Declared cookies"
+
+msgid "%1$s cookie-uri în inventar, %2$s categorisite"
+msgstr "%1$s cookies in inventory, %2$s categorized"
+
+msgid "Necategorisite"
+msgstr "Uncategorized"
+
+msgid "Niciun cookie nu este în inventar încă: rulați o scanare pentru a-i detecta "
+"pe cei folosiți de site."
+msgstr "No cookies are in the inventory yet. Run a scan to detect the cookies used "
+"by your site."
+
+msgid "Lista de cookie-uri se editează acum într-un singur loc, în tabul „Scanner "
+"cookie-uri”; aici rămâne doar rezumatul."
+msgstr "Edit the cookie list in one place, under “Cookie scanner”. This page shows "
+"only a summary."
+
+msgid "Deschide Scanner cookie-uri"
+msgstr "Open cookie scanner"
+
+msgid "Necategorizat"
+msgstr "Uncategorized"
+
+msgid "Ignorat"
+msgstr "Ignored"
+
+msgid "Clasificat"
+msgstr "Categorized"
+
+msgid "GTM web"
+msgstr "Web GTM"
+
+msgid "Activ și configurat"
+msgstr "Active and configured"
+
+msgid "Activ, configurare incompletă"
+msgstr "Active, configuration incomplete"
+
+msgid "Evenimente"
+msgstr "Events"
+
+msgid "Alege ce acțiuni ale vizitatorilor sunt măsurate și trimise către "
+"platforme."
+msgstr "Choose which visitor actions are measured and sent to platforms."
+
+msgid "Ajustează cum se calculează și unde se înregistrează datele evenimentelor: "
+"identificatori, sume, statusuri, excepții."
+msgstr "Set how event data is calculated and recorded: identifiers, amounts, "
+"statuses, and exceptions."
+
+msgid "Setările de evenimente au fost salvate."
+msgstr "Event settings saved."
+
+msgid "s-au folosit valorile curente din formular, fără salvare"
+msgstr "current form values were used without saving"
+
+msgid "Conexiune"
+msgstr "Connection"
+
+msgid "Trimite evenimentele direct de pe serverul tău către Google Analytics 4, "
+"mai fiabil decât o etichetă din browser."
+msgstr "Send events directly from your server to Google Analytics 4, more reliably "
+"than a browser tag."
+
+msgid "Trei cazuri limită: cum identificăm evenimentele fără cookie de browser, ce "
+"se trimite când vizitatorul refuză și modul de depanare."
+msgstr "Three edge cases: identifying events without a browser cookie, what is sent "
+"when visitors decline, and debug mode."
+
+msgid "Numără și vizitatorii care au refuzat cookie-urile, fără niciun "
+"identificator; activați doar dacă politica de confidențialitate permite "
+"explicit."
+msgstr "Count visitors who declined cookies without using any identifier. Enable "
+"this only if your privacy policy explicitly allows it."
+
+msgid "lipsește ID-ul containerului"
+msgstr "container ID is missing"
+
+msgid "lipsește URL"
+msgstr "URL is missing"
+
+msgid "Stare acum:"
+msgstr "Current status:"
+
+msgid "Container web — %s"
+msgstr "Web container — %s"
+
+msgid "Server GTM — %s"
+msgstr "Server-side GTM — %s"
+
+msgid "Browser"
+msgstr "Browser"
+
+msgid "paginile deschise de vizitatori"
+msgstr "pages visitors open"
+
+msgid "Container web"
+msgstr "Web container"
+
+msgid "codul GTM din site (GTM-…)"
+msgstr "GTM code on the site (GTM-…)"
+
+msgid "Container server (opțional)"
+msgstr "Server container (optional)"
+
+msgid "etichetele trec prin propriul server"
+msgstr "tags run through your own server"
+
+msgid "Pe scurt: evenimentele pleacă din browserul vizitatorului spre containerul "
+"web. Dacă Server GTM este activat, ele trec mai întâi prin containerul "
+"server, apoi ajung la GA4, Meta sau TikTok conform setărilor din container."
+msgstr "In brief: events go from the visitor’s browser to the web container. If "
+"server-side GTM is enabled, they pass through the server container first, "
+"then reach GA4, Meta, or TikTok according to its settings."
+
+msgid "Cum se leagă cele două carduri"
+msgstr "How the two cards work together"
+
+msgid "Containerul web se încarcă în site; containerul server este opțional și "
+"primește evenimentele de la cel web."
+msgstr "The web container loads on your site. The optional server container "
+"receives events from the web container."
+
+msgid "Snippet-ul GTM inserat în paginile site-ului, în browserul vizitatorilor."
+msgstr "The GTM snippet added to your site pages in visitors’ browsers."
+
+msgid "Container web activ"
+msgstr "Web container active"
+
+msgid "Activează containerul GTM web (în browserul vizitatorilor)"
+msgstr "Enable the web GTM container (in visitors’ browsers)"
+
+msgid "Debifat, snippet-ul GTM nu se mai inserează în site, dar ID-ul rămâne "
+"salvat. Server GTM este independent și se configurează în cardul de lângă."
+msgstr "When unchecked, the GTM snippet is removed from the site, but the ID "
+"remains saved. Server-side GTM is independent and configured in the "
+"adjacent card."
+
+msgid "Server GTM (opțional)"
+msgstr "Server-side GTM (optional)"
+
+msgid "„Transport first-party” înseamnă că etichetele de măsurare se încarcă de pe "
+"domeniul dumneavoastră, nu de pe serverele Google — cookie-urile rămân ale "
+"site-ului și nu sunt blocate de browsere."
+msgstr "“First-party transport” means measurement tags load from your domain "
+"instead of Google’s servers. Cookies remain first-party and are not blocked "
+"by browsers."
+
+msgid "Mod loader / MP"
+msgstr "Loader / MP mode"
+
+msgid "Setările Google Tag Manager au fost salvate."
+msgstr "Google Tag Manager settings saved."
+
+msgid "Evenimente trimise"
+msgstr "Events sent"
+
+msgid "Instrumente și setări avansate"
+msgstr "Tools and advanced settings"
+
+msgid "Adcelerum Commerce Hub: pipeline de urmărire"
+msgstr "Adcelerum Commerce Hub: tracking pipeline"
+
+msgid "Adcelerum Commerce Hub: pipeline-ul de trimitere este operațional"
+msgstr "Adcelerum Commerce Hub: delivery pipeline is operational"
+
+msgid "Marketing (checkout)"
+msgstr "Marketing (checkout)"
+
+msgid "Textul de lângă bifa de marketing din checkout; devine proba "
+"consimțământului fiecărui client."
+msgstr "The text beside the marketing opt-in at checkout; it becomes each "
+"customer’s record of consent."
+
+msgid "Generează fișiere CSV cu contactele clienților, în funcție de decizia de "
+"consimțământ luată la comandă."
+msgstr "Generate CSV files of customer contacts based on the consent choice made "
+"when ordering."
+
+msgid "Verificare GDPR"
+msgstr "GDPR check"
+
+msgid "Arată dacă setările curente îndeplinesc condițiile de bază pentru "
+"consimțământ valid. Nu se salvează nimic aici."
+msgstr "Shows whether the current settings meet the basic requirements for valid "
+"consent. Nothing is saved here."
+
+msgid "Permite potrivirea evenimentelor și din afara checkout-ului (cont nou, "
+"login), nu doar de la comandă."
+msgstr "Allow event matching outside checkout too (new account, login), not only "
+"after an order."
+
+msgid "Prefix telefonic, selectoare de formulare, identificator extern și formatul "
+"datelor în dataLayer."
+msgstr "Phone prefix, form selectors, external ID, and data format in the "
+"dataLayer."
+
+msgid "Pixelul rulează în browser, Conversions API trimite aceleași evenimente de "
+"pe server."
+msgstr "The pixel runs in the browser; the Conversions API sends the same events "
+"from the server."
+
+msgid "Versiunea API și codul de eveniment test; schimbă-le doar dacă ai un motiv "
+"concret."
+msgstr "API version and test event code. Change these only when you have a specific "
+"reason."
+
+msgid "Gol = evenimente reale. Completat, toate evenimentele se direcționează doar "
+"în Test Events."
+msgstr "Blank = live events. When set, all events are routed to Test Events only."
+
+msgid "containerul GTM web este oprit sau fără ID"
+msgstr "web GTM container is disabled or has no ID"
+
+msgid "lipsesc datele de conectare server (%s)"
+msgstr "server credentials are missing (%s)"
+
+msgid "Activ, cu atenționări: %s"
+msgstr "Active, with warnings: %s"
+
+msgid "Inactiv: %s"
+msgstr "Inactive: %s"
+
+msgid "Pixelul %1$s este setat să se încarce prin Google Tag Manager, dar "
+"containerul GTM web este oprit sau nu are un ID salvat — până atunci "
+"pixelul nu se încarcă deloc."
+msgstr "The %1$s pixel is set to load through Google Tag Manager, but the web GTM "
+"container is disabled or has no saved ID. The pixel will not load until "
+"this is fixed."
+
+msgid "GA4 se încarcă direct în browser, iar containerul GTM web este activ. Dacă "
+"eticheta GA4 există și în container, evenimentele ajung la Google de două "
+"ori — păstrează o singură cale de încărcare pentru GA4."
+msgstr "GA4 loads directly in the browser while the web GTM container is active. If "
+"the container also has a GA4 tag, events are sent to Google twice. Keep "
+"only one GA4 loading method."
+
+msgid "Trimiterea de pe server pentru %1$s este activată, dar lipsesc datele de "
+"conectare (%2$s) — până le completezi, evenimentele nu se trimit."
+msgstr "Server-side sending for %1$s is enabled, but credentials are missing "
+"(%2$s). Events will not be sent until you add them."
+
+msgid "Comenzile GA4 (purchase) se trimit din server, dar și pixelul GA4 din "
+"browser este activ — comenzile pot fi numărate de două ori. Lasă o singură "
+"cale pentru comenzi."
+msgstr "GA4 purchase events are sent from the server, but the browser GA4 pixel is "
+"also active. Orders may be counted twice. Keep only one purchase event "
+"path."
+
+msgid "Server GTM este activat, dar lipsește URL-ul containerului server — "
+"transportul prin propriul domeniu nu poate funcționa."
+msgstr "Server-side GTM is enabled, but the server container URL is missing. "
+"First-party transport cannot work without it."
+
+msgid "ID pixel și token de acces"
+msgstr "Pixel ID and access token"
+
+msgid "Measurement ID și cheie API"
+msgstr "Measurement ID and API secret"
+
+msgid "Pixel Code și token de acces"
+msgstr "Pixel code and access token"
+
+msgid "Matrice platforme"
+msgstr "Platform matrix"
+
+msgid "Browser = modul de încărcare a pixelului în paginile vizitate: oprit, "
+"gestionat prin containerul GTM web sau încărcat direct de plugin. Server = "
+"trimiterea de evenimente direct către platformă, de pe server, pentru "
+"vizitatorii cu consimțământ de marketing. Stare = rezultatul celor două, "
+"calculat din setări."
+msgstr "Browser = how the pixel loads on visited pages: disabled, managed by the "
+"web GTM container, or loaded directly by the plugin. Server = events sent "
+"directly from your server to the platform for visitors who gave marketing "
+"consent. Status = the result of both, based on your settings."
+
+msgid "Server"
+msgstr "Server"
+
+msgid "Modifică"
+msgstr "Edit"
+
+msgid "De verificat"
+msgstr "Needs attention"
+
+msgid "Situații din setările actuale care pot duce la date lipsă sau numărate "
+"dublu. Fiecare mesaj arată tabul unde poți interveni."
+msgstr "Current settings that may cause missing or duplicate data. Each message "
+"points to the tab where you can fix it."
+
+msgid "Nicio problemă detectată în setările actuale."
+msgstr "No issues found with the current settings."
+
+msgid "Deschide tabul %s"
+msgstr "Open the %s tab"
+
+msgid "prin GTM"
+msgstr "via GTM"
+
+msgid "Trimite evenimentele magazinului către TikTok, pentru optimizarea "
+"reclamelor și crearea de publicuri."
+msgstr "Send store events to TikTok to optimize ads and build audiences."
+
+msgid "Codul de eveniment test; folosește-l doar temporar, pentru verificare."
+msgstr "Test event code. Use it temporarily for verification only."
+
+msgid "Gol = evenimente reale. Completat, evenimentele se direcționează în Test "
+"Events pentru verificare."
+msgstr "Blank = live events. When set, events are routed to Test Events for "
+"verification."
+
+msgid "rândurile „Trimis” se șterg după 14 zile, cele „Eșuat definitiv” după 30 de "
+"zile (modificabil din tabul „Evenimente”). Butonul „Curăță jurnalul” aplică "
+"imediat aceste limite. Conținutul jurnalului este vizibil doar "
+"administratorilor."
+msgstr "“Sent” rows are deleted after 14 days and “Permanently failed” rows after "
+"30 days (change this under “Events”). “Clear log” applies these limits "
+"immediately. Only administrators can view the log."
+
+msgid "Măsurarea are maximum trei pași: vizitatorul deschide site-ul în browser; "
+"containerul web (GTM-…) se încarcă în pagină și scrie evenimentele în "
+"dataLayer; dacă Server GTM este activat, evenimentele trec mai întâi prin "
+"containerul de pe serverul dumneavoastră înainte să ajungă la GA4, Meta sau "
+"TikTok."
+msgstr "Measurement has up to three steps: a visitor opens your site; the web "
+"container (GTM-…) loads on the page and writes events to the dataLayer; if "
+"server-side GTM is enabled, events pass through your server container "
+"before reaching GA4, Meta, or TikTok."
+
+msgid "Cardul „Container web” este suficient pentru majoritatea magazinelor. "
+"Cardul „Server GTM” este opțional: fără un URL de container server salvat, "
+"pasul 3 este ignorat complet și nimic din ce aveți deja configurat nu se "
+"schimbă."
+msgstr "The “Web container” card is enough for most stores. “Server-side GTM” is "
+"optional: without a saved server container URL, step 3 is skipped and your "
+"existing setup remains unchanged."
+
+msgid "Starea de lângă titlul fiecărui card arată pe loc dacă pasul respectiv este "
+"activ, dezactivat din bifă sau așteaptă o valoare lipsă (ID-ul, respectiv "
+"URL-ul)."
+msgstr "The status beside each card title shows whether that step is active, "
+"switched off, or waiting for a required value (the ID or URL)."
+
+msgid "Ce aveți în schimb: topul produselor vândute, din comenzi plătite, este "
+"disponibil în Prezentare generală și este complet, pentru că pornește de la "
+"comanda fermă."
+msgstr "Instead, the best-selling products report is available under Overview. It "
+"uses paid orders and is complete because it is based on confirmed orders."
+
+msgid "Până la reconstrucție, cifrele din Prezentare generală rămân cele din "
+"agregate; diferențele de aici nu se adaugă la venit."
+msgstr "Until the data is rebuilt, Overview continues to show aggregated figures; "
+"these differences are not added to revenue."
+
+msgid "creștere"
+msgstr "increase"
+
+msgid "scădere"
+msgstr "decrease"
+
+msgid "față de intervalul anterior"
+msgstr "compared with the previous period"
+
+msgid "Tabel de date pe zile, derulabil"
+msgstr "Scrollable daily data table"
+
+msgid "Clasamentul complet"
+msgstr "Full ranking"
+
+msgid "Clasament, tabel derulabil"
+msgstr "Ranking, scrollable table"
+
+msgid "Starea canalelor"
+msgstr "Channel status"
+
+msgid "Filtre avansate"
+msgstr "Advanced filters"
+
+msgid "Filtrează cifrele de trafic pe un singur tip de pagină."
+msgstr "Filter traffic figures by a single page type."
+
+msgid "Câte rânduri se afișează în clasamente."
+msgstr "Number of rows to show in rankings."
+
+msgid "Se folosește doar împreună cu data de sfârșit."
+msgstr "Used only with an end date."
+
+msgid "Capătul intervalului personalizat."
+msgstr "End date for the custom range."
+
+msgid "Limitează produsele și listele la un singur produs."
+msgstr "Limit products and lists to a single product."
+
+msgid "Valorile intervalului selectat, pe cele două registre separate."
+msgstr "Values for the selected period, shown in the two separate ledgers."
+
+msgid "Alte cifre ale intervalului"
+msgstr "Other figures for this period"
+
+msgid "Tendințe pe zile"
+msgstr "Daily trends"
+
+msgid "Graficul alături de valorile pe zile: aceeași poveste, două forme."
+msgstr "The chart and daily figures show the same story in two formats."
+
+msgid "Cereri pe zile (valori)"
+msgstr "Requests per day (values)"
+
+msgid "Venit brut (linie)"
+msgstr "Gross revenue (line)"
+
+msgid "Comenzi plătite (bare)"
+msgstr "Paid orders (bars)"
+
+msgid "Comenzi și venit pe zile (valori)"
+msgstr "Orders and revenue per day (values)"
+
+msgid "Defalcări și topuri"
+msgstr "Breakdowns and rankings"
+
+msgid "Detaliile pe surse: liste ordonate, fiecare cu exportul ei."
+msgstr "Source details: sorted lists, each with its own export."
+
+msgid "Verificarea datelor"
+msgstr "Data checks"
+
+msgid "Stare colectare și note"
+msgstr "Collection status and notes"
+
+msgid "Ce colectează modulul acum și ce nu poate determina din principiile lui."
+msgstr "What the module collects and what it cannot determine by design."
+
+msgid "Cele două registre"
+msgstr "The two ledgers"
+
+msgid "Avertismente (%d)"
+msgstr "Warnings (%d)"
+
+msgid "Adună pe zile valorile comenzilor din WooCommerce (comenzi plătite, venit, "
+"TVA, livrare, reduceri, rambursări) și le afișează în Prezentare generală. "
+"Datele provin din comenzile proprii ale magazinului, rămân în baza de date "
+"WordPress și nu se transmit nicăieri; funcționează independent de bannerul "
+"de consimțământ."
+msgstr "Collects daily WooCommerce order figures (paid orders, revenue, tax, "
+"shipping, discounts, and refunds) and displays them in Overview. The data "
+"comes from your store’s orders, stays in the WordPress database, and is "
+"never sent elsewhere. It works independently of the consent banner."
+
+msgid "Numără accesările de pagină pe zi, grupate pe tip de pagină și pe canalul "
+"de proveniență. Numărarea se face pe server, fără cookie, fără JavaScript "
+"și fără niciun identificator de vizitator; datele rămân în baza de date "
+"WordPress."
+msgstr "Counts daily page views by page type and traffic source. Counting happens "
+"on the server without cookies, JavaScript, or visitor identifiers; the data "
+"stays in the WordPress database."
+
+msgid "Acum: financiar %1$d zile · registru %2$d zile · trafic %3$d zile"
+msgstr "Current: financial %1$d days · ledger %2$d days · traffic %3$d days"
+
+msgid "Retenție date"
+msgstr "Data retention"
+
+msgid "Cât timp se păstrează datele colectate; ce e mai vechi se șterge automat."
+msgstr "How long collected data is kept. Older data is deleted automatically."
+
+msgid "Registrul conține ID-uri interne de comandă pentru a preveni dublarea; nu "
+"poate fi reținut mai puțin decât agregatele financiare."
+msgstr "The ledger stores internal order IDs to prevent duplicates. Its retention "
+"period cannot be shorter than that of the financial aggregates."
+
+msgid "Feedurile de produse pentru Google, Meta, TikTok și OLX, construite din "
+"catalogul WooCommerce."
+msgstr "Product feeds for Google, Meta, TikTok, and OLX, built from the WooCommerce "
+"catalog."
+
+msgid "Catalog"
+msgstr "Catalog"
+
+msgid "Cerințe Catalog lipsă: %s."
+msgstr "Missing Catalog requirements: %s."
+
+msgid "Vezi detaliile în Jurnale."
+msgstr "View the details in Logs."
+
+msgid "Cerințe Catalog"
+msgstr "Catalog requirements"
+
+msgid "Verificarea cerințelor Catalog nu este disponibilă în această versiune."
+msgstr "The Catalog requirements check is unavailable in this version."
+
+msgid "Nu au fost raportate cerințe Catalog."
+msgstr "No Catalog requirements were reported."
+
+msgid "Cerință"
+msgstr "Requirement"
+
+msgid "Feeduri"
+msgstr "Feeds"
+
+msgid "Catalogul necesită WooCommerce"
+msgstr "The Catalog requires WooCommerce"
+
+msgid "Modulul Catalog citește produsele din WooCommerce. Instalează pluginul "
+"WooCommerce ca să creezi feeduri de produse."
+msgstr "The Catalog module reads products from WooCommerce. Install WooCommerce to "
+"create product feeds."
+
+msgid "Instalează WooCommerce"
+msgstr "Install WooCommerce"
+
+msgid "Detalii"
+msgstr "Details"
+
+msgid "Doar un administrator cu drept de instalare poate instala WooCommerce."
+msgstr "Only an administrator with permission to install plugins can install "
+"WooCommerce."
+
+msgid "WooCommerce este instalat, dar inactiv"
+msgstr "WooCommerce is installed but inactive"
+
+msgid "Activează WooCommerce ca să poți crea feeduri de produse."
+msgstr "Activate WooCommerce to create product feeds."
+
+msgid "Activează WooCommerce"
+msgstr "Activate WooCommerce"
+
+msgid "Cere unui administrator cu drept de activare să activeze WooCommerce."
+msgstr "Ask an administrator with permission to activate plugins to activate "
+"WooCommerce."
+
+msgid "Nu ai creat încă niciun feed"
+msgstr "You haven't created any feeds yet"
+
+msgid "Feedurile trimit catalogul de produse către Google, Meta, TikTok, OLX sau "
+"către un format personalizat. Configurarea feedurilor urmează în etapele "
+"următoare."
+msgstr "Feeds send your product catalog to Google, Meta, TikTok, OLX, or a custom "
+"format. Feed configuration will be available in a later stage."
+
+msgid "Feedurile trimit catalogul de produse către Google, Meta, TikTok, OLX sau "
+"către un format personalizat. Deocamdată este disponibil feedul pentru "
+"Google."
+msgstr "Feeds send your product catalogue to Google, Meta, TikTok, OLX, or a custom "
+"format. Google feeds are currently available."
+
+msgid "Se încarcă feedurile…"
+msgstr "Loading feeds…"
+
+msgid "Activează JavaScript pentru a gestiona feedurile."
+msgstr "Enable JavaScript to manage feeds."
+
+msgid "Nu ai permisiunea necesară pentru feeduri."
+msgstr "You do not have permission to manage feeds."
+
+msgid "Sesiunea a expirat. Reîncarcă pagina și încearcă din nou."
+msgstr "Your session has expired. Reload the page and try again."
+
+msgid "Feedul nu a putut fi creat. Încearcă din nou."
+msgstr "The feed could not be created. Please try again."
+
+msgid "Nu ai trimis nicio modificare."
+msgstr "No changes were submitted."
+
+msgid "Regenerarea nu a putut fi pusă în coadă."
+msgstr "The feed could not be queued for regeneration."
+
+msgid "Destinația feedului nu este validă."
+msgstr "The feed destination is invalid."
+
+msgid "Această destinație va fi disponibilă în curând."
+msgstr "This destination will be available soon."
+
+msgid "Tipul feedului nu este valid."
+msgstr "The feed type is invalid."
+
+msgid "Formatul feedului nu este valid."
+msgstr "The feed format is invalid."
+
+msgid "Starea feedului nu este validă."
+msgstr "The feed status is invalid."
+
+msgid "Codul țării de livrare nu este valid (ex. RO)."
+msgstr "The shipping country code is invalid (e.g. RO)."
+
+msgid "Prețul de livrare nu este valid (ex. 15.00)."
+msgstr "The shipping price is invalid (e.g. 15.00)."
+
+msgid "Serviciul de livrare nu este valid."
+msgstr "The shipping service is invalid."
+
+msgid "Condiția produsului nu este validă."
+msgstr "The product condition is invalid."
+
+msgid "Numele feedului este obligatoriu."
+msgstr "The feed name is required."
+
+msgid "Numele feedului trebuie să aibă între 1 și 120 de caractere."
+msgstr "The feed name must be between 1 and 120 characters."
+
+msgid "Ai făcut prea multe regenerări. Așteaptă un minut și încearcă din nou."
+msgstr "You have requested too many regenerations. Wait a minute and try again."
+
+msgid "Motorul de feeduri nu este disponibil."
+msgstr "The feed engine is unavailable."
+
+msgid "Câmp necunoscut în cerere."
+msgstr "The request contains an unknown field."
+
+msgid "Configurația feedului nu este validă."
+msgstr "The feed configuration is invalid."
+
+msgid "Feedul nu există."
+msgstr "The feed does not exist."
+
+msgid "Modificarea nu a putut fi salvată."
+msgstr "The change could not be saved."
+
+msgid "Lipsește ID-ul produsului (id), cerut de Google pentru fiecare ofertă."
+msgstr "The product ID (id), required by Google for every offer, is missing."
+
+msgid "ID-ul produsului are %1$d caractere; Google acceptă maximum %2$d."
+msgstr "The product ID is %1$d characters long; Google allows a maximum of %2$d."
+
+msgid "item_group_id are %1$d caractere; Google acceptă maximum %2$d."
+msgstr "item_group_id is %1$d characters long; Google allows a maximum of %2$d."
+
+msgid "Lipsește titlul produsului (title), cerut de Google."
+msgstr "The product title (title), required by Google, is missing."
+
+msgid "Titlul are %1$d caractere; Google acceptă maximum %2$d."
+msgstr "The title is %1$d characters long; Google allows a maximum of %2$d."
+
+msgid "Titlul conține HTML sau rânduri multiple; Google cere text simplu."
+msgstr "The title contains HTML or multiple lines; Google requires plain text."
+
+msgid "Lipsește descrierea produsului (description), cerută de Google."
+msgstr "The product description (description), required by Google, is missing."
+
+msgid "Descrierea are %1$d caractere; Google acceptă maximum %2$d."
+msgstr "The description is %1$d characters long; Google allows a maximum of %2$d."
+
+msgid "Descrierea conține HTML; Google cere text simplu, fără marcaj."
+msgstr "The description contains HTML; Google requires plain text without markup."
+
+msgid "Lipsește linkul către pagina produsului (link), cerut de Google."
+msgstr "The product page link (link), required by Google, is missing."
+
+msgid "Linkul produsului trebuie să fie un URL absolut cu schemă http sau https."
+msgstr "The product link must be an absolute URL using the http or https scheme."
+
+msgid "Linkul produsului folosește http; recomandăm https pentru pagina de "
+"destinație."
+msgstr "The product link uses http; https is recommended for the landing page."
+
+msgid "Lipsește imaginea principală (image_link), cerută de Google."
+msgstr "The main image (image_link), required by Google, is missing."
+
+msgid "Imaginea principală trebuie să fie un URL absolut cu schemă http sau https."
+msgstr "The main image must be an absolute URL using the http or https scheme."
+
+msgid "Imaginile secundare trebuie trimise ca listă de URL-uri."
+msgstr "Additional images must be provided as a list of URLs."
+
+msgid "Sunt %1$d imagini secundare; Google acceptă maximum %2$d."
+msgstr "There are %1$d additional images; Google allows a maximum of %2$d."
+
+msgid "Imaginea secundară %d nu este un URL absolut cu schemă http sau https."
+msgstr "Additional image %d is not an absolute URL using the http or https scheme."
+
+msgid "URL-ul imaginii secundare %1$d are %2$d caractere; Google acceptă maximum "
+"%3$d."
+msgstr "The URL for additional image %1$d is %2$d characters long; Google allows a "
+"maximum of %3$d."
+
+msgid "Imaginea are %1$d×%2$d px; Google cere minimum %3$d×%3$d px."
+msgstr "The image is %1$d×%2$d px; Google requires a minimum of %3$d×%3$d px."
+
+msgid "Imaginea are %1$d×%2$d px; din 31.01.2027 Google va cere minimum %3$d×%3$d "
+"px."
+msgstr "The image is %1$d×%2$d px; from 31 January 2027, Google will require a "
+"minimum of %3$d×%3$d px."
+
+msgid "Lipsește prețul (price), cerut de Google."
+msgstr "The price (price), required by Google, is missing."
+
+msgid "Prețul trebuie să fie un număr pozitiv, cu punct decimal."
+msgstr "The price must be a positive number using a decimal point."
+
+msgid "Prețul redus (sale_price) trebuie să fie un număr pozitiv."
+msgstr "The sale price (sale_price) must be a positive number."
+
+msgid "Prețul redus (%1$s) este mai mare decât prețul de listă (%2$s)."
+msgstr "The sale price (%1$s) is higher than the regular price (%2$s)."
+
+msgid "Prețul redus este egal cu prețul de listă; trimite sale_price doar la o "
+"reducere reală."
+msgstr "The sale price equals the regular price; only send sale_price for a genuine "
+"discount."
+
+msgid "Moneda lipsește sau nu este un cod ISO 4217 din trei litere mari (de "
+"exemplu RON)."
+msgstr "The currency is missing or is not a three-letter uppercase ISO 4217 code "
+"(for example, RON)."
+
+msgid "Lipsește disponibilitatea (availability), cerută de Google."
+msgstr "Availability (availability), required by Google, is missing."
+
+msgid "Disponibilitatea „%s” nu este acceptată; Google acceptă in_stock, "
+"out_of_stock, preorder sau backorder."
+msgstr "Availability “%s” is not supported; Google accepts in_stock, out_of_stock, "
+"preorder, or backorder."
+
+msgid "Pentru precomandă (preorder), Google cere availability_date."
+msgstr "For preorder items, Google requires availability_date."
+
+msgid "availability_date trebuie să fie în format ISO 8601 "
+"(AAAA-LL-ZZThh:mm[+hhmm]), maximum 25 de caractere."
+msgstr "availability_date must use ISO 8601 format (YYYY-MM-DDThh:mm[+hhmm]) and be "
+"no more than 25 characters long."
+
+msgid "Condiția „%s” nu este acceptată; Google acceptă new, refurbished sau used."
+msgstr "Condition “%s” is not supported; Google accepts new, refurbished, or used."
+
+msgid "identifier_exists acceptă doar yes sau no."
+msgstr "identifier_exists only accepts yes or no."
+
+msgid "Lipsește brandul, cerut de Google pentru produsele noi (excepții: filme, "
+"cărți, muzică)."
+msgstr "The brand, required by Google for new products (except movies, books, and "
+"music), is missing."
+
+msgid "Brandul are %1$d caractere; Google acceptă maximum %2$d."
+msgstr "The brand is %1$d characters long; Google allows a maximum of %2$d."
+
+msgid "MPN-ul are %1$d caractere; Google acceptă maximum %2$d."
+msgstr "The MPN is %1$d characters long; Google allows a maximum of %2$d."
+
+msgid "MPN-ul conține caractere nealfanumerice; Google recomandă doar litere, "
+"cifre, spații și cratime."
+msgstr "The MPN contains non-alphanumeric characters; Google recommends using only "
+"letters, numbers, spaces, and hyphens."
+
+msgid "Produsul nu are nici GTIN, nici MPN; completează unul dintre ele sau "
+"setează identifier_exists=no."
+msgstr "The product has neither a GTIN nor an MPN; provide one or set "
+"identifier_exists=no."
+
+msgid "GTIN-ul are %1$d caractere; Google acceptă maximum %2$d caractere, cu "
+"maximum %3$d cifre per valoare."
+msgstr "The GTIN is %1$d characters long; Google allows a maximum of %2$d "
+"characters and %3$d digits per value."
+
+msgid "GTIN-ul trebuie să conțină doar cifre."
+msgstr "The GTIN must contain digits only."
+
+msgid "GTIN-ul are %1$d cifre; Google acceptă maximum %2$d cifre per valoare."
+msgstr "The GTIN has %1$d digits; Google allows a maximum of %2$d digits per value."
+
+msgid "GTIN-ul are %d cifre; sunt acceptate doar 8, 12, 13 sau 14 cifre."
+msgstr "The GTIN has %d digits; only 8, 12, 13, or 14 digits are accepted."
+
+msgid "GTIN-ul „%s” nu trece verificarea cifrei de control."
+msgstr "The GTIN “%s” fails the check-digit validation."
+
+msgid "Lipsește google_product_category; Google îl recomandă și în practică este "
+"necesar pentru aprobare."
+msgstr "google_product_category is missing; Google recommends it and it is "
+"practically required for approval."
+
+msgid "google_product_category nu pare a fi un ID numeric sau o cale „A > B > C” "
+"din taxonomia Google."
+msgstr "google_product_category does not appear to be a numeric ID or an “A > B > "
+"C” path from Google’s taxonomy."
+
+msgid "product_type are %1$d caractere; Google acceptă maximum %2$d."
+msgstr "product_type is %1$d characters long; Google allows a maximum of %2$d."
+
+msgid "product_type nu folosește formatul „A > B > C”."
+msgstr "product_type does not use the “A > B > C” format."
+
+msgid "Atributul shipping trebuie să fie o listă de zone de livrare."
+msgstr "The shipping attribute must be a list of shipping zones."
+
+msgid "Lipsește atributul shipping; pentru România Google îl cere la Shopping ads "
+"și free listings."
+msgstr "The shipping attribute is missing; Google requires it for Shopping ads and "
+"free listings in Romania."
+
+msgid "Zona de livrare %d nu este o listă de sub-atribute."
+msgstr "Shipping zone %d is not a list of sub-attributes."
+
+msgid "Zona de livrare %d nu are țara (country) în format ISO 3166 cu două litere."
+msgstr "Shipping zone %d has no country (country) in the two-letter ISO 3166 "
+"format."
+
+msgid "Zona de livrare %d nu are preț; Google îl așteaptă pentru afișarea costului "
+"de livrare."
+msgstr "Shipping zone %d has no price; Google expects one to display the shipping "
+"cost."
+
+msgid "Prețul livrării din zona %1$d trebuie să fie un număr între 0 și %2$d."
+msgstr "The shipping price in zone %1$d must be a number between 0 and %2$d."
+
+msgid "Etichetele custom trebuie trimise ca listă de valori text."
+msgstr "Custom labels must be provided as a list of text values."
+
+msgid "Sunt %1$d etichete custom; Google acceptă maximum %2$d (custom_label_0 … "
+"custom_label_4)."
+msgstr "There are %1$d custom labels; Google allows a maximum of %2$d "
+"(custom_label_0 … custom_label_4)."
+
+msgid "Eticheta custom_label_%d nu este o valoare text."
+msgstr "The custom_label_%d value is not text."
+
+msgid "Eticheta custom_label_%1$d are %2$d caractere; Google acceptă maximum %3$d."
+msgstr "custom_label_%1$d is %2$d characters long; Google allows a maximum of %3$d."
+
+msgid "Greutatea trebuie să fie un număr pozitiv, în unități consistente pentru "
+"produs."
+msgstr "Weight must be a positive number using consistent units for the product."
+
+msgid "Securitate: snapshoturile sunt păstrate în afara webrootului și au "
+"protecții Apache/IIS suplimentare. Dacă expui directorul printr-un alias "
+"Nginx, blochează accesul direct; Nginx nu aplică fișierele .htaccess sau "
+"web.config."
+msgstr "Security: feed snapshots are stored outside the web root and have "
+"additional Apache/IIS protections. If you expose the directory through an "
+"Nginx alias, block direct access; Nginx does not apply .htaccess or "
+"web.config files."
+
+msgid "Dezinstalarea a fost oprită deoarece fișierele sau tabelele pluginului nu "
+"au putut fi șterse în siguranță."
+msgstr "Uninstallation stopped because plugin files or tables could not be safely "
+"deleted."
+
+msgid "Cerințe"
+msgstr "Requirements"
+
+msgid "Verificarea cerințelor nu este disponibilă în această versiune."
+msgstr "The requirements check is not available in this version."
+
+msgid "Disponibil"
+msgstr "Available"
+
+msgid "Lipsește"
+msgstr "Missing"
+
+msgid "Directorul de feeduri este accesibil public; feedurile rămân servite numai "
+"prin URL-ul /adc-feed/."
+msgstr "The feed directory is publicly accessible; feeds continue to be served only "
+"through their /adc-feed/ URLs."
+
+msgid "Accesul public direct la directorul de feeduri este blocat."
+msgstr "Direct public access to the feed directory is blocked."
+
+msgid "Autotestul accesului public la stocare nu a putut fi verificat."
+msgstr "The public storage access test could not be verified."
+
+msgid "Fișierul temporar al autotestului nu a putut fi șters."
+msgstr "The temporary storage-test file could not be deleted."
+
+msgid "Directorul persistent pentru feeduri nu este disponibil."
+msgstr "Persistent feed storage is unavailable."
+
+msgid "Extensia PHP XMLReader este disponibilă."
+msgstr "The PHP XMLReader extension is available."
+
+msgid "Extensia PHP XMLWriter este disponibilă."
+msgstr "The PHP XMLWriter extension is available."
+
+msgid "Directorul persistent adc-feeds poate fi scris."
+msgstr "The persistent adc-feeds directory is writable."
+
+msgid "Snapshot-urile sunt fișiere .php protejate (conțin exit la început), deci "
+"nu pot fi citite direct; feed-ul se servește doar prin adresa /adc-feed/…"
+msgstr "Snapshots are protected .php files (with an exit statement at the start), "
+"so they cannot be read directly; feeds are served only through /adc-feed/…"
+
+msgid "Verificare informativă: testul HTTP a returnat tokenul; protecția snapshot-urilor nu este confirmată."
+msgstr "Informational check: the HTTP test returned the token; snapshot protection is unverified."
+
+msgid "Verificare informativă: testul HTTP nu a returnat tokenul; protecția nu este confirmată complet."
+msgstr "Informational check: the HTTP test did not return the token; protection is not fully verified."
+
+msgid "Verificare informativă, neconfirmată: testul HTTP nu a putut fi finalizat."
+msgstr "Informational, unverified check: the HTTP test could not be completed."
+
+msgid "Verificare informativă, neconfirmată: testul HTTP nu este disponibil."
+msgstr "Informational, unverified check: the HTTP test is unavailable."
+
+msgid "WooCommerce este activ."
+msgstr "WooCommerce is active."
+
+msgid "WooCommerce 9.5 sau o versiune mai nouă este disponibil."
+msgstr "WooCommerce 9.5 or later is available."
+
+msgid "Nu există produse valide pentru publicarea feedului."
+msgstr "There are no valid products to publish in the feed."
+
+msgid "%d produse omise: nu respectă cerințele destinației."
+msgstr "%d products omitted: they do not meet the destination requirements."
+
+msgid "Câmpul product_type are %1$d caractere; Google acceptă maximum %2$d."
+msgstr "The product_type field has %1$d characters; Google allows a maximum of %2$d."
+
+msgid "Câmpul product_type nu folosește formatul „A > B > C”."
+msgstr "The product_type field does not use the “A > B > C” format."
+
+msgid "Câmpul product_type are %1$d caractere; Meta acceptă maximum %2$d."
+msgstr "The product_type field has %1$d characters; Meta allows a maximum of %2$d."
+
+msgid "Eticheta internă nu este scrisă cu litere mici; Meta o stochează astfel, deci potrivirea în seturile de produse folosește varianta cu litere mici."
+msgstr "The internal label is not lowercase; Meta stores it in lowercase, so product set matching uses the lowercase version."
+
+msgid "Categoria google_product_category are %1$d niveluri; TikTok afișează doar primele %2$d."
+msgstr "The google_product_category field has %1$d levels; TikTok displays only the first %2$d."
+
+msgid "Câmpul product_type are %1$d niveluri; TikTok indică doar primele %2$d."
+msgstr "The product_type field has %1$d levels; TikTok uses only the first %2$d."
+
+msgid "ID-ul feedului nu este valid."
+msgstr "The feed ID is invalid."
+
+msgid "Feedul nu a fost găsit."
+msgstr "The feed was not found."
+
+msgid "Feedul este dezactivat."
+msgstr "The feed is disabled."
+
+msgid "Profilul feedului nu este acceptat."
+msgstr "The feed profile is not supported."
+
+msgid "Feedul este deja în curs de generare."
+msgstr "The feed is already being generated."
+
+msgid "Nu s-a putut programa o nouă încercare pentru feedul ocupat."
+msgstr "A retry could not be scheduled for the busy feed."
+
+msgid "Numărul de încercări pentru feedul ocupat a fost epuizat."
+msgstr "The retry limit for the busy feed has been reached."
+
+msgid "Nu s-a putut programa regenerarea după o modificare."
+msgstr "Regeneration after a change could not be scheduled."
+
+msgid "Numărul de încercări pentru regenerare a fost epuizat."
+msgstr "The regeneration retry limit has been reached."
+
+msgid "Indexul produselor din feed nu a putut fi construit."
+msgstr "The feed product index could not be built."
+
+msgid "Generarea feedului a eșuat dintr-un motiv neidentificat."
+msgstr "Feed generation failed for an unknown reason."
+
+msgid "ID-ul de urmărire nu este compatibil cu formatul feedului."
+msgstr "The tracking ID is incompatible with the feed format."
+
+msgid "Același ID de produs apare de mai multe ori."
+msgstr "The same product ID appears more than once."
+
+msgid "Curățarea snapshot-ului vechi nu a reușit."
+msgstr "The old snapshot could not be cleaned up."
+
+msgid "Validatorul Google nu este disponibil pe acest site."
+msgstr "The Google validator is unavailable on this site."
+
+msgid "Validarea Google nu a putut fi finalizată."
+msgstr "Google validation could not be completed."
+
+msgid "Pentru România este necesară configurarea livrării."
+msgstr "Shipping must be configured for Romania."
+
+msgid "Lipsește țara de livrare."
+msgstr "The shipping country is missing."
+
+msgid "Țara de livrare nu este validă."
+msgstr "The shipping country is invalid."
+
+msgid "Prețul de livrare nu este valid."
+msgstr "The shipping price is invalid."
+
+msgid "Lipsește certificarea obligatorie a produsului."
+msgstr "Required product certification is missing."
+
+msgid "Certificarea produsului este incompletă."
+msgstr "Product certification is incomplete."
+
+msgid "Lipsește prețul pe unitate, obligatoriu pentru această categorie."
+msgstr "The unit price required for this category is missing."
+
+msgid "Prețul pe unitate este incomplet."
+msgstr "The unit price is incomplete."
+
+msgid "Lipsește ID-ul produsului."
+msgstr "The product ID is missing."
+
+msgid "ID-ul produsului este prea lung."
+msgstr "The product ID is too long."
+
+msgid "ID-ul grupului de variante este prea lung."
+msgstr "The variant group ID is too long."
+
+msgid "Lipsește titlul produsului."
+msgstr "The product title is missing."
+
+msgid "Titlul produsului este prea lung."
+msgstr "The product title is too long."
+
+msgid "Titlul conține HTML sau text formatat."
+msgstr "The title contains HTML or formatted text."
+
+msgid "Lipsește descrierea produsului."
+msgstr "The product description is missing."
+
+msgid "Descrierea produsului este prea lungă."
+msgstr "The product description is too long."
+
+msgid "Descrierea conține HTML sau text formatat."
+msgstr "The description contains HTML or formatted text."
+
+msgid "Lipsește adresa produsului."
+msgstr "The product URL is missing."
+
+msgid "Adresa produsului nu este validă."
+msgstr "The product URL is invalid."
+
+msgid "Se recomandă o adresă HTTPS pentru produs."
+msgstr "An HTTPS URL is recommended for the product."
+
+msgid "Lipsește imaginea principală."
+msgstr "The main image is missing."
+
+msgid "Adresa imaginii principale nu este validă."
+msgstr "The main image URL is invalid."
+
+msgid "Imaginea principală este prea mică."
+msgstr "The main image is too small."
+
+msgid "Imaginea este sub dimensiunea minimă care va fi cerută."
+msgstr "The image is below the upcoming minimum size requirement."
+
+msgid "Imaginile suplimentare nu sunt valide."
+msgstr "The additional images are invalid."
+
+msgid "Sunt prea multe imagini suplimentare."
+msgstr "There are too many additional images."
+
+msgid "O imagine suplimentară nu este validă."
+msgstr "An additional image is invalid."
+
+msgid "Adresa unei imagini suplimentare este prea lungă."
+msgstr "An additional image URL is too long."
+
+msgid "Lipsește prețul produsului."
+msgstr "The product price is missing."
+
+msgid "Prețul produsului nu este valid."
+msgstr "The product price is invalid."
+
+msgid "Prețul promoțional nu este valid."
+msgstr "The sale price is invalid."
+
+msgid "Prețul promoțional este mai mare decât prețul normal."
+msgstr "The sale price is higher than the regular price."
+
+msgid "Prețul promoțional este egal cu prețul normal."
+msgstr "The sale price is the same as the regular price."
+
+msgid "Moneda nu este validă."
+msgstr "The currency is invalid."
+
+msgid "Lipsește disponibilitatea produsului."
+msgstr "The product availability is missing."
+
+msgid "Disponibilitatea produsului nu este validă."
+msgstr "The product availability is invalid."
+
+msgid "Pentru precomandă este necesară data de disponibilitate."
+msgstr "An availability date is required for preorders."
+
+msgid "Data de disponibilitate nu este validă."
+msgstr "The availability date is invalid."
+
+msgid "Valoarea identificatorilor nu este validă."
+msgstr "The identifier value is invalid."
+
+msgid "Lipsește GTIN-ul sau identificatorul produsului."
+msgstr "The GTIN or product identifier is missing."
+
+msgid "Lipsește marca produsului."
+msgstr "The product brand is missing."
+
+msgid "Marca produsului este prea lungă."
+msgstr "The product brand is too long."
+
+msgid "Codul MPN este prea lung."
+msgstr "The MPN is too long."
+
+msgid "Codul MPN conține caractere care nu sunt alfanumerice."
+msgstr "The MPN contains non-alphanumeric characters."
+
+msgid "GTIN-ul este prea lung."
+msgstr "The GTIN is too long."
+
+msgid "GTIN-ul are o lungime nevalidă."
+msgstr "The GTIN has an invalid length."
+
+msgid "GTIN-ul are cifra de control greșită."
+msgstr "The GTIN has an invalid check digit."
+
+msgid "Lipsește categoria de produs Google."
+msgstr "The Google product category is missing."
+
+msgid "Categoria de produs Google nu are formatul corect."
+msgstr "The Google product category has an invalid format."
+
+msgid "Tipul de produs este prea lung."
+msgstr "The product type is too long."
+
+msgid "Tipul de produs nu are formatul corect."
+msgstr "The product type has an invalid format."
+
+msgid "Configurația livrării nu este validă."
+msgstr "The shipping configuration is invalid."
+
+msgid "Livrarea este obligatorie pentru acest produs."
+msgstr "Shipping is required for this product."
+
+msgid "Lipsește țara pentru livrare."
+msgstr "The shipping country is missing."
+
+msgid "Lipsește prețul de livrare."
+msgstr "The shipping price is missing."
+
+msgid "Prețul de livrare este în afara intervalului acceptat."
+msgstr "The shipping price is outside the accepted range."
+
+msgid "Etichetele personalizate nu sunt valide."
+msgstr "The custom labels are invalid."
+
+msgid "Sunt prea multe etichete personalizate."
+msgstr "There are too many custom labels."
+
+msgid "O etichetă personalizată nu este validă."
+msgstr "A custom label is invalid."
+
+msgid "O etichetă personalizată este prea lungă."
+msgstr "A custom label is too long."
+
+msgid "Greutatea nu este validă."
+msgstr "The weight is invalid."
+
+msgid "Testul HTTP a răspuns; fiecare fișier nou începe cu o protecție PHP."
+msgstr "The HTTP test returned a response; each new file starts with PHP "
+"protection."
+
+msgid "Testul HTTP a fost efectuat; fișierele feed sunt protejate printr-o "
+"protecție PHP."
+msgstr "The HTTP test completed; feed files are protected by a PHP guard."
+
+msgid "Testul HTTP informativ nu a putut fi efectuat; fișierele feed folosesc o "
+"protecție PHP."
+msgstr "The informational HTTP test could not be completed; feed files use a PHP "
+"guard."
+
+msgid "Testul HTTP informativ nu este disponibil; directorul persistent pentru "
+"feeduri nu este pregătit."
+msgstr "The informational HTTP test is unavailable; persistent feed storage is not "
+"ready."
+
+msgid "Testul HTTP a returnat tokenul fișierului-probă; accesul direct la PHP nu "
+"execută protecția."
+msgstr "The HTTP test returned the probe-file token; direct PHP access did not "
+"execute the guard."
+
+msgid "Testul HTTP nu a returnat tokenul fișierului-probă."
+msgstr "The HTTP test did not return the probe-file token."
+
+msgid "Testul HTTP pentru fișierul-probă nu a putut fi finalizat."
+msgstr "The probe-file HTTP test could not be completed."
+
+msgid "Testul HTTP pentru fișierul-probă nu este disponibil."
+msgstr "The probe-file HTTP test is unavailable."
+
+msgid "Format personalizat"
+msgstr "Custom format"
+
+msgid "O imagine suplimentară nu are un format acceptat (JPG sau PNG)."
+msgstr "An additional image uses an unsupported format (JPG or PNG required)."
+
+msgid "Lipsesc imaginile suplimentare, cerute de canal."
+msgstr "Additional images required by this channel are missing."
+
+msgid "Grupa de vârstă nu are o valoare acceptată."
+msgstr "The age group is not an accepted value."
+
+msgid "Disponibilitatea trebuie mapată la o valoare acceptată de canal."
+msgstr "Availability must be mapped to a value accepted by the channel."
+
+msgid "Lipsește categoria produsului."
+msgstr "The product category is missing."
+
+msgid "Culoarea este prea lungă pentru acest canal."
+msgstr "The color is too long for this channel."
+
+msgid "Lipsește condiția produsului."
+msgstr "The product condition is missing."
+
+msgid "Lipsește moneda prețului."
+msgstr "The price currency is missing."
+
+msgid "Descrierea este scrisă în întregime cu majuscule."
+msgstr "The description is written entirely in uppercase."
+
+msgid "Descrierea conține HTML; canalul acceptă doar text simplu."
+msgstr "The description contains HTML; this channel accepts plain text only."
+
+msgid "Descrierea conține linkuri, nepermise pentru acest canal."
+msgstr "The description contains links, which this channel does not allow."
+
+msgid "Genul nu are o valoare acceptată."
+msgstr "The gender is not an accepted value."
+
+msgid "Categoria Google are prea multe niveluri (maximum 3 acceptate)."
+msgstr "The Google category has too many levels (3 maximum)."
+
+msgid "GTIN-ul nu are un format acceptat."
+msgstr "The GTIN is not in an accepted format."
+
+msgid "Imaginea principală nu are un format acceptat (JPG sau PNG)."
+msgstr "The main image uses an unsupported format (JPG or PNG required)."
+
+msgid "Imaginea este găzduită pe un serviciu nepermis de canal."
+msgstr "The image is hosted by a service not allowed by this channel."
+
+msgid "O etichetă internă nu este validă."
+msgstr "An internal label is invalid."
+
+msgid "Etichetele interne trebuie scrise cu litere mici."
+msgstr "Internal labels must be lowercase."
+
+msgid "Eticheta internă conține un separator nepermis."
+msgstr "The internal label contains a disallowed separator."
+
+msgid "O etichetă internă depășește lungimea maximă."
+msgstr "An internal label exceeds the maximum length."
+
+msgid "Lista de etichete interne nu este validă."
+msgstr "The internal-label list is invalid."
+
+msgid "Sunt prea multe etichete interne pentru un produs."
+msgstr "There are too many internal labels for one product."
+
+msgid "Adresa produsului nu aparține domeniului magazinului."
+msgstr "The product URL does not belong to the store domain."
+
+msgid "Materialul este prea lung pentru acest canal."
+msgstr "The material is too long for this channel."
+
+msgid "Modelul este prea lung pentru acest canal."
+msgstr "The pattern is too long for this channel."
+
+msgid "Prețul nu are formatul cerut (număr cu punct zecimal)."
+msgstr "The price is not in the required format (a number with a decimal point)."
+
+msgid "Tipul de produs are prea multe niveluri (maximum 3 acceptate)."
+msgstr "The product type has too many levels (3 maximum)."
+
+msgid "Perioada de reducere nu este validă."
+msgstr "The sale period is invalid."
+
+msgid "Lipsește perioada de valabilitate a reducerii."
+msgstr "The sale validity period is missing."
+
+msgid "Prețul redus trebuie să fie mai mic decât prețul normal."
+msgstr "The sale price must be lower than the regular price."
+
+msgid "Greutatea de livrare nu are un format acceptat (ex. 0.3 lb)."
+msgstr "The shipping weight is not in an accepted format (e.g. 0.3 lb)."
+
+msgid "Zona de livrare este incompletă."
+msgstr "The shipping zone is incomplete."
+
+msgid "Zona de livrare nu este validă."
+msgstr "The shipping zone is invalid."
+
+msgid "Mărimea este prea lungă pentru acest canal."
+msgstr "The size is too long for this channel."
+
+msgid "ID-ul SKU conține caractere nevalide."
+msgstr "The SKU ID contains invalid characters."
+
+msgid "Lipsește ID-ul SKU al produsului."
+msgstr "The product SKU ID is missing."
+
+msgid "Starea produsului nu are o valoare acceptată."
+msgstr "The product status is not an accepted value."
+
+msgid "Taxa nu are o valoare validă."
+msgstr "The tax value is invalid."
+
+msgid "Titlul depășește lungimea recomandată."
+msgstr "The title exceeds the recommended length."
+
+msgid "Titlul conține emoji, nepermise pentru acest canal."
+msgstr "The title contains emoji, which this channel does not allow."
+
+msgid "Titlul conține text promoțional, nepermis pentru acest canal."
+msgstr "The title contains promotional wording, which this channel does not allow."
+
+msgid "Adresa videoclipului nu este validă."
+msgstr "The video URL is invalid."
+
+msgid "Adresa videoclipului nu este acceptată de platformă."
+msgstr "The video URL is not supported by the platform."
+
+msgid "Lipsește unitatea de măsură pentru greutate."
+msgstr "The weight unit is missing."
+
+msgid "Google Merchant Center"
+msgstr "Google Merchant Center"
+
+msgid "Meta Commerce Catalog"
+msgstr "Meta Commerce Catalog"
+
+msgid "TikTok Catalog"
+msgstr "TikTok Catalog"
+
+msgid "Formatul nu este disponibil pentru această destinație."
+msgstr "This format is not available for the selected destination."
+
+msgid "Marca implicită este obligatorie."
+msgstr "A default brand is required."
+
+msgid "Marca trebuie să aibă între 1 și 100 de caractere."
+msgstr "The brand must be between 1 and 100 characters."
+
+msgid "Etichetele interne trebuie să fie o listă de cel mult 5 valori."
+msgstr "Internal labels must be a list of no more than 5 values."
+
+msgid "Eticheta internă nu este validă: 1 până la 110 de caractere, litere, cifre, "
+"spații sau # _ : -."
+msgstr "The internal label is invalid: use 1–110 characters, letters, digits, "
+"spaces, or # _ : -."
+
+msgid "Lipsește ID-ul produsului (id), cerut de Meta pentru fiecare articol."
+msgstr "The product ID (id), required by Meta for every item, is missing."
+
+msgid "ID-ul produsului are %1$d caractere; Meta acceptă maximum %2$d."
+msgstr "The product ID is %1$d characters long; Meta allows up to %2$d."
+
+msgid "Lipsește titlul produsului (title), cerut de Meta."
+msgstr "The product title (title), required by Meta, is missing."
+
+msgid "Titlul are %1$d caractere; Meta acceptă maximum %2$d."
+msgstr "The title is %1$d characters long; Meta allows up to %2$d."
+
+msgid "Titlul are %1$d caractere; Meta recomandă maximum %2$d pentru anunțuri."
+msgstr "The title is %1$d characters long; Meta recommends no more than %2$d for "
+"ads."
+
+msgid "Lipsește descrierea produsului (description), cerută de Meta."
+msgstr "The product description (description), required by Meta, is missing."
+
+msgid "Descrierea are %1$d caractere; Meta acceptă maximum %2$d."
+msgstr "The description is %1$d characters long; Meta allows up to %2$d."
+
+msgid "Descrierea conține HTML; Meta cere text simplu."
+msgstr "The description contains HTML; Meta requires plain text."
+
+msgid "Descrierea conține linkuri; Meta cere descriere fără linkuri."
+msgstr "The description contains links; Meta requires a link-free description."
+
+msgid "Descrierea este scrisă integral cu majuscule; Meta cere text normal."
+msgstr "The description is entirely uppercase; Meta requires normal sentence case."
+
+msgid "Lipsește linkul către pagina produsului (link), cerut de Meta."
+msgstr "The product-page link (link), required by Meta, is missing."
+
+msgid "Linkul produsului folosește domeniul %1$s, iar Meta așteaptă domeniul "
+"magazinului (%2$s)."
+msgstr "The product link uses the %1$s domain; Meta expects the store domain "
+"(%2$s)."
+
+msgid "Lipsește imaginea principală (image_link), cerută de Meta."
+msgstr "The main image (image_link), required by Meta, is missing."
+
+msgid "URL-ul imaginii nu se termină în .jpg, .jpeg sau .png; Meta cere format "
+"JPEG sau PNG."
+msgstr "The image URL does not end in .jpg, .jpeg, or .png; Meta requires JPEG or "
+"PNG."
+
+msgid "Imaginea are %1$d×%2$d px; Meta cere minimum %3$d×%3$d px."
+msgstr "The image is %1$d×%2$d px; Meta requires at least %3$d×%3$d px."
+
+msgid "Meta marchează additional_image_link ca obligatoriu; adaugă cel puțin o "
+"imagine secundară."
+msgstr "Meta marks additional_image_link as required; add at least one secondary "
+"image."
+
+msgid "Sunt %1$d imagini secundare; Meta acceptă maximum %2$d."
+msgstr "There are %1$d secondary images; Meta allows up to %2$d."
+
+msgid "URL-ul imaginii secundare %1$d are %2$d caractere; Meta acceptă maximum "
+"%3$d."
+msgstr "Secondary image URL %1$d is %2$d characters long; Meta allows up to %3$d."
+
+msgid "Lipsește prețul (price), cerut de Meta în formatul „număr ISO 4217”."
+msgstr "The price (price), required by Meta as a number with an ISO 4217 currency, "
+"is missing."
+
+msgid "Prețul trebuie să fie un număr cu punct decimal, fără virgulă și fără "
+"simbol de monedă."
+msgstr "The price must be a number using a decimal point, without a comma or "
+"currency symbol."
+
+msgid "Prețul trebuie să fie un număr pozitiv."
+msgstr "The price must be a positive number."
+
+msgid "Lipsește moneda; Meta o așteaptă lângă preț, ca cod ISO 4217."
+msgstr "The currency is missing; Meta expects an ISO 4217 code alongside the price."
+
+msgid "Moneda trebuie să fie un cod ISO 4217 din trei litere mari (de exemplu "
+"RON)."
+msgstr "The currency must be a three-letter uppercase ISO 4217 code (for example, "
+"RON)."
+
+msgid "Prețul redus (%1$s) este mai mare decât prețul plin (%2$s); Meta cere un "
+"preț redus mai mic."
+msgstr "The sale price (%1$s) is higher than the regular price (%2$s); Meta "
+"requires a lower sale price."
+
+msgid "Prețul redus este egal cu prețul plin; trimite sale_price doar la o "
+"reducere reală."
+msgstr "The sale price equals the regular price; send sale_price only for an actual "
+"discount."
+
+msgid "Fără sale_price_effective_date, Meta ține reducerea până la ștergere; "
+"trimite perioada de valabilitate."
+msgstr "Without sale_price_effective_date, Meta keeps the sale active until "
+"removed; provide its validity period."
+
+msgid "sale_price_effective_date trebuie să aibă formatul "
+"AAAA-LL-ZZThh:mm+hh:mm/AAAA-LL-ZZThh:mm+hh:mm."
+msgstr "sale_price_effective_date must use the format "
+"YYYY-MM-DDThh:mm+hh:mm/YYYY-MM-DDThh:mm+hh:mm."
+
+msgid "Lipsește disponibilitatea (availability), cerută de Meta."
+msgstr "Availability (availability), required by Meta, is missing."
+
+msgid "Disponibilitatea „%s” trebuie scrisă în engleza americană cerută de Meta: "
+"„in stock” sau „out of stock”."
+msgstr "Availability '%s' must use Meta's US English values: 'in stock' or 'out of "
+"stock'."
+
+msgid "Disponibilitatea „%s” nu poate fi reprezentată la Meta; sunt acceptate doar "
+"„in stock” și „out of stock”."
+msgstr "Availability '%s' cannot be represented on Meta; only 'in stock' and 'out "
+"of stock' are accepted."
+
+msgid "Lipsește condiția produsului (condition), cerută de Meta."
+msgstr "The product condition (condition), required by Meta, is missing."
+
+msgid "Condiția „%s” nu este acceptată; Meta acceptă new, refurbished sau used."
+msgstr "Condition '%s' is not accepted; Meta allows new, refurbished, or used."
+
+msgid "Produsul nu are nici brand, nici GTIN, nici MPN; Meta cere cel puțin unul "
+"dintre ele."
+msgstr "The product has no brand, GTIN, or MPN; Meta requires at least one of "
+"these."
+
+msgid "Brandul are %1$d caractere; Meta acceptă maximum %2$d."
+msgstr "The brand is %1$d characters long; Meta allows up to %2$d."
+
+msgid "MPN-ul are %1$d caractere; Meta acceptă maximum %2$d."
+msgstr "The MPN is %1$d characters long; Meta allows up to %2$d."
+
+msgid "Lipsește categoria: Meta cere google_product_category sau "
+"fb_product_category."
+msgstr "The category is missing: Meta requires google_product_category or "
+"fb_product_category."
+
+msgid "product_type are %1$d caractere; Meta acceptă maximum %2$d."
+msgstr "product_type is %1$d characters long; Meta allows up to %2$d."
+
+msgid "GTIN-ul trebuie să conțină doar cifre, fără spații sau cratime."
+msgstr "The GTIN must contain digits only, with no spaces or hyphens."
+
+msgid "GTIN-ul are %d cifre; Meta documentează UPC-12, EAN-13, JAN, ISBN-13 și "
+"ITF-14."
+msgstr "The GTIN has %d digits; Meta documents UPC-12, EAN-13, JAN, ISBN-13, and "
+"ITF-14."
+
+msgid "item_group_id are %1$d caractere; Meta acceptă maximum %2$d."
+msgstr "item_group_id is %1$d characters long; Meta allows up to %2$d."
+
+msgid "%1$s are %2$d caractere; Meta acceptă maximum %3$d."
+msgstr "%1$s is %2$d characters long; Meta allows up to %3$d."
+
+msgid "age_group „%s” nu este acceptat; Meta acceptă adult, all ages, teen, kids, "
+"toddler, infant sau newborn."
+msgstr "age_group '%s' is not accepted; Meta allows adult, all ages, teen, kids, "
+"toddler, infant, or newborn."
+
+msgid "gender „%s” nu este acceptat; Meta acceptă female, male sau unisex."
+msgstr "gender '%s' is not accepted; Meta allows female, male, or unisex."
+
+msgid "Etichetele interne (internal_label) trebuie trimise ca listă de valori "
+"text."
+msgstr "Internal labels (internal_label) must be sent as a list of text values."
+
+msgid "Sunt %1$d etichete interne; Meta acceptă maximum %2$d per produs."
+msgstr "There are %1$d internal labels; Meta allows up to %2$d per product."
+
+msgid "O etichetă internă nu este o valoare text."
+msgstr "An internal label is not a text value."
+
+msgid "Eticheta internă „%1$s…” are %2$d caractere; Meta acceptă maximum %3$d."
+msgstr "Internal label '%1$s…' is %2$d characters long; Meta allows up to %3$d."
+
+msgid "Eticheta internă nu este lowercase; Meta o stochează lowercase, deci "
+"potrivirea din product sets se face pe varianta mică."
+msgstr "The internal label is not lowercase; Meta stores it in lowercase, so "
+"product-set matching uses the lowercase value."
+
+msgid "Eticheta internă conține spații; Meta recomandă separatorii #, _, : sau -."
+msgstr "The internal label contains spaces; Meta recommends using #, _, :, or - as "
+"separators."
+
+msgid "Sunt %1$d etichete custom; Meta acceptă maximum %2$d sloturi "
+"(custom_label_0 … custom_label_4)."
+msgstr "There are %1$d custom labels; Meta allows up to %2$d slots (custom_label_0 "
+"… custom_label_4)."
+
+msgid "Eticheta custom_label_%1$d are %2$d caractere; Meta acceptă maximum %3$d."
+msgstr "custom_label_%1$d is %2$d characters long; Meta allows up to %3$d."
+
+msgid "shipping trebuie trimis ca listă de zone Country:Region:Service:Price."
+msgstr "shipping must be sent as a list of Country:Region:Service:Price zones."
+
+msgid "Zona de livrare %d trebuie să aibă țara ISO 3166 și un preț numeric "
+"nenegativ."
+msgstr "Shipping zone %d must include an ISO 3166 country and a non-negative "
+"numeric price."
+
+msgid "Greutatea nu are unitate; Meta așteaptă lb, oz, g sau kg lângă valoare."
+msgstr "The weight has no unit; Meta expects lb, oz, g, or kg after the value."
+
+msgid "Greutatea trebuie să fie un număr pozitiv, urmat de unitatea lb, oz, g sau "
+"kg."
+msgstr "The weight must be a positive number followed by lb, oz, g, or kg."
+
+msgid "status „%s” nu este acceptat; Meta acceptă active sau archived."
+msgstr "status '%s' is not accepted; Meta allows active or archived."
+
+msgid "Lipsește sku_id, primul câmp cerut de TikTok."
+msgstr "sku_id, the first field required by TikTok, is missing."
+
+msgid "sku_id conține caractere unicode nevalide; TikTok cere text UTF-8 valid."
+msgstr "sku_id contains invalid Unicode characters; TikTok requires valid UTF-8 "
+"text."
+
+msgid "Lipsește titlul produsului (title), cerut de TikTok."
+msgstr "The product title (title), required by TikTok, is missing."
+
+msgid "Titlul conține text promoțional („%s”); TikTok cere titlu fără mesaje "
+"promoționale."
+msgstr "The title contains promotional wording ('%s'); TikTok requires titles "
+"without promotional messages."
+
+msgid "Titlul conține emoji; TikTok cere titlu fără emoji."
+msgstr "The title contains emoji; TikTok requires titles without emoji."
+
+msgid "Lipsește descrierea produsului (description), cerută de TikTok."
+msgstr "The product description (description), required by TikTok, is missing."
+
+msgid "Lipsește disponibilitatea (availability), cerută de TikTok."
+msgstr "Availability (availability), required by TikTok, is missing."
+
+msgid "Disponibilitatea „%s” trebuie mapată la valorile TikTok: in stock, "
+"available for order, preorder, out of stock sau discontinued."
+msgstr "Availability '%s' must be mapped to TikTok values: in stock, available for "
+"order, preorder, out of stock, or discontinued."
+
+msgid "Disponibilitatea „%s” nu este acceptată; TikTok cere in stock, available "
+"for order, preorder, out of stock sau discontinued."
+msgstr "Availability '%s' is not accepted; TikTok requires in stock, available for "
+"order, preorder, out of stock, or discontinued."
+
+msgid "Lipsește condiția produsului (condition), cerută de TikTok."
+msgstr "The product condition (condition), required by TikTok, is missing."
+
+msgid "Condiția „%s” nu este acceptată; TikTok acceptă new, refurbished sau used."
+msgstr "Condition '%s' is not accepted; TikTok allows new, refurbished, or used."
+
+msgid "Lipsește prețul (price), cerut de TikTok."
+msgstr "The price (price), required by TikTok, is missing."
+
+msgid "Moneda lipsește; TikTok o ia din țara țintă a catalogului, dar o trimitem "
+"explicit pentru claritate."
+msgstr "The currency is missing; TikTok derives it from the catalog's target "
+"country, but we send it explicitly for clarity."
+
+msgid "Prețul redus (sale_price) trebuie să fie un număr pozitiv, cu punct "
+"decimal."
+msgstr "The sale price (sale_price) must be a positive number using a decimal "
+"point."
+
+msgid "Prețul redus (%1$s) nu este mai mic decât prețul plin (%2$s); overlay-ul de "
+"reducere nu se va aplica."
+msgstr "The sale price (%1$s) is not lower than the regular price (%2$s); the sale "
+"overlay will not apply."
+
+msgid "sale_price_effective_date trebuie să aibă formatul "
+"AAAA-LL-ZZThh:mm/AAAA-LL-ZZThh:mm."
+msgstr "sale_price_effective_date must use the format "
+"YYYY-MM-DDThh:mm/YYYY-MM-DDThh:mm."
+
+msgid "Lipsește linkul către pagina produsului (link), cerut de TikTok."
+msgstr "The product-page link (link), required by TikTok, is missing."
+
+msgid "Lipsește imaginea principală (image_link), cerută de TikTok."
+msgstr "The main image (image_link), required by TikTok, is missing."
+
+msgid "Imaginea principală este găzduită pe %s; TikTok nu acceptă acest hosting "
+"pentru imagini."
+msgstr "The main image is hosted on %s; TikTok does not accept this image host."
+
+msgid "URL-ul imaginii nu se termină în .jpg, .jpeg sau .png; TikTok cere linkuri "
+"JPG sau PNG."
+msgstr "The image URL does not end in .jpg, .jpeg, or .png; TikTok requires JPG or "
+"PNG links."
+
+msgid "Imaginea are %1$d×%2$d px; TikTok cere minimum %3$d×%3$d px pentru formatul "
+"1:1."
+msgstr "The image is %1$d×%2$d px; TikTok requires at least %3$d×%3$d px for a 1:1 "
+"format."
+
+msgid "Sunt %1$d imagini secundare; TikTok acceptă maximum %2$d."
+msgstr "There are %1$d secondary images; TikTok allows up to %2$d."
+
+msgid "URL-ul imaginii secundare %d nu se termină în .jpg, .jpeg sau .png; TikTok "
+"cere linkuri JPG sau PNG."
+msgstr "Secondary image URL %d does not end in .jpg, .jpeg, or .png; TikTok "
+"requires JPG or PNG links."
+
+msgid "Lipsește brandul, cerut de TikTok pentru fiecare produs."
+msgstr "The brand, required by TikTok for every product, is missing."
+
+msgid "GTIN-ul are %d cifre; TikTok documentează UPC-12, EAN-13, JAN, ISBN-13 și "
+"ITF-14."
+msgstr "The GTIN has %d digits; TikTok documents UPC-12, EAN-13, JAN, ISBN-13, and "
+"ITF-14."
+
+msgid "google_product_category are %1$d niveluri; TikTok afișează doar primele "
+"%2$d."
+msgstr "google_product_category has %1$d levels; TikTok displays only the first "
+"%2$d."
+
+msgid "product_type are %1$d niveluri; TikTok indică doar primele %2$d."
+msgstr "product_type has %1$d levels; TikTok indicates only the first %2$d."
+
+msgid "age_group „%s” nu este acceptat; TikTok acceptă newborn, infant, toddler, "
+"kids sau adult."
+msgstr "age_group '%s' is not accepted; TikTok allows newborn, infant, toddler, "
+"kids, or adult."
+
+msgid "gender „%s” nu este acceptat; TikTok acceptă male, female sau unisex."
+msgstr "gender '%s' is not accepted; TikTok allows male, female, or unisex."
+
+msgid "Sunt %1$d etichete custom; TikTok acceptă maximum %2$d (custom_label_0 … "
+"custom_label_4)."
+msgstr "There are %1$d custom labels; TikTok allows up to %2$d (custom_label_0 … "
+"custom_label_4)."
+
+msgid "Eticheta custom_label_%1$d are %2$d caractere; TikTok acceptă maximum %3$d."
+msgstr "custom_label_%1$d is %2$d characters long; TikTok allows up to %3$d."
+
+msgid "video_link trebuie să fie un link direct la fișier, nu un URL de pagină sau "
+"de platformă video."
+msgstr "video_link must be a direct file URL, not a webpage or video-platform URL."
+
+msgid "video_link indică spre YouTube; TikTok cere link direct la fișierul video."
+msgstr "video_link points to YouTube; TikTok requires a direct link to the video "
+"file."
+
+msgid "Zona de livrare %d trebuie să aibă formatul "
+"Țară:Stat:TipLivrare:Preț:Serviciu."
+msgstr "Shipping zone %d must use the Country:State:ShippingType:Price:Service "
+"format."
+
+msgid "shipping trebuie trimis ca listă de zone "
+"Țară:Stat:TipLivrare:Preț:Serviciu."
+msgstr "shipping must be sent as a list of Country:State:ShippingType:Price:Service "
+"zones."
+
+msgid "Greutatea trebuie scrisă ca valoare plus unitate (de exemplu „0.3 lb”, „500 "
+"g”)."
+msgstr "Weight must include a value and unit (for example, '0.3 lb' or '500 g')."
+
+msgid "tax trebuie să fie o cotă numerică, de exemplu 0.05."
+msgstr "tax must be a numeric rate, for example 0.05."
+
+msgid "Eligibilitatea TikTok pe piața ta trebuie confirmată înainte de publicare."
+msgstr "TikTok market eligibility must be confirmed before publishing."
+
+msgid "Limita de dimensiune a fișierului Meta nu a putut fi verificată; verifică "
+"manual înainte de publicare."
+msgstr "The Meta file size limit could not be verified; check it manually before "
+"publishing."
+
+msgid "ID-ul produsului nu este compatibil cu formatul canalului."
+msgstr "The product ID is incompatible with the channel format."
+
+msgid "Fișierul generat nu este valid."
+msgstr "The generated file is invalid."
+
+msgid "Maparea categoriilor nu este validă."
+msgstr "The category mapping is invalid."
+
+msgid "Categoria trebuie să fie text."
+msgstr "The category must be text."
+
+msgid "Categoria poate avea cel mult 750 de caractere."
+msgstr "The category can be up to 750 characters long."
+
+msgid "Nu există imagini secundare; Google le recomandă pentru prezentarea "
+"produsului."
+msgstr "There are no additional images; Google recommends them to showcase the "
+"product."
+
+msgid "Feedurile trimit catalogul de produse către Google, Meta, TikTok, OLX sau "
+"către un format personalizat. Sunt disponibile feedurile pentru Google "
+"Shopping, Meta și TikTok; OLX și formatul personalizat urmează."
+msgstr "Feeds send the product catalog to Google, Meta, TikTok, OLX, or a custom "
+"format. Google Shopping, Meta, and TikTok feeds are available; OLX and the "
+"custom format are coming later."
+
+msgid "Descriere scurtă"
+msgstr "Short description"
+
+msgid "Adresă produs"
+msgstr "Product URL"
+
+msgid "Imagine principală"
+msgstr "Main image"
+
+msgid "Galerie"
+msgstr "Gallery"
+
+msgid "Preț normal"
+msgstr "Regular price"
+
+msgid "Preț redus"
+msgstr "Sale price"
+
+msgid "Stare stoc"
+msgstr "Stock status"
+
+msgid "Cantitate în stoc"
+msgstr "Stock quantity"
+
+msgid "Greutate"
+msgstr "Weight"
+
+msgid "Un element al feedului nu este valid; verifică setările."
+msgstr "A feed item is invalid; check the settings."
+
+msgid "Registrul câmpurilor feedului nu este disponibil."
+msgstr "The feed field registry is unavailable."
+
+msgid "Starea „activ” a unui parametru nu este validă."
+msgstr "A parameter's enabled state is invalid."
+
+msgid "Același parametru apare de două ori."
+msgstr "The same parameter appears more than once."
+
+msgid "Parametrul nu este acceptat pentru această destinație."
+msgstr "This parameter is not supported for this destination."
+
+msgid "Lipsește un parametru obligatoriu."
+msgstr "A required parameter is missing."
+
+msgid "Un rând de parametri nu este valid."
+msgstr "A parameter row is invalid."
+
+msgid "Sursa unui parametru nu este validă."
+msgstr "A parameter source is invalid."
+
+msgid "O transformare nu este validă."
+msgstr "A transform is invalid."
+
+msgid "Transformările unui parametru nu sunt valide."
+msgstr "The parameter transforms are invalid."
+
+msgid "Destinația nu este acceptată."
+msgstr "The destination is not supported."
+
+msgid "Parametrii feedului nu sunt valizi; previzualizarea nu a fost generată."
+msgstr "Feed parameters are invalid; the preview was not generated."
+
+msgid "Stabil și unic în tot feedul, identic cu ID-ul trimis de tracking."
+msgstr "Stable and unique throughout the feed, matching the ID sent by tracking."
+
+msgid "Numele produsului, text simplu, fără HTML."
+msgstr "Product name in plain text, without HTML."
+
+msgid "Titlu structurat"
+msgstr "Structured title"
+
+msgid "Alternativă la titlu, cu digital_source_type și content; pentru asset-uri "
+"AI."
+msgstr "Alternative to the title, with digital_source_type and content; for AI "
+"assets."
+
+msgid "Text simplu, fără marcaj HTML."
+msgstr "Plain text, without HTML markup."
+
+msgid "Descriere structurată"
+msgstr "Structured description"
+
+msgid "Alternativă la descriere, cu digital_source_type și content."
+msgstr "Alternative to the description, with digital_source_type and content."
+
+msgid "Link produs"
+msgstr "Product link"
+
+msgid "URL-ul paginii reale de produs."
+msgstr "The URL of the actual product page."
+
+msgid "Imagine accesibilă crawlerului; din 31.01.2027 se cere minimum 500×500 px."
+msgstr "Crawler-accessible image; from 31 Jan 2027, at least 500 × 500 px is "
+"required."
+
+msgid "Imagini secundare"
+msgstr "Additional images"
+
+msgid "Până la 10 URL-uri, maximum 2000 de caractere fiecare."
+msgstr "Up to 10 URLs, maximum 2,000 characters each."
+
+msgid "Link video"
+msgstr "Video link"
+
+msgid "Atribut acceptat din 2026; o eroare de video nu blochează oferta."
+msgstr "Attribute accepted from 2026; a video error does not block the offer."
+
+msgid "Link mobil"
+msgstr "Mobile link"
+
+msgid "Versiunea mobilă a paginii de produs."
+msgstr "The mobile version of the product page."
+
+msgid "Link model virtual"
+msgstr "Virtual model link"
+
+msgid "Acceptat doar pentru Statele Unite."
+msgstr "Accepted only in the United States."
+
+msgid "Garanție"
+msgstr "Warranty"
+
+msgid "Sub-atribute duration și duration_unit (month sau year); doar dacă "
+"reglementarea locală o cere."
+msgstr "Subattributes duration and duration_unit (month or year); only when local "
+"regulations require it."
+
+msgid "Cost mărfuri vândute"
+msgstr "Cost of goods sold"
+
+msgid "Preț plus monedă, folosit pentru raportarea marjei."
+msgstr "Price plus currency, used for margin reporting."
+
+msgid "Dată expirare"
+msgstr "Expiration date"
+
+msgid "Format ISO 8601, maximum 25 de caractere."
+msgstr "ISO 8601 format, maximum 25 characters."
+
+msgid "Disponibilitate"
+msgstr "Availability"
+
+msgid "Trebuie să corespundă paginii de produs și checkout-ului."
+msgstr "Must match the product page and checkout."
+
+msgid "Data disponibilității"
+msgstr "Availability date"
+
+msgid "Cerută când disponibilitatea este preorder; ISO 8601, maximum 25 de "
+"caractere."
+msgstr "Required when availability is preorder; ISO 8601, maximum 25 characters."
+
+msgid "Preț"
+msgstr "Price"
+
+msgid "Preț public final, punct decimal plus cod ISO 4217."
+msgstr "Final public price, decimal point followed by an ISO 4217 currency code."
+
+msgid "Se trimite împreună cu prețul neredus."
+msgstr "Send together with the regular price."
+
+msgid "Perioada prețului redus"
+msgstr "Sale price effective date"
+
+msgid "Format AAAA-LL-ZZThh:mm[+hhmm]/AAAA-LL-ZZThh:mm[+hhmm]."
+msgstr "Format YYYY-MM-DDThh:mm[+hhmm]/YYYY-MM-DDThh:mm[+hhmm]."
+
+msgid "Preț pe unitate"
+msgstr "Unit pricing measure"
+
+msgid "Număr plus unitate; în UE poate fi cerut de legislația locală."
+msgstr "Number plus unit; may be required by local law in the EU."
+
+msgid "Unitate de referință"
+msgstr "Unit pricing base measure"
+
+msgid "Întreg plus unitate, aceeași unitate ca măsura de preț."
+msgstr "Integer plus unit, using the same unit as the pricing measure."
+
+msgid "Preț minim automat"
+msgstr "Automatic minimum price"
+
+msgid "Prag pentru reducerile automate."
+msgstr "Threshold for automatic discounts."
+
+msgid "Rate"
+msgstr "Installments"
+
+msgid "Sub-atribute proprii; în afara scopului MVP."
+msgstr "Custom subattributes; out of scope for the MVP."
+
+msgid "Abonament"
+msgstr "Subscription"
+
+msgid "Program de loialitate"
+msgstr "Loyalty program"
+
+msgid "Preț maxim de vânzare"
+msgstr "Maximum sale price"
+
+msgid "Acceptat doar pentru India."
+msgstr "Accepted only in India."
+
+msgid "Finanțare"
+msgstr "Financing"
+
+msgid "Doar pentru Vehicle ads; în afara scopului MVP."
+msgstr "Vehicle ads only; out of scope for the MVP."
+
+msgid "Leasing"
+msgstr "Lease"
+
+msgid "Categorie Google"
+msgstr "Google category"
+
+msgid "ID numeric sau cale din taxonomia Google; recomandat pentru aprobare."
+msgstr "Numeric ID or path in the Google taxonomy; recommended for approval."
+
+msgid "Tip produs"
+msgstr "Product type"
+
+msgid "Categoria proprie a magazinului, format A > B > C."
+msgstr "The store's own category, in A > B > C format."
+
+msgid "Brand"
+msgstr "Brand"
+
+msgid "Obligatoriu pentru produsele noi; excepții: filme, cărți, muzică."
+msgstr "Required for new products; exceptions include films, books, and music."
+
+msgid "GTIN"
+msgstr "GTIN"
+
+msgid "Maximum 14 cifre per valoare; UPC, EAN, JAN, ISBN-13 sau ITF-14."
+msgstr "Maximum 14 digits per value; UPC, EAN, JAN, ISBN-13, or ITF-14."
+
+msgid "MPN"
+msgstr "MPN"
+
+msgid "Necesar doar dacă produsul nu are GTIN."
+msgstr "Required only when the product has no GTIN."
+
+msgid "Identificatori existenți"
+msgstr "Identifier exists"
+
+msgid "no înseamnă că produsul nu are brand, GTIN sau MPN."
+msgstr "no means the product has no brand, GTIN, or MPN."
+
+msgid "Condiție"
+msgstr "Condition"
+
+msgid "Obligatorie pentru produsele used și refurbished."
+msgstr "Required for used and refurbished products."
+
+msgid "Conținut pentru adulți"
+msgstr "Adult content"
+
+msgid "Obligatoriu când produsul este conținut pentru adulți."
+msgstr "Required when the product is adult content."
+
+msgid "Grupă de vârstă"
+msgstr "Age group"
+
+msgid "Cerută condiționat, pentru apparel și free listings."
+msgstr "Conditionally required for apparel and free listings."
+
+msgid "Gen"
+msgstr "Gender"
+
+msgid "Cerut condiționat, pentru apparel."
+msgstr "Conditionally required for apparel."
+
+msgid "Culoare"
+msgstr "Color"
+
+msgid "Maximum 40 de valori per culoare."
+msgstr "Maximum 40 values per color."
+
+msgid "Mărime"
+msgstr "Size"
+
+msgid "Cerută condiționat, pentru îmbrăcăminte și încălțăminte."
+msgstr "Conditionally required for clothing and footwear."
+
+msgid "Tip mărime"
+msgstr "Size type"
+
+msgid "Maximum 2 valori."
+msgstr "Maximum 2 values."
+
+msgid "Sistem de mărimi"
+msgstr "Size system"
+
+msgid "Țara sistemului de mărimi."
+msgstr "The country used for the sizing system."
+
+msgid "Material"
+msgstr "Material"
+
+msgid "Cerut când materialul diferențiază variantele."
+msgstr "Required when material distinguishes variants."
+
+msgid "Model"
+msgstr "Pattern"
+
+msgid "Cerut când modelul diferențiază variantele."
+msgstr "Required when pattern distinguishes variants."
+
+msgid "ID grup variante"
+msgstr "Item group ID"
+
+msgid "Nu este impus pentru România; recomandat pentru variații."
+msgstr "Not required in Romania; recommended for variants."
+
+msgid "Titlu grup variante"
+msgstr "Item group title"
+
+msgid "Titlul produsului părinte, pentru variante."
+msgstr "The parent product title, for variants."
+
+msgid "Multipack"
+msgstr "Multipack"
+
+msgid "Număr întreg; cerut condiționat pe anumite piețe și pentru free listings."
+msgstr "Integer; conditionally required in certain markets and for free listings."
+
+msgid "Pachet de produse"
+msgstr "Product bundle"
+
+msgid "Marchează pachetele care conțin mai multe produse distincte."
+msgstr "Marks bundles that contain multiple distinct products."
+
+msgid "Certificare (EPREL)"
+msgstr "Certification (EPREL)"
+
+msgid "Format EC:EPREL:<cod>; obligatoriu pentru eticheta energetică UE când "
+"reglementarea o cere."
+msgstr "EC:EPREL:<code> format; required for the EU energy label when regulations "
+"require it."
+
+msgid "Clasă energetică"
+msgstr "Energy efficiency class"
+
+msgid "Doar CH, NO și UK; în UE se folosește certification."
+msgstr "Used only in CH, NO, and UK; use certification in the EU."
+
+msgid "Clasă energetică minimă"
+msgstr "Minimum energy efficiency class"
+
+msgid "Doar CH, NO și UK."
+msgstr "Used only in CH, NO, and UK."
+
+msgid "Clasă energetică maximă"
+msgstr "Maximum energy efficiency class"
+
+msgid "Detaliu produs"
+msgstr "Product detail"
+
+msgid "Sub-atribute secțiune, atribut și valoare."
+msgstr "Subattributes: section, attribute, and value."
+
+msgid "Punct forte produs"
+msgstr "Product highlight"
+
+msgid "Până la 6 puncte forte scurte per produs."
+msgstr "Up to 6 short highlights per product."
+
+msgid "Întrebare și răspuns"
+msgstr "Q&A"
+
+msgid "Sub-atribute question, answer, question_type."
+msgstr "Subattributes: question, answer, and question_type."
+
+msgid "Produs asociat"
+msgstr "Related product"
+
+msgid "ID-uri de produse asociate, pentru recomandări."
+msgstr "Related product IDs for recommendations."
+
+msgid "Rang popularitate"
+msgstr "Popularity rank"
+
+msgid "Număr întreg, folosit ca semnal de sortare."
+msgstr "Integer used as a sorting signal."
+
+msgid "Link document"
+msgstr "Product document"
+
+msgid "Sub-atribute link și format (de exemplu PDF)."
+msgstr "Subattributes link and format (for example, PDF)."
+
+msgid "Imagine de lifestyle"
+msgstr "Lifestyle image"
+
+msgid "Imagine în context de utilizare, pe lângă imaginea principală."
+msgstr "An image showing the product in use, in addition to the main image."
+
+msgid "Titlu scurt"
+msgstr "Short title"
+
+msgid "Recomandat între 5 și 65 de caractere, doar pentru Demand Gen."
+msgstr "Recommended length is 5–65 characters; for Demand Gen only."
+
+msgid "Lungime produs"
+msgstr "Product length"
+
+msgid "Unități consistente per produs."
+msgstr "Use consistent units per product."
+
+msgid "Lățime produs"
+msgstr "Product width"
+
+msgid "Înălțime produs"
+msgstr "Product height"
+
+msgid "Greutate produs"
+msgstr "Product weight"
+
+msgid "Redirect anunț"
+msgstr "Ads redirect"
+
+msgid "URL de tracking pentru anunțuri, maximum 2000 de caractere."
+msgstr "Ad tracking URL, maximum 2,000 characters."
+
+msgid "Etichetă custom 0"
+msgstr "Custom label 0"
+
+msgid "Maximum 1.000 de valori unice per cont pentru acest slot."
+msgstr "Maximum 1,000 unique values per account for this slot."
+
+msgid "Etichetă custom 1"
+msgstr "Custom label 1"
+
+msgid "Etichetă custom 2"
+msgstr "Custom label 2"
+
+msgid "Etichetă custom 3"
+msgstr "Custom label 3"
+
+msgid "Etichetă custom 4"
+msgstr "Custom label 4"
+
+msgid "ID promoție"
+msgstr "Promotion ID"
+
+msgid "Fără spații sau simboluri; leagă produsul de o promoție."
+msgstr "No spaces or symbols; links the product to a promotion."
+
+msgid "Destinații excluse"
+msgstr "Excluded destinations"
+
+msgid "Se exclude reciproc cu destinațiile incluse; excluderea are prioritate."
+msgstr "Mutually exclusive with included destinations; exclusions take precedence."
+
+msgid "Destinații incluse"
+msgstr "Included destinations"
+
+msgid "Destinațiile în care apare produsul; exclude_le au prioritate."
+msgstr "Destinations where the product appears; exclude_le takes precedence."
+
+msgid "Țară exclusă din Shopping ads"
+msgstr "Shopping ads excluded country"
+
+msgid "Cod de țară ISO 3166; se aplică doar pentru Shopping ads."
+msgstr "ISO 3166 country code; applies only to Shopping ads."
+
+msgid "Pauză"
+msgstr "Pause"
+
+msgid "Oprește temporar produsul fără a-l șterge din feed."
+msgstr "Temporarily stops the product without deleting it from the feed."
+
+msgid "ID vânzător extern"
+msgstr "External seller ID"
+
+msgid "Doar pentru conturi marketplace, între 1 și 50 de caractere."
+msgstr "For marketplace accounts only; 1–50 characters."
+
+msgid "Format Țară[:Regiune]:Serviciu:Preț; obligatoriu pentru România la Shopping "
+"ads și free listings, livrat din setările de livrare."
+msgstr "Country[:Region]:Service:Price format; required in Romania for Shopping ads "
+"and free listings, configured in shipping settings."
+
+msgid "Greutate livrare"
+msgstr "Shipping weight"
+
+msgid "Unități consistente per produs; cerut pentru tarifele calculate de curier."
+msgstr "Use consistent units per product; required for carrier-calculated rates."
+
+msgid "Lungime colet"
+msgstr "Package length"
+
+msgid "Lățime colet"
+msgstr "Package width"
+
+msgid "Înălțime colet"
+msgstr "Package height"
+
+msgid "Timp maxim de procesare"
+msgstr "Maximum handling time"
+
+msgid "În zile lucrătoare."
+msgstr "In business days."
+
+msgid "Timp minim de procesare"
+msgstr "Minimum handling time"
+
+msgid "Țara de expediere"
+msgstr "Ships from country"
+
+msgid "Cod de țară ISO 3166."
+msgstr "ISO 3166 country code."
+
+msgid "Oră limită de procesare"
+msgstr "Handling cutoff time"
+
+msgid "Atribut nou din 2026: ora zilnică până la care comenzile intră în "
+"procesare."
+msgstr "New in 2026: the daily cutoff time for orders to enter processing."
+
+msgid "Valoare minimă comandă"
+msgstr "Minimum order value"
+
+msgid "Atribut nou din 2026: pragul minim de comandă."
+msgstr "New in 2026: the minimum order threshold."
+
+msgid "Prag livrare gratuită"
+msgstr "Free shipping threshold"
+
+msgid "Valoarea de la care livrarea devine gratuită."
+msgstr "The order value above which shipping becomes free."
+
+msgid "Curier"
+msgstr "Carrier"
+
+msgid "Numele serviciului de curierat pentru tarifele calculate."
+msgstr "Carrier service name for carrier-calculated rates."
+
+msgid "Preț curier"
+msgstr "Carrier price"
+
+msgid "Costul serviciului de curierat."
+msgstr "Cost of the carrier service."
+
+msgid "Timp de tranzit"
+msgstr "Transit time"
+
+msgid "În zile, pentru tarifele calculate de curier."
+msgstr "In days, for carrier-calculated rates."
+
+msgid "Etichetă livrare"
+msgstr "Shipping label"
+
+msgid "Leagă produsul de un grup de setări de livrare din cont."
+msgstr "Links the product to a shipping settings group in the account."
+
+msgid "Zile lucrătoare de tranzit"
+msgstr "Transit business days"
+
+msgid "Număr de zile lucrătoare pentru tranzit."
+msgstr "Number of business days for transit."
+
+msgid "Zile lucrătoare de procesare"
+msgstr "Handling business days"
+
+msgid "Număr de zile lucrătoare pentru procesare."
+msgstr "Number of business days for processing."
+
+msgid "Retur"
+msgstr "Returns"
+
+msgid "Format Țară:fereastră:condiție:metodă:rambursare:schimb; recomandat la "
+"nivel de cont."
+msgstr "Country:window:condition:method:refund:exchange format; recommended at "
+"account level."
+
+msgid "Unic și identic cu content_id din Meta Pixel pentru dynamic ads."
+msgstr "Unique and identical to content_id in the Meta Pixel for dynamic ads."
+
+msgid "Recomandat maximum 65 de caractere pentru anunțuri."
+msgstr "Recommended maximum 65 characters for ads."
+
+msgid "Text simplu: fără HTML, fără linkuri și fără majuscule integrale."
+msgstr "Plain text: no HTML, links, or all-caps text."
+
+msgid "Descriere cu formatare"
+msgstr "Formatted description"
+
+msgid "HTML pe lista de taguri permise; nu se folosește în anunțuri."
+msgstr "HTML limited to the allowed tag list; not used in ads."
+
+msgid "Exact cele două valori Meta, în engleza americană."
+msgstr "Exactly the two Meta values, in American English."
+
+msgid "Obligatorie pentru fiecare articol din catalogul Meta."
+msgstr "Required for every item in the Meta catalog."
+
+msgid "Număr cu punct decimal urmat de codul ISO 4217, fără simbol."
+msgstr "Number with a decimal point followed by an ISO 4217 currency code, without "
+"a symbol."
+
+msgid "Pagină de produs pe domeniul magazinului."
+msgstr "Product page on the store's domain."
+
+msgid "JPEG sau PNG, minimum 500×500 px, maximum 8 MB."
+msgstr "JPEG or PNG, minimum 500 × 500 px, maximum 8 MB."
+
+msgid "Marcat obligatoriu de Meta; până la 50 de URL-uri, maximum 2000 de "
+"caractere fiecare."
+msgstr "Required by Meta; up to 50 URLs, maximum 2,000 characters each."
+
+msgid "Până la 20 de linkuri directe la fișier, maximum 200 MB; nu YouTube."
+msgstr "Up to 20 direct file links, maximum 200 MB each; no YouTube."
+
+msgid "ID sau nume; necesar dacă nu se trimite fb_product_category."
+msgstr "ID or name; required if fb_product_category is not sent."
+
+msgid "Categorie Facebook"
+msgstr "Facebook category"
+
+msgid "Alternativă la categoria Google; una dintre cele două este obligatorie."
+msgstr "Alternative to the Google category; one of the two is required."
+
+msgid "Cel puțin unul dintre brand, GTIN sau MPN este obligatoriu."
+msgstr "At least one of brand, GTIN, or MPN is required."
+
+msgid "UPC, EAN, JAN, ISBN-13 sau ITF-14, fără spații sau cratime."
+msgstr "UPC, EAN, JAN, ISBN-13, or ITF-14, without spaces or hyphens."
+
+msgid "Codul producătorului; alternativă la GTIN."
+msgstr "Manufacturer's part number; an alternative to GTIN."
+
+msgid "Obligatoriu pentru produsele cu variante; același ID pentru toate "
+"variantele."
+msgstr "Required for products with variants; use the same ID for all variants."
+
+msgid "Cuvinte, nu coduri hexazecimale."
+msgstr "Words, not hexadecimal color codes."
+
+msgid "Fără cuvântul „size” în valoare."
+msgstr "Do not include the word “size” in the value."
+
+msgid "Cerută când se aplică produsului."
+msgstr "Required when applicable to the product."
+
+msgid "Cerut când se aplică produsului."
+msgstr "Required when applicable to the product."
+
+msgid "Atribut de variantă suplimentar"
+msgstr "Additional variant attribute"
+
+msgid "Format Etichetă:Valoare, de exemplu Scent:Fruity."
+msgstr "Label:Value format, for example Scent:Fruity."
+
+msgid "Mai mic decât prețul plin; se trimite doar când există reducere."
+msgstr "Must be lower than the regular price; send only when discounted."
+
+msgid "Format AAAA-LL-ZZThh:mm+hh:mm/AAAA-LL-ZZThh:mm+hh:mm; fără el reducerea "
+"rămâne până la ștergere."
+msgstr "Format YYYY-MM-DDThh:mm+hh:mm/YYYY-MM-DDThh:mm+hh:mm; without it, the "
+"discount remains until removed."
+
+msgid "ID furnizor"
+msgstr "Supplier ID"
+
+msgid "Identificatorul furnizorului, opțional."
+msgstr "Optional supplier identifier."
+
+msgid "Obiect cu value, currency și unit, serializat JSON."
+msgstr "Object with value, currency, and unit, serialized as JSON."
+
+msgid "Format ISO 8601, AAAA-LL-ZZ."
+msgstr "ISO 8601 format, YYYY-MM-DD."
+
+msgid "Redenumit din visibility; numele vechi încă este acceptat."
+msgstr "Renamed from visibility; the old name is still accepted."
+
+msgid "Etichete interne"
+msgstr "Internal labels"
+
+msgid "Până la 5.000 de etichete per produs, stocate lowercase; potrivire pe "
+"valoare întreagă."
+msgstr "Up to 5,000 labels per product, stored in lowercase; exact-value matching."
+
+msgid "Text pentru creative, nu pentru segmentare; segmentarea folosește "
+"internal_label."
+msgstr "Creative text, not for segmentation; segmentation uses internal_label."
+
+msgid "Text pentru creative, nu pentru segmentare."
+msgstr "Creative text, not for segmentation."
+
+msgid "Număr custom 0"
+msgstr "Custom number 0"
+
+msgid "Întreg între 0 și 4.294.967.295, filtrabil pe intervale."
+msgstr "Integer from 0 to 4,294,967,295, filterable by range."
+
+msgid "Număr custom 1"
+msgstr "Custom number 1"
+
+msgid "Număr custom 2"
+msgstr "Custom number 2"
+
+msgid "Număr custom 3"
+msgstr "Custom number 3"
+
+msgid "Număr custom 4"
+msgstr "Custom number 4"
+
+msgid "Applink"
+msgstr "Applink"
+
+msgid "Sub-atribute applink.*; cerute pentru retargeting și deeplink."
+msgstr "applink.* subattributes; required for retargeting and deep linking."
+
+msgid "Format Țară:Regiune:Serviciu:Preț; 0.0 afișează overlay-ul de livrare "
+"gratuită."
+msgstr "Country:Region:Service:Price format; 0.0 displays the free-shipping "
+"overlay."
+
+msgid "Exprimată în lb, oz, g sau kg."
+msgstr "Expressed in lb, oz, g, or kg."
+
+msgid "Capabilități dezactivate"
+msgstr "Disabled capabilities"
+
+msgid "Controlează vizibilitatea pe Shops, Marketplace, Instagram Product Tagging "
+"și Dynamic Ads."
+msgstr "Controls visibility on Shops, Marketplace, Instagram Product Tagging, and "
+"Dynamic Ads."
+
+msgid "Cantitate pentru Facebook"
+msgstr "Facebook quantity"
+
+msgid "Doar pentru Shops; redenumit din inventory."
+msgstr "Shops only; renamed from inventory."
+
+msgid "Comerț nativ"
+msgstr "Native commerce"
+
+msgid "Cerut pentru Direct Checkout; acceptă da/nu."
+msgstr "Required for Direct Checkout; accepts yes/no."
+
+msgid "Divulgări produs"
+msgstr "Product disclosures"
+
+msgid "Până la 20 per produs; sub-câmpuri content, title, symbol, jurisdictions."
+msgstr "Up to 20 per product; subfields content, title, symbol, and jurisdictions."
+
+msgid "Țara de origine"
+msgstr "Country of origin"
+
+msgid "Cerut doar pentru India, la WhatsApp și Shops."
+msgstr "Required only for India, on WhatsApp and Shops."
+
+msgid "Nume importator"
+msgstr "Importer name"
+
+msgid "Cerut doar pentru India."
+msgstr "Required only for India."
+
+msgid "Adresă importator"
+msgstr "Importer address"
+
+msgid "Informații producător"
+msgstr "Manufacturer information"
+
+msgid "Categorie conformitate WhatsApp"
+msgstr "WhatsApp compliance category"
+
+msgid "Unic în catalog; duplicatele sunt ignorate, iar același ID actualizează "
+"produsul."
+msgstr "Unique in the catalog; duplicates are ignored, and the same ID updates the "
+"product."
+
+msgid "Fără text promoțional (livrare gratuită, wholesale) și fără emoji."
+msgstr "No promotional text (free shipping, wholesale) and no emoji."
+
+msgid "Descrierea produsului; specificația nu publică o limită de lungime."
+msgstr "Product description; the specification publishes no length limit."
+
+msgid "Cinci valori, cu spații — diferit de Google și Meta."
+msgstr "Five values separated by spaces — unlike Google and Meta."
+
+msgid "Obligatorie pentru fiecare produs."
+msgstr "Required for every product."
+
+msgid "Monedă după țara țintă a catalogului, punct decimal."
+msgstr "Currency based on the catalog's target country, with a decimal point."
+
+msgid "Pagină de destinație activă."
+msgstr "Active landing page."
+
+msgid "Minimum 500×500 px pentru formatul 1:1, link JPG sau PNG."
+msgstr "At least 500 × 500 px for 1:1 format, JPG or PNG URL."
+
+msgid "Valoare reală a brandului; obligatoriu pentru fiecare produs."
+msgstr "Actual brand value; required for every product."
+
+msgid "Doar primele 3 niveluri sunt afișate."
+msgstr "Only the first 3 levels are displayed."
+
+msgid "Doar primele 3 niveluri sunt indicate."
+msgstr "Only the first 3 levels are indicated."
+
+msgid "Recomandat 9:16, minimum 720×1280, cu sunet și subtitrări."
+msgstr "Recommended 9:16, at least 720 × 1280, with sound and captions."
+
+msgid "Până la 10 URL-uri JPG sau PNG, minimum 500×500 px pentru carusel."
+msgstr "Up to 10 JPG or PNG URLs, at least 500 × 500 px for carousel images."
+
+msgid "Cu intervalele de vârstă explicate în descriere."
+msgstr "Include the age ranges explained in the description."
+
+msgid "Culoarea produsului, ca text."
+msgstr "Product color, as text."
+
+msgid "Genul căruia i se adresează produsul."
+msgstr "The gender the product is intended for."
+
+msgid "Același ID pentru toate variantele produsului."
+msgstr "Use the same ID for all product variants."
+
+msgid "Materialul produsului, ca text."
+msgstr "Product material, as text."
+
+msgid "Modelul produsului, ca text."
+msgstr "Product pattern, as text."
+
+msgid "Mărimea produsului, ca text."
+msgstr "Product size, as text."
+
+msgid "Necesar pentru overlay-ul de preț redus, punct decimal."
+msgstr "Required for the sale-price overlay; decimal point."
+
+msgid "Format AAAA-LL-ZZThh:mm/AAAA-LL-ZZThh:mm; TikTok încă nu îl folosește "
+"pentru expirare."
+msgstr "Format YYYY-MM-DDThh:mm/YYYY-MM-DDThh:mm; TikTok does not yet use this for "
+"expiration."
+
+msgid "Format Țară:Stat:TipLivrare:Preț:Serviciu, regiuni separate prin punct și "
+"virgulă."
+msgstr "Country:State:DeliveryType:Price:Service format, with regions separated by "
+"semicolons."
+
+msgid "Valoare plus unitate, de exemplu 0.3 lb."
+msgstr "Value plus unit, for example 0.3 lb."
+
+msgid "UPC, EAN, JAN, ISBN-13 sau ITF-14."
+msgstr "UPC, EAN, JAN, ISBN-13, or ITF-14."
+
+msgid "Codul producătorului."
+msgstr "Manufacturer's part number."
+
+msgid "Taxă"
+msgstr "Tax"
+
+msgid "Cotă numerică, de exemplu 0.05."
+msgstr "Numeric rate, for example 0.05."
+
+msgid "Link aplicație iOS"
+msgstr "iOS app link"
+
+msgid "Schemă de app; necesară pentru retargeting și deeplink."
+msgstr "App scheme; required for retargeting and deep linking."
+
+msgid "Link aplicație Android"
+msgstr "Android app link"
+
+msgid "ID App Store iOS"
+msgstr "iOS App Store ID"
+
+msgid "Identificatorul aplicației în App Store."
+msgstr "The app's identifier in the App Store."
+
+msgid "Nume App Store iOS"
+msgstr "iOS App Store name"
+
+msgid "Numele aplicației în App Store."
+msgstr "The app's name in the App Store."
+
+msgid "Pachet Android"
+msgstr "Android package"
+
+msgid "Numele pachetului aplicației Android."
+msgstr "The app's package name."
+
+msgid "Nume aplicație Android"
+msgstr "Android app name"
+
+msgid "Numele aplicației Android."
+msgstr "The app's name on Android."
+
+msgid "Brand magazin"
+msgstr "Shop brand"
+
+msgid "Brandul magazinului, de exemplu numele afișat al acestuia."
+msgstr "The shop's brand, for example its displayed name."
+
+msgid "Istoric evaluări"
+msgstr "Review history"
+
+msgid "Câmpul productHisEval: număr de achiziții : număr de evaluări bune."
+msgstr "The productHisEval field: number of purchases : number of positive reviews."
+
+msgid "Folosită la filtrele din product sets; numărul maxim de etichete per produs "
+"este neverificat."
+msgstr "Used for product set filters; the maximum number of labels per product is "
+"unverified."
+
+msgid "Marcă"
+msgstr "Brand"
+
+msgid "Previzualizarea poate afișa între 1 și 10 produse."
+msgstr "Preview can show between 1 and 10 products."
+
+msgid "Ai făcut prea multe previzualizări. Așteaptă un minut și încearcă din nou."
+msgstr "You have made too many previews. Wait a minute and try again."
+
+msgid "Parametrii feedului nu sunt valizi."
+msgstr "Feed parameters are invalid."
+
+msgid "Lista de parametri nu este validă."
+msgstr "The parameter list is invalid."
+
+msgid "Un parametru nu are o structură validă."
+msgstr "A parameter has an invalid structure."
+
+msgid "Numele parametrului nu este valid."
+msgstr "The parameter name is invalid."
+
+msgid "Transformările parametrului nu sunt valide."
+msgstr "The parameter transforms are invalid."
+
+msgid "Un parametru nu are o stare validă."
+msgstr "A parameter has an invalid state."
+
+msgid "Sursa parametrului nu este validă."
+msgstr "The parameter source is invalid."
+
+msgid "Tipul sursei nu este valid."
+msgstr "The source type is invalid."
+
+msgid "Valoarea sursei nu este validă."
+msgstr "The source value is invalid."
+
+msgid "Transformarea nu este validă."
+msgstr "The transform is invalid."
+
+msgid "Operația de transformare nu este validă."
+msgstr "The transform operation is invalid."
+
+msgid "Argumentul transformării nu este valid."
+msgstr "The transform argument is invalid."
+
+msgid "Recondiționat"
+msgstr "Refurbished"
+
+msgid "Destinație"
+msgstr "Destination"
+
+msgid "Setări destinație"
+msgstr "Destination settings"
+
+msgid "Verificare și publicare"
+msgstr "Review and publish"
+
+msgid "Reușită"
+msgstr "Successful"
+
+msgid "Eșuată"
+msgstr "Failed"
+
+msgid "În curs"
+msgstr "In progress"
+
+msgid "Finalizată"
+msgstr "Completed"
+
+msgid "Nu s-a putut contacta serverul. Verifică conexiunea și încearcă din nou."
+msgstr "Unable to contact the server. Check your connection and try again."
+
+msgid "A apărut o eroare. Încearcă din nou."
+msgstr "An error occurred. Please try again."
+
+msgid "Câmp nativ"
+msgstr "Native field"
+
+msgid "Câmp personalizat (meta)"
+msgstr "Custom field (meta)"
+
+msgid "Valoare fixă"
+msgstr "Fixed value"
+
+msgid "Șablon"
+msgstr "Template"
+
+msgid "Taie spațiile"
+msgstr "Trim whitespace"
+
+msgid "Elimină HTML"
+msgstr "Remove HTML"
+
+msgid "Trunchiază"
+msgstr "Truncate"
+
+msgid "Adaugă prefix"
+msgstr "Add prefix"
+
+msgid "Adaugă sufix"
+msgstr "Add suffix"
+
+msgid "Valoare implicită dacă e gol"
+msgstr "Default if empty"
+
+msgid "Înlocuiește"
+msgstr "Replace"
+
+msgid "Format preț"
+msgstr "Price format"
+
+msgid "” nu este validă."
+msgstr "” is invalid."
+
+msgid "Alege o destinație disponibilă."
+msgstr "Choose an available destination."
+
+msgid "Alege un format disponibil pentru destinația aleasă."
+msgstr "Choose a format available for the selected destination."
+
+msgid "Alege ce produse includi în feed."
+msgstr "Choose which products to include in the feed."
+
+msgid "Adaugă cel puțin o categorie (slug-uri separate prin virgulă)."
+msgstr "Add at least one category (comma-separated slugs)."
+
+msgid "Poți adăuga cel mult 50 de categorii."
+msgstr "You can add at most 50 categories."
+
+msgid "Categoriile trebuie scrise ca slug-uri: litere mici, cifre și cratime."
+msgstr "Categories must be lowercase slugs using letters, numbers, and hyphens."
+
+msgid "Alege condiția implicită a produselor."
+msgstr "Choose the default product condition."
+
+msgid "Codul țării de livrare trebuie să aibă două litere (ex. RO)."
+msgstr "The shipping country code must contain two letters (e.g. US)."
+
+msgid "Prețul de livrare trebuie scris cu punct, ex. 15.00."
+msgstr "Enter the shipping price using a dot, e.g. 15.00."
+
+msgid "Serviciul de livrare trebuie să aibă între 1 și 100 de caractere."
+msgstr "The shipping service must be between 1 and 100 characters."
+
+msgid "Marca implicită trebuie să aibă între 1 și 100 de caractere."
+msgstr "The default brand must be between 1 and 100 characters."
+
+msgid "Poți adăuga cel mult 5 etichete interne."
+msgstr "You can add at most 5 internal labels."
+
+msgid "Fiecare etichetă internă are cel mult 110 caractere."
+msgstr "Each internal label can contain at most 110 characters."
+
+msgid "Categoria implicită poate avea cel mult 750 de caractere."
+msgstr "The default category can contain at most 750 characters."
+
+msgid "Fiecare categorie mapată poate avea cel mult 750 de caractere."
+msgstr "Each mapped category can contain at most 750 characters."
+
+msgid "Necunoscută"
+msgstr "Unknown"
+
+msgid "și încă "
+msgstr "and "
+
+msgid "Nicio rulare încă."
+msgstr "No runs yet."
+
+msgid " Adresa publică: "
+msgstr " Public URL: "
+
+msgid "Nu ai creat încă niciun feed."
+msgstr "You have not created any feeds yet."
+
+msgid "Apasă „Feed nou” ca să creezi primul feed de produse."
+msgstr "Click “New feed” to create your first product feed."
+
+msgid "Dezactivează"
+msgstr "Disable"
+
+msgid "Activează"
+msgstr "Enable"
+
+msgid "Copiază"
+msgstr "Copy"
+
+msgid "Copiază adresa feedului "
+msgstr "Copy feed URL "
+
+msgid "Adresa feedului a fost copiată."
+msgstr "Feed URL copied."
+
+msgid "Adresa nu a putut fi copiată. Selecteaz-o manual."
+msgstr "Could not copy the URL. Select it manually."
+
+msgid "Editează"
+msgstr "Edit"
+
+msgid "Regenerează"
+msgstr "Regenerate"
+
+msgid "Regenerarea a fost programată. Feedul se actualizează în câteva minute."
+msgstr "Regeneration has been scheduled. The feed will update in a few minutes."
+
+msgid "Starea feedului a fost actualizată."
+msgstr "Feed status updated."
+
+msgid "Șterge"
+msgstr "Delete"
+
+msgid "Ștergi feedul „"
+msgstr "Delete feed “"
+
+msgid "”? Adresa publică nu va mai funcționa."
+msgstr "”? The public URL will stop working."
+
+msgid "Feedul a fost șters."
+msgstr "Feed deleted."
+
+msgid "Editează feedul"
+msgstr "Edit feed"
+
+msgid "Înapoi"
+msgstr "Back"
+
+msgid "Renunță"
+msgstr "Cancel"
+
+msgid "Continuă"
+msgstr "Continue"
+
+msgid "Se salvează…"
+msgstr "Saving…"
+
+msgid "Salvează modificările"
+msgstr "Save changes"
+
+msgid "Publică feedul"
+msgstr "Publish feed"
+
+msgid "Format fișier"
+msgstr "File format"
+
+msgid "Categorii (slug-uri separate prin virgulă)"
+msgstr "Categories (comma-separated slugs)"
+
+msgid "Include doar produsele în stoc"
+msgstr "Include only products in stock"
+
+msgid "Țara de livrare"
+msgstr "Shipping country"
+
+msgid "Preț livrare"
+msgstr "Shipping price"
+
+msgid "Folosește punctul ca separator, ex. 15.00."
+msgstr "Use a dot as the decimal separator, e.g. 15.00."
+
+msgid "Condiție implicită"
+msgstr "Default condition"
+
+msgid "Marcă implicită"
+msgstr "Default brand"
+
+msgid "Marca folosită când produsul nu are una."
+msgstr "Used when a product has no brand."
+
+msgid "Separate prin virgulă; cel mult 5 etichete, fiecare până la 110 caractere."
+msgstr "Comma-separated; up to 5 labels, each up to 110 characters."
+
+msgid "Folosește maparea categoriilor din Setări canal."
+msgstr "Use the category mapping from Channel settings."
+
+msgid "Șterge transformarea "
+msgstr "Delete transformation "
+
+msgid "Operație de transformare"
+msgstr "Transformation operation"
+
+msgid "Adaugă transformare"
+msgstr "Add transformation"
+
+msgid "Tip de sursă"
+msgstr "Source type"
+
+msgid "Transformări"
+msgstr "Transformations"
+
+msgid "Toți parametrii disponibili sunt deja în tabel."
+msgstr "All available parameters are already in the table."
+
+msgid "Adaugă parametru"
+msgstr "Add parameter"
+
+msgid "Nu există produse de previzualizat."
+msgstr "There are no products to preview."
+
+msgid "Se încarcă parametrii…"
+msgstr "Loading parameters…"
+
+msgid "Fiecare rând spune ce câmp al feedului completezi și de unde citește valoarea. Parametrii obligatorii nu pot fi șterși."
+msgstr "Each row specifies a feed field and where its value comes from. Required parameters cannot be deleted."
+
+msgid "Se previzualizează…"
+msgstr "Previewing…"
+
+msgid "Previzualizează"
+msgstr "Preview"
+
+msgid "Setări canal"
+msgstr "Channel settings"
+
+msgid "Categorie implicită"
+msgstr "Default category"
+
+msgid "Folosită pentru produsele fără categorie mapată mai jos."
+msgstr "Used for products without a category mapped below."
+
+msgid "Nu există categorii de produse în WooCommerce; folosește categoria implicită."
+msgstr "There are no product categories in WooCommerce; use the default category."
+
+msgid " · doar produse în stoc"
+msgstr " · in-stock products only"
+
+msgid " · validare strictă"
+msgstr " · strict validation"
+
+msgid "Feedul se generează în fundal. Adresa publică funcționează după prima generare reușită."
+msgstr "The feed is generated in the background. The public URL works after the first successful generation."
+
+msgid "în curând"
+msgstr "coming soon"
+
+msgid "Nou"
+msgstr "New"
+
+msgid "Second-hand"
+msgstr "Used"
+
+msgid "Produse"
+msgstr "Products"
+
+msgid "Diagnostic necunoscut ("
+msgstr "Unknown diagnostic ("
+
+msgid "Erori"
+msgstr "Errors"
+
+msgid "Avertismente"
+msgstr "Warnings"
+
+msgid " caz"
+msgstr " case"
+
+msgid " cazuri"
+msgstr " cases"
+
+msgid "Ultima rulare: "
+msgstr "Last run: "
+
+msgid " din "
+msgstr " of "
+
+msgid " produse exportate"
+msgstr " products exported"
+
+msgid "Feedul a fost actualizat."
+msgstr "Feed updated."
+
+msgid "Feedul a fost creat."
+msgstr "Feed created."
+
+msgid "Feed nou"
+msgstr "New feed"
+
+msgid " · Actualizat: "
+msgstr " · Updated: "
+
+msgid "Transformarea pentru „"
+msgstr "Transformation for “"
+
+msgid "Parametrul „"
+msgstr "Parameter “"
+
+msgid "” este obligatoriu."
+msgstr "” is required."
+
+msgid "Tipul sursei pentru „"
+msgstr "Source type for “"
+
+msgid "” nu este valid."
+msgstr "” is invalid."
+
+msgid "Alege sursa pentru „"
+msgstr "Choose a source for “"
+
+msgid "Produse incluse"
+msgstr "Included products"
+
+msgid "Nume feed"
+msgstr "Feed name"
+
+msgid "Toate produsele publicate"
+msgstr "All published products"
+
+msgid "Doar anumite categorii"
+msgstr "Selected categories only"
+
+msgid "incaltaminte, accesorii"
+msgstr "shoes, accessories"
+
+msgid "Omite produsele invalide"
+msgstr "Exclude invalid products"
+
+msgid "Serviciu de livrare"
+msgstr "Shipping service"
+
+msgid "vara, promo"
+msgstr "summer, promo"
+
+msgid "Export CSV compatibil cu Excel"
+msgstr "Excel-compatible CSV export"
+
+msgid "Valoarea sursei"
+msgstr "Source value"
+
+msgid "— alege —"
+msgstr "— choose —"
+
+msgid "Argument"
+msgstr "Argument"
+
+msgid "Obligatoriu"
+msgstr "Required"
+
+msgid "Parametru"
+msgstr "Parameter"
+
+msgid "Parametru nou"
+msgstr "New parameter"
+
+msgid "Parametri feed"
+msgstr "Feed parameters"
+
+msgid "Format"
+msgstr "Format"
+
+msgid "CSV compatibil Excel"
+msgstr "Excel-compatible CSV"
+
+msgid "Parametri"
+msgstr "Parameters"
+
+msgid " activi"
+msgstr " active"
+
+msgid "Categorii mapate"
+msgstr "Mapped categories"
+
+msgid "Categorii: "
+msgstr "Categories: "
+
+msgid " · omit produsele invalide"
+msgstr " · exclude invalid products"
+
+msgid "Pentru categoria „"
+msgstr "For category “"

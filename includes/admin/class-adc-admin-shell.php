@@ -55,6 +55,8 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
         'ADC_Admin_Tab_Platforms',
         'ADC_Admin_Tab_Matching',
         'ADC_Admin_Tab_Marketing',
+        // Catalog module: feed tab (WooCommerce gate; feed engine comes in later stages).
+        'ADC_Admin_Tab_Feeds',
         'ADC_Admin_Tab_Logs',
     );
 
@@ -73,6 +75,7 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
         'consent'      => array('banner', 'cookies', 'marketing'),
         'measurement'  => array('analytics', 'gtm', 'events', 'matching'),
         'integrations' => array('platforms', 'meta', 'ga4', 'tiktok'),
+        'catalog'      => array('feeds'),
         'logs'         => array('logs'),
     );
 
@@ -442,7 +445,7 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
             'adc-admin-shell',
             self::asset_url('css/admin-shell.css'),
             array(),
-            $version
+            self::asset_version('css/admin-shell.css', $version)
         );
 
         // Info-icon + modal help component (ADC_Admin_Help) — all tabs depend on it.
@@ -450,7 +453,7 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
             'adc-admin-help',
             self::asset_url('css/admin-help.css'),
             array('adc-admin-shell'),
-            $version
+            self::asset_version('css/admin-help.css', $version)
         );
 
         // Unified GTM tab (3-step schema + two settings cards).
@@ -458,7 +461,7 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
             'adc-admin-gtm',
             self::asset_url('css/admin-gtm.css'),
             array('adc-admin-shell'),
-            $version
+            self::asset_version('css/admin-gtm.css', $version)
         );
 
         // Platforms overview matrix (read-only).
@@ -466,14 +469,35 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
             'adc-admin-platforms',
             self::asset_url('css/admin-platforms.css'),
             array('adc-admin-shell'),
-            $version
+            self::asset_version('css/admin-platforms.css', $version)
         );
+
+        // Catalog ▸ Feeduri card: loaded only when that tab is open.
+        if ('feeds' === self::requested_tab(self::tabs())) {
+            wp_enqueue_style(
+                'adc-admin-feeds',
+                self::asset_url('css/admin-feeds.css'),
+                array('adc-admin-shell'),
+                self::asset_version('css/admin-feeds.css', $version)
+            );
+            // Feed list + "Feed nou" wizard (REST adc/v1/feeds); mounts on [data-adc-feeds].
+            wp_enqueue_script(
+                'adc-admin-feeds',
+                self::asset_url('js/admin-feeds.js'),
+                array(),
+                self::asset_version('js/admin-feeds.js', $version),
+                array(
+                    'in_footer' => true,
+                    'strategy'  => 'defer',
+                )
+            );
+        }
 
         wp_enqueue_script(
             'adc-admin-help',
             self::asset_url('js/admin-help.js'),
             array(),
-            $version,
+            self::asset_version('js/admin-help.js', $version),
             array(
                 'in_footer' => true,
                 'strategy'  => 'defer',
@@ -489,7 +513,7 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
             'adc-admin-shell',
             self::asset_url('js/admin-shell.js'),
             array(),
-            $version,
+            self::asset_version('js/admin-shell.js', $version),
             array(
                 'in_footer' => true,
                 'strategy'  => 'defer',
@@ -626,6 +650,7 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
             'events'    => __('Alege ce acțiuni ale vizitatorilor se măsoară și cum se calculează datele trimise platformelor.', 'adc-marketing'),
             'matching'  => __('Trimite platformelor e-mailul și telefonul clienților doar ca hash, ca să atribuie mai multe comenzi campaniilor.', 'adc-marketing'),
             'platforms' => __('Starea fiecărei platforme dintr-o privire: ce se încarcă în browser, ce pleacă de pe server și ce trebuie verificat.', 'adc-marketing'),
+            'feeds'     => __('Feedurile de produse pentru Google, Meta, TikTok și OLX, construite din catalogul WooCommerce.', 'adc-marketing'),
             'meta'      => __('Trimite către Meta (Facebook și Instagram) evenimentele magazinului, pentru optimizarea reclamelor și publicuri.', 'adc-marketing'),
             'ga4'       => __('Trimite evenimentele de pe server către Google Analytics 4, mai fiabil decât o etichetă din browser.', 'adc-marketing'),
             'tiktok'    => __('Trimite către TikTok evenimentele magazinului, pentru optimizarea reclamelor și publicuri.', 'adc-marketing'),
@@ -685,6 +710,7 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
             'consent'      => __('Cookies', 'adc-marketing'),
             'measurement'  => __('Măsurare', 'adc-marketing'),
             'integrations' => __('Platforme', 'adc-marketing'),
+            'catalog'      => __('Catalog', 'adc-marketing'),
             'logs'         => __('Jurnale', 'adc-marketing'),
             default        => __('Altele', 'adc-marketing'),
         };
@@ -835,5 +861,15 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
         }
 
         return plugin_dir_url(dirname(__DIR__, 2) . '/adc-marketing.php') . 'assets/' . $relative;
+    }
+
+    /** Content-aware cache key for a plugin asset, with plugin-version fallback. */
+    public static function asset_version(string $relative, ?string $fallback): ?string
+    {
+        $root = defined('ADC_MARKETING_PLUGIN_DIR') ? ADC_MARKETING_PLUGIN_DIR : dirname(__DIR__, 2) . '/';
+        $path = rtrim((string) $root, '/\\') . '/assets/' . ltrim($relative, '/');
+        $mtime = is_file($path) ? filemtime($path) : false;
+
+        return false !== $mtime ? (string) $mtime : $fallback;
     }
 }

@@ -56,7 +56,7 @@ if [ "$JS_COUNT" -eq 0 ]; then
 fi
 
 echo "== offline runtime tests =="
-for t in tests/admin-tabs-load-test.php tests/hook-signatures-test.php tests/cookie-scanner-test.php tests/banner-settings-test.php tests/gtm-consent-test.php tests/admin-checkbox-state-test.php tests/admin-platforms-test.php tests/admin-menu-test.php tests/admin-promo-test.php; do
+for t in tests/installer-rewrite-test.php tests/admin-tabs-load-test.php tests/hook-signatures-test.php tests/cookie-scanner-test.php tests/banner-settings-test.php tests/gtm-consent-test.php tests/admin-checkbox-state-test.php tests/admin-platforms-test.php tests/admin-menu-test.php tests/admin-promo-test.php tests/i18n-complete-test.php tests/admin-logs-catalog-requirements-test.php tests/feed-english-scan-test.php tests/feed-schema-test.php tests/feed-field-registry-test.php tests/feed-params-test.php tests/feed-module-test.php tests/feed-store-test.php tests/feed-catalog-test.php tests/feed-writer-test.php tests/feed-platform-writer-test.php tests/feed-validator-meta-test.php tests/feed-validator-tiktok-test.php tests/feed-delivery-test.php tests/feed-generator-test.php tests/feed-rest-test.php tests/feed-validator-google-test.php tests/admin-feeds-tab-test.php; do
     if php "$t"; then
         echo "OK   $t"
     else
@@ -65,8 +65,16 @@ for t in tests/admin-tabs-load-test.php tests/hook-signatures-test.php tests/coo
     fi
 done
 
+echo "== i18n build check =="
+if python3 bin/i18n-build.py check; then
+    echo "OK   bin/i18n-build.py check"
+else
+    echo "FAIL bin/i18n-build.py check"
+    FAIL=1
+fi
+
 echo "== offline JS runtime tests =="
-for t in tests/admin-integration-buttons-test.js tests/consent-cleanup-test.js tests/admin-unsaved-test.js tests/admin-shell-layout-test.js; do
+for t in tests/admin-integration-buttons-test.js tests/consent-cleanup-test.js tests/admin-unsaved-test.js tests/admin-shell-layout-test.js tests/admin-feeds-wizard-test.js tests/feed-js-i18n-scan-test.js; do
     if node "$t"; then
         echo "OK   $t"
     else

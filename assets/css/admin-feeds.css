@@ -1,0 +1,606 @@
+/**
+ * ADC Marketing — "Catalog ▸ Feeduri" tab (WooCommerce gate card).
+ *
+ * Loaded only on the feeds tab. The card itself is .adc-box--light from
+ * admin-shell.css; spacing uses the --adc-space-* scale (owl).
+ */
+
+.adc-feeds {
+    padding: var(--adc-space-3);
+    min-width: 0;
+    max-width: 100%;
+}
+
+.adc-feeds__title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--adc-text, #1d2327);
+}
+
+.adc-feeds__text {
+    margin: var(--adc-space-0) 0 0;
+    color: var(--adc-muted, #50575e);
+    overflow-wrap: anywhere;
+}
+
+/* Buttons stay on one row; the row never forces a fixed width. */
+.adc-feeds__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--adc-space-1);
+    margin-block-start: var(--adc-space-2);
+    min-width: 0;
+}
+
+.adc-feeds__actions .button {
+    white-space: nowrap;
+}
+
+.adc-feeds__link {
+    white-space: nowrap;
+    text-decoration: underline;
+}
+
+.adc-feeds__note {
+    margin: var(--adc-space-1) 0 0;
+    font-size: 13px;
+    color: var(--adc-muted, #50575e);
+}
+
+/* --- Loading and states ------------------------------------------------- */
+
+.adc-feeds__app[aria-busy="true"] {
+    cursor: progress;
+}
+
+.adc-feeds__app[aria-busy="true"] .adc-feeds__status {
+    opacity: 0.7;
+}
+
+.adc-feeds__status {
+    margin: var(--adc-space-1) 0 0;
+    color: var(--adc-muted, #50575e);
+}
+
+.adc-feeds__notice {
+    margin: var(--adc-space-2) 0 0;
+    padding: var(--adc-space-1) var(--adc-space-2);
+    border-inline-start: 4px solid #2271b1;
+    background: #f0f6fc;
+    color: var(--adc-text, #1d2327);
+    overflow-wrap: anywhere;
+}
+
+.adc-feeds__notice--success {
+    border-color: #00a32a;
+    background: #edfaef;
+}
+
+.adc-feeds__notice--error {
+    border-color: #e2401c;
+    background: #fcf0ef;
+}
+
+.adc-feeds__notice--warning {
+    border-color: #dba617;
+    background: #fcf9e8;
+}
+
+.adc-feeds__errors {
+    margin: var(--adc-space-2) 0 0;
+    padding: var(--adc-space-1) var(--adc-space-2) var(--adc-space-1) var(--adc-space-3);
+    border-inline-start: 4px solid #e2401c;
+    color: #e2401c;
+    overflow-wrap: anywhere;
+}
+
+/* --- Header row ---------------------------------------------------------- */
+
+.adc-feeds__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--adc-space-1);
+    min-width: 0;
+}
+
+.adc-feeds__view {
+    min-width: 0;
+}
+
+/* --- Feed list ----------------------------------------------------------- */
+
+.adc-feeds__list {
+    display: grid;
+    gap: var(--adc-space-2);
+    margin: var(--adc-space-2) 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.adc-feeds__item {
+    display: grid;
+    gap: var(--adc-space-1);
+    min-width: 0;
+    padding: var(--adc-space-2);
+    border: 1px solid var(--adc-border, #dcdcde);
+    border-radius: var(--adc-radius, 6px);
+    background: #fff;
+}
+
+.adc-feeds__item-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--adc-space-1);
+    min-width: 0;
+}
+
+.adc-feeds__name {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.adc-feeds__badge {
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 12px;
+    background: #f0f0f1;
+    color: var(--adc-muted, #50575e);
+}
+
+.adc-feeds__badge--active {
+    background: #edfaef;
+    color: #116329;
+}
+
+.adc-feeds__badge--disabled {
+    background: #f0f0f1;
+    color: #50575e;
+}
+
+/* The public URL: code wraps inside its box, the button never shrinks. */
+.adc-feeds__url {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: var(--adc-space-1);
+    min-width: 0;
+}
+
+.adc-feeds__url code {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    font-size: 12px;
+}
+
+.adc-feeds__url .button {
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+.adc-feeds__item .adc-feeds__actions {
+    margin-block-start: var(--adc-space-0);
+}
+
+.adc-feeds__item .button-link-delete {
+    white-space: nowrap;
+}
+
+/* --- Wizard -------------------------------------------------------------- */
+
+.adc-feeds__steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--adc-space-1);
+    margin: var(--adc-space-2) 0 0;
+    padding: 0;
+    list-style: none;
+    color: var(--adc-muted, #50575e);
+}
+
+.adc-feeds__step {
+    padding: 0;
+    border-radius: 999px;
+    background: #f0f0f1;
+    font-size: 13px;
+}
+
+.adc-feeds__step-button {
+    padding: 4px 10px;
+    border: 0;
+    border-radius: inherit;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+}
+
+.adc-feeds__step-button:disabled {
+    cursor: wait;
+    opacity: .7;
+}
+
+.adc-feeds__step.is-done {
+    background: #edfaef;
+    color: #116329;
+}
+
+.adc-feeds__step.is-current {
+    background: #2271b1;
+    color: #fff;
+    font-weight: 600;
+}
+
+.adc-feeds__step-body {
+    margin-block-start: var(--adc-space-3);
+    min-width: 0;
+}
+
+.adc-feeds__fields {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: var(--adc-space-2);
+    min-width: 0;
+}
+
+.adc-feeds__fieldset {
+    grid-column: 1 / -1;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.adc-feeds__fieldset legend {
+    margin-block-end: var(--adc-space-1);
+    font-weight: 600;
+}
+
+.adc-feeds__options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    gap: var(--adc-space-1);
+}
+
+.adc-feeds__option {
+    display: flex;
+    align-items: center;
+    gap: var(--adc-space-1);
+    min-height: 44px;
+    min-width: 0;
+    padding: 0 var(--adc-space-1);
+    border: 1px solid var(--adc-border, #dcdcde);
+    border-radius: var(--adc-radius, 6px);
+    background: #fff;
+    cursor: pointer;
+}
+
+.adc-feeds__option.is-disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.adc-feeds__option span:first-of-type {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.adc-feeds__soon {
+    margin-inline-start: auto;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #f0f0f1;
+    font-size: 12px;
+    color: var(--adc-muted, #50575e);
+    white-space: nowrap;
+}
+
+.adc-feeds__field {
+    display: grid;
+    gap: var(--adc-space-0);
+    min-width: 0;
+}
+
+.adc-feeds__field input,
+.adc-feeds__field select {
+    width: 100%;
+    max-width: 100%;
+    min-height: 44px;
+    box-sizing: border-box;
+}
+
+.adc-feeds__summary {
+    display: grid;
+    grid-template-columns: minmax(120px, max-content) minmax(0, 1fr);
+    gap: var(--adc-space-0) var(--adc-space-2);
+    margin: 0;
+    grid-column: 1 / -1;
+}
+
+.adc-feeds__summary dt {
+    font-weight: 600;
+}
+
+.adc-feeds__summary dd {
+    margin: 0;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+/* Narrow admin: stack the summary and keep the feed actions reachable. */
+@media (max-width: 480px) {
+    .adc-feeds__item .adc-feeds__actions {
+        flex-wrap: wrap;
+        max-width: 100%;
+    }
+
+    .adc-feeds__summary {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .adc-feeds__url {
+        flex-wrap: wrap;
+    }
+
+    .adc-feeds__url .button {
+        width: 100%;
+    }
+}
+
+/* --- Requirements and last run ------------------------------------------- */
+
+.adc-feeds__subtitle {
+    margin: var(--adc-space-3) 0 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--adc-text, #1d2327);
+}
+
+.adc-feeds__reqs-list {
+    display: grid;
+    gap: var(--adc-space-1);
+    margin: var(--adc-space-1) 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.adc-feeds__req {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--adc-space-1);
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.adc-feeds__badge--ok {
+    background: #edfaef;
+    color: #116329;
+}
+
+.adc-feeds__badge--error {
+    background: #fcf0ef;
+    color: #8a1f05;
+}
+
+.adc-feeds__badge--warning {
+    background: #fcf9e8;
+    color: #614200;
+    box-shadow: inset 0 0 0 1px #dba617;
+}
+
+.adc-feeds__req.is-warning {
+    color: #614200;
+}
+
+.adc-feeds__badge--neutral {
+    background: #f0f0f1;
+    color: #50575e;
+}
+
+.adc-feeds__run {
+    display: grid;
+    gap: var(--adc-space-1);
+    min-width: 0;
+}
+
+.adc-feeds__run-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--adc-space-1);
+    margin: 0;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.adc-feeds__run-details {
+    min-width: 0;
+    max-width: 100%;
+    padding: var(--adc-space-0) var(--adc-space-1);
+    border-radius: var(--adc-radius, 6px);
+}
+
+.adc-feeds__run-details summary {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.adc-feeds__run-details--error {
+    border-inline-start: 4px solid #e2401c;
+    background: #fcf0ef;
+}
+
+.adc-feeds__run-details--error summary {
+    color: #b32d0e;
+}
+
+.adc-feeds__run-details--warning {
+    border-inline-start: 4px solid #dba617;
+    background: #fcf9e8;
+}
+
+.adc-feeds__run-details--warning summary {
+    color: #614200;
+}
+
+.adc-feeds__run-list {
+    margin: 0 0 var(--adc-space-1);
+    padding-inline-start: var(--adc-space-3);
+    overflow-wrap: anywhere;
+}
+
+/* --- Parameter table ----------------------------------------------------- */
+
+.adc-feeds__stack {
+    display: grid;
+    gap: var(--adc-space-2);
+    min-width: 0;
+}
+
+.adc-feeds__inline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--adc-space-1);
+    min-width: 0;
+}
+
+.adc-feeds__inline > * {
+    max-width: 100%;
+}
+
+.adc-feeds__add {
+    display: grid;
+    gap: var(--adc-space-1);
+    min-width: 0;
+}
+
+.adc-feeds__ptable-wrap {
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.adc-feeds__ptable {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+}
+
+.adc-feeds__ptable th,
+.adc-feeds__ptable td {
+    padding: var(--adc-space-1);
+    text-align: start;
+    vertical-align: top;
+    border-bottom: 1px solid var(--adc-border, #dcdcde);
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.adc-feeds__ptable th {
+    font-weight: 600;
+    color: var(--adc-muted, #50575e);
+    white-space: nowrap;
+}
+
+.adc-feeds__ptable th:nth-last-child(-n + 2),
+.adc-feeds__ptable td:nth-last-child(-n + 2) {
+    white-space: nowrap;
+    overflow-wrap: normal;
+}
+
+.adc-feeds__ptable select,
+.adc-feeds__ptable input[type="text"] {
+    width: 100%;
+    max-width: 100%;
+    min-height: 44px;
+    box-sizing: border-box;
+}
+
+.adc-feeds__ptable .adc-feeds__inline {
+    flex-wrap: nowrap;
+}
+
+.adc-feeds__transforms {
+    display: grid;
+    gap: var(--adc-space-1);
+    min-width: 0;
+}
+
+.adc-feeds__preview {
+    width: max-content;
+    min-width: 100%;
+    table-layout: auto;
+}
+
+.adc-feeds__preview td,
+.adc-feeds__preview th {
+    font-size: 13px;
+}
+
+.adc-feeds__preview td {
+    white-space: nowrap;
+    overflow-wrap: normal;
+    word-break: normal;
+}
+
+/* Below 600px every row becomes a card; each cell names its column. */
+@media (max-width: 600px) {
+    .adc-feeds__ptable thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+    }
+
+    .adc-feeds__ptable,
+    .adc-feeds__ptable tbody,
+    .adc-feeds__ptable tr,
+    .adc-feeds__ptable td {
+        display: block;
+        width: 100%;
+    }
+
+    .adc-feeds__ptable tr {
+        margin-bottom: var(--adc-space-2);
+        padding: var(--adc-space-1);
+        border: 1px solid var(--adc-border, #dcdcde);
+        border-radius: var(--adc-radius, 6px);
+        background: #fff;
+    }
+
+    .adc-feeds__ptable td {
+        padding: var(--adc-space-0) 0;
+        border-bottom: 0;
+    }
+
+    .adc-feeds__ptable td::before {
+        content: attr(data-label);
+        display: block;
+        margin-bottom: 2px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--adc-muted, #50575e);
+    }
+
+    .adc-feeds__ptable .adc-feeds__inline {
+        flex-wrap: wrap;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .adc-feeds__app * {
+        transition: none !important;
+    }
+}

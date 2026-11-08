@@ -30,8 +30,19 @@ final class ADC_Admin_Tab_Cookies implements ADC_Admin_Tab_Interface, ADC_Module
         $version = defined('ADC_MARKETING_VERSION') ? (string) ADC_MARKETING_VERSION : null;
         $base = defined('ADC_MARKETING_PLUGIN_URL') ? rtrim(ADC_MARKETING_PLUGIN_URL, '/') . '/assets/' : '';
         if ('' === $base) return;
-        wp_enqueue_style('adc-admin-cookies', $base . 'css/admin-cookies.css', array(), $version);
-        wp_enqueue_script('adc-admin-cookies', $base . 'js/admin-cookies.js', array(), $version, array('in_footer'=>true, 'strategy'=>'defer'));
+        wp_enqueue_style(
+            'adc-admin-cookies',
+            $base . 'css/admin-cookies.css',
+            array(),
+            ADC_Admin_Shell::asset_version('css/admin-cookies.css', $version)
+        );
+        wp_enqueue_script(
+            'adc-admin-cookies',
+            $base . 'js/admin-cookies.js',
+            array(),
+            ADC_Admin_Shell::asset_version('js/admin-cookies.js', $version),
+            array('in_footer' => true, 'strategy' => 'defer')
+        );
     }
 
     public function render(): void

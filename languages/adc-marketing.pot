@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ADC Marketing 2.2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-07 14:18+0000\n"
+"POT-Creation-Date: 2026-11-08 08:32+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -17,6 +17,11 @@ msgstr ""
 
 #: adc-marketing.php:57
 msgid "necesită WooCommerce pentru a funcționa. Vă rugăm să activați WooCommerce."
+msgstr ""
+
+#: uninstall.php:41
+msgid "Dezinstalarea a fost oprită deoarece fișierele sau tabelele pluginului nu "
+"au putut fi șterse în siguranță."
 msgstr ""
 
 #. translators: %s: option or section name the help button describes.
@@ -32,7 +37,7 @@ msgstr ""
 msgid "Setări avansate"
 msgstr ""
 
-#: includes/admin/class-adc-admin-help.php:185 includes/admin/class-adc-admin-tab-dashboard.php:908 includes/admin/class-adc-admin-tab-gtm.php:101 includes/admin/class-adc-admin-tab-platforms.php:193 includes/admin/class-adc-admin-tab-platforms.php:337
+#: includes/admin/class-adc-admin-help.php:185 includes/admin/class-adc-admin-tab-dashboard.php:908 includes/admin/class-adc-admin-tab-feeds.php:279 includes/admin/class-adc-admin-tab-feeds.php:315 includes/admin/class-adc-admin-tab-gtm.php:101 includes/admin/class-adc-admin-tab-platforms.php:193 includes/admin/class-adc-admin-tab-platforms.php:337
 msgid "Activ"
 msgstr ""
 
@@ -69,130 +74,139 @@ msgstr ""
 msgid "Ascunde acest mesaj"
 msgstr ""
 
-#: includes/admin/class-adc-admin-promo.php:100 includes/admin/class-adc-admin-shell.php:331 includes/admin/class-adc-admin-shell.php:395 includes/admin/class-adc-admin-tab-banner.php:603 includes/admin/class-adc-admin-tab-cookies.php:67 includes/admin/class-adc-admin-tab-logs.php:305 includes/analytics/class-adc-analytics-csv.php:85 includes/class-adc-marketing-export.php:65 includes/class-adc-marketing-export.php:79
+#: includes/admin/class-adc-admin-promo.php:100 includes/admin/class-adc-admin-shell.php:334 includes/admin/class-adc-admin-shell.php:398 includes/admin/class-adc-admin-tab-banner.php:619 includes/admin/class-adc-admin-tab-cookies.php:78 includes/admin/class-adc-admin-tab-logs.php:350 includes/analytics/class-adc-analytics-csv.php:85 includes/class-adc-marketing-export.php:65 includes/class-adc-marketing-export.php:79
 msgid "Nu aveți permisiunea necesară."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:205 includes/admin/class-adc-admin-shell.php:569 includes/admin/class-adc-admin-tab-logs.php:785
+#: includes/admin/class-adc-admin-shell.php:208 includes/admin/class-adc-admin-shell.php:593 includes/admin/class-adc-admin-tab-logs.php:830
 msgid "Adcelerum Commerce Hub"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:347
+#: includes/admin/class-adc-admin-shell.php:350
 msgid "Niciun tab de administrare nu este disponibil momentan."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:378
+#: includes/admin/class-adc-admin-shell.php:381
 msgid "Salvează setările"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:403
+#: includes/admin/class-adc-admin-shell.php:406
 msgid "Securitatea formularului nu a putut fi verificată. Reîncărcați pagina și "
 "încercați din nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:408
+#: includes/admin/class-adc-admin-shell.php:411
 msgid "Tab necunoscut."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:571
+#: includes/admin/class-adc-admin-shell.php:595
 msgid "Consimțământ GDPR pentru cookies, măsurare prin GTM și conversii "
 "server-side (Meta, GA4, TikTok) pentru magazinul tău WooCommerce."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:620
+#: includes/admin/class-adc-admin-shell.php:644
 msgid "Cifrele magazinului și starea colectării datelor, pe intervalul ales."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:621
+#: includes/admin/class-adc-admin-shell.php:645
 msgid "Ce vede vizitatorul la prima vizită: textele bannerului, aspectul și "
 "categoriile de cookie-uri."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:622
+#: includes/admin/class-adc-admin-shell.php:646
 msgid "Găsește cookie-urile folosite pe site, apoi confirmă categoria și scopul "
 "fiecăruia."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:623
+#: includes/admin/class-adc-admin-shell.php:647
 msgid "Textul bifei de marketing din checkout, exportul contactelor și verificarea "
 "condițiilor GDPR."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:624
+#: includes/admin/class-adc-admin-shell.php:648
 msgid "Ce date colectează modulul de analiză, cât timp le păstrează și ce rămâne "
 "blocat."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:625
+#: includes/admin/class-adc-admin-shell.php:649
 msgid "Containerul web Google Tag Manager și, opțional, containerul server, "
 "configurate din același loc."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:626
+#: includes/admin/class-adc-admin-shell.php:650
 msgid "Alege ce acțiuni ale vizitatorilor se măsoară și cum se calculează datele "
 "trimise platformelor."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:627
+#: includes/admin/class-adc-admin-shell.php:651
 msgid "Trimite platformelor e-mailul și telefonul clienților doar ca hash, ca să "
 "atribuie mai multe comenzi campaniilor."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:628
+#: includes/admin/class-adc-admin-shell.php:652
 msgid "Starea fiecărei platforme dintr-o privire: ce se încarcă în browser, ce "
 "pleacă de pe server și ce trebuie verificat."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:629
+#: includes/admin/class-adc-admin-shell.php:653
+msgid "Feedurile de produse pentru Google, Meta, TikTok și OLX, construite din "
+"catalogul WooCommerce."
+msgstr ""
+
+#: includes/admin/class-adc-admin-shell.php:654
 msgid "Trimite către Meta (Facebook și Instagram) evenimentele magazinului, pentru "
 "optimizarea reclamelor și publicuri."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:630
+#: includes/admin/class-adc-admin-shell.php:655
 msgid "Trimite evenimentele de pe server către Google Analytics 4, mai fiabil "
 "decât o etichetă din browser."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:631
+#: includes/admin/class-adc-admin-shell.php:656
 msgid "Trimite către TikTok evenimentele magazinului, pentru optimizarea "
 "reclamelor și publicuri."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:632
+#: includes/admin/class-adc-admin-shell.php:657
 msgid "Ce a trimis pluginul către platforme, ce a eșuat și ce consimțământ a stat "
 "la baza fiecărei trimiteri."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:684 includes/admin/class-adc-admin-tab-dashboard.php:2219
+#: includes/admin/class-adc-admin-shell.php:709 includes/admin/class-adc-admin-tab-dashboard.php:2219
 msgid "Prezentare generală"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:685
+#: includes/admin/class-adc-admin-shell.php:710
 msgid "Cookies"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:686
+#: includes/admin/class-adc-admin-shell.php:711
 msgid "Măsurare"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:687 includes/admin/class-adc-admin-tab-platforms.php:83
+#: includes/admin/class-adc-admin-shell.php:712 includes/admin/class-adc-admin-tab-platforms.php:83
 msgid "Platforme"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:688 includes/admin/class-adc-admin-tab-logs.php:123
+#: includes/admin/class-adc-admin-shell.php:713 includes/admin/class-adc-admin-tab-feeds.php:52 includes/admin/class-adc-admin-tab-feeds.php:291
+msgid "Catalog"
+msgstr ""
+
+#: includes/admin/class-adc-admin-shell.php:714 includes/admin/class-adc-admin-tab-logs.php:128
 msgid "Jurnale"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:689 includes/admin/class-adc-admin-tab-dashboard.php:2101
+#: includes/admin/class-adc-admin-shell.php:715 includes/admin/class-adc-admin-tab-dashboard.php:2101
 msgid "Altele"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:711
+#: includes/admin/class-adc-admin-shell.php:737
 msgid "Navigare Adcelerum Commerce Hub"
 msgstr ""
 
 #. translators: %s: navigation group name.
-#: includes/admin/class-adc-admin-shell.php:726
+#: includes/admin/class-adc-admin-shell.php:752
 msgid "Tab-uri din grupul %s"
 msgstr ""
 
@@ -268,439 +282,456 @@ msgstr ""
 msgid "Bară sus"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:157
+#: includes/admin/class-adc-admin-tab-banner.php:162
 msgid "Banner consimțământ"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:177
+#: includes/admin/class-adc-admin-tab-banner.php:182
 msgid "Afișat pe site"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:177 includes/admin/class-adc-admin-tab-dashboard.php:909 templates/admin/analytics-dashboard.php:79
+#: includes/admin/class-adc-admin-tab-banner.php:182 includes/admin/class-adc-admin-tab-dashboard.php:909 templates/admin/analytics-dashboard.php:79
 msgid "Oprit"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:233
+#: includes/admin/class-adc-admin-tab-banner.php:239
 msgid "Previzualizare banner"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:235
+#: includes/admin/class-adc-admin-tab-banner.php:241
 msgid "Previzualizare live"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:236
+#: includes/admin/class-adc-admin-tab-banner.php:242
 msgid "Se actualizează imediat ce modificați textele, poziția sau culorile."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:238
+#: includes/admin/class-adc-admin-tab-banner.php:244
 msgid "Resetează la preset"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:261
+#: includes/admin/class-adc-admin-tab-banner.php:267
 msgid "Conținut"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:262
+#: includes/admin/class-adc-admin-tab-banner.php:268
 msgid "Activarea bannerului, textele, butoanele și paginile legale."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:267 includes/admin/class-adc-admin-tab-gtm.php:254
+#: includes/admin/class-adc-admin-tab-banner.php:273 includes/admin/class-adc-admin-tab-gtm.php:254
 msgid "Activare"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:268
+#: includes/admin/class-adc-admin-tab-banner.php:274
 msgid "Decide dacă bannerul de consimțământ se afișează pe site și dacă "
 "vizitatorii sunt întrebați din nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:272
+#: includes/admin/class-adc-admin-tab-banner.php:278
 msgid "Banner cookie-uri"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:276
+#: includes/admin/class-adc-admin-tab-banner.php:282
 msgid "Afișează bannerul și managerul de consimțământ pe site"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:278
+#: includes/admin/class-adc-admin-tab-banner.php:284
 msgid "Cu opțiunea bifată, primul lucru pe care îl vede un vizitator nou este "
 "bannerul; fără ea, niciun cookie de măsurare nu mai poate fi cerut legal "
 "prin interfață."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:282
+#: includes/admin/class-adc-admin-tab-banner.php:288
 msgid "Versiunea politicii"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:286
+#: includes/admin/class-adc-admin-tab-banner.php:292
 msgid "Cere din nou consimțământul (crește versiunea politicii)"
 msgstr ""
 
 #. translators: %d: current policy version number.
-#: includes/admin/class-adc-admin-tab-banner.php:292
+#: includes/admin/class-adc-admin-tab-banner.php:298
 msgid "Versiunea curentă: %d. Bifați după ce modificați textele sau categoriile, "
 "ca vizitatorii să fie întrebați din nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:302
+#: includes/admin/class-adc-admin-tab-banner.php:308
 msgid "Texte"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:303
+#: includes/admin/class-adc-admin-tab-banner.php:309
 msgid "Cuvintele exacte pe care vizitatorul le citește în banner și în managerul "
 "de consimțământ."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:307
+#: includes/admin/class-adc-admin-tab-banner.php:313 includes/feeds/class-adc-feed-field-registry.php:164 includes/feeds/class-adc-feed-field-registry.php:548 includes/feeds/class-adc-feed-field-registry.php:773
 msgid "Titlu"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:311
+#: includes/admin/class-adc-admin-tab-banner.php:317
 msgid "Mesaj"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:314
+#: includes/admin/class-adc-admin-tab-banner.php:320
 msgid "Puteți folosi [privacy-policy-link]Text[/privacy-policy-link] pentru "
 "link-ul către Politica de Confidențialitate."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:319
+#: includes/admin/class-adc-admin-tab-banner.php:325
 msgid "Buton acceptare"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:320
+#: includes/admin/class-adc-admin-tab-banner.php:326
 msgid "Buton acceptare cookie-uri necesare"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:321
+#: includes/admin/class-adc-admin-tab-banner.php:327
 msgid "Buton personalizare"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:322
+#: includes/admin/class-adc-admin-tab-banner.php:328
 msgid "Buton salvare alegeri"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:332
+#: includes/admin/class-adc-admin-tab-banner.php:338
 msgid "Pagini"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:335 includes/functions.php:40 templates/consent/banner.php:47
+#: includes/admin/class-adc-admin-tab-banner.php:341 includes/functions.php:40 templates/consent/banner.php:47
 msgid "Politica de Confidențialitate"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:342
+#: includes/admin/class-adc-admin-tab-banner.php:348
 msgid "— Pagina implicită WordPress —"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:348
+#: includes/admin/class-adc-admin-tab-banner.php:354
 msgid "Pagina de setări cookie-uri"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:354
+#: includes/admin/class-adc-admin-tab-banner.php:360
 msgid "— Fără pagină dedicată —"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:362
+#: includes/admin/class-adc-admin-tab-banner.php:368
 msgid "Buton flotant"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:366
+#: includes/admin/class-adc-admin-tab-banner.php:372
 msgid "Afișează butonul „Cookie-uri” pentru redeschiderea setărilor după decizie"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:377
+#: includes/admin/class-adc-admin-tab-banner.php:383
 msgid "Aspect"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:378
+#: includes/admin/class-adc-admin-tab-banner.php:384
 msgid "Poziția, culorile și finisajele bannerului."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:381
+#: includes/admin/class-adc-admin-tab-banner.php:387
 msgid "Alegi unde apare bannerul pe ecran, ce culori folosește și cum arată; "
 "previzualizarea din dreapta se actualizează imediat."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:383 includes/admin/class-adc-admin-tab-banner.php:386
+#: includes/admin/class-adc-admin-tab-banner.php:389 includes/admin/class-adc-admin-tab-banner.php:392
 msgid "Preset culori"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:384
+#: includes/admin/class-adc-admin-tab-banner.php:390
 msgid "Alegeți un preset pentru a completa automat culorile. Dacă modificați orice "
 "culoare, presetul trece pe „Particularizat”."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:407
+#: includes/admin/class-adc-admin-tab-banner.php:413
 msgid "Particularizat"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:412
+#: includes/admin/class-adc-admin-tab-banner.php:418
 msgid "Culoare brand (accent)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:415
+#: includes/admin/class-adc-admin-tab-banner.php:421
 msgid "Folosită de presetul „Culoare brand” pentru butonul Acceptă și pentru "
 "linkuri."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:420 includes/admin/class-adc-admin-tab-banner.php:423
+#: includes/admin/class-adc-admin-tab-banner.php:426 includes/admin/class-adc-admin-tab-banner.php:429
 msgid "Poziție și format"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:421
+#: includes/admin/class-adc-admin-tab-banner.php:427
 msgid "Alegeți cum și unde se așază bannerul pe ecran; miniurile reproduc poziția "
 "reală."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:433 includes/admin/class-adc-admin-tab-banner.php:437
+#: includes/admin/class-adc-admin-tab-banner.php:439 includes/admin/class-adc-admin-tab-banner.php:443
 msgid "Ordinea butoanelor"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:434
+#: includes/admin/class-adc-admin-tab-banner.php:440
 msgid "Cum se așază și în ce ordine apar cele trei butoane — ordinea vizuală este "
 "și ordinea din cod (tastatură, cititoare de ecran)."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:444
+#: includes/admin/class-adc-admin-tab-banner.php:450
 msgid "Ordinea aleasă este și ordinea din codul HTML, deci Tab-ul și cititorul de "
 "ecran parcurg butoanele exact cum le vede vizitatorul. Butonul "
 "„Personalizează” poate fi redenumit în „Setări” din câmpul de mai sus."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:449
+#: includes/admin/class-adc-admin-tab-banner.php:455
 msgid "Alinierea butoanelor"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:450
+#: includes/admin/class-adc-admin-tab-banner.php:456
 msgid "Alegeți poziția grupului de butoane. Pe spații înguste, butoanele trec pe "
 "rândul următor fără să ascundă vreo alegere."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:453
+#: includes/admin/class-adc-admin-tab-banner.php:459
 msgid "Aliniere"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:456
+#: includes/admin/class-adc-admin-tab-banner.php:462
 msgid "La început"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:457
+#: includes/admin/class-adc-admin-tab-banner.php:463
 msgid "Centrat"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:458
+#: includes/admin/class-adc-admin-tab-banner.php:464
 msgid "La sfârșit"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:464
+#: includes/admin/class-adc-admin-tab-banner.php:470
 msgid "Culori"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:488
+#: includes/admin/class-adc-admin-tab-banner.php:494
 msgid "Colțuri, umbră și fundal"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:489
+#: includes/admin/class-adc-admin-tab-banner.php:495
 msgid "Finisaje vizuale minore: colțuri rotunjite, umbră sub banner și întunecarea "
 "fundalului paginii (doar la fereastra centrată)."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:492
+#: includes/admin/class-adc-admin-tab-banner.php:498
 msgid "Rază colțuri"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:499
-msgid "Umbră"
-msgstr ""
-
-#: includes/admin/class-adc-admin-tab-banner.php:503
-msgid "Afișează umbra bannerului"
+#: includes/admin/class-adc-admin-tab-banner.php:505
+msgid "Font"
 msgstr ""
 
 #: includes/admin/class-adc-admin-tab-banner.php:508
+msgid "Moștenește fontul temei (recomandat)"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-banner.php:509
+msgid "Font de sistem (neutru)"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-banner.php:511
+msgid "Cu opțiunea implicită, bannerul și fereastra de preferințe folosesc același "
+"font ca restul site-ului."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-banner.php:515
+msgid "Umbră"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-banner.php:519
+msgid "Afișează umbra bannerului"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-banner.php:524
 msgid "Fundal întunecat"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:512
+#: includes/admin/class-adc-admin-tab-banner.php:528
 msgid "Întunecă fundalul paginii (doar pentru fereastra centrată)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:518
+#: includes/admin/class-adc-admin-tab-banner.php:534
 msgid "Butoanele „Acceptă tot” și „Acceptă doar cele necesare” au aceeași mărime "
 "și greutate vizuală; diferă doar culoarea. Alegerea cookie-urilor necesare "
 "dezactivează categoriile opționale."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:525
+#: includes/admin/class-adc-admin-tab-banner.php:541 includes/admin/class-adc-admin-tab-feeds.php:337 includes/admin/class-adc-admin-tab-feeds.php:416 includes/feeds/class-adc-feed-params.php:36
 msgid "Categorii"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:526
+#: includes/admin/class-adc-admin-tab-banner.php:542
 msgid "Alegerile din banner și cookie-urile declarate."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:529
+#: includes/admin/class-adc-admin-tab-banner.php:545
 msgid "Alegerile pe care vizitatorul le poate face în banner și ce se întâmplă "
 "pentru fiecare când le acordă sau le refuză."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:529
+#: includes/admin/class-adc-admin-tab-banner.php:545
 msgid "Categorii de cookie-uri"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:537
+#: includes/admin/class-adc-admin-tab-banner.php:553
 msgid "Nume categorie"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:543
+#: includes/admin/class-adc-admin-tab-banner.php:559
 msgid "Descriere categorie"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:552
+#: includes/admin/class-adc-admin-tab-banner.php:568
 msgid "Cookie-uri declarate"
 msgstr ""
 
 #. translators: 1: number of cookies in the inventory, 2: number of cookies that have a category.
-#: includes/admin/class-adc-admin-tab-banner.php:558
+#: includes/admin/class-adc-admin-tab-banner.php:574
 msgid "%1$s cookie-uri în inventar, %2$s categorisite"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:574
+#: includes/admin/class-adc-admin-tab-banner.php:590
 msgid "Necategorisite"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:580
+#: includes/admin/class-adc-admin-tab-banner.php:596
 msgid "Niciun cookie nu este în inventar încă: rulați o scanare pentru a-i detecta "
 "pe cei folosiți de site."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:582
+#: includes/admin/class-adc-admin-tab-banner.php:598
 msgid "Lista de cookie-uri se editează acum într-un singur loc, în tabul „Scanner "
 "cookie-uri”; aici rămâne doar rezumatul."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:584
+#: includes/admin/class-adc-admin-tab-banner.php:600
 msgid "Deschide Scanner cookie-uri"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:633
+#: includes/admin/class-adc-admin-tab-banner.php:649
 msgid "Setările bannerului au fost salvate."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:640
+#: includes/admin/class-adc-admin-tab-banner.php:656
 msgid "Modificare posibil necompliantă:"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:647
+#: includes/admin/class-adc-admin-tab-banner.php:663
 msgid "Versiunea politicii a fost crescută. Vizitatorii vor fi întrebați din nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:720 includes/consent/class-adc-consent-banner.php:195
+#: includes/admin/class-adc-admin-tab-banner.php:736 includes/consent/class-adc-consent-banner.php:198
 msgid "Luminos"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:737 includes/consent/class-adc-consent-banner.php:186
+#: includes/admin/class-adc-admin-tab-banner.php:753 includes/consent/class-adc-consent-banner.php:189
 msgid "Întunecat"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:754 includes/consent/class-adc-consent-banner.php:210
+#: includes/admin/class-adc-admin-tab-banner.php:770 includes/consent/class-adc-consent-banner.php:213
 msgid "Culoare brand"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:771 includes/consent/class-adc-consent-banner.php:189
+#: includes/admin/class-adc-admin-tab-banner.php:787 includes/consent/class-adc-consent-banner.php:192
 msgid "Minimal (monocrom)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:788 includes/consent/class-adc-consent-banner.php:192
+#: includes/admin/class-adc-admin-tab-banner.php:804 includes/consent/class-adc-consent-banner.php:195
 msgid "Contrast ridicat (WCAG AAA)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:817
+#: includes/admin/class-adc-admin-tab-banner.php:833
 msgid "Fundal și text"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:821
+#: includes/admin/class-adc-admin-tab-banner.php:837
 msgid "Buton Acceptă"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:825
+#: includes/admin/class-adc-admin-tab-banner.php:841
 msgid "Buton Refuză"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:829
+#: includes/admin/class-adc-admin-tab-banner.php:845
 msgid "Buton Setări"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:833 includes/admin/class-adc-admin-tab-banner.php:852
+#: includes/admin/class-adc-admin-tab-banner.php:849 includes/admin/class-adc-admin-tab-banner.php:868
 msgid "Link"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:848
+#: includes/admin/class-adc-admin-tab-banner.php:864
 msgid "Fundal"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:849
+#: includes/admin/class-adc-admin-tab-banner.php:865
 msgid "Text"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:850
+#: includes/admin/class-adc-admin-tab-banner.php:866
 msgid "Text secundar"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:851
+#: includes/admin/class-adc-admin-tab-banner.php:867
 msgid "Bordură"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:853
+#: includes/admin/class-adc-admin-tab-banner.php:869
 msgid "Fundal buton Acceptă"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:854
+#: includes/admin/class-adc-admin-tab-banner.php:870
 msgid "Text buton Acceptă"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:855
+#: includes/admin/class-adc-admin-tab-banner.php:871
 msgid "Fundal buton Refuză"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:856
+#: includes/admin/class-adc-admin-tab-banner.php:872
 msgid "Text buton Refuză"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:857
+#: includes/admin/class-adc-admin-tab-banner.php:873
 msgid "Fundal buton Setări"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:858
+#: includes/admin/class-adc-admin-tab-banner.php:874
 msgid "Text buton Setări"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:896
+#: includes/admin/class-adc-admin-tab-banner.php:912
 msgid "Contrastul dintre text și fundal este sub 4,5:1 (WCAG AA). Alegeți culori "
 "mai contrastante, ca textul să fie ușor de citit."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:917
+#: includes/admin/class-adc-admin-tab-banner.php:933
 msgid "Acceptă · Setări · Respinge (implicit)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:921
+#: includes/admin/class-adc-admin-tab-banner.php:937
 msgid "Setări · Acceptă · Respinge"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:925
+#: includes/admin/class-adc-admin-tab-banner.php:941
 msgid "Acceptă · Respinge · Setări"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:1014
+#: includes/admin/class-adc-admin-tab-banner.php:1030
 msgid "Verificare conformitate: proeminența butoanelor"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:1020
+#: includes/admin/class-adc-admin-tab-banner.php:1036
 msgid "Modificați culorile, nu dimensiunea: „Acceptă” și „Refuză” trebuie să "
 "rămână la fel de vizibile și de ușor de apăsat."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:1044
+#: includes/admin/class-adc-admin-tab-banner.php:1060
 msgid "Alte culori"
 msgstr ""
 
@@ -708,142 +739,142 @@ msgstr ""
 msgid "Scanner cookie-uri"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:43 includes/consent/class-adc-consent-banner.php:408
+#: includes/admin/class-adc-admin-tab-cookies.php:54 includes/consent/class-adc-consent-banner.php:412
 msgid "Necesare"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:43 includes/admin/trait-adc-admin-help-content.php:102 includes/consent/class-adc-consent-banner.php:409
+#: includes/admin/class-adc-admin-tab-cookies.php:54 includes/admin/trait-adc-admin-help-content.php:102 includes/consent/class-adc-consent-banner.php:413
 msgid "Preferințe"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:43 includes/admin/trait-adc-admin-help-content.php:103 includes/consent/class-adc-consent-banner.php:410
+#: includes/admin/class-adc-admin-tab-cookies.php:54 includes/admin/trait-adc-admin-help-content.php:103 includes/consent/class-adc-consent-banner.php:414
 msgid "Statistici"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:43 includes/admin/trait-adc-admin-help-content.php:104 includes/class-adc-myaccount-marketing.php:89 includes/consent/class-adc-consent-banner.php:411
+#: includes/admin/class-adc-admin-tab-cookies.php:54 includes/admin/trait-adc-admin-help-content.php:104 includes/class-adc-myaccount-marketing.php:89 includes/consent/class-adc-consent-banner.php:415
 msgid "Marketing"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:48
+#: includes/admin/class-adc-admin-tab-cookies.php:59
 msgid "Informați vizitatorii: adăugați shortcode-ul [adc_cookie_table] în pagina "
 "Politicii de cookie-uri."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:48
+#: includes/admin/class-adc-admin-tab-cookies.php:59
 msgid "Editează pagina"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:48
+#: includes/admin/class-adc-admin-tab-cookies.php:59
 msgid "Setați pagina de cookie-uri în tabul Banner."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:48
+#: includes/admin/class-adc-admin-tab-cookies.php:59
 msgid "Copiază shortcode-ul"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:50
+#: includes/admin/class-adc-admin-tab-cookies.php:61
 msgid "Scanează acum"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:50
+#: includes/admin/class-adc-admin-tab-cookies.php:61
 msgid "Salvează toate"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:50
+#: includes/admin/class-adc-admin-tab-cookies.php:61
 msgid "Acceptă sugestiile"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:51
+#: includes/admin/class-adc-admin-tab-cookies.php:62
 msgid "Cookie-urile setate de trackere apar în scanarea din browser numai dacă "
 "administratorul și-a acordat consimțământul pe site. Scanarea săptămânală "
 "din fundal vede doar cookie-urile setate de server."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:52
+#: includes/admin/class-adc-admin-tab-cookies.php:63
 msgid "Filtrare cookie-uri"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:53
+#: includes/admin/class-adc-admin-tab-cookies.php:64
 msgid "Toate"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:53
+#: includes/admin/class-adc-admin-tab-cookies.php:64
 msgid "Necategorizate"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:53
+#: includes/admin/class-adc-admin-tab-cookies.php:64
 msgid "Ignorate"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:55 templates/consent/cookie-list.php:25 templates/consent/cookie-policy-table.php:25
+#: includes/admin/class-adc-admin-tab-cookies.php:66 includes/admin/class-adc-admin-tab-feeds.php:318 includes/admin/class-adc-admin-tab-feeds.php:405 includes/feeds/class-adc-feed-params.php:22 templates/consent/cookie-list.php:25 templates/consent/cookie-policy-table.php:25
 msgid "Nume"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:55 includes/consent/class-adc-consent-privacy.php:155
+#: includes/admin/class-adc-admin-tab-cookies.php:66 includes/admin/class-adc-admin-tab-feeds.php:259 includes/consent/class-adc-consent-privacy.php:155
 msgid "Sursă"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:55
+#: includes/admin/class-adc-admin-tab-cookies.php:66
 msgid "Ultima detectare"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:55 includes/analytics/class-adc-analytics-reports.php:1423 templates/consent/cookie-list.php:26
+#: includes/admin/class-adc-admin-tab-cookies.php:66 includes/analytics/class-adc-analytics-reports.php:1423 templates/consent/cookie-list.php:26
 msgid "Categorie"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:55 templates/consent/cookie-list.php:27 templates/consent/cookie-policy-table.php:26
+#: includes/admin/class-adc-admin-tab-cookies.php:66 templates/consent/cookie-list.php:27 templates/consent/cookie-policy-table.php:26
 msgid "Furnizor"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:55
+#: includes/admin/class-adc-admin-tab-cookies.php:66 includes/admin/class-adc-admin-tab-feeds.php:407 includes/feeds/class-adc-feed-field-registry.php:173 includes/feeds/class-adc-feed-field-registry.php:553 includes/feeds/class-adc-feed-field-registry.php:777 includes/feeds/class-adc-feed-params.php:23
 msgid "Descriere"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:55
+#: includes/admin/class-adc-admin-tab-cookies.php:66
 msgid "Durată de expirare"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:55 includes/admin/class-adc-admin-tab-logs.php:191
+#: includes/admin/class-adc-admin-tab-cookies.php:66 includes/admin/class-adc-admin-tab-logs.php:197
 msgid "Acțiuni"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:58
+#: includes/admin/class-adc-admin-tab-cookies.php:69
 msgid "sugestie"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:58
+#: includes/admin/class-adc-admin-tab-cookies.php:69
 msgid "Necategorizat"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:58
+#: includes/admin/class-adc-admin-tab-cookies.php:69
 msgid "Ignorat"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:58
+#: includes/admin/class-adc-admin-tab-cookies.php:69
 msgid "Clasificat"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:58
+#: includes/admin/class-adc-admin-tab-cookies.php:69
 msgid "— alegeți —"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:58
+#: includes/admin/class-adc-admin-tab-cookies.php:69
 msgid "Salvează"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:58
+#: includes/admin/class-adc-admin-tab-cookies.php:69
 msgid "Restabilește"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:58
+#: includes/admin/class-adc-admin-tab-cookies.php:69
 msgid "Ignoră"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:89
+#: includes/admin/class-adc-admin-tab-cookies.php:100
 msgid "Prea multe rânduri (maximum 200 per cerere)."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:96
+#: includes/admin/class-adc-admin-tab-cookies.php:107
 msgid "Starea cookie-ului nu a putut fi actualizată."
 msgstr ""
 
@@ -908,7 +939,7 @@ msgstr ""
 msgid "Potrivire avansată"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:457 includes/admin/class-adc-admin-tab-gtm.php:94 includes/admin/class-adc-admin-tab-logs.php:245 includes/admin/class-adc-admin-tab-platforms.php:191 includes/admin/class-adc-admin-tab-platforms.php:392
+#: includes/admin/class-adc-admin-tab-dashboard.php:457 includes/admin/class-adc-admin-tab-feeds.php:280 includes/admin/class-adc-admin-tab-gtm.php:94 includes/admin/class-adc-admin-tab-logs.php:251 includes/admin/class-adc-admin-tab-platforms.php:191 includes/admin/class-adc-admin-tab-platforms.php:392
 msgid "Dezactivat"
 msgstr ""
 
@@ -1349,7 +1380,7 @@ msgstr ""
 msgid "ID produs WooCommerce"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-events.php:136 includes/admin/trait-adc-admin-help-content.php:238
+#: includes/admin/class-adc-admin-tab-events.php:136 includes/admin/class-adc-admin-tab-feeds.php:404 includes/admin/trait-adc-admin-help-content.php:238 includes/feeds/class-adc-feed-field-registry.php:769 includes/feeds/class-adc-feed-params.php:25
 msgid "SKU"
 msgstr ""
 
@@ -1445,6 +1476,1293 @@ msgstr ""
 
 #: includes/admin/class-adc-admin-tab-events.php:242
 msgid "Setările de evenimente au fost salvate."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:125
+msgid "Catalogul necesită WooCommerce"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:126
+msgid "Modulul Catalog citește produsele din WooCommerce. Instalează pluginul "
+"WooCommerce ca să creezi feeduri de produse."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:135
+msgid "Instalează WooCommerce"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:139
+msgid "Detalii"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:144
+msgid "Doar un administrator cu drept de instalare poate instala WooCommerce."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:153
+msgid "WooCommerce este instalat, dar inactiv"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:154
+msgid "Activează WooCommerce ca să poți crea feeduri de produse."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:163
+msgid "Activează WooCommerce"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:169
+msgid "Cere unui administrator cu drept de activare să activeze WooCommerce."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:177
+msgid "Recondiționat"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:178
+msgid "Destinație"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:179
+msgid "Setări destinație"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:180
+msgid "Verificare și publicare"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:181
+msgid "Reușită"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:182
+msgid "Eșuată"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:183
+msgid "În curs"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:184
+msgid "Finalizată"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:185
+msgid "Nu s-a putut contacta serverul. Verifică conexiunea și încearcă din nou."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:186
+msgid "A apărut o eroare. Încearcă din nou."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:187 includes/feeds/class-adc-feed-rest.php:261
+msgid "Sesiunea a expirat. Reîncarcă pagina și încearcă din nou."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:188
+msgid "Câmp nativ"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:189
+msgid "Câmp personalizat (meta)"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:190
+msgid "Valoare fixă"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:191
+msgid "Șablon"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:192
+msgid "Taie spațiile"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:193
+msgid "Elimină HTML"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:194
+msgid "Trunchiază"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:195
+msgid "Adaugă prefix"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:196
+msgid "Adaugă sufix"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:197
+msgid "Valoare implicită dacă e gol"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:198
+msgid "Înlocuiește"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:199
+msgid "Format preț"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:200
+msgid "” nu este validă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:201
+msgid "Alege o destinație disponibilă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:202
+msgid "Alege un format disponibil pentru destinația aleasă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:203 includes/feeds/class-adc-feed-rest.php:1125
+msgid "Numele feedului trebuie să aibă între 1 și 120 de caractere."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:204
+msgid "Alege ce produse includi în feed."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:205
+msgid "Adaugă cel puțin o categorie (slug-uri separate prin virgulă)."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:206
+msgid "Poți adăuga cel mult 50 de categorii."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:207
+msgid "Categoriile trebuie scrise ca slug-uri: litere mici, cifre și cratime."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:208
+msgid "Alege condiția implicită a produselor."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:209
+msgid "Codul țării de livrare trebuie să aibă două litere (ex. RO)."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:210
+msgid "Prețul de livrare trebuie scris cu punct, ex. 15.00."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:211
+msgid "Serviciul de livrare trebuie să aibă între 1 și 100 de caractere."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:212
+msgid "Marca implicită trebuie să aibă între 1 și 100 de caractere."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:213
+msgid "Poți adăuga cel mult 5 etichete interne."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:214
+msgid "Fiecare etichetă internă are cel mult 110 caractere."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:215
+msgid "Categoria implicită poate avea cel mult 750 de caractere."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:216
+msgid "Fiecare categorie mapată poate avea cel mult 750 de caractere."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:217
+msgid "Necunoscută"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:218
+msgid "și încă "
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:219
+msgid "Nicio rulare încă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:220
+msgid " Adresa publică: "
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:221
+msgid "Nu ai creat încă niciun feed."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:222
+msgid "Apasă „Feed nou” ca să creezi primul feed de produse."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:223
+msgid "Dezactivează"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:224
+msgid "Activează"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:225
+msgid "Copiază"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:226
+msgid "Copiază adresa feedului %s"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:227
+msgid "Adresa feedului a fost copiată."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:228
+msgid "Adresa nu a putut fi copiată. Selecteaz-o manual."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:229
+msgid "Editează"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:230
+msgid "Regenerează"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:231
+msgid "Regenerarea a fost programată. Feedul se actualizează în câteva minute."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:232
+msgid "Starea feedului a fost actualizată."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:233
+msgid "Șterge"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:234
+msgid "Ștergi feedul „"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:235
+msgid "”? Adresa publică nu va mai funcționa."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:236
+msgid "Feedul a fost șters."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:237
+msgid "Editează feedul"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:238
+msgid "Înapoi"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:239
+msgid "Renunță"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:240
+msgid "Continuă"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:241
+msgid "Se salvează…"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:242
+msgid "Salvează modificările"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:243
+msgid "Publică feedul"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:244
+msgid "Format fișier"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:245
+msgid "Categorii (slug-uri separate prin virgulă)"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:246
+msgid "Include doar produsele în stoc"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:247
+msgid "Țara de livrare"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:248
+msgid "Preț livrare"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:249
+msgid "Folosește punctul ca separator, ex. 15.00."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:250
+msgid "Condiție implicită"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:251
+msgid "Marcă implicită"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:252
+msgid "Marca folosită când produsul nu are una."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:253
+msgid "Separate prin virgulă; cel mult 5 etichete, fiecare până la 110 caractere."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:254
+msgid "Folosește maparea categoriilor din Setări canal."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:255
+msgid "Șterge transformarea %s"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:256
+msgid "Operație de transformare"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:257
+msgid "Adaugă transformare"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:258
+msgid "Tip de sursă"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:260
+msgid "Transformări"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:261
+msgid "Toți parametrii disponibili sunt deja în tabel."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:262
+msgid "Adaugă parametru"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:263
+msgid "Nu există produse de previzualizat."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:264
+msgid "Se încarcă parametrii…"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:265
+msgid "Fiecare rând spune ce câmp al feedului completezi și de unde citește "
+"valoarea. Parametrii obligatorii nu pot fi șterși."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:266
+msgid "Se previzualizează…"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:267
+msgid "Previzualizează"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:268
+msgid "Setări canal"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:269
+msgid "Categorie implicită"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:270
+msgid "Folosită pentru produsele fără categorie mapată mai jos."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:271
+msgid "Nu există categorii de produse în WooCommerce; folosește categoria "
+"implicită."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:272
+msgid " · doar produse în stoc"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:273
+msgid " · validare strictă"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:274
+msgid "Feedul se generează în fundal. Adresa publică funcționează după prima "
+"generare reușită."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:275 includes/admin/class-adc-admin-tab-feeds.php:464
+msgid "Format personalizat"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:276
+msgid "Nou"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:277
+msgid "Second-hand"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:278
+msgid "Produse"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:281
+msgid "Diagnostic necunoscut (%s)"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:282
+msgid "Erori"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:283
+msgid "Avertismente"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:284
+msgid " caz"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:285
+msgid " cazuri"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:286
+msgid "Ultima rulare: "
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:287
+msgid " din "
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:288
+msgid " produse exportate"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:289
+msgid "Feedul a fost actualizat."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:290
+msgid "Feedul a fost creat."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:292
+msgid "Feed nou"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:293
+msgid " · Actualizat: "
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:294
+msgid "Transformarea pentru „"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:295
+msgid "Parametrul „"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:296
+msgid "” este obligatoriu."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:297
+msgid "Tipul sursei pentru „"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:298
+msgid "” nu este valid."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:299
+msgid "Alege sursa pentru „"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:300
+msgid "Produse incluse"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:301
+msgid "Nume feed"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:302
+msgid "Toate produsele publicate"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:303
+msgid "Doar anumite categorii"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:304
+msgid "incaltaminte, accesorii"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:305
+msgid "Omite produsele invalide"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:306
+msgid "Serviciu de livrare"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:307 includes/feeds/class-adc-feed-field-registry.php:665
+msgid "Etichete interne"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:308
+msgid "vara, promo"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:309
+msgid "Export CSV compatibil cu Excel"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:310
+msgid "Valoarea sursei"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:311
+msgid "— alege —"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:312
+msgid "Argument"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:313
+msgid "Obligatoriu"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:314
+msgid "Parametru"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:316
+msgid "Parametru nou"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:317
+msgid "Parametri feed"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:319
+msgid "Format"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:320 includes/analytics/class-adc-analytics-csv.php:384 includes/feeds/class-adc-feed-field-registry.php:469 includes/feeds/class-adc-feed-field-registry.php:716 includes/feeds/class-adc-feed-field-registry.php:853
+msgid "Livrare"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:321
+msgid "CSV compatibil Excel"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:322 includes/class-adc-consent-admin.php:127 includes/class-adc-consent-admin.php:180 includes/class-adc-consent-admin.php:191 includes/class-adc-consent-admin.php:202 includes/class-adc-gdpr-compliance.php:364
+msgid "Da"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:323 includes/class-adc-consent-admin.php:127 includes/class-adc-consent-admin.php:179 includes/class-adc-consent-admin.php:190 includes/class-adc-consent-admin.php:201 includes/class-adc-gdpr-compliance.php:367
+msgid "Nu"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:324
+msgid "Parametri"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:325
+msgid " activi"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:326
+msgid "Categorii mapate"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:327
+msgid "Categorii: "
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:328
+msgid " · omit produsele invalide"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:329
+msgid "Pentru categoria „%s”"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:330 includes/feeds/class-adc-feed-rest.php:1518 includes/feeds/class-adc-feed-rest.php:1624
+msgid "Motorul de feeduri nu este disponibil."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:331
+msgid "Atribut WooCommerce"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:332
+msgid "Taxonomie"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:333
+msgid "Maparea categoriilor"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:334
+msgid "Majuscule"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:335
+msgid "Minuscule"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:336
+msgid "Mapare valori"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:338
+msgid "Ștergi feedul „%s”? Adresa publică nu va mai funcționa."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:339
+msgid "în curând"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:348
+msgid "Feedurile trimit catalogul de produse către Google, Meta, TikTok, OLX sau "
+"către un format personalizat. Sunt disponibile feedurile pentru Google "
+"Shopping, Meta și TikTok; OLX și formatul personalizat urmează."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:363
+msgid "Se încarcă feedurile…"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:364
+msgid "Activează JavaScript pentru a gestiona feedurile."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:403 includes/analytics/class-adc-analytics-csv.php:569 includes/feeds/class-adc-feed-field-registry.php:159 includes/feeds/class-adc-feed-field-registry.php:543 includes/feeds/class-adc-feed-params.php:37
+msgid "ID produs"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:406 includes/feeds/class-adc-feed-params.php:24
+msgid "Descriere scurtă"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:408 includes/feeds/class-adc-feed-params.php:26
+msgid "Adresă produs"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:409 includes/feeds/class-adc-feed-field-registry.php:186 includes/feeds/class-adc-feed-field-registry.php:580 includes/feeds/class-adc-feed-field-registry.php:799 includes/feeds/class-adc-feed-params.php:30
+msgid "Imagine principală"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:410 includes/feeds/class-adc-feed-params.php:31
+msgid "Galerie"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:411 includes/feeds/class-adc-feed-params.php:27
+msgid "Preț normal"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:412 includes/feeds/class-adc-feed-field-registry.php:229 includes/feeds/class-adc-feed-field-registry.php:644 includes/feeds/class-adc-feed-field-registry.php:846 includes/feeds/class-adc-feed-params.php:28
+msgid "Preț redus"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:413 includes/feeds/class-adc-feed-params.php:33
+msgid "Stare stoc"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:414 includes/feeds/class-adc-feed-params.php:34
+msgid "Cantitate în stoc"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:415 includes/feeds/class-adc-feed-params.php:35
+msgid "Greutate"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:493
+msgid "Nu există produse valide pentru publicarea feedului."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:494
+msgid "%d produse omise: nu respectă cerințele destinației."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:495
+msgid "ID-ul feedului nu este valid."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:496
+msgid "Feedul nu a fost găsit."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:497
+msgid "Feedul este dezactivat."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:498
+msgid "Profilul feedului nu este acceptat."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:499
+msgid "Feedul este deja în curs de generare."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:500
+msgid "Nu s-a putut programa o nouă încercare pentru feedul ocupat."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:501
+msgid "Numărul de încercări pentru feedul ocupat a fost epuizat."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:502
+msgid "Nu s-a putut programa regenerarea după o modificare."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:503
+msgid "Numărul de încercări pentru regenerare a fost epuizat."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:504
+msgid "Indexul produselor din feed nu a putut fi construit."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:505
+msgid "Generarea feedului a eșuat dintr-un motiv neidentificat."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:506
+msgid "ID-ul de urmărire nu este compatibil cu formatul feedului."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:507
+msgid "Același ID de produs apare de mai multe ori."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:508
+msgid "Validatorul Google nu este disponibil pe acest site."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:509
+msgid "Validarea Google nu a putut fi finalizată."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:511
+msgid "Pentru România este necesară configurarea livrării."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:512
+msgid "Lipsește țara de livrare."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:513
+msgid "Țara de livrare nu este validă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:514
+msgid "Prețul de livrare nu este valid."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:515
+msgid "Lipsește certificarea obligatorie a produsului."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:516
+msgid "Certificarea produsului este incompletă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:517
+msgid "Lipsește prețul pe unitate, obligatoriu pentru această categorie."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:518
+msgid "Prețul pe unitate este incomplet."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:520
+msgid "Lipsește ID-ul produsului."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:521
+msgid "ID-ul produsului este prea lung."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:522
+msgid "ID-ul grupului de variante este prea lung."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:523
+msgid "Lipsește titlul produsului."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:524
+msgid "Titlul produsului este prea lung."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:525
+msgid "Titlul conține HTML sau text formatat."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:526
+msgid "Lipsește descrierea produsului."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:527
+msgid "Descrierea produsului este prea lungă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:528
+msgid "Descrierea conține HTML sau text formatat."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:529
+msgid "Lipsește adresa produsului."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:530
+msgid "Adresa produsului nu este validă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:531
+msgid "Se recomandă o adresă HTTPS pentru produs."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:532
+msgid "Lipsește imaginea principală."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:533
+msgid "Adresa imaginii principale nu este validă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:534
+msgid "Imaginea principală este prea mică."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:535
+msgid "Imaginea este sub dimensiunea minimă care va fi cerută."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:536
+msgid "Imaginile suplimentare nu sunt valide."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:537
+msgid "Sunt prea multe imagini suplimentare."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:538
+msgid "O imagine suplimentară nu este validă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:539
+msgid "Adresa unei imagini suplimentare este prea lungă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:540
+msgid "Lipsește prețul produsului."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:541
+msgid "Prețul produsului nu este valid."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:542
+msgid "Prețul promoțional nu este valid."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:543
+msgid "Prețul promoțional este mai mare decât prețul normal."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:544
+msgid "Prețul promoțional este egal cu prețul normal."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:545
+msgid "Moneda nu este validă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:546
+msgid "Lipsește disponibilitatea produsului."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:547
+msgid "Disponibilitatea produsului nu este validă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:548
+msgid "Pentru precomandă este necesară data de disponibilitate."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:549
+msgid "Data de disponibilitate nu este validă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:550 includes/feeds/class-adc-feed-rest.php:826 includes/feeds/class-adc-feed-rest.php:861 includes/feeds/class-adc-feed-rest.php:1071
+msgid "Condiția produsului nu este validă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:551
+msgid "Valoarea identificatorilor nu este validă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:552
+msgid "Lipsește GTIN-ul sau identificatorul produsului."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:553
+msgid "Lipsește marca produsului."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:554
+msgid "Marca produsului este prea lungă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:555
+msgid "Codul MPN este prea lung."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:556
+msgid "Codul MPN conține caractere care nu sunt alfanumerice."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:557
+msgid "GTIN-ul este prea lung."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:558 includes/feeds/class-adc-feed-validator-google.php:797
+msgid "GTIN-ul trebuie să conțină doar cifre."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:559 includes/admin/class-adc-admin-tab-feeds.php:607
+msgid "GTIN-ul are o lungime nevalidă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:560
+msgid "GTIN-ul are cifra de control greșită."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:561
+msgid "Lipsește categoria de produs Google."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:562
+msgid "Categoria de produs Google nu are formatul corect."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:563
+msgid "Tipul de produs este prea lung."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:564
+msgid "Tipul de produs nu are formatul corect."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:565
+msgid "Configurația livrării nu este validă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:566
+msgid "Livrarea este obligatorie pentru acest produs."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:567
+msgid "Lipsește țara pentru livrare."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:568
+msgid "Lipsește prețul de livrare."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:569
+msgid "Prețul de livrare este în afara intervalului acceptat."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:570
+msgid "Etichetele personalizate nu sunt valide."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:571
+msgid "Sunt prea multe etichete personalizate."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:572
+msgid "O etichetă personalizată nu este validă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:573
+msgid "O etichetă personalizată este prea lungă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:574
+msgid "Greutatea nu este validă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:576
+msgid "Un element al feedului nu este valid; verifică setările."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:577
+msgid "Registrul câmpurilor feedului nu este disponibil."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:578
+msgid "Starea „activ” a unui parametru nu este validă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:579 includes/feeds/class-adc-feed-rest.php:1349
+msgid "Același parametru apare de două ori."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:580
+msgid "Parametrul nu este acceptat pentru această destinație."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:581
+msgid "Lipsește un parametru obligatoriu."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:582
+msgid "Un rând de parametri nu este valid."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:583
+msgid "Sursa unui parametru nu este validă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:584
+msgid "O transformare nu este validă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:585
+msgid "Transformările unui parametru nu sunt valide."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:586
+msgid "Destinația nu este acceptată."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:587
+msgid "Parametrii feedului nu sunt valizi; previzualizarea nu a fost generată."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:588
+msgid "Eligibilitatea TikTok pe piața ta trebuie confirmată înainte de publicare."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:589
+msgid "Limita de dimensiune a fișierului Meta nu a putut fi verificată; verifică "
+"manual înainte de publicare."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:590
+msgid "ID-ul produsului nu este compatibil cu formatul canalului."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:591
+msgid "Fișierul generat nu este valid."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:593
+msgid "O imagine suplimentară nu are un format acceptat (JPG sau PNG)."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:594
+msgid "Lipsesc imaginile suplimentare, cerute de canal."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:595
+msgid "Grupa de vârstă nu are o valoare acceptată."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:596
+msgid "Disponibilitatea trebuie mapată la o valoare acceptată de canal."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:597
+msgid "Lipsește categoria produsului."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:598
+msgid "Culoarea este prea lungă pentru acest canal."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:599
+msgid "Lipsește condiția produsului."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:600
+msgid "Lipsește moneda prețului."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:601
+msgid "Descrierea este scrisă în întregime cu majuscule."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:602
+msgid "Descrierea conține HTML; canalul acceptă doar text simplu."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:603
+msgid "Descrierea conține linkuri, nepermise pentru acest canal."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:604
+msgid "Genul nu are o valoare acceptată."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:605
+msgid "Categoria Google are prea multe niveluri (maximum 3 acceptate)."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:606
+msgid "GTIN-ul nu are un format acceptat."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:608
+msgid "Imaginea principală nu are un format acceptat (JPG sau PNG)."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:609
+msgid "Imaginea este găzduită pe un serviciu nepermis de canal."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:610
+msgid "O etichetă internă nu este validă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:611
+msgid "Etichetele interne trebuie scrise cu litere mici."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:612
+msgid "Eticheta internă conține un separator nepermis."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:613
+msgid "O etichetă internă depășește lungimea maximă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:614
+msgid "Lista de etichete interne nu este validă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:615
+msgid "Sunt prea multe etichete interne pentru un produs."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:616
+msgid "Adresa produsului nu aparține domeniului magazinului."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:617
+msgid "Materialul este prea lung pentru acest canal."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:618
+msgid "Modelul este prea lung pentru acest canal."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:619
+msgid "Prețul nu are formatul cerut (număr cu punct zecimal)."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:620
+msgid "Tipul de produs are prea multe niveluri (maximum 3 acceptate)."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:621
+msgid "Perioada de reducere nu este validă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:622
+msgid "Lipsește perioada de valabilitate a reducerii."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:623
+msgid "Prețul redus trebuie să fie mai mic decât prețul normal."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:624
+msgid "Greutatea de livrare nu are un format acceptat (ex. 0.3 lb)."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:625
+msgid "Zona de livrare este incompletă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:626
+msgid "Zona de livrare nu este validă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:627
+msgid "Mărimea este prea lungă pentru acest canal."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:628
+msgid "ID-ul SKU conține caractere nevalide."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:629
+msgid "Lipsește ID-ul SKU al produsului."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:630
+msgid "Starea produsului nu are o valoare acceptată."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:631
+msgid "Taxa nu are o valoare validă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:632
+msgid "Titlul depășește lungimea recomandată."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:633
+msgid "Titlul conține emoji, nepermise pentru acest canal."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:634
+msgid "Titlul conține text promoțional, nepermis pentru acest canal."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:635
+msgid "Adresa videoclipului nu este validă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:636
+msgid "Adresa videoclipului nu este acceptată de platformă."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:637
+msgid "Lipsește unitatea de măsură pentru greutate."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:660
+msgid "Cerințe Catalog lipsă: %s."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-feeds.php:661
+msgid "Vezi detaliile în Jurnale."
 msgstr ""
 
 #: includes/admin/class-adc-admin-tab-ga4.php:75 includes/admin/class-adc-admin-tab-meta.php:76 includes/admin/class-adc-admin-tab-sgtm.php:89 includes/admin/class-adc-admin-tab-tiktok.php:73
@@ -1745,7 +3063,7 @@ msgid "Container web"
 msgstr ""
 
 #: includes/admin/class-adc-admin-tab-gtm.php:162
-msgid "snippet-ul GTM din site (GTM-…)"
+msgid "codul GTM din site (GTM-…)"
 msgstr ""
 
 #: includes/admin/class-adc-admin-tab-gtm.php:164
@@ -1947,373 +3265,405 @@ msgid "Modul experimental „forward MP” este activ: funcție neverificată of
 "documentația Google — testați în DebugView înainte de producție."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:153
+#: includes/admin/class-adc-admin-tab-logs.php:159
 msgid "Evenimente trimise"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:154
+#: includes/admin/class-adc-admin-tab-logs.php:160
 msgid "Numărătoarea pe stări a cozii de expediere: „În așteptare”, „Trimis”, "
 "„Eșuat definitiv” și „Omis” (fără consimțământ / integrare dezactivată)."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:167
+#: includes/admin/class-adc-admin-tab-logs.php:173
 msgid "Ștergi definitiv intrările trimise/dead din jurnal?"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:168
+#: includes/admin/class-adc-admin-tab-logs.php:174
 msgid "Curăță jurnalul (retenție)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:170
+#: includes/admin/class-adc-admin-tab-logs.php:176
 msgid "Trimiți un eveniment de test către platformele activate (conform "
 "consimțământului browserului tău)?"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:171 includes/admin/class-adc-admin-tab-logs.php:173
+#: includes/admin/class-adc-admin-tab-logs.php:177 includes/admin/class-adc-admin-tab-logs.php:179
 msgid "Trimite eveniment test"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:176
+#: includes/admin/class-adc-admin-tab-logs.php:182
 msgid "„Curăță jurnalul” aplică imediat limitele de retenție (rândurile "
 "trimise/dead se șterg); „Trimite eveniment test” trece prin pipeline-ul "
 "real ca să verifici configurarea."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:178
+#: includes/admin/class-adc-admin-tab-logs.php:184
 msgid "Ultimele 200 intrări"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:179
+#: includes/admin/class-adc-admin-tab-logs.php:185
 msgid "Ultimele evenimente înregistrate în coadă, cu starea, încercările și "
 "eroarea finală; „Reîncearcă” reprogramează imediat o intrare eșuată."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:183
+#: includes/admin/class-adc-admin-tab-logs.php:189
 msgid "ID"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:184
+#: includes/admin/class-adc-admin-tab-logs.php:190
 msgid "Eveniment"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:185 includes/admin/class-adc-admin-tab-platforms.php:314
+#: includes/admin/class-adc-admin-tab-logs.php:191 includes/admin/class-adc-admin-tab-platforms.php:314
 msgid "Platformă"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:186 includes/consent/class-adc-consent-privacy.php:192
+#: includes/admin/class-adc-admin-tab-logs.php:192 includes/consent/class-adc-consent-privacy.php:192
 msgid "Comandă"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:187 includes/admin/class-adc-admin-tab-platforms.php:317 templates/admin/analytics-dashboard.php:945
+#: includes/admin/class-adc-admin-tab-logs.php:193 includes/admin/class-adc-admin-tab-logs.php:293 includes/admin/class-adc-admin-tab-platforms.php:317 includes/feeds/class-adc-feed-field-registry.php:661 templates/admin/analytics-dashboard.php:945
 msgid "Stare"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:188
+#: includes/admin/class-adc-admin-tab-logs.php:194
 msgid "Încercări"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:189
+#: includes/admin/class-adc-admin-tab-logs.php:195
 msgid "HTTP"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:190
+#: includes/admin/class-adc-admin-tab-logs.php:196
 msgid "Programat"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:196
+#: includes/admin/class-adc-admin-tab-logs.php:202
 msgid "Nicio intrare în jurnal."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:211
+#: includes/admin/class-adc-admin-tab-logs.php:217
 msgid "Reîncearcă"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:228
+#: includes/admin/class-adc-admin-tab-logs.php:234
 msgid "Instrumente și setări avansate"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:230
+#: includes/admin/class-adc-admin-tab-logs.php:236
 msgid "Căutare consimțământ după cid"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:231
+#: includes/admin/class-adc-admin-tab-logs.php:237
 msgid "Lipește identificatorul anonim de consimțământ (UUID) al unui vizitator "
 "pentru a-i vedea deciziile efectiv valabile — util pentru solicitări GDPR."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:234
+#: includes/admin/class-adc-admin-tab-logs.php:240
 msgid "Caută"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:238
+#: includes/admin/class-adc-admin-tab-logs.php:244
 msgid "Setări jurnal"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:243
+#: includes/admin/class-adc-admin-tab-logs.php:249
 msgid "Nivel jurnal"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:246
+#: includes/admin/class-adc-admin-tab-logs.php:252
 msgid "Doar erori"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:247
+#: includes/admin/class-adc-admin-tab-logs.php:253
 msgid "Informativ"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:248
+#: includes/admin/class-adc-admin-tab-logs.php:254
 msgid "Debug"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:250
+#: includes/admin/class-adc-admin-tab-logs.php:256
 msgid "Cât de detaliat scrie pluginul în jurnalul PHP al serverului; „Debug” doar "
 "pentru depanare temporară, nu în producție."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:254
+#: includes/admin/class-adc-admin-tab-logs.php:260
 msgid "Consolă dataLayer"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:255
+#: includes/admin/class-adc-admin-tab-logs.php:261
 msgid "Afișează evenimentele dataLayer în consolă (doar pentru utilizatori "
 "autentificați ca admin)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:256
+#: includes/admin/class-adc-admin-tab-logs.php:262
 msgid "Vizualizorii autentificați cu rol de admin văd în consola browserului "
 "fiecare eveniment trimis în dataLayer; vizitatorii obișnuiți nu."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:288
+#: includes/admin/class-adc-admin-tab-logs.php:279
+msgid "Cerințe Catalog"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-logs.php:281
+msgid "Verificarea cerințelor Catalog nu este disponibilă în această versiune."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-logs.php:287
+msgid "Nu au fost raportate cerințe Catalog."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-logs.php:292
+msgid "Cerință"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-logs.php:303
+msgid "Neverificat"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-logs.php:305
+msgid "Atenție"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-logs.php:306
+msgid "Disponibil"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-logs.php:306
+msgid "Lipsește"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-logs.php:333
 msgid "Setările de jurnal au fost salvate."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:320
+#: includes/admin/class-adc-admin-tab-logs.php:365
 msgid "Intrarea nu poate fi reîncercată."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:324
+#: includes/admin/class-adc-admin-tab-logs.php:369
 msgid "Reprogramarea a eșuat."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:334
+#: includes/admin/class-adc-admin-tab-logs.php:379
 msgid "Intrarea a fost reprogramată."
 msgstr ""
 
 #. translators: %d: number of deleted rows.
-#: includes/admin/class-adc-admin-tab-logs.php:353
+#: includes/admin/class-adc-admin-tab-logs.php:398
 msgid "%d intrare a fost ștearsă."
 msgid_plural "%d intrări au fost șterse."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:375
+#: includes/admin/class-adc-admin-tab-logs.php:420
 msgid "Platforma nu este disponibilă."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:555
+#: includes/admin/class-adc-admin-tab-logs.php:600
 msgid "Integrarea este dezactivată. Activează platforma din setări și testează din "
 "nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:556
+#: includes/admin/class-adc-admin-tab-logs.php:601
 msgid "Browserul curent nu a acordat consimțământ pentru măsurare. Acordă-l din "
 "bannerul de cookie-uri și testează din nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:557
+#: includes/admin/class-adc-admin-tab-logs.php:602
 msgid "Comenzile (purchase) se trimit doar prin canalul server, deci testul din "
 "browser este omis intenționat."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:558
+#: includes/admin/class-adc-admin-tab-logs.php:603
 msgid "Lipsește identificatorul de client al browserului (client_id). Vizitează "
 "site-ul cu consimțământ acordat și testează din nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:559
+#: includes/admin/class-adc-admin-tab-logs.php:604
 msgid "Lipsește ID-ul de măsurare GA4 (Measurement ID). Completează-l, salvează și "
 "testează din nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:560
+#: includes/admin/class-adc-admin-tab-logs.php:605
 msgid "Lipsește API secret pentru GA4. Completează-l, salvează și testează din "
 "nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:561
+#: includes/admin/class-adc-admin-tab-logs.php:606
 msgid "Containerul server GTM rulează în mod „loader”, deci evenimentele nu se "
 "trimit direct. Testul este omis."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:562
+#: includes/admin/class-adc-admin-tab-logs.php:607
 msgid "Lipsește URL-ul containerului server (sGTM). Completează-l, salvează și "
 "testează din nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:563
+#: includes/admin/class-adc-admin-tab-logs.php:608
 msgid "Datele despre utilizator sunt insuficiente pentru potrivirea avansată. "
 "Folosește un test cu e-mail și telefon completate."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:564
+#: includes/admin/class-adc-admin-tab-logs.php:609
 msgid "Lipsește ID-ul de pixel Meta. Completează-l, salvează și testează din nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:565
+#: includes/admin/class-adc-admin-tab-logs.php:610
 msgid "Lipsește token-ul de acces. Completează-l, salvează și testează din nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:566
+#: includes/admin/class-adc-admin-tab-logs.php:611
 msgid "Lipsește codul de test al evenimentelor (Test Event Code) din Meta Events "
 "Manager. Completează-l, salvează și testează din nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:567
+#: includes/admin/class-adc-admin-tab-logs.php:612
 msgid "Lipsește codul de pixel TikTok (Pixel Code). Completează-l, salvează și "
 "testează din nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:584
+#: includes/admin/class-adc-admin-tab-logs.php:629
 msgid "Browserul tău nu are consimțământ acordat pentru măsurare. Acordă "
 "consimțământul pe site și reia testul."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:605
+#: includes/admin/class-adc-admin-tab-logs.php:650
 msgid "Nicio platformă activă pentru acest eveniment."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:606
+#: includes/admin/class-adc-admin-tab-logs.php:651
 msgid "Evenimentul a fost adăugat în coadă. Rulează procesarea Action Scheduler "
 "pentru livrare."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:624
+#: includes/admin/class-adc-admin-tab-logs.php:669
 msgid "Identificator invalid."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:628
+#: includes/admin/class-adc-admin-tab-logs.php:673
 msgid "Motorul de consimțământ nu este disponibil."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:659
+#: includes/admin/class-adc-admin-tab-logs.php:704
 msgid "Se reprogramează…"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:660
+#: includes/admin/class-adc-admin-tab-logs.php:705
 msgid "Se curăță…"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:661
+#: includes/admin/class-adc-admin-tab-logs.php:706
 msgid "Se trimite…"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:662
+#: includes/admin/class-adc-admin-tab-logs.php:707
 msgid "Se caută…"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:663
+#: includes/admin/class-adc-admin-tab-logs.php:708
 msgid "Consimțământ efectiv pentru acest cid:"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:664
+#: includes/admin/class-adc-admin-tab-logs.php:709
 msgid "Nicio decizie de consimțământ pentru acest cid."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:665
+#: includes/admin/class-adc-admin-tab-logs.php:710
 msgid "acordat"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:666
+#: includes/admin/class-adc-admin-tab-logs.php:711
 msgid "refuzat"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:667
+#: includes/admin/class-adc-admin-tab-logs.php:712
 msgid "A apărut o eroare. Reîncarcă pagina."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:697
+#: includes/admin/class-adc-admin-tab-logs.php:742
 msgid "Detectare conflicte (prima pagină)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:733
+#: includes/admin/class-adc-admin-tab-logs.php:778
 msgid "GTM snippet prezent"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:734
+#: includes/admin/class-adc-admin-tab-logs.php:779
 msgid "Apel direct gtag()"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:735
+#: includes/admin/class-adc-admin-tab-logs.php:780
 msgid "Meta Pixel direct"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:736
+#: includes/admin/class-adc-admin-tab-logs.php:781
 msgid "TikTok Pixel direct"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:737
+#: includes/admin/class-adc-admin-tab-logs.php:782
 msgid "Google Analytics direct"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:738
+#: includes/admin/class-adc-admin-tab-logs.php:783
 msgid "Alt CMP activ: Complianz"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:739
+#: includes/admin/class-adc-admin-tab-logs.php:784
 msgid "Alt CMP activ: Cookiebot"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:740
+#: includes/admin/class-adc-admin-tab-logs.php:785
 msgid "Alt CMP activ: CookieYes"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:750
+#: includes/admin/class-adc-admin-tab-logs.php:795
 msgid "1 apariție în HTML."
 msgid_plural "%d apariții în HTML."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:767
+#: includes/admin/class-adc-admin-tab-logs.php:812
 msgid "Adcelerum Commerce Hub: pipeline de urmărire"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:782
+#: includes/admin/class-adc-admin-tab-logs.php:827
 msgid "Adcelerum Commerce Hub: pipeline-ul de trimitere este operațional"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:793
+#: includes/admin/class-adc-admin-tab-logs.php:838
 msgid "Action Scheduler nu este disponibil — coada folosește WP-Cron ca rezervă"
 msgstr ""
 
 #. translators: %d: number of dead jobs.
-#: includes/admin/class-adc-admin-tab-logs.php:804
+#: includes/admin/class-adc-admin-tab-logs.php:849
 msgid "%d eveniment a eșuat definitiv (dead)."
 msgid_plural "%d evenimente au eșuat definitiv (dead)."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:851 includes/admin/trait-adc-admin-help-content.php:174
+#: includes/admin/class-adc-admin-tab-logs.php:896 includes/admin/trait-adc-admin-help-content.php:174
 msgid "În așteptare"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:852 includes/admin/trait-adc-admin-help-content.php:174
+#: includes/admin/class-adc-admin-tab-logs.php:897 includes/admin/trait-adc-admin-help-content.php:174
 msgid "Trimis"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:853 includes/admin/trait-adc-admin-help-content.php:174
+#: includes/admin/class-adc-admin-tab-logs.php:898 includes/admin/trait-adc-admin-help-content.php:174
 msgid "Eșuat definitiv"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:854 includes/admin/trait-adc-admin-help-content.php:174
+#: includes/admin/class-adc-admin-tab-logs.php:899 includes/admin/trait-adc-admin-help-content.php:174
 msgid "Omis"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:855
+#: includes/admin/class-adc-admin-tab-logs.php:900
 msgid "Fără consimțământ"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:856
+#: includes/admin/class-adc-admin-tab-logs.php:901
 msgid "Integrare dezactivată"
 msgstr ""
 
@@ -3270,9 +4620,9 @@ msgid "Cardul „Container web” este suficient pentru majoritatea magazinelor.
 msgstr ""
 
 #: includes/admin/trait-adc-admin-help-content.php:217
-msgid "Statusul de lângă titlul fiecărui card arată pe loc dacă pasul respectiv "
-"este activ, dezactivat din bifă sau așteaptă o valoare lipsă (ID-ul, "
-"respectiv URL-ul)."
+msgid "Starea de lângă titlul fiecărui card arată pe loc dacă pasul respectiv este "
+"activ, dezactivat din bifă sau așteaptă o valoare lipsă (ID-ul, respectiv "
+"URL-ul)."
 msgstr ""
 
 #: includes/admin/trait-adc-admin-help-content.php:225
@@ -4005,10 +5355,6 @@ msgstr ""
 msgid "TVA"
 msgstr ""
 
-#: includes/analytics/class-adc-analytics-csv.php:384
-msgid "Livrare"
-msgstr ""
-
 #: includes/analytics/class-adc-analytics-csv.php:387
 msgid "Rata rambursărilor"
 msgstr ""
@@ -4079,10 +5425,6 @@ msgstr ""
 
 #: includes/analytics/class-adc-analytics-csv.php:549
 msgid "ascuns: eșantion mic"
-msgstr ""
-
-#: includes/analytics/class-adc-analytics-csv.php:569
-msgid "ID produs"
 msgstr ""
 
 #: includes/analytics/class-adc-analytics-csv.php:572
@@ -4322,14 +5664,6 @@ msgstr ""
 msgid "Funcție necunoscută."
 msgstr ""
 
-#: includes/class-adc-consent-admin.php:127 includes/class-adc-consent-admin.php:180 includes/class-adc-consent-admin.php:191 includes/class-adc-consent-admin.php:202 includes/class-adc-gdpr-compliance.php:364
-msgid "Da"
-msgstr ""
-
-#: includes/class-adc-consent-admin.php:127 includes/class-adc-consent-admin.php:179 includes/class-adc-consent-admin.php:190 includes/class-adc-consent-admin.php:201 includes/class-adc-gdpr-compliance.php:367
-msgid "Nu"
-msgstr ""
-
 #: includes/class-adc-consent-admin.php:133 includes/class-adc-consent-admin.php:171 includes/class-adc-consent-admin.php:254
 msgid "Consimțământ Marketing"
 msgstr ""
@@ -4452,150 +5786,150 @@ msgstr ""
 msgid "Refuză tot"
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:102 includes/consent/class-adc-consent-banner.php:404
+#: includes/consent/class-adc-consent-banner.php:102 includes/consent/class-adc-consent-banner.php:408
 msgid "Acceptă doar cele necesare"
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:236
+#: includes/consent/class-adc-consent-banner.php:239
 msgid "Butoanele „Acceptă” și „Refuză” au exact aceleași culori, deci arată "
 "identic. Mențineți aceeași mărime, dar alegeți fundaluri diferite, ca "
 "vizitatorul să deosebească cele două opțiuni."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:237
+#: includes/consent/class-adc-consent-banner.php:240
 msgid "Fundalul butonului „Refuză” (%1$s) este practic identic cu fundalul "
 "bannerului (%2$s): contrast %3$s:1. Refuzul trebuie să fie la fel de "
 "vizibil și de ușor de apăsat ca acceptul — așa cum este setat acum, "
 "consimțământul poate fi considerat nevalid (dark pattern)."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:238
+#: includes/consent/class-adc-consent-banner.php:241
 msgid "Butonul „Acceptă” se detașează de fundal (contrast %1$s:1), dar „Refuză” "
 "abia se vede (%2$s:1, sub pragul de %3$s:1). Alegeți un fundal mai "
 "contrastant pentru „Refuză”, fără să-i modificați mărimea."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:239
+#: includes/consent/class-adc-consent-banner.php:242
 msgid "Diferență mare de prominență între „Acceptă” (%1$s:1 față de fundal) și "
 "„Refuză” (%2$s:1). GDPR cere ca refuzul să fie la fel de atractiv vizual ca "
 "acceptul; reduceți diferența de culori."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:240
+#: includes/consent/class-adc-consent-banner.php:243
 msgid "Textul butonului „Refuză” are contrast %1$s:1 față de fundalul său, sub "
 "4,5:1 și mai slab decât al lui „Acceptă” (%2$s:1). Refuzul devine greu de "
 "citit."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:401
+#: includes/consent/class-adc-consent-banner.php:405
 msgid "Folosim cookie-uri"
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:402
+#: includes/consent/class-adc-consent-banner.php:406
 msgid "Folosim cookie-uri necesare pentru funcționarea site-ului. Cu acordul "
 "dumneavoastră, folosim și cookie-uri pentru statistici și marketing. Puteți "
 "accepta, refuza sau personaliza alegerile în orice moment."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:403
+#: includes/consent/class-adc-consent-banner.php:407
 msgid "Acceptă tot"
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:405
+#: includes/consent/class-adc-consent-banner.php:409
 msgid "Personalizează"
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:406
+#: includes/consent/class-adc-consent-banner.php:410
 msgid "Salvează alegerile"
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:414
+#: includes/consent/class-adc-consent-banner.php:418
 msgid "Necesare pentru funcționarea site-ului (coș, autentificare, securitate). Nu "
 "pot fi dezactivate."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:415
+#: includes/consent/class-adc-consent-banner.php:419
 msgid "Rețin setări precum limba sau moneda preferată."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:416
+#: includes/consent/class-adc-consent-banner.php:420
 msgid "Ne ajută să înțelegem, în mod agregat, cum este folosit site-ul."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:417
+#: includes/consent/class-adc-consent-banner.php:421
 msgid "Permit afișarea de reclame și promoții relevante, inclusiv prin platforme "
 "terțe."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:439
+#: includes/consent/class-adc-consent-banner.php:443
 msgid "Distinge vizitatorii unici."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:440 includes/consent/class-adc-consent-banner.php:464
+#: includes/consent/class-adc-consent-banner.php:444 includes/consent/class-adc-consent-banner.php:468
 msgid "2 ani"
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:447
+#: includes/consent/class-adc-consent-banner.php:451
 msgid "Distinge vizitatorii unici în aceeași zi."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:448
+#: includes/consent/class-adc-consent-banner.php:452
 msgid "24 de ore"
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:455
+#: includes/consent/class-adc-consent-banner.php:459
 msgid "Afișează reclame relevante pe platformele Meta."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:456
+#: includes/consent/class-adc-consent-banner.php:460
 msgid "3 luni"
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:463
+#: includes/consent/class-adc-consent-banner.php:467
 msgid "Reține click-ul pe un anunț Meta."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:471
+#: includes/consent/class-adc-consent-banner.php:475
 msgid "Măsoară eficiența reclamelor TikTok."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:472
+#: includes/consent/class-adc-consent-banner.php:476
 msgid "13 luni"
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:479
+#: includes/consent/class-adc-consent-banner.php:483
 msgid "Măsoară eficiența reclamelor Google."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:480
+#: includes/consent/class-adc-consent-banner.php:484
 msgid "90 de zile"
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:487
+#: includes/consent/class-adc-consent-banner.php:491
 msgid "Păstrează coșul și datele comenzii."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:488
+#: includes/consent/class-adc-consent-banner.php:492
 msgid "Sesiune sau 2 zile"
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:495
+#: includes/consent/class-adc-consent-banner.php:499
 msgid "Identifică sesiunea de cumpărături."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:496
+#: includes/consent/class-adc-consent-banner.php:500
 msgid "2 zile"
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:503
+#: includes/consent/class-adc-consent-banner.php:507
 msgid "Reține alegerile dumneavoastră privind cookie-urile."
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:504
+#: includes/consent/class-adc-consent-banner.php:508
 msgid "180 de zile"
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:718 templates/consent/preferences.php:20
+#: includes/consent/class-adc-consent-banner.php:724 templates/consent/preferences.php:20
 msgid "Setări cookie-uri"
 msgstr ""
 
@@ -4725,6 +6059,1977 @@ msgstr ""
 
 #: includes/core/class-adc-github-updater.php:1131
 msgid "ADC Marketing: "
+msgstr ""
+
+#: includes/feeds/class-adc-feed-channels.php:17
+msgid "Google Merchant Center"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-channels.php:24
+msgid "Meta Commerce Catalog"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-channels.php:31
+msgid "TikTok Catalog"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:161
+msgid "Stabil și unic în tot feedul, identic cu ID-ul trimis de tracking."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:166
+msgid "Numele produsului, text simplu, fără HTML."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:169
+msgid "Titlu structurat"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:171
+msgid "Alternativă la titlu, cu digital_source_type și content; pentru asset-uri "
+"AI."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:175
+msgid "Text simplu, fără marcaj HTML."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:178
+msgid "Descriere structurată"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:180
+msgid "Alternativă la descriere, cu digital_source_type și content."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:182 includes/feeds/class-adc-feed-field-registry.php:576 includes/feeds/class-adc-feed-field-registry.php:795
+msgid "Link produs"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:183
+msgid "URL-ul paginii reale de produs."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:187
+msgid "Imagine accesibilă crawlerului; din 31.01.2027 se cere minimum 500×500 px."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:190 includes/feeds/class-adc-feed-field-registry.php:584 includes/feeds/class-adc-feed-field-registry.php:818
+msgid "Imagini secundare"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:191
+msgid "Până la 10 URL-uri, maximum 2000 de caractere fiecare."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:195 includes/feeds/class-adc-feed-field-registry.php:589 includes/feeds/class-adc-feed-field-registry.php:815
+msgid "Link video"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:197
+msgid "Atribut acceptat din 2026; o eroare de video nu blochează oferta."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:199 includes/feeds/class-adc-feed-field-registry.php:710
+msgid "Link mobil"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:201 includes/feeds/class-adc-feed-field-registry.php:711
+msgid "Versiunea mobilă a paginii de produs."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:203
+msgid "Link model virtual"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:204
+msgid "Acceptat doar pentru Statele Unite."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:206
+msgid "Garanție"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:207
+msgid "Sub-atribute duration și duration_unit (month sau year); doar dacă "
+"reglementarea locală o cere."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:209
+msgid "Cost mărfuri vândute"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:210
+msgid "Preț plus monedă, folosit pentru raportarea marjei."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:212 includes/feeds/class-adc-feed-field-registry.php:658
+msgid "Dată expirare"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:214
+msgid "Format ISO 8601, maximum 25 de caractere."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:216 includes/feeds/class-adc-feed-field-registry.php:562 includes/feeds/class-adc-feed-field-registry.php:781
+msgid "Disponibilitate"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:218
+msgid "Trebuie să corespundă paginii de produs și checkout-ului."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:221
+msgid "Data disponibilității"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:223
+msgid "Cerută când disponibilitatea este preorder; ISO 8601, maximum 25 de "
+"caractere."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:225 includes/feeds/class-adc-feed-field-registry.php:572 includes/feeds/class-adc-feed-field-registry.php:791 includes/feeds/class-adc-feed-params.php:29
+msgid "Preț"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:226
+msgid "Preț public final, punct decimal plus cod ISO 4217."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:230
+msgid "Se trimite împreună cu prețul neredus."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:233 includes/feeds/class-adc-feed-field-registry.php:648 includes/feeds/class-adc-feed-field-registry.php:850
+msgid "Perioada prețului redus"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:235
+msgid "Format AAAA-LL-ZZThh:mm[+hhmm]/AAAA-LL-ZZThh:mm[+hhmm]."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:237 includes/feeds/class-adc-feed-field-registry.php:655
+msgid "Preț pe unitate"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:238
+msgid "Număr plus unitate; în UE poate fi cerut de legislația locală."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:240
+msgid "Unitate de referință"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:241
+msgid "Întreg plus unitate, aceeași unitate ca măsura de preț."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:243
+msgid "Preț minim automat"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:244
+msgid "Prag pentru reducerile automate."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:246
+msgid "Rate"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:247 includes/feeds/class-adc-feed-field-registry.php:250 includes/feeds/class-adc-feed-field-registry.php:253
+msgid "Sub-atribute proprii; în afara scopului MVP."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:249
+msgid "Abonament"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:252
+msgid "Program de loialitate"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:255
+msgid "Preț maxim de vânzare"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:256
+msgid "Acceptat doar pentru India."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:258
+msgid "Finanțare"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:259 includes/feeds/class-adc-feed-field-registry.php:262
+msgid "Doar pentru Vehicle ads; în afara scopului MVP."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:261
+msgid "Leasing"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:264 includes/feeds/class-adc-feed-field-registry.php:593 includes/feeds/class-adc-feed-field-registry.php:807
+msgid "Categorie Google"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:265
+msgid "ID numeric sau cale din taxonomia Google; recomandat pentru aprobare."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:268 includes/feeds/class-adc-feed-field-registry.php:705 includes/feeds/class-adc-feed-field-registry.php:811
+msgid "Tip produs"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:270 includes/feeds/class-adc-feed-field-registry.php:707
+msgid "Categoria proprie a magazinului, format A > B > C."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:273 includes/feeds/class-adc-feed-field-registry.php:600 includes/feeds/class-adc-feed-field-registry.php:803
+msgid "Brand"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:275
+msgid "Obligatoriu pentru produsele noi; excepții: filme, cărți, muzică."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:278 includes/feeds/class-adc-feed-field-registry.php:605 includes/feeds/class-adc-feed-field-registry.php:861 includes/feeds/class-adc-feed-params.php:38
+msgid "GTIN"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:280
+msgid "Maximum 14 cifre per valoare; UPC, EAN, JAN, ISBN-13 sau ITF-14."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:283 includes/feeds/class-adc-feed-field-registry.php:608 includes/feeds/class-adc-feed-field-registry.php:864 includes/feeds/class-adc-feed-params.php:39
+msgid "MPN"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:285
+msgid "Necesar doar dacă produsul nu are GTIN."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:288
+msgid "Identificatori existenți"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:290
+msgid "no înseamnă că produsul nu are brand, GTIN sau MPN."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:292 includes/feeds/class-adc-feed-field-registry.php:567 includes/feeds/class-adc-feed-field-registry.php:786 includes/feeds/class-adc-feed-params.php:40
+msgid "Condiție"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:294
+msgid "Obligatorie pentru produsele used și refurbished."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:297
+msgid "Conținut pentru adulți"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:299
+msgid "Obligatoriu când produsul este conținut pentru adulți."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:301 includes/feeds/class-adc-feed-field-registry.php:624 includes/feeds/class-adc-feed-field-registry.php:823
+msgid "Grupă de vârstă"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:303
+msgid "Cerută condiționat, pentru apparel și free listings."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:305 includes/feeds/class-adc-feed-field-registry.php:628 includes/feeds/class-adc-feed-field-registry.php:830
+msgid "Gen"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:307
+msgid "Cerut condiționat, pentru apparel."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:309 includes/feeds/class-adc-feed-field-registry.php:616 includes/feeds/class-adc-feed-field-registry.php:827
+msgid "Culoare"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:311
+msgid "Maximum 40 de valori per culoare."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:313 includes/feeds/class-adc-feed-field-registry.php:620 includes/feeds/class-adc-feed-field-registry.php:843
+msgid "Mărime"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:315
+msgid "Cerută condiționat, pentru îmbrăcăminte și încălțăminte."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:317
+msgid "Tip mărime"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:319
+msgid "Maximum 2 valori."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:321
+msgid "Sistem de mărimi"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:322
+msgid "Țara sistemului de mărimi."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:324 includes/feeds/class-adc-feed-field-registry.php:632 includes/feeds/class-adc-feed-field-registry.php:837
+msgid "Material"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:325
+msgid "Cerut când materialul diferențiază variantele."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:327 includes/feeds/class-adc-feed-field-registry.php:636 includes/feeds/class-adc-feed-field-registry.php:840
+msgid "Model"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:328
+msgid "Cerut când modelul diferențiază variantele."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:330 includes/feeds/class-adc-feed-field-registry.php:612 includes/feeds/class-adc-feed-field-registry.php:834
+msgid "ID grup variante"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:332
+msgid "Nu este impus pentru România; recomandat pentru variații."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:334
+msgid "Titlu grup variante"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:335
+msgid "Titlul produsului părinte, pentru variante."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:337
+msgid "Multipack"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:338
+msgid "Număr întreg; cerut condiționat pe anumite piețe și pentru free listings."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:340
+msgid "Pachet de produse"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:342
+msgid "Marchează pachetele care conțin mai multe produse distincte."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:344
+msgid "Certificare (EPREL)"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:345
+msgid "Format EC:EPREL:<cod>; obligatoriu pentru eticheta energetică UE când "
+"reglementarea o cere."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:348
+msgid "Clasă energetică"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:349
+msgid "Doar CH, NO și UK; în UE se folosește certification."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:351
+msgid "Clasă energetică minimă"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:352 includes/feeds/class-adc-feed-field-registry.php:355
+msgid "Doar CH, NO și UK."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:354
+msgid "Clasă energetică maximă"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:357
+msgid "Detaliu produs"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:358
+msgid "Sub-atribute secțiune, atribut și valoare."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:361
+msgid "Punct forte produs"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:362
+msgid "Până la 6 puncte forte scurte per produs."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:365
+msgid "Întrebare și răspuns"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:366
+msgid "Sub-atribute question, answer, question_type."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:369
+msgid "Produs asociat"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:370
+msgid "ID-uri de produse asociate, pentru recomandări."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:373
+msgid "Rang popularitate"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:374
+msgid "Număr întreg, folosit ca semnal de sortare."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:376
+msgid "Link document"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:377
+msgid "Sub-atribute link și format (de exemplu PDF)."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:380
+msgid "Imagine de lifestyle"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:381
+msgid "Imagine în context de utilizare, pe lângă imaginea principală."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:384
+msgid "Titlu scurt"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:386
+msgid "Recomandat între 5 și 65 de caractere, doar pentru Demand Gen."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:388
+msgid "Lungime produs"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:389 includes/feeds/class-adc-feed-field-registry.php:392 includes/feeds/class-adc-feed-field-registry.php:395 includes/feeds/class-adc-feed-field-registry.php:398 includes/feeds/class-adc-feed-field-registry.php:478 includes/feeds/class-adc-feed-field-registry.php:481 includes/feeds/class-adc-feed-field-registry.php:484
+msgid "Unități consistente per produs."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:391
+msgid "Lățime produs"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:394
+msgid "Înălțime produs"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:397
+msgid "Greutate produs"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:400
+msgid "Redirect anunț"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:402
+msgid "URL de tracking pentru anunțuri, maximum 2000 de caractere."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:404 includes/feeds/class-adc-feed-field-registry.php:670 includes/feeds/class-adc-feed-field-registry.php:894
+msgid "Etichetă custom 0"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:406 includes/feeds/class-adc-feed-field-registry.php:410 includes/feeds/class-adc-feed-field-registry.php:414 includes/feeds/class-adc-feed-field-registry.php:418 includes/feeds/class-adc-feed-field-registry.php:422
+msgid "Maximum 1.000 de valori unice per cont pentru acest slot."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:408 includes/feeds/class-adc-feed-field-registry.php:674 includes/feeds/class-adc-feed-field-registry.php:898
+msgid "Etichetă custom 1"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:412 includes/feeds/class-adc-feed-field-registry.php:678 includes/feeds/class-adc-feed-field-registry.php:902
+msgid "Etichetă custom 2"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:416 includes/feeds/class-adc-feed-field-registry.php:682 includes/feeds/class-adc-feed-field-registry.php:906
+msgid "Etichetă custom 3"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:420 includes/feeds/class-adc-feed-field-registry.php:686 includes/feeds/class-adc-feed-field-registry.php:910
+msgid "Etichetă custom 4"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:424
+msgid "ID promoție"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:426
+msgid "Fără spații sau simboluri; leagă produsul de o promoție."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:428
+msgid "Destinații excluse"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:440
+msgid "Se exclude reciproc cu destinațiile incluse; excluderea are prioritate."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:443
+msgid "Destinații incluse"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:455
+msgid "Destinațiile în care apare produsul; exclude_le au prioritate."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:458
+msgid "Țară exclusă din Shopping ads"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:459
+msgid "Cod de țară ISO 3166; se aplică doar pentru Shopping ads."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:461
+msgid "Pauză"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:463
+msgid "Oprește temporar produsul fără a-l șterge din feed."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:465
+msgid "ID vânzător extern"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:467
+msgid "Doar pentru conturi marketplace, între 1 și 50 de caractere."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:470
+msgid "Format Țară[:Regiune]:Serviciu:Preț; obligatoriu pentru România la Shopping "
+"ads și free listings, livrat din setările de livrare."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:473 includes/feeds/class-adc-feed-field-registry.php:720 includes/feeds/class-adc-feed-field-registry.php:857
+msgid "Greutate livrare"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:474
+msgid "Unități consistente per produs; cerut pentru tarifele calculate de curier."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:477
+msgid "Lungime colet"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:480
+msgid "Lățime colet"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:483
+msgid "Înălțime colet"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:486
+msgid "Timp maxim de procesare"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:487 includes/feeds/class-adc-feed-field-registry.php:490
+msgid "În zile lucrătoare."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:489
+msgid "Timp minim de procesare"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:492
+msgid "Țara de expediere"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:493
+msgid "Cod de țară ISO 3166."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:495
+msgid "Oră limită de procesare"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:496
+msgid "Atribut nou din 2026: ora zilnică până la care comenzile intră în "
+"procesare."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:498
+msgid "Valoare minimă comandă"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:499
+msgid "Atribut nou din 2026: pragul minim de comandă."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:501
+msgid "Prag livrare gratuită"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:502
+msgid "Valoarea de la care livrarea devine gratuită."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:504
+msgid "Curier"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:505
+msgid "Numele serviciului de curierat pentru tarifele calculate."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:507
+msgid "Preț curier"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:508
+msgid "Costul serviciului de curierat."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:510
+msgid "Timp de tranzit"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:511
+msgid "În zile, pentru tarifele calculate de curier."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:513
+msgid "Etichetă livrare"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:514
+msgid "Leagă produsul de un grup de setări de livrare din cont."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:516
+msgid "Zile lucrătoare de tranzit"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:517
+msgid "Număr de zile lucrătoare pentru tranzit."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:519
+msgid "Zile lucrătoare de procesare"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:520
+msgid "Număr de zile lucrătoare pentru procesare."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:522
+msgid "Retur"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:523
+msgid "Format Țară:fereastră:condiție:metodă:rambursare:schimb; recomandat la "
+"nivel de cont."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:545
+msgid "Unic și identic cu content_id din Meta Pixel pentru dynamic ads."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:550
+msgid "Recomandat maximum 65 de caractere pentru anunțuri."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:555
+msgid "Text simplu: fără HTML, fără linkuri și fără majuscule integrale."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:558
+msgid "Descriere cu formatare"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:560
+msgid "HTML pe lista de taguri permise; nu se folosește în anunțuri."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:564
+msgid "Exact cele două valori Meta, în engleza americană."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:569
+msgid "Obligatorie pentru fiecare articol din catalogul Meta."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:573
+msgid "Număr cu punct decimal urmat de codul ISO 4217, fără simbol."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:577
+msgid "Pagină de produs pe domeniul magazinului."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:581
+msgid "JPEG sau PNG, minimum 500×500 px, maximum 8 MB."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:585
+msgid "Marcat obligatoriu de Meta; până la 50 de URL-uri, maximum 2000 de "
+"caractere fiecare."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:590
+msgid "Până la 20 de linkuri directe la fișier, maximum 200 MB; nu YouTube."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:594
+msgid "ID sau nume; necesar dacă nu se trimite fb_product_category."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:597
+msgid "Categorie Facebook"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:598
+msgid "Alternativă la categoria Google; una dintre cele două este obligatorie."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:602
+msgid "Cel puțin unul dintre brand, GTIN sau MPN este obligatoriu."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:606
+msgid "UPC, EAN, JAN, ISBN-13 sau ITF-14, fără spații sau cratime."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:610
+msgid "Codul producătorului; alternativă la GTIN."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:614
+msgid "Obligatoriu pentru produsele cu variante; același ID pentru toate "
+"variantele."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:618
+msgid "Cuvinte, nu coduri hexazecimale."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:622
+msgid "Fără cuvântul „size” în valoare."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:626
+msgid "Cerută când se aplică produsului."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:630 includes/feeds/class-adc-feed-field-registry.php:634 includes/feeds/class-adc-feed-field-registry.php:638
+msgid "Cerut când se aplică produsului."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:640
+msgid "Atribut de variantă suplimentar"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:641
+msgid "Format Etichetă:Valoare, de exemplu Scent:Fruity."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:645
+msgid "Mai mic decât prețul plin; se trimite doar când există reducere."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:649
+msgid "Format AAAA-LL-ZZThh:mm+hh:mm/AAAA-LL-ZZThh:mm+hh:mm; fără el reducerea "
+"rămâne până la ștergere."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:651
+msgid "ID furnizor"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:653
+msgid "Identificatorul furnizorului, opțional."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:656
+msgid "Obiect cu value, currency și unit, serializat JSON."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:659
+msgid "Format ISO 8601, AAAA-LL-ZZ."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:663
+msgid "Redenumit din visibility; numele vechi încă este acceptat."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:667
+msgid "Până la 5.000 de etichete per produs, stocate lowercase; potrivire pe "
+"valoare întreagă."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:672
+msgid "Text pentru creative, nu pentru segmentare; segmentarea folosește "
+"internal_label."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:676 includes/feeds/class-adc-feed-field-registry.php:680 includes/feeds/class-adc-feed-field-registry.php:684 includes/feeds/class-adc-feed-field-registry.php:688
+msgid "Text pentru creative, nu pentru segmentare."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:690
+msgid "Număr custom 0"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:691 includes/feeds/class-adc-feed-field-registry.php:694 includes/feeds/class-adc-feed-field-registry.php:697 includes/feeds/class-adc-feed-field-registry.php:700 includes/feeds/class-adc-feed-field-registry.php:703
+msgid "Întreg între 0 și 4.294.967.295, filtrabil pe intervale."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:693
+msgid "Număr custom 1"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:696
+msgid "Număr custom 2"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:699
+msgid "Număr custom 3"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:702
+msgid "Număr custom 4"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:713
+msgid "Applink"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:714
+msgid "Sub-atribute applink.*; cerute pentru retargeting și deeplink."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:717
+msgid "Format Țară:Regiune:Serviciu:Preț; 0.0 afișează overlay-ul de livrare "
+"gratuită."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:721
+msgid "Exprimată în lb, oz, g sau kg."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:724
+msgid "Capabilități dezactivate"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:725
+msgid "Controlează vizibilitatea pe Shops, Marketplace, Instagram Product Tagging "
+"și Dynamic Ads."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:728
+msgid "Cantitate pentru Facebook"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:729
+msgid "Doar pentru Shops; redenumit din inventory."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:731
+msgid "Comerț nativ"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:732
+msgid "Cerut pentru Direct Checkout; acceptă da/nu."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:734
+msgid "Divulgări produs"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:735
+msgid "Până la 20 per produs; sub-câmpuri content, title, symbol, jurisdictions."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:738
+msgid "Țara de origine"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:739 includes/feeds/class-adc-feed-field-registry.php:751
+msgid "Cerut doar pentru India, la WhatsApp și Shops."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:741
+msgid "Nume importator"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:742 includes/feeds/class-adc-feed-field-registry.php:745 includes/feeds/class-adc-feed-field-registry.php:748
+msgid "Cerut doar pentru India."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:744
+msgid "Adresă importator"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:747
+msgid "Informații producător"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:750
+msgid "Categorie conformitate WhatsApp"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:770
+msgid "Unic în catalog; duplicatele sunt ignorate, iar același ID actualizează "
+"produsul."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:774
+msgid "Fără text promoțional (livrare gratuită, wholesale) și fără emoji."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:778
+msgid "Descrierea produsului; specificația nu publică o limită de lungime."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:783
+msgid "Cinci valori, cu spații — diferit de Google și Meta."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:788
+msgid "Obligatorie pentru fiecare produs."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:792
+msgid "Monedă după țara țintă a catalogului, punct decimal."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:796
+msgid "Pagină de destinație activă."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:800
+msgid "Minimum 500×500 px pentru formatul 1:1, link JPG sau PNG."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:804
+msgid "Valoare reală a brandului; obligatoriu pentru fiecare produs."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:808
+msgid "Doar primele 3 niveluri sunt afișate."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:812
+msgid "Doar primele 3 niveluri sunt indicate."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:816
+msgid "Recomandat 9:16, minimum 720×1280, cu sunet și subtitrări."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:819
+msgid "Până la 10 URL-uri JPG sau PNG, minimum 500×500 px pentru carusel."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:825
+msgid "Cu intervalele de vârstă explicate în descriere."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:828
+msgid "Culoarea produsului, ca text."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:832
+msgid "Genul căruia i se adresează produsul."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:835
+msgid "Același ID pentru toate variantele produsului."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:838
+msgid "Materialul produsului, ca text."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:841
+msgid "Modelul produsului, ca text."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:844
+msgid "Mărimea produsului, ca text."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:847
+msgid "Necesar pentru overlay-ul de preț redus, punct decimal."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:851
+msgid "Format AAAA-LL-ZZThh:mm/AAAA-LL-ZZThh:mm; TikTok încă nu îl folosește "
+"pentru expirare."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:854
+msgid "Format Țară:Stat:TipLivrare:Preț:Serviciu, regiuni separate prin punct și "
+"virgulă."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:858
+msgid "Valoare plus unitate, de exemplu 0.3 lb."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:862
+msgid "UPC, EAN, JAN, ISBN-13 sau ITF-14."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:865
+msgid "Codul producătorului."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:867
+msgid "Taxă"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:868
+msgid "Cotă numerică, de exemplu 0.05."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:870
+msgid "Link aplicație iOS"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:871 includes/feeds/class-adc-feed-field-registry.php:874
+msgid "Schemă de app; necesară pentru retargeting și deeplink."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:873
+msgid "Link aplicație Android"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:876
+msgid "ID App Store iOS"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:877
+msgid "Identificatorul aplicației în App Store."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:879
+msgid "Nume App Store iOS"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:880
+msgid "Numele aplicației în App Store."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:882
+msgid "Pachet Android"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:883
+msgid "Numele pachetului aplicației Android."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:885
+msgid "Nume aplicație Android"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:886
+msgid "Numele aplicației Android."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:888
+msgid "Brand magazin"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:889
+msgid "Brandul magazinului, de exemplu numele afișat al acestuia."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:891
+msgid "Istoric evaluări"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:892
+msgid "Câmpul productHisEval: număr de achiziții : număr de evaluări bune."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-field-registry.php:896 includes/feeds/class-adc-feed-field-registry.php:900 includes/feeds/class-adc-feed-field-registry.php:904 includes/feeds/class-adc-feed-field-registry.php:908 includes/feeds/class-adc-feed-field-registry.php:912
+msgid "Folosită la filtrele din product sets; numărul maxim de etichete per produs "
+"este neverificat."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-module.php:35
+msgid "Verificare informativă: testul HTTP a returnat tokenul; protecția "
+"snapshot-urilor nu este confirmată."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-module.php:36
+msgid "Verificare informativă: testul HTTP nu a returnat tokenul; protecția nu "
+"este confirmată complet."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-module.php:37
+msgid "Verificare informativă, neconfirmată: testul HTTP nu a putut fi finalizat."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-module.php:38
+msgid "Verificare informativă, neconfirmată: testul HTTP nu este disponibil."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-module.php:47
+msgid "WooCommerce este activ."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-module.php:48
+msgid "WooCommerce 9.5 sau o versiune mai nouă este disponibil."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-module.php:49
+msgid "Extensia PHP XMLReader este disponibilă."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-module.php:50
+msgid "Extensia PHP XMLWriter este disponibilă."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-module.php:51
+msgid "Directorul persistent adc-feeds poate fi scris."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-params.php:32
+msgid "Marcă"
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:252
+msgid "Nu ai permisiunea necesară pentru feeduri."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:337 includes/feeds/class-adc-feed-rest.php:381 includes/feeds/class-adc-feed-rest.php:631
+msgid "Destinația feedului nu este validă."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:390 includes/feeds/class-adc-feed-rest.php:652
+msgid "Formatul nu este disponibil pentru această destinație."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:410
+msgid "Previzualizarea poate afișa între 1 și 10 produse."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:413
+msgid "Ai făcut prea multe previzualizări. Așteaptă un minut și încearcă din nou."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:458
+msgid "Feedul nu a putut fi creat. Încearcă din nou."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:514
+msgid "Nu ai trimis nicio modificare."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:570
+msgid "Regenerarea nu a putut fi pusă în coadă."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:637 includes/feeds/class-adc-feed-rest.php:1523
+msgid "Această destinație va fi disponibilă în curând."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:644
+msgid "Tipul feedului nu este valid."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:705
+msgid "Starea feedului nu este validă."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:893 includes/feeds/class-adc-feed-rest.php:899
+msgid "Maparea categoriilor nu este validă."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:917
+msgid "Categoria trebuie să fie text."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:923
+msgid "Categoria poate avea cel mult 750 de caractere."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:933
+msgid "Marca implicită este obligatorie."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:939
+msgid "Marca trebuie să aibă între 1 și 100 de caractere."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:955
+msgid "Etichetele interne trebuie să fie o listă de cel mult 5 valori."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:966
+msgid "Eticheta internă nu este validă: 1 până la 110 de caractere, litere, cifre, "
+"spații sau # _ : -."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:1056
+msgid "Codul țării de livrare nu este valid (ex. RO)."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:1061
+msgid "Prețul de livrare nu este valid (ex. 15.00)."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:1066
+msgid "Serviciul de livrare nu este valid."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:1118
+msgid "Numele feedului este obligatoriu."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:1291
+msgid "Parametrii feedului nu sunt valizi."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:1338
+msgid "Lista de parametri nu este validă."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:1362
+msgid "Un parametru nu are o structură validă."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:1367
+msgid "Numele parametrului nu este valid."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:1377
+msgid "Transformările parametrului nu sunt valide."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:1390
+msgid "Un parametru nu are o stare validă."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:1400
+msgid "Sursa parametrului nu este validă."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:1409
+msgid "Tipul sursei nu este valid."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:1417
+msgid "Valoarea sursei nu este validă."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:1427
+msgid "Transformarea nu este validă."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:1432
+msgid "Operația de transformare nu este validă."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:1440
+msgid "Argumentul transformării nu este valid."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:1572
+msgid "Ai făcut prea multe regenerări. Așteaptă un minut și încearcă din nou."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:1662
+msgid "Câmp necunoscut în cerere."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:1676
+msgid "Configurația feedului nu este validă."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:1681
+msgid "Feedul nu există."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-rest.php:1686
+msgid "Modificarea nu a putut fi salvată."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:199
+msgid "Lipsește ID-ul produsului (id), cerut de Google pentru fiecare ofertă."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:207
+msgid "ID-ul produsului are %1$d caractere; Google acceptă maximum %2$d."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:221
+msgid "item_group_id are %1$d caractere; Google acceptă maximum %2$d."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:246
+msgid "Lipsește titlul produsului (title), cerut de Google."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:258
+msgid "Titlul are %1$d caractere; Google acceptă maximum %2$d."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:269
+msgid "Titlul conține HTML sau rânduri multiple; Google cere text simplu."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:291
+msgid "Lipsește descrierea produsului (description), cerută de Google."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:303
+msgid "Descrierea are %1$d caractere; Google acceptă maximum %2$d."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:314
+msgid "Descrierea conține HTML; Google cere text simplu, fără marcaj."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:339
+msgid "Lipsește linkul către pagina produsului (link), cerut de Google."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:350 includes/feeds/class-adc-feed-validator-meta.php:341 includes/feeds/class-adc-feed-validator-tiktok.php:448
+msgid "Linkul produsului trebuie să fie un URL absolut cu schemă http sau https."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:360
+msgid "Linkul produsului folosește http; recomandăm https pentru pagina de "
+"destinație."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:386
+msgid "Lipsește imaginea principală (image_link), cerută de Google."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:392 includes/feeds/class-adc-feed-validator-meta.php:388 includes/feeds/class-adc-feed-validator-tiktok.php:478
+msgid "Imaginea principală trebuie să fie un URL absolut cu schemă http sau https."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:403 includes/feeds/class-adc-feed-validator-meta.php:421 includes/feeds/class-adc-feed-validator-tiktok.php:527
+msgid "Imaginile secundare trebuie trimise ca listă de URL-uri."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:413
+msgid "Nu există imagini secundare; Google le recomandă pentru prezentarea "
+"produsului."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:423
+msgid "Sunt %1$d imagini secundare; Google acceptă maximum %2$d."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:441 includes/feeds/class-adc-feed-validator-meta.php:466 includes/feeds/class-adc-feed-validator-tiktok.php:562
+msgid "Imaginea secundară %d nu este un URL absolut cu schemă http sau https."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:454
+msgid "URL-ul imaginii secundare %1$d are %2$d caractere; Google acceptă maximum "
+"%3$d."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:488
+msgid "Imaginea are %1$d×%2$d px; Google cere minimum %3$d×%3$d px."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:502
+msgid "Imaginea are %1$d×%2$d px; din 31.01.2027 Google va cere minimum %3$d×%3$d "
+"px."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:530
+msgid "Lipsește prețul (price), cerut de Google."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:536 includes/feeds/class-adc-feed-validator-tiktok.php:367
+msgid "Prețul trebuie să fie un număr pozitiv, cu punct decimal."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:548 includes/feeds/class-adc-feed-validator-meta.php:545
+msgid "Prețul redus (sale_price) trebuie să fie un număr pozitiv."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:560
+msgid "Prețul redus (%1$s) este mai mare decât prețul de listă (%2$s)."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:569
+msgid "Prețul redus este egal cu prețul de listă; trimite sale_price doar la o "
+"reducere reală."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:580
+msgid "Moneda lipsește sau nu este un cod ISO 4217 din trei litere mari (de "
+"exemplu RON)."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:602
+msgid "Lipsește disponibilitatea (availability), cerută de Google."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:614
+msgid "Disponibilitatea „%s” nu este acceptată; Google acceptă in_stock, "
+"out_of_stock, preorder sau backorder."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:631
+msgid "Pentru precomandă (preorder), Google cere availability_date."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:641
+msgid "availability_date trebuie să fie în format ISO 8601 "
+"(AAAA-LL-ZZThh:mm[+hhmm]), maximum 25 de caractere."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:666
+msgid "Condiția „%s” nu este acceptată; Google acceptă new, refurbished sau used."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:693
+msgid "identifier_exists acceptă doar yes sau no."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:703
+msgid "Lipsește brandul, cerut de Google pentru produsele noi (excepții: filme, "
+"cărți, muzică)."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:712
+msgid "Brandul are %1$d caractere; Google acceptă maximum %2$d."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:730
+msgid "MPN-ul are %1$d caractere; Google acceptă maximum %2$d."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:741
+msgid "MPN-ul conține caractere nealfanumerice; Google recomandă doar litere, "
+"cifre, spații și cratime."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:754
+msgid "Produsul nu are nici GTIN, nici MPN; completează unul dintre ele sau "
+"setează identifier_exists=no."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:779
+msgid "GTIN-ul are %1$d caractere; Google acceptă maximum %2$d caractere, cu "
+"maximum %3$d cifre per valoare."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:809
+msgid "GTIN-ul are %1$d cifre; Google acceptă maximum %2$d cifre per valoare."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:823
+msgid "GTIN-ul are %d cifre; sunt acceptate doar 8, 12, 13 sau 14 cifre."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:836
+msgid "GTIN-ul „%s” nu trece verificarea cifrei de control."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:862
+msgid "Lipsește google_product_category; Google îl recomandă și în practică este "
+"necesar pentru aprobare."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:868
+msgid "google_product_category nu pare a fi un ID numeric sau o cale „A > B > C” "
+"din taxonomia Google."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:879
+msgid "Câmpul product_type are %1$d caractere; Google acceptă maximum %2$d."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:890
+msgid "Câmpul product_type nu folosește formatul „A > B > C”."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:915
+msgid "Atributul shipping trebuie să fie o listă de zone de livrare."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:928
+msgid "Lipsește atributul shipping; pentru România Google îl cere la Shopping ads "
+"și free listings."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:945 includes/feeds/class-adc-feed-validator-meta.php:1059 includes/feeds/class-adc-feed-validator-tiktok.php:883
+msgid "Zona de livrare %d nu este o listă de sub-atribute."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:959
+msgid "Zona de livrare %d nu are țara (country) în format ISO 3166 cu două litere."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:971
+msgid "Zona de livrare %d nu are preț; Google îl așteaptă pentru afișarea costului "
+"de livrare."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:985
+msgid "Prețul livrării din zona %1$d trebuie să fie un număr între 0 și %2$d."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:1013 includes/feeds/class-adc-feed-validator-meta.php:962 includes/feeds/class-adc-feed-validator-tiktok.php:738
+msgid "Etichetele custom trebuie trimise ca listă de valori text."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:1025
+msgid "Sunt %1$d etichete custom; Google acceptă maximum %2$d (custom_label_0 … "
+"custom_label_4)."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:1040 includes/feeds/class-adc-feed-validator-meta.php:999 includes/feeds/class-adc-feed-validator-tiktok.php:774
+msgid "Eticheta custom_label_%d nu este o valoare text."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:1055
+msgid "Eticheta custom_label_%1$d are %2$d caractere; Google acceptă maximum %3$d."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-google.php:1086
+msgid "Greutatea trebuie să fie un număr pozitiv, în unități consistente pentru "
+"produs."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:191
+msgid "Lipsește ID-ul produsului (id), cerut de Meta pentru fiecare articol."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:201
+msgid "ID-ul produsului are %1$d caractere; Meta acceptă maximum %2$d."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:226
+msgid "Lipsește titlul produsului (title), cerut de Meta."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:236
+msgid "Titlul are %1$d caractere; Meta acceptă maximum %2$d."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:249
+msgid "Titlul are %1$d caractere; Meta recomandă maximum %2$d pentru anunțuri."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:274
+msgid "Lipsește descrierea produsului (description), cerută de Meta."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:284
+msgid "Descrierea are %1$d caractere; Meta acceptă maximum %2$d."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:295
+msgid "Descrierea conține HTML; Meta cere text simplu."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:303
+msgid "Descrierea conține linkuri; Meta cere descriere fără linkuri."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:311
+msgid "Descrierea este scrisă integral cu majuscule; Meta cere text normal."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:333
+msgid "Lipsește linkul către pagina produsului (link), cerut de Meta."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:353
+msgid "Linkul produsului folosește domeniul %1$s, iar Meta așteaptă domeniul "
+"magazinului (%2$s)."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:382
+msgid "Lipsește imaginea principală (image_link), cerută de Meta."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:395
+msgid "URL-ul imaginii nu se termină în .jpg, .jpeg sau .png; Meta cere format "
+"JPEG sau PNG."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:407
+msgid "Imaginea are %1$d×%2$d px; Meta cere minimum %3$d×%3$d px."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:436
+msgid "Meta marchează additional_image_link ca obligatoriu; adaugă cel puțin o "
+"imagine secundară."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:448
+msgid "Sunt %1$d imagini secundare; Meta acceptă maximum %2$d."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:479
+msgid "URL-ul imaginii secundare %1$d are %2$d caractere; Meta acceptă maximum "
+"%3$d."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:508
+msgid "Lipsește prețul (price), cerut de Meta în formatul „număr ISO 4217”."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:514
+msgid "Prețul trebuie să fie un număr cu punct decimal, fără virgulă și fără "
+"simbol de monedă."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:520
+msgid "Prețul trebuie să fie un număr pozitiv."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:529
+msgid "Lipsește moneda; Meta o așteaptă lângă preț, ca cod ISO 4217."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:535 includes/feeds/class-adc-feed-validator-tiktok.php:382
+msgid "Moneda trebuie să fie un cod ISO 4217 din trei litere mari (de exemplu "
+"RON)."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:557
+msgid "Prețul redus (%1$s) este mai mare decât prețul plin (%2$s); Meta cere un "
+"preț redus mai mic."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:566
+msgid "Prețul redus este egal cu prețul plin; trimite sale_price doar la o "
+"reducere reală."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:582
+msgid "Fără sale_price_effective_date, Meta ține reducerea până la ștergere; "
+"trimite perioada de valabilitate."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:588
+msgid "sale_price_effective_date trebuie să aibă formatul "
+"AAAA-LL-ZZThh:mm+hh:mm/AAAA-LL-ZZThh:mm+hh:mm."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:610
+msgid "Lipsește disponibilitatea (availability), cerută de Meta."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:624
+msgid "Disponibilitatea „%s” trebuie scrisă în engleza americană cerută de Meta: "
+"„in stock” sau „out of stock”."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:635
+msgid "Disponibilitatea „%s” nu poate fi reprezentată la Meta; sunt acceptate doar "
+"„in stock” și „out of stock”."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:655
+msgid "Lipsește condiția produsului (condition), cerută de Meta."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:665
+msgid "Condiția „%s” nu este acceptată; Meta acceptă new, refurbished sau used."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:695
+msgid "Produsul nu are nici brand, nici GTIN, nici MPN; Meta cere cel puțin unul "
+"dintre ele."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:705
+msgid "Brandul are %1$d caractere; Meta acceptă maximum %2$d."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:718
+msgid "MPN-ul are %1$d caractere; Meta acceptă maximum %2$d."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:735
+msgid "Lipsește categoria: Meta cere google_product_category sau "
+"fb_product_category."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:746
+msgid "Câmpul product_type are %1$d caractere; Meta acceptă maximum %2$d."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:771 includes/feeds/class-adc-feed-validator-tiktok.php:624
+msgid "GTIN-ul trebuie să conțină doar cifre, fără spații sau cratime."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:781
+msgid "GTIN-ul are %d cifre; Meta documentează UPC-12, EAN-13, JAN, ISBN-13 și "
+"ITF-14."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:811
+msgid "item_group_id are %1$d caractere; Meta acceptă maximum %2$d."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:835
+msgid "%1$s are %2$d caractere; Meta acceptă maximum %3$d."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:850
+msgid "age_group „%s” nu este acceptat; Meta acceptă adult, all ages, teen, kids, "
+"toddler, infant sau newborn."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:863
+msgid "gender „%s” nu este acceptat; Meta acceptă female, male sau unisex."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:894
+msgid "Etichetele interne (internal_label) trebuie trimise ca listă de valori "
+"text."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:903
+msgid "Sunt %1$d etichete interne; Meta acceptă maximum %2$d per produs."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:915
+msgid "O etichetă internă nu este o valoare text."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:931
+msgid "Eticheta internă „%1$s…” are %2$d caractere; Meta acceptă maximum %3$d."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:943
+msgid "Eticheta internă nu este scrisă cu litere mici; Meta o stochează astfel, "
+"deci potrivirea în seturile de produse folosește varianta cu litere mici."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:951
+msgid "Eticheta internă conține spații; Meta recomandă separatorii #, _, : sau -."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:981
+msgid "Sunt %1$d etichete custom; Meta acceptă maximum %2$d sloturi "
+"(custom_label_0 … custom_label_4)."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:1013
+msgid "Eticheta custom_label_%1$d are %2$d caractere; Meta acceptă maximum %3$d."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:1045
+msgid "shipping trebuie trimis ca listă de zone Country:Region:Service:Price."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:1074 includes/feeds/class-adc-feed-validator-tiktok.php:898
+msgid "Zona de livrare %d trebuie să aibă țara ISO 3166 și un preț numeric "
+"nenegativ."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:1102
+msgid "Greutatea nu are unitate; Meta așteaptă lb, oz, g sau kg lângă valoare."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:1110
+msgid "Greutatea trebuie să fie un număr pozitiv, urmat de unitatea lb, oz, g sau "
+"kg."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-meta.php:1135
+msgid "status „%s” nu este acceptat; Meta acceptă active sau archived."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:184
+msgid "Lipsește sku_id, primul câmp cerut de TikTok."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:192
+msgid "sku_id conține caractere unicode nevalide; TikTok cere text UTF-8 valid."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:213
+msgid "Lipsește titlul produsului (title), cerut de TikTok."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:226
+msgid "Titlul conține text promoțional („%s”); TikTok cere titlu fără mesaje "
+"promoționale."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:238
+msgid "Titlul conține emoji; TikTok cere titlu fără emoji."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:260
+msgid "Lipsește descrierea produsului (description), cerută de TikTok."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:278
+msgid "Lipsește disponibilitatea (availability), cerută de TikTok."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:292
+msgid "Disponibilitatea „%s” trebuie mapată la valorile TikTok: in stock, "
+"available for order, preorder, out of stock sau discontinued."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:303
+msgid "Disponibilitatea „%s” nu este acceptată; TikTok cere in stock, available "
+"for order, preorder, out of stock sau discontinued."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:323
+msgid "Lipsește condiția produsului (condition), cerută de TikTok."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:333
+msgid "Condiția „%s” nu este acceptată; TikTok acceptă new, refurbished sau used."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:361
+msgid "Lipsește prețul (price), cerut de TikTok."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:376
+msgid "Moneda lipsește; TikTok o ia din țara țintă a catalogului, dar o trimitem "
+"explicit pentru claritate."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:395
+msgid "Prețul redus (sale_price) trebuie să fie un număr pozitiv, cu punct "
+"decimal."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:407
+msgid "Prețul redus (%1$s) nu este mai mic decât prețul plin (%2$s); overlay-ul de "
+"reducere nu se va aplica."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:419
+msgid "sale_price_effective_date trebuie să aibă formatul "
+"AAAA-LL-ZZThh:mm/AAAA-LL-ZZThh:mm."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:440
+msgid "Lipsește linkul către pagina produsului (link), cerut de TikTok."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:472
+msgid "Lipsește imaginea principală (image_link), cerută de TikTok."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:489
+msgid "Imaginea principală este găzduită pe %s; TikTok nu acceptă acest hosting "
+"pentru imagini."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:501
+msgid "URL-ul imaginii nu se termină în .jpg, .jpeg sau .png; TikTok cere linkuri "
+"JPG sau PNG."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:513
+msgid "Imaginea are %1$d×%2$d px; TikTok cere minimum %3$d×%3$d px pentru formatul "
+"1:1."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:544
+msgid "Sunt %1$d imagini secundare; TikTok acceptă maximum %2$d."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:575
+msgid "URL-ul imaginii secundare %d nu se termină în .jpg, .jpeg sau .png; TikTok "
+"cere linkuri JPG sau PNG."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:600
+msgid "Lipsește brandul, cerut de TikTok pentru fiecare produs."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:634
+msgid "GTIN-ul are %d cifre; TikTok documentează UPC-12, EAN-13, JAN, ISBN-13 și "
+"ITF-14."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:660
+msgid "Categoria google_product_category are %1$d niveluri; TikTok afișează doar "
+"primele %2$d."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:674
+msgid "Câmpul product_type are %1$d niveluri; TikTok indică doar primele %2$d."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:702
+msgid "age_group „%s” nu este acceptat; TikTok acceptă newborn, infant, toddler, "
+"kids sau adult."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:715
+msgid "gender „%s” nu este acceptat; TikTok acceptă male, female sau unisex."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:756
+msgid "Sunt %1$d etichete custom; TikTok acceptă maximum %2$d (custom_label_0 … "
+"custom_label_4)."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:788
+msgid "Eticheta custom_label_%1$d are %2$d caractere; TikTok acceptă maximum %3$d."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:817
+msgid "video_link trebuie să fie un link direct la fișier, nu un URL de pagină sau "
+"de platformă video."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:825
+msgid "video_link indică spre YouTube; TikTok cere link direct la fișierul video."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:855
+msgid "Zona de livrare %d trebuie să aibă formatul "
+"Țară:Stat:TipLivrare:Preț:Serviciu."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:869
+msgid "shipping trebuie trimis ca listă de zone "
+"Țară:Stat:TipLivrare:Preț:Serviciu."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:925
+msgid "Greutatea trebuie scrisă ca valoare plus unitate (de exemplu „0.3 lb”, „500 "
+"g”)."
+msgstr ""
+
+#: includes/feeds/class-adc-feed-validator-tiktok.php:948
+msgid "tax trebuie să fie o cotă numerică, de exemplu 0.05."
 msgstr ""
 
 #. translators: %s: Privacy policy link shortcode
@@ -4909,7 +8214,7 @@ msgid "Capătul intervalului personalizat."
 msgstr ""
 
 #: templates/admin/analytics-dashboard.php:685
-msgid "Restrictează produsele și listele la un singur produs."
+msgid "Limitează produsele și listele la un singur produs."
 msgstr ""
 
 #: templates/admin/analytics-dashboard.php:689

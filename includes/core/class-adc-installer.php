@@ -27,6 +27,7 @@ final class ADC_Installer implements ADC_Module_Interface
         'adc_migrations',
         'adc_marketing_consent_message',
         'adc_cookie_scan',
+        'adc_feed_rewrite_version',
     ];
 
     /**
@@ -90,6 +91,7 @@ final class ADC_Installer implements ADC_Module_Interface
     {
         // Registry boots during plugins_loaded (priority 10); priority 20 still runs in the same pass.
         add_action('plugins_loaded', array(self::class, 'maybe_upgrade'), 20);
+        add_action('init', array(self::class, 'maybe_flush_feed_rewrite'), 99);
     }
 
     /**
@@ -106,9 +108,15 @@ final class ADC_Installer implements ADC_Module_Interface
         if (class_exists('ADC_Analytics_Schema')) {
             ADC_Analytics_Schema::activate();
         }
+        if (class_exists('ADC_Feed_Schema')) {
+            ADC_Feed_Schema::activate();
+        }
 
         // Keep 1.0 behaviour: marketing-consent endpoint must exist after activation.
         add_rewrite_endpoint('marketing-consent', EP_ROOT | EP_PAGES);
+        if (class_exists('ADC_Feed_Delivery')) {
+            ADC_Feed_Delivery::register_rewrite_rule();
+        }
         flush_rewrite_rules();
     }
 
@@ -136,15 +144,35 @@ final class ADC_Installer implements ADC_Module_Interface
         self::record_migration('db_' . self::db_version());
     }
 
+    /** Flush feed rewrite rules once when the registered route version changes. */
+    public static function maybe_flush_feed_rewrite(): void
+    {
+        if (!class_exists('ADC_Feed_Schema') || !class_exists('ADC_Feed_Delivery')) {
+            return;
+        }
+        $version = ADC_Feed_Schema::DB_VERSION;
+        if ((string) get_option('adc_feed_rewrite_version', '') === $version) {
+            return;
+        }
+        ADC_Feed_Delivery::register_rewrite_rule();
+        flush_rewrite_rules();
+        update_option('adc_feed_rewrite_version', $version);
+    }
+
     /**
      * Opt-in data wipe, called from uninstall.php only when
      * `consent.delete_data_on_uninstall` is enabled. Removes the two tables, every
      * plugin option and transient, the scheduled hooks, and the plugin's user and
      * order meta. Without the opt-in, uninstall.php keeps all consent data.
      */
-    public static function uninstall(): void
+    public static function uninstall(): bool
     {
         global $wpdb;
+
+        // Feed files must be removed successfully before any plugin tables are dropped.
+        if (class_exists('ADC_Feed_Schema') && !ADC_Feed_Schema::uninstall()) {
+            return false;
+        }
 
         // Table names are $wpdb->prefix + fixed literals; no user input involved.
         foreach (array('adc_consent_log', 'adc_event_outbox') as $table) {
@@ -155,7 +183,6 @@ final class ADC_Installer implements ADC_Module_Interface
         if (class_exists('ADC_Analytics_Schema')) {
             ADC_Analytics_Schema::uninstall();
         }
-
         // Options and transients (stored as options). Transients cover adc_conflict_scan,
         // adc_notices_{user} and the adc_rl_* rate-limit counters.
         $option_names = $wpdb->get_col(
@@ -207,6 +234,7 @@ final class ADC_Installer implements ADC_Module_Interface
                 )
             );
         }
+        return true;
     }
 
     /**

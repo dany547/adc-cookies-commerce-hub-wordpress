@@ -37,7 +37,7 @@ if ($adc_wipe_enabled) {
     require_once __DIR__ . '/includes/core/class-adc-autoloader.php';
     ADC_Autoloader::register();
 
-    if (class_exists('ADC_Installer')) {
-        ADC_Installer::uninstall();
+    if (class_exists('ADC_Installer') && !ADC_Installer::uninstall()) {
+        wp_die(esc_html__('Dezinstalarea a fost oprită deoarece fișierele sau tabelele pluginului nu au putut fi șterse în siguranță.', 'adc-marketing'));
     }
 }

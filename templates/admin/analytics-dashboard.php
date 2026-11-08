@@ -682,7 +682,7 @@ $render_ranking = static function ( array $list, string $id, string $title, stri
 						<label class="adc-an-field" for="adc-an-product"><?php esc_html_e( 'Produs (ID)', 'adc-marketing' ); ?></label>
 						<input type="number" id="adc-an-product" class="small-text" min="0" step="1"
 							data-adc-an-filter="product" value="<?php echo esc_attr( (string) ( (int) ( $filters['product'] ?? 0 ) ?: '' ) ); ?>" />
-						<span class="adc-an-help"><?php esc_html_e( 'Restrictează produsele și listele la un singur produs.', 'adc-marketing' ); ?></span>
+						<span class="adc-an-help"><?php esc_html_e( 'Limitează produsele și listele la un singur produs.', 'adc-marketing' ); ?></span>
 					</span>
 				</div>
 

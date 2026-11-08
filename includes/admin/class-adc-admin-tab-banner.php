@@ -108,20 +108,25 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
         wp_enqueue_style('wp-color-picker');
 
         // Frontend banner CSS, reused so the preview shows the real banner chrome.
-        wp_enqueue_style('adc-consent-banner-preview', $base . 'css/consent-banner.css', array(), $version);
+        wp_enqueue_style(
+            'adc-consent-banner-preview',
+            $base . 'css/consent-banner.css',
+            array(),
+            ADC_Admin_Shell::asset_version('css/consent-banner.css', $version)
+        );
 
         wp_enqueue_style(
             'adc-admin-banner',
             $base . 'css/admin-banner.css',
             array('adc-consent-banner-preview', 'wp-color-picker'),
-            $version
+            ADC_Admin_Shell::asset_version('css/admin-banner.css', $version)
         );
 
         wp_register_script(
             'adc-admin-banner',
             $base . 'js/admin-banner.js',
             array('jquery', 'wp-color-picker'),
-            $version,
+            ADC_Admin_Shell::asset_version('js/admin-banner.js', $version),
             array(
                 'in_footer' => true,
                 'strategy'  => 'defer',
@@ -215,6 +220,7 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
 
         $colors = self::merged_colors($banner, $presets, $preset);
         $radius = self::clamped_radius($banner['radius'] ?? null, $presets, $preset);
+        $font_mode = in_array(($banner['font_mode'] ?? 'theme'), array('theme', 'system'), true) ? (string) $banner['font_mode'] : 'theme';
         $shadow = array_key_exists('shadow', $banner) ? (bool) $banner['shadow'] : true;
         $overlay = array_key_exists('overlay', $banner) ? (bool) $banner['overlay'] : true;
 
@@ -239,7 +245,7 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
                     </p>
                     <div class="adc-banner-preview-screen" id="adc-banner-preview-screen">
                         <div class="adc-banner-preview-overlay" id="adc-banner-preview-overlay"<?php echo ('center_modal' === $layout && $overlay) ? '' : ' hidden'; ?>></div>
-                        <div id="adc-consent-banner" class="adc-consent-banner" data-layout="<?php echo esc_attr($layout); ?>" data-preset="<?php echo esc_attr($preset); ?>" style="<?php echo esc_attr(self::style_string($colors, $radius, $shadow) . ADC_Consent_Banner::actions_style($banner)); ?>">
+                        <div id="adc-consent-banner" class="adc-consent-banner" data-layout="<?php echo esc_attr($layout); ?>" data-preset="<?php echo esc_attr($preset); ?>" style="<?php echo esc_attr(self::style_string($colors, $radius, $shadow) . ('system' === $font_mode ? '--adc-font:' . ADC_Consent_Banner::SYSTEM_FONT_STACK . ';' : '') . ADC_Consent_Banner::actions_style($banner)); ?>">
                             <div class="adc-consent-banner__inner">
                                 <p class="adc-consent-banner__title" id="adc-banner-preview-title"><?php echo esc_html((string) ($banner['title'] ?? '')); ?></p>
                                 <p class="adc-consent-banner__message" id="adc-banner-preview-message"><?php echo esc_html(wp_strip_all_tags((string) ($banner['message'] ?? ''))); ?></p>
@@ -496,6 +502,16 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
                     </td>
                 </tr>
                 <tr>
+                    <th scope="row"><label for="adc-banner-font-mode"><?php esc_html_e('Font', 'adc-marketing'); ?></label></th>
+                    <td>
+                        <select id="adc-banner-font-mode" name="adc_banner[font_mode]">
+                            <option value="theme" <?php selected($font_mode, 'theme'); ?>><?php esc_html_e('Moștenește fontul temei (recomandat)', 'adc-marketing'); ?></option>
+                            <option value="system" <?php selected($font_mode, 'system'); ?>><?php esc_html_e('Font de sistem (neutru)', 'adc-marketing'); ?></option>
+                        </select>
+                        <p class="description"><?php esc_html_e('Cu opțiunea implicită, bannerul și fereastra de preferințe folosesc același font ca restul site-ului.', 'adc-marketing'); ?></p>
+                    </td>
+                </tr>
+                <tr>
                     <th scope="row"><?php esc_html_e('Umbră', 'adc-marketing'); ?></th>
                     <td>
                         <label>
@@ -726,7 +742,7 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
                     'link'          => '#1d4ed8',
                     'accept_bg'     => '#1d4ed8',
                     'accept_text'   => '#ffffff',
-                    'reject_bg'     => '#50575e',
+                    'reject_bg'     => '#1d4ed8',
                     'reject_text'   => '#ffffff',
                     'customize_bg'  => '#ffffff',
                     'customize_text' => '#1d2327',
@@ -743,7 +759,7 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
                     'link'          => '#9ec1ff',
                     'accept_bg'     => '#3b82f6',
                     'accept_text'   => '#ffffff',
-                    'reject_bg'     => '#6b7280',
+                    'reject_bg'     => '#3b82f6',
                     'reject_text'   => '#ffffff',
                     'customize_bg'  => '#1d2327',
                     'customize_text' => '#ffffff',
@@ -760,7 +776,7 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
                     'link'          => $accent,
                     'accept_bg'     => $accent,
                     'accept_text'   => '#ffffff',
-                    'reject_bg'     => '#50575e',
+                    'reject_bg'     => $accent,
                     'reject_text'   => '#ffffff',
                     'customize_bg'  => '#ffffff',
                     'customize_text' => '#1d2327',
@@ -794,7 +810,7 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
                     'link'          => '#ffff00',
                     'accept_bg'     => '#ffff00',
                     'accept_text'   => '#000000',
-                    'reject_bg'     => '#ffffff',
+                    'reject_bg'     => '#ffff00',
                     'reject_text'   => '#000000',
                     'customize_bg'  => '#000000',
                     'customize_text' => '#ffffff',
