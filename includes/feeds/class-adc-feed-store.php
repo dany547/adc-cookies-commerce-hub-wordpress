@@ -13,7 +13,7 @@ final class ADC_Feed_Store
     private const CHANNELS = array('google', 'meta', 'tiktok', 'olx', 'custom');
     private const FORMATS = array('rss', 'xml', 'atom', 'tsv', 'txt', 'csv', 'json', 'custom');
     private const STATUSES = array('draft', 'active', 'disabled');
-    private const CONFIG_VERSION = 2;
+    private const CONFIG_VERSION = 3;
 
     /** Insert a validated feed and return its database ID, or 0 on failure. */
     public static function create(array $data): int
@@ -22,6 +22,12 @@ final class ADC_Feed_Store
 
         $feed = self::sanitize_feed($data, true);
         if ('' === $feed['name'] || '' === $feed['format']) {
+            return 0;
+        }
+
+        try {
+            $config_json = self::encode_config($feed['config']);
+        } catch (UnexpectedValueException) {
             return 0;
         }
 
@@ -34,7 +40,7 @@ final class ADC_Feed_Store
                 'type'        => $feed['type'],
                 'channel'     => $feed['channel'],
                 'format'      => $feed['format'],
-                'config_json' => self::encode_config($feed['config']),
+                'config_json' => $config_json,
                 'status'      => $feed['status'],
                 'created_at'  => $now,
                 'updated_at'  => $now,
@@ -125,6 +131,12 @@ final class ADC_Feed_Store
             return false;
         }
 
+        try {
+            $config_json = self::encode_config($feed['config']);
+        } catch (UnexpectedValueException) {
+            return false;
+        }
+
         $updated = $wpdb->update(
             ADC_Feed_Schema::table(ADC_Feed_Schema::FEEDS),
             array(
@@ -132,7 +144,7 @@ final class ADC_Feed_Store
                 'type'        => $feed['type'],
                 'channel'     => $feed['channel'],
                 'format'      => $feed['format'],
-                'config_json' => self::encode_config($feed['config']),
+                'config_json' => $config_json,
                 'status'      => $feed['status'],
                 'updated_at'  => current_time('mysql', true),
             ),
@@ -416,7 +428,9 @@ final class ADC_Feed_Store
             $format = '';
         }
         $status = self::one_of($data['status'] ?? ($creating ? 'draft' : 'draft'), self::STATUSES, 'draft');
-        $config = is_array($data['config'] ?? null) ? self::sanitize_config($data['config']) : array();
+        $raw_config = is_array($data['config'] ?? null) ? $data['config'] : array();
+        $config_version = (int) ($raw_config['schema_version'] ?? 0);
+        $config = self::migrate_config(self::sanitize_config($raw_config), $config_version);
         if (is_array($data['params'] ?? null)) {
             $params_config = self::sanitize_config(array('params' => $data['params']));
             if (is_array($params_config['params'] ?? null)) {
@@ -435,15 +449,36 @@ final class ADC_Feed_Store
         );
     }
 
+    /** Apply safe defaults when reading older JSON config versions without changing its database row. */
+    private static function migrate_config(array $config, int $version): array
+    {
+        if ($version < 3) {
+            $scope = $config['scope'] ?? 'all';
+            if (!in_array($scope, array('all', 'filtered', 'smart'), true)) {
+                $scope = 'invalid';
+                $config['categories'] = array();
+            }
+            $config['scope'] = $scope;
+            $refresh = $config['refresh'] ?? 'manual';
+            $config['refresh'] = in_array($refresh, array('manual', 'hourly', 'daily', 'weekly'), true) ? $refresh : 'manual';
+            if ('smart' === $config['scope'] && !is_array($config['smart_rule'] ?? null)) {
+                $config['scope'] = 'invalid';
+                unset($config['smart_rule']);
+            }
+        }
+        unset($config['schema_version']);
+        return $config;
+    }
+
     /** Decode a database row into the stable API shape. */
     private static function hydrate(array $row): array
     {
         $config = json_decode((string) ($row['config_json'] ?? ''), true);
         if (!is_array($config)) {
-            $config = array();
+            $config = array('scope' => 'invalid');
         }
-        // Keep the version in stored JSON, but omit this internal marker from REST-facing config.
-        unset($config['schema_version']);
+        $config_version = (int) ($config['schema_version'] ?? 0);
+        $config = self::migrate_config(self::sanitize_config($config), $config_version);
         $channel = (string) ($row['channel'] ?? 'google');
         if (empty($config['params']) && class_exists('ADC_Feed_Params')) {
             $defaults = ADC_Feed_Params::defaults_for($channel);
@@ -506,7 +541,10 @@ final class ADC_Feed_Store
             ? wp_json_encode($config, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)
             : json_encode($config, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
-        return is_string($json) && strlen($json) <= 65535 ? $json : '{"schema_version":2}';
+        if (!is_string($json) || strlen($json) > 65535) {
+            throw new UnexpectedValueException('feed_config_unencodable');
+        }
+        return $json;
     }
 
     private static function one_of(mixed $value, array $allowed, string $default): string

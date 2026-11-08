@@ -97,6 +97,11 @@ function response(status, body) {
   await test('step 2: filtered scope needs at least one slug', () => {
     assert.strictEqual(validateStep(valid({ scope: 'filtered', categories: ' , ' }), 2).length, 1);
   });
+  await test('step 2: smart scope accepts optional categories and validates its bounded rule', () => {
+    assert.deepStrictEqual(validateStep(valid({ scope: 'smart', categories: '', smartMode: 'low_conversion', smartMetric: 'views' }), 2), []);
+    assert.strictEqual(validateStep(valid({ scope: 'smart', smartMode: 'min_value', smartMetric: 'views', smartThreshold: 0 }), 2).length, 1);
+    assert.strictEqual(validateStep(valid({ scope: 'smart', smartLimit: 501 }), 2).length, 1);
+  });
   await test('step 2: categories must be lowercase slugs', () => {
     assert.strictEqual(validateStep(valid({ scope: 'filtered', categories: 'Încălțăminte' }), 2).length, 1);
     assert.strictEqual(validateStep(valid({ scope: 'filtered', categories: 'bad slug' }), 2).length, 1);
@@ -153,6 +158,7 @@ function response(status, body) {
         in_stock_only: true,
         csv_excel_safe: false,
         exclude_invalid: true,
+        refresh: 'manual',
         google: {
           shipping_country: 'RO',
           shipping_price: '9.90',
@@ -188,6 +194,16 @@ function response(status, body) {
     assert.strictEqual(patch.format, undefined);
   });
 
+  await test('buildPayload sends Smart rule and automatic editable label mapping', () => {
+    const state = valid({ scope: 'smart', smartMetric: 'purchases', smartMode: 'top_n', smartDays: 30, smartLimit: 50,
+      refresh: 'daily', params: [], fields: [{ key: 'custom_label_0' }] });
+    const payload = buildPayload(state);
+    assert.deepStrictEqual(payload.config.smart_rule, { metric: 'purchases', mode: 'top_n', period_days: 30, limit: 50 });
+    assert.strictEqual(payload.config.refresh, 'daily');
+    assert.strictEqual(payload.params[0].field, 'custom_label_0');
+    assert.strictEqual(payload.params[0].source.type, 'constant');
+    assert.strictEqual(payload.params[0].source.value, 'purchases_30d');
+  });
   await test('buildPayload drops categories when scope is all and sends exclude_invalid default', () => {
     const payload = buildPayload(valid({ scope: 'all', categories: 'x,y' }));
     assert.deepStrictEqual(payload.config.categories, []);

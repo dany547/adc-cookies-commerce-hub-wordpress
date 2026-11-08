@@ -334,7 +334,10 @@ $fixtures = array(
     'woocommerce_review_order_before_submit' => array(),
     'woocommerce_checkout_update_order_meta' => array(42, array()),
     'woocommerce_checkout_create_order' => array($order, array()),
+    'woocommerce_checkout_order_processed' => array(42),
+    'woocommerce_thankyou' => array(42),
     'woocommerce_store_api_checkout_order_processed' => array($order),
+    'adc_product_stats_retry_purchase' => array(42, 1),
     'woocommerce_account_menu_items' => array(array('edit-account' => 'Cont'), array()),
     'woocommerce_account_marketing-consent_endpoint' => array(''),
     'woocommerce_checkout_update_order_review' => array('billing_email=user%40example.invalid'),
@@ -364,6 +367,7 @@ $fixtures = array(
     ADC_Analytics_Retention::HOOK => array(), 'adc_cookie_scan_weekly' => array(),
     ADC_Analytics_Commerce::JOB_HOOK => array('placed', 0, 0, '2026-01-01', 0),
     ADC_Feed_Scheduler::JOB_HOOK => array(1),
+    ADC_Feed_Scheduler::REFRESH_HOOK => array(1),
     'save_post_product' => array(42, new WP_Post(), true),
     'save_post_product_variation' => array(43, new WP_Post(), true),
     'woocommerce_product_set_stock' => array(new WC_Product()),
@@ -385,6 +389,11 @@ foreach ($GLOBALS['adc_test_hooks'] as $hook => $groups) {
             try {
                 if (!is_callable($callback)) { throw new RuntimeException('Callback not callable'); }
                 if ($hook === $activation) { continue; }
+                if (in_array($hook, array('wp_ajax_adc_product_stats', 'wp_ajax_nopriv_adc_product_stats'), true)) {
+                    // Public collection is authenticated by the daily HMAC, consent gate, and limiter rather than admin capability/nonce.
+                    $callback(...array_slice($fixtures[$hook] ?? array(), 0, $accepted));
+                    continue;
+                }
                 $endpoint = str_starts_with($hook, 'admin_post_') || str_starts_with($hook, 'wp_ajax_');
                 if (!$endpoint && !array_key_exists($hook, $fixtures)) { throw new RuntimeException('Missing real hook fixture: ' . $hook); }
                 $args = array_slice($fixtures[$hook] ?? array(), 0, $accepted);
@@ -416,8 +425,8 @@ foreach ($GLOBALS['adc_test_hooks'] as $hook => $groups) {
         }
     }
 }
-// REST is intentionally public (anonymous visitors); HMAC guards run inside
-// callbacks, not as WP capability checks. Missing tokens must fail closed.
+// REST is intentionally public (anonymous visitors); guards run inside callbacks,
+// not as WP capability checks. Product-stat collection fails closed on consent first.
 $rest_count = 0;
 foreach ($GLOBALS['adc_test_routes'] as $route => $endpoints) {
     if (isset($endpoints['callback'])) { $endpoints = array($endpoints); }
@@ -429,7 +438,11 @@ foreach ($GLOBALS['adc_test_routes'] as $route => $endpoints) {
             }
             ($endpoint['permission_callback'])(new WP_REST_Request());
             $response = ($endpoint['callback'])(new WP_REST_Request());
-            if (!$response instanceof WP_Error || ($response->data['status'] ?? 0) !== 403) {
+            if (str_contains($route, 'adc/v1/product-stats/event')) {
+                if (!$response instanceof WP_REST_Response || $response->status !== 204) {
+                    throw new RuntimeException('Product stats must short-circuit denied consent without side effects');
+                }
+            } elseif (!$response instanceof WP_Error || ($response->data['status'] ?? 0) !== 403) {
                 throw new RuntimeException('REST did not reject missing token');
             }
             ++$rest_count;

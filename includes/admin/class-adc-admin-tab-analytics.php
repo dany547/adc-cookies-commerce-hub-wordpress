@@ -119,6 +119,8 @@ final class ADC_Admin_Tab_Analytics implements ADC_Admin_Tab_Interface {
 				'diverges' => $this->purchase_statuses_diverge(),
 			),
 			'notice_draft'  => $this->privacy_notice_draft(),
+			'product_stats' => ADC_Settings::all( 'product_stats' ),
+			'product_stats_privacy_copy' => ADC_Product_Stats::privacy_policy_text(),
 			// Long help texts for the info-icon modals of this form (PHP-side so they
 			// stay translatable); the template renders them through ADC_Admin_Help.
 			'help'          => $this->settings_help_bodies(),
@@ -199,6 +201,13 @@ final class ADC_Admin_Tab_Analytics implements ADC_Admin_Tab_Interface {
 		);
 
 		$saved = ADC_Settings::update( ADC_Analytics_Settings::GROUP, $group );
+
+		$product_stats_raw = isset( $post['product_stats'] ) && is_array( $post['product_stats'] ) ? $post['product_stats'] : array();
+		$product_stats = array(
+			'enabled' => ! empty( $product_stats_raw['enabled'] ),
+			'retention_days' => isset( $product_stats_raw['retention_days'] ) ? (int) $product_stats_raw['retention_days'] : (int) ADC_Settings::get( 'product_stats', 'retention_days', 180 ),
+		);
+		ADC_Settings::update( 'product_stats', $product_stats );
 
 		$notices = array(
 			array(

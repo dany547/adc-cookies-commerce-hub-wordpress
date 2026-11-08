@@ -65,9 +65,10 @@ foreach (array(
     $typed_meta_params[] = array('field' => $field, 'source' => array('type' => 'constant', 'value' => $value), 'transforms' => array(), 'enabled' => true);
 }
 $typed_meta_item = ADC_Feed_Params::apply($item, $typed_meta_params, 'meta');
-$typed_meta = ADC_Feed_Profile_Meta::map_item($typed_meta_item);
+$typed_meta = ADC_Feed_Profile_Meta::map_item($typed_meta_item, array('smart_labels' => array('stored')));
+platform_writer_check(($typed_meta['internal_label'] ?? array()) === array('seasonal', 'stored'), 'automatic Smart label is appended without replacing configured Meta labels');
 platform_writer_check(($typed_meta['native_commerce'] ?? '') === 'yes', 'boolean extras normalize to the platform yes/no representation');
-platform_writer_check(($typed_meta['internal_label'] ?? array()) === array('seasonal'), 'list extras serialize as a list value');
+platform_writer_check(($typed_meta['internal_label'] ?? array()) === array('seasonal', 'stored'), 'list extras serialize as a list value and retain automatic labels');
 platform_writer_check(($typed_meta['status'] ?? '') === 'active', 'enum extras remain scalar registry values');
 
 $meta_params = ADC_Feed_Params::defaults_for('meta');

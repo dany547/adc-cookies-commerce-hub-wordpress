@@ -48,6 +48,23 @@ final class ADC_Analytics_Settings implements ADC_Module_Interface
     public static function register(): void
     {
         ADC_Settings::register_group(self::GROUP, self::defaults(), array(self::class, 'sanitize'));
+        ADC_Settings::register_group('product_stats', self::product_stats_defaults(), array(self::class, 'sanitize_product_stats'));
+    }
+
+    /** @return array{enabled:bool,retention_days:int} */
+    public static function product_stats_defaults(): array
+    {
+        return array('enabled' => false, 'retention_days' => 180);
+    }
+
+    /** @param array<string,mixed> $input @param array<string,mixed> $current @return array{enabled:bool,retention_days:int} */
+    public static function sanitize_product_stats(array $input, array $current): array
+    {
+        $merged = array_merge(self::product_stats_defaults(), $current, $input);
+        return array(
+            'enabled' => filter_var($merged['enabled'], FILTER_VALIDATE_BOOLEAN),
+            'retention_days' => max(30, min(730, (int) $merged['retention_days'])),
+        );
     }
 
     /**

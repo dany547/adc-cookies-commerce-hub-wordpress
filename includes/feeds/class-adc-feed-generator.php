@@ -14,6 +14,7 @@ final class ADC_Feed_Generator
     private const MAX_RETRY_SECONDS = 3600;
     private const MAX_RETRY_ATTEMPTS = 7;
     private const MAX_DIAGNOSTIC_CODES = 100;
+    private static bool $smart_variations_truncated = false;
 
     /** Diagnostic identifiers emitted directly by generator control flow. */
     public static function diagnostic_codes(): array
@@ -25,7 +26,9 @@ final class ADC_Feed_Generator
             'feed_busy_retry_exhausted', 'feed_busy_retry_failed', 'feed_busy_retry_pending',
             'feed_dirty_retry_exhausted', 'feed_dirty_retry_failed', 'tracking_id_incompatible',
             'id_incompatible', 'duplicate_feed_item_id', 'feed_id_index_failed',
-            'filtered_scope_requires_categories', 'invalid_google_config', 'feed_storage_unavailable',
+            'filtered_scope_requires_categories', 'smart_stats_disabled', 'smart_stats_unavailable',
+            'smart_stats_no_data', 'smart_stats_limit_reached', 'smart_rule_invalid',
+            'smart_variations_limit_reached', 'smart_no_products', 'invalid_google_config', 'feed_storage_unavailable',
             'feed_file_open_failed', 'feed_write_failed', 'feed_lock_lost', 'product_validation_failed',
             'feed_close_failed', 'feed_output_invalid', 'feed_publish_failed', 'no_valid_products',
             'invalid_products_excluded', 'snapshot_record_failed',
@@ -46,7 +49,29 @@ final class ADC_Feed_Generator
         $params = is_array($config['params'] ?? null) ? $config['params'] : ADC_Feed_Params::defaults_for($channel);
         $config['params'] = $params;
         $rows = array();
+        $selection_rows = array();
         $warnings = array();
+        if ('smart' === ($config['scope'] ?? '')) {
+            if (!class_exists('ADC_Feed_Smart')) {
+                return array('rows' => array(), 'selection' => array(), 'warnings' => array('smart_stats_unavailable'));
+            }
+            $selection = ADC_Feed_Smart::select(is_array($config['smart_rule'] ?? null) ? $config['smart_rule'] : array(), $config);
+            if ('' !== $selection['error']) {
+                $selection_warnings = array($selection['error']);
+                if ('' !== $selection['warning']) {
+                    $selection_warnings[] = $selection['warning'];
+                }
+                return array('rows' => array(), 'selection' => array(), 'warnings' => $selection_warnings);
+            }
+            if ('' !== $selection['warning']) {
+                $warnings[] = $selection['warning'];
+            }
+            $config['smart_product_ids'] = self::smart_product_ids($selection['items']);
+            if (self::$smart_variations_truncated) {
+                $warnings[] = 'smart_variations_limit_reached';
+            }
+            $config['_smart_values'] = array_column($selection['items'], 'value', 'product_id');
+        }
         $errors = ADC_Feed_Params::validate($channel, $params);
         if (!empty($errors)) {
             return array('rows' => array(), 'warnings' => array('params_invalid'));
@@ -61,6 +86,16 @@ final class ADC_Feed_Generator
         }
         $items = ADC_Feed_Catalog::items($catalog_config, 0, $n);
         foreach ($items as $item) {
+            if ('smart' === ($config['scope'] ?? '')) {
+                $product_id = (int) ($item['product_id'] ?? 0);
+                $parent_id = (int) ($item['item_group_id'] ?? 0);
+                $smart_id = $parent_id > 0 ? $parent_id : $product_id;
+                $value = (int) (($config['_smart_values'] ?? array())[$smart_id] ?? 0);
+                if ($value > 0) {
+                    $metric = 'low_conversion' === ($config['smart_rule']['mode'] ?? '') ? 'views' : (string) ($config['smart_rule']['metric'] ?? 'views');
+                    $selection_rows[] = array('product_id' => $product_id, 'metric' => $metric, 'value' => $value);
+                }
+            }
             $item = ADC_Feed_Params::apply($item, $params, $channel);
             $warnings = array_merge($warnings, (array) ($item['param_warnings'] ?? array()));
             $profile = $channel_spec['profile'];
@@ -74,7 +109,10 @@ final class ADC_Feed_Generator
             }
             $rows[] = array_diff_key($mapped, array('_required_params' => true, 'extra' => true));
         }
-        return array('rows' => $rows, 'warnings' => array_values(array_unique($warnings)));
+        if ('smart' === ($config['scope'] ?? '') && $items === array()) {
+            $warnings[] = 'smart_no_products';
+        }
+        return array('rows' => $rows, 'selection' => $selection_rows, 'warnings' => array_values(array_unique($warnings)));
     }
 
     /** Mark a feed dirty and schedule a debounced background generation. */
@@ -223,6 +261,28 @@ final class ADC_Feed_Generator
             $run_id = (int) $wpdb->insert_id;
 
             $config = is_array($feed['config'] ?? null) ? $feed['config'] : array();
+            if (!in_array(($config['scope'] ?? 'all'), array('all', 'filtered', 'smart'), true)) {
+                throw new RuntimeException('feed_config_invalid');
+            }
+            if ('smart' === ($config['scope'] ?? '')) {
+                $selection = class_exists('ADC_Feed_Smart')
+                    ? ADC_Feed_Smart::select(is_array($config['smart_rule'] ?? null) ? $config['smart_rule'] : array(), $config)
+                    : array('items' => array(), 'error' => 'smart_stats_unavailable', 'warning' => '');
+                if ('' !== $selection['error']) {
+                    if ('' !== $selection['warning']) {
+                        self::add_diagnostic($result, 'warnings', $selection['warning']);
+                    }
+                    throw new RuntimeException($selection['error']);
+                }
+                if ('' !== $selection['warning']) {
+                    self::add_diagnostic($result, 'warnings', $selection['warning']);
+                }
+                $config['smart_product_ids'] = self::smart_product_ids($selection['items']);
+                if (self::$smart_variations_truncated) {
+                    self::add_diagnostic($result, 'warnings', 'smart_variations_limit_reached');
+                }
+                $config['_smart_values'] = array_column($selection['items'], 'value', 'product_id');
+            }
             $params = array();
             if (class_exists('ADC_Feed_Field_Registry')) {
                 $params = is_array($config['params'] ?? null) && !empty($config['params'])
@@ -357,7 +417,7 @@ final class ADC_Feed_Generator
                 throw new RuntimeException('product_validation_failed');
             }
             if (0 === $result['exported']) {
-                throw new RuntimeException('no_valid_products');
+                throw new RuntimeException('smart' === ($config['scope'] ?? '') ? 'smart_no_products' : 'no_valid_products');
             }
             if (!self::renew_lock($feed_id, $lock_token)) {
                 throw new RuntimeException('feed_lock_lost');
@@ -426,6 +486,36 @@ final class ADC_Feed_Generator
             self::finish_run($wpdb, $runs_table, $run_id, 'failed', $result, $checksum);
         }
         return $result;
+    }
+
+    /** Expand selected variable-product IDs to bounded variation IDs; aggregate labels remain parent-scoped. */
+    private static function smart_product_ids(array $selection): array
+    {
+        self::$smart_variations_truncated = false;
+        $ids = array();
+        foreach ($selection as $selected) {
+            $id = (int) ($selected['product_id'] ?? 0);
+            if ($id <= 0) {
+                continue;
+            }
+            $product = function_exists('wc_get_product') ? wc_get_product($id) : null;
+            $children = is_object($product) && method_exists($product, 'get_children') ? (array) $product->get_children() : array();
+            if ($children === array()) {
+                $ids[$id] = $id;
+                continue;
+            }
+            foreach ($children as $child_id) {
+                $child_id = (int) $child_id;
+                if ($child_id > 0) {
+                    $ids[$child_id] = $child_id;
+                    if (count($ids) >= 2000) {
+                        self::$smart_variations_truncated = true;
+                        break 2;
+                    }
+                }
+            }
+        }
+        return array_values($ids);
     }
 
     /** Adapt the admin wizard config into the normalized profile config. */

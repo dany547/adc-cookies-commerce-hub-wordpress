@@ -68,6 +68,7 @@ function restore_previous_locale(): bool
     return true;
 }
 function sanitize_text_field(string $text): string { return trim(strip_tags($text)); }
+function sanitize_key(string $value): string { return strtolower((string) preg_replace('/[^a-z0-9_\\-]/', '', $value)); }
 function home_url(string $path = ''): string { return 'https://example.test' . $path; }
 function get_current_user_id(): int { return 7; }
 $GLOBALS['locale'] = 'site_en_US';
@@ -115,7 +116,8 @@ final class ADC_Feed_Generator
     {
         self::$previews[] = $n;
         return array(
-            'rows'     => array_fill(0, min($n, 3), array('title' => 'Pantof', 'price' => '12.00')),
+            'rows' => array_fill(0, min($n, 3), array('title' => 'Pantof', 'price' => '12.00')),
+            'selection' => array(array('product_id' => 17, 'metric' => 'views', 'value' => 24), array('product_id' => -1, 'metric' => 'views', 'value' => 24)),
             'warnings' => array('id_incompatible'),
         );
     }
@@ -125,16 +127,21 @@ final class ADC_Feed_Generator
 final class ADC_Feed_Field_Registry
 {
     public static bool $throw = false;
+    public static bool $smart_label = false;
     public static function fields(string $channel): array
     {
         if (self::$throw) {
             throw new RuntimeException('registry failure');
         }
-        return array(
+        $fields = array(
             'title'  => array('key' => 'title', 'label' => __('Titlu', 'adc-marketing'), 'required' => true, 'type' => 'string', 'max_length' => 150, 'help' => __('Titlul produsului', 'adc-marketing'), 'default_source' => array('type' => 'native', 'value' => 'name')),
             'color'  => array('key' => 'color', 'label' => __('Culoare', 'adc-marketing'), 'required' => false, 'type' => 'string', 'help' => __('Culoarea produsului', 'adc-marketing')),
             'gender' => array('key' => 'gender', 'label' => 'Gen', 'required' => false, 'type' => 'enum', 'enum' => array('male', 'female', 'unisex')),
         );
+        if (self::$smart_label) {
+            $fields['custom_label_0'] = array('key' => 'custom_label_0', 'label' => 'Etichetă', 'required' => false, 'type' => 'string');
+        }
+        return $fields;
     }
 }
 final class ADC_Feed_Params
@@ -184,6 +191,7 @@ function check(bool $ok, string $label): void
     $failed += $ok ? 0 : 1;
 }
 
+require __DIR__ . '/../includes/feeds/class-adc-feed-smart.php';
 require __DIR__ . '/../includes/feeds/class-adc-feed-rest.php';
 
 $GLOBALS['caps'] = array('manage_options' => true);
@@ -336,6 +344,23 @@ check(is_wp_error($bad(array('name' => '   '))), 'blank name rejected');
 check(is_wp_error($bad(array('name' => str_repeat('a', 121)))), 'name longer than 120 characters rejected');
 check(ADC_Feed_Rest::validate_create(array_merge($good_create, array('name' => '<b>Feed</b>')))['name'] === 'Feed', 'name is sanitized (tags stripped)');
 check(is_wp_error($bad(array('config' => array('scope' => 'everything')))), 'unknown scope rejected');
+$smart_config = array('scope' => 'smart', 'categories' => array(), 'in_stock_only' => false, 'refresh' => 'daily',
+    'smart_rule' => array('metric' => 'purchases', 'mode' => 'top_n', 'period_days' => 30, 'limit' => 50),
+    'google' => array('shipping_country' => 'RO', 'shipping_price' => '0.00', 'shipping_service' => 'Standard', 'condition' => 'new'));
+ADC_Feed_Field_Registry::$smart_label = true;
+$smart_create = ADC_Feed_Rest::validate_create(array('name' => 'Smart', 'channel' => 'google', 'format' => 'xml', 'config' => $smart_config));
+check(is_array($smart_create) && $smart_create['config']['scope'] === 'smart' && $smart_create['config']['refresh'] === 'daily', 'smart config accepts a strict rule and cadence');
+$smart_label = array_values(array_filter($smart_create['params'] ?? array(), static fn(array $row): bool => ($row['field'] ?? '') === 'custom_label_0'));
+check(count($smart_label) === 1 && $smart_label[0]['source'] === array('type' => 'constant', 'value' => 'purchases_30d'), 'smart config automatically adds an editable constant label mapping');
+ADC_Feed_Field_Registry::$smart_label = false;
+check(is_wp_error(ADC_Feed_Rest::validate_create(array('name' => 'Bad smart', 'channel' => 'google', 'format' => 'xml', 'config' => array_replace($smart_config, array('smart_rule' => array_merge($smart_config['smart_rule'], array('script' => 'x'))))))), 'smart config rejects unknown rule keys');
+check(is_wp_error(ADC_Feed_Rest::validate_create(array('name' => 'Bad cadence', 'channel' => 'google', 'format' => 'xml', 'config' => array_replace($smart_config, array('refresh' => 'every-minute'))))), 'smart config rejects unsupported refresh cadence');
+$low_rule = $smart_config;
+$low_rule['smart_rule'] = array('metric' => 'purchases', 'mode' => 'low_conversion', 'period_days' => 30, 'limit' => 50);
+check(is_wp_error(ADC_Feed_Rest::validate_create(array('name' => 'Bad low conversion', 'channel' => 'google', 'format' => 'xml', 'config' => $low_rule))), 'low-conversion rule requires views ranking');
+$low_rule['smart_rule'] = array('metric' => 'views', 'mode' => 'low_conversion', 'period_days' => 30, 'limit' => 50);
+$low_valid = ADC_Feed_Rest::validate_create(array('name' => 'Low conversion', 'channel' => 'google', 'format' => 'xml', 'config' => $low_rule));
+check(is_array($low_valid) && ($low_valid['config']['smart_rule']['conversion_percent'] ?? null) === 2, 'low-conversion defaults to an explicit configurable 2% threshold');
 check(is_wp_error($bad(array('config' => array_merge($good_config, array('scope' => 'all'))))), 'scope all with categories rejected (ambiguous)');
 $filtered_empty = $good_create;
 $filtered_empty['config'] = $good_config;
@@ -597,7 +622,8 @@ ADC_Feed_Generator::$previews = array();
 $pv = ADC_Feed_Rest::handle_preview(req(array('channel' => 'google', 'format' => 'xml', 'config' => $good_config, 'n' => 3)));
 check($pv instanceof WP_REST_Response && $pv->status === 200 && count($pv->data['rows']) === 3, 'preview: the requested number of rows');
 check($pv->data['warnings'] === array(array('code' => 'id_incompatible', 'count' => 1)), 'preview: warnings are codes with counts');
-check(!str_contains(json_encode($pv->data), '/var/www') && ADC_Feed_Generator::$previews === array(3), 'preview: generator called with n, nothing but rows and warnings returned');
+check(!str_contains(json_encode($pv->data), '/var/www') && ADC_Feed_Generator::$previews === array(3), 'preview: generator called with n and response contains only safe feed data');
+check($pv->data['selection'] === array(array('product_id' => 17, 'metric' => 'views', 'value' => 24)), 'preview: only valid metric values are returned for the smart-selection table');
 $pv_default = ADC_Feed_Rest::handle_preview(req(array('channel' => 'google', 'config' => $good_config)));
 check($pv_default instanceof WP_REST_Response && end(ADC_Feed_Generator::$previews) === 5, 'preview: n defaults to 5');
 $pv_big = ADC_Feed_Rest::handle_preview(req(array('channel' => 'google', 'config' => $good_config, 'n' => 11)));

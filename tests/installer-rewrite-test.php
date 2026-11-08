@@ -24,4 +24,6 @@ installer_check($GLOBALS['installer_flushes'] === 1 && $GLOBALS['installer_rewri
     && $GLOBALS['installer_options']['adc_feed_rewrite_version'] === '2', 'mismatched rewrite version registers rules, flushes once, then records version');
 ADC_Installer::maybe_flush_feed_rewrite();
 installer_check($GLOBALS['installer_flushes'] === 1 && $GLOBALS['installer_rewrites'] === 1, 'current rewrite version skips repeat flush');
+$installer_source = file_get_contents(__DIR__ . '/../includes/core/class-adc-installer.php');
+installer_check(is_string($installer_source) && str_contains($installer_source, "'_adc_stats_consent'") && str_contains($installer_source, "'_adc_product_stats_purchased'"), 'opt-in uninstall wipe includes product-stat order markers');
 echo "installer-rewrite-test: PASS\n";

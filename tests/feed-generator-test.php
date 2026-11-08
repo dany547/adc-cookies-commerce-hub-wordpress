@@ -115,10 +115,18 @@ function get_ancestors(int $id, string $taxonomy, string $resource_type): array 
 function get_term(int $id, string $taxonomy): object|false { return false; }
 final class ADC_Feed_Scheduler { public const JOB_HOOK = 'adc_feed_generate'; }
 final class ADC_Feed_Module { public const AS_GROUP = 'adc-feed'; }
+final class ADC_Product_Stats
+{
+    public static function top(string $metric, int $days, int $limit): array
+    {
+        return array_slice($GLOBALS['generator_stats'][$metric] ?? array(), 0, min(100, $limit));
+    }
+}
 final class ADC_Settings
 {
     public static function get(string $group, string $key, mixed $default = null): mixed
     {
+        if ('product_stats' === $group && 'enabled' === $key) return (bool) ($GLOBALS['generator_stats_enabled'] ?? false);
         if ('events' === $group && 'item_id_source' === $key) return $GLOBALS['generator_item_id_source'] ?? 'id';
         if ('feeds' === $group && 'chunk_size' === $key) return 100;
         if ('events' === $group && 'brand_taxonomy' === $key) return 'product_brand';
@@ -162,10 +170,15 @@ function wc_get_products(array $query): object
         $GLOBALS['generator_transients']['adc_feed_dirty_1'] = 1;
         $GLOBALS['generator_mark_dirty'] = false;
     }
-    $total = (int) ($GLOBALS['generator_product_count'] ?? 1);
+    $ids = is_array($query['include'] ?? null)
+        ? array_values(array_unique(array_filter(array_map('intval', $query['include']), static fn(int $id): bool => $id > 0)))
+        : range(1, max(1, (int) ($GLOBALS['generator_product_count'] ?? 1)));
+    $total = count($ids);
     $products = array();
-    $end = min($total, (int) $query['offset'] + (int) $query['limit']);
-    for ($id = (int) $query['offset'] + 1; $id <= $end; ++$id) {
+    $start = (int) ($query['offset'] ?? 0);
+    $end = min($total, $start + (int) ($query['limit'] ?? 100));
+    for ($index = $start; $index < $end; ++$index) {
+        $id = $ids[$index];
         $mode = $GLOBALS['generator_product_mode'] ?? '';
         $sku = 'duplicate' === $mode || ('cross-page-duplicate' === $mode && in_array($id, array(1, 101), true))
             ? 'same-sku'
@@ -313,6 +326,8 @@ $GLOBALS['generator_as_actions'] = array();
 $GLOBALS['generator_product_count'] = 250;
 $GLOBALS['generator_product_mode'] = '';
 $GLOBALS['generator_item_id_source'] = 'id';
+$GLOBALS['generator_stats_enabled'] = false;
+$GLOBALS['generator_stats'] = array();
 $GLOBALS['generator_mark_dirty'] = false;
 $GLOBALS['wpdb'] = new GeneratorTestDb();
 require_once __DIR__ . '/../includes/feeds/class-adc-feed-schema.php';
@@ -327,6 +342,7 @@ require_once __DIR__ . '/../includes/feeds/class-adc-feed-writer-csv.php';
 require_once __DIR__ . '/../includes/feeds/class-adc-feed-validator-google.php';
 require_once __DIR__ . '/../includes/feeds/class-adc-feed-validator-meta.php';
 require_once __DIR__ . '/../includes/feeds/class-adc-feed-validator-tiktok.php';
+require_once __DIR__ . '/../includes/feeds/class-adc-feed-smart.php';
 require_once __DIR__ . '/../includes/feeds/class-adc-feed-generator.php';
 
 $id = ADC_Feed_Store::create(array(
@@ -500,6 +516,27 @@ generator_check(count($aggregated['warnings']) <= 100
     && generator_has_diag($stored_aggregate['warnings'] ?? array(), 'repeated_warning')
     && (int) array_values(array_filter($stored_aggregate['warnings'], static fn(array $row): bool => $row['code'] === 'repeated_warning'))[0]['count'] === 60
     && generator_has_diag($stored_aggregate['warnings'] ?? array(), 'late_warning'), 'generator aggregates duplicates before capping, preserves late codes, and bounds distinct diagnostic memory through Store');
+
+$GLOBALS['generator_product_count'] = 1;
+$GLOBALS['generator_stats_enabled'] = true;
+$GLOBALS['generator_stats'] = array('purchases' => array(array('product_id' => 1, 'value' => 12)));
+$smart_id = ADC_Feed_Store::create(array(
+    'name' => 'Smart feed', 'channel' => 'google', 'format' => 'xml', 'status' => 'active',
+    'config' => array(
+        'scope' => 'smart', 'categories' => array(),
+        'smart_rule' => array('metric' => 'purchases', 'mode' => 'top_n', 'period_days' => 30, 'limit' => 20),
+        'google' => array('shipping_country' => 'RO', 'shipping_price' => '0.00', 'shipping_service' => 'Standard', 'condition' => 'new'),
+    ),
+));
+$smart_run = ADC_Feed_Generator::run($smart_id);
+$smart_snapshot = array_values(array_filter($GLOBALS['wpdb']->tables['wp_adc_feed_snapshots'], static fn(array $row): bool => (int) $row['feed_id'] === $smart_id))[0] ?? array();
+$GLOBALS['generator_stats_enabled'] = false;
+$smart_disabled = ADC_Feed_Generator::run($smart_id);
+$smart_after_disabled = array_values(array_filter($GLOBALS['wpdb']->tables['wp_adc_feed_snapshots'], static fn(array $row): bool => (int) $row['feed_id'] === $smart_id))[0] ?? array();
+generator_check($smart_run['ok'] && $smart_run['exported'] === 1 && !empty($smart_snapshot['file_path'])
+    && !$smart_disabled['ok'] && generator_has_diag($smart_disabled['errors'], 'smart_stats_disabled')
+    && ($smart_after_disabled['file_path'] ?? '') === $smart_snapshot['file_path'] && is_file($smart_snapshot['file_path']),
+    'Smart generation selects ranked products and disabled statistics fail without replacing the last snapshot');
 
 $private_storage = ADC_Feed_Store::storage_directory();
 foreach (array_merge(glob($private_storage . '/*') ?: array(), glob($private_storage . '/.*') ?: array()) as $test_file) {

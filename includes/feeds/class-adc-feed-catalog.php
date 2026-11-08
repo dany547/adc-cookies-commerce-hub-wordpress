@@ -26,6 +26,10 @@ final class ADC_Feed_Catalog
             return array();
         }
 
+        if ('filtered' === ($config['scope'] ?? '') && empty($config['categories'])) {
+            return array(); // A filtered feed with no categories is never an all-products query.
+        }
+
         $offset = max(0, $offset);
         $limit = max(1, min(500, $limit));
         $query = array(
@@ -38,14 +42,26 @@ final class ADC_Feed_Catalog
             'order'    => 'ASC',
             'return'   => 'objects',
         );
-        if ('filtered' === ($config['scope'] ?? '')) {
-            $categories = is_array($config['categories'] ?? null)
+        if ('smart' === ($config['scope'] ?? '')) {
+            $ids = is_array($config['smart_product_ids'] ?? null)
+                ? array_values(array_unique(array_filter(array_map('intval', $config['smart_product_ids']), static fn(int $id): bool => $id > 0)))
+                : array();
+            if ($ids === []) {
+                return array();
+            }
+            $query['include'] = $ids;
+            $query['orderby'] = 'include';
+        }
+        if (in_array(($config['scope'] ?? ''), array('filtered', 'smart'), true) && !empty($config['categories'])) {
+            $categories = is_array($config['categories'])
                 ? array_values(array_filter($config['categories'], 'is_string'))
                 : array();
-            if (empty($categories)) {
+            if ('filtered' === $config['scope'] && empty($categories)) {
                 return array(); // A filtered feed with no categories is never an all-products query.
             }
-            $query['category'] = $categories;
+            if ($categories !== []) {
+                $query['category'] = $categories;
+            }
         }
         if (!empty($config['in_stock_only'])) {
             $query['stock_status'] = 'instock';
@@ -215,6 +231,7 @@ final class ADC_Feed_Catalog
         }
 
         $item = array(
+            'product_id'              => $id,
             'feed_item_id'            => $item_id,
             'tracking_item_id'        => $item_id,
             'sku_id'                  => method_exists($product, 'get_sku') && '' !== (string) $product->get_sku() ? (string) $product->get_sku() : (string) $id,

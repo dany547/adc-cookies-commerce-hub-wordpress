@@ -174,7 +174,7 @@ foreach (array('used', 'refurbished') as $condition) {
         'Meta ' . $condition . ' condition is preserved before and after legacy parameter hydration');
 }
 $config_version = (new ReflectionClass(ADC_Feed_Store::class))->getConstant('CONFIG_VERSION');
-params_check($config_version === 2, 'feed config schema version is bumped for parameter mappings');
+params_check($config_version === 3, 'feed config schema version is bumped for Smart Feed settings');
 $sanitize_config = new ReflectionMethod(ADC_Feed_Store::class, 'sanitize_config');
 $sanitize_config->setAccessible(true);
 $sanitized = $sanitize_config->invoke(null, array('params' => array(array('field' => 'title', 'transforms' => array(array('op' => 'replace', 'arg' => array('from' => 'a', 'to' => 'b')))))));

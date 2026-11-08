@@ -70,7 +70,7 @@ check($wc_ready[0]['ok'] && $wc_ready[1]['ok'], 'requirements accept active WooC
 $GLOBALS['woocommerce']->version = '9.4.9';
 check(!ADC_Feed_Module::requirements()[1]['ok'], 'requirements reject WooCommerce versions below 9.5');
 ADC_Feed_Module::boot();
-check(count($GLOBALS['feed_module_hooks']) === 12, 'active module registers settings, schema, scheduler, REST and delivery hooks');
+check(count($GLOBALS['feed_module_hooks']) === 13, 'active module registers settings, schema, scheduler, REST and delivery hooks');
 check($GLOBALS['feed_module_hooks'][0][0] === 'adc_register_settings', 'settings registration hook');
 check($GLOBALS['feed_module_hooks'][1][0] === 'plugins_loaded', 'schema upgrade hook');
 check((bool) array_filter($GLOBALS['feed_module_hooks'], static fn(array $hook): bool => 'rest_api_init' === $hook[0]), 'feed REST routes hook is registered');

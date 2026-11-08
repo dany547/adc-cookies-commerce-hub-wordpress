@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) { exit; }
 
 final class ADC_Analytics_Schema implements ADC_Module_Interface
 {
-    public const DB_VERSION = '1';
+    public const DB_VERSION = '2';
     public const OPTION_DB_VERSION = 'adc_analytics_db_version';
     public const TRAFFIC = 'adc_analytics_traffic';
     public const INTERACTIONS = 'adc_analytics_interactions';
@@ -14,7 +14,8 @@ final class ADC_Analytics_Schema implements ADC_Module_Interface
     public const PRODUCTS = 'adc_analytics_products_daily';
     public const LEDGER = 'adc_analytics_order_ledger';
     public const CAMPAIGNS = 'adc_analytics_campaign_daily';
-    private const TABLES = [self::TRAFFIC, self::INTERACTIONS, self::COMMERCE, self::PRODUCTS, self::LEDGER, self::CAMPAIGNS];
+    public const PRODUCT_STATS = 'adc_analytics_product_stats';
+    private const TABLES = [self::TRAFFIC, self::INTERACTIONS, self::COMMERCE, self::PRODUCTS, self::LEDGER, self::CAMPAIGNS, self::PRODUCT_STATS];
 
     public static function boot(): void { add_action('plugins_loaded', [self::class, 'maybe_upgrade'], 25); }
     public static function activate(): void { self::install(); }
@@ -29,10 +30,14 @@ final class ADC_Analytics_Schema implements ADC_Module_Interface
         if (!in_array($key, self::TABLES, true)) { throw new InvalidArgumentException('Unknown analytics table.'); }
         return $wpdb->prefix . $key;
     }
-    public static function install(): void
+    public static function install(): bool
     {
         global $wpdb;
-        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+        $upgrade_file = ABSPATH . 'wp-admin/includes/upgrade.php';
+        if (!is_readable($upgrade_file)) {
+            return false;
+        }
+        require_once $upgrade_file;
         $charset = $wpdb->get_charset_collate();
         // dbDelta canonical formatting: every column and index on its own line,
         // two spaces after "PRIMARY KEY". Single-line definitions break dbDelta's
@@ -106,10 +111,55 @@ views bigint unsigned NOT NULL DEFAULT 0,
 updated_at datetime NOT NULL,
 PRIMARY KEY  (id),
 UNIQUE KEY bucket (stat_date,source,medium,campaign)",
+            self::PRODUCT_STATS => "day date NOT NULL,
+product_id bigint unsigned NOT NULL,
+views int unsigned NOT NULL DEFAULT 0,
+add_to_cart int unsigned NOT NULL DEFAULT 0,
+begin_checkout int unsigned NOT NULL DEFAULT 0,
+purchases int unsigned NOT NULL DEFAULT 0,
+UNIQUE KEY day_product (day,product_id),
+KEY day (day)",
         ];
         foreach ($definitions as $key => $columns) { dbDelta('CREATE TABLE ' . self::table($key) . " (\n$columns\n) ENGINE=InnoDB $charset;"); }
+        if (!self::product_stats_schema_ready()) {
+            return false;
+        }
         update_option(self::OPTION_DB_VERSION, self::DB_VERSION, false);
+        return true;
     }
+    private static function product_stats_schema_ready(): bool
+    {
+        global $wpdb;
+        $table = self::table(self::PRODUCT_STATS);
+        if ($wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $table)) !== $table) {
+            return false;
+        }
+        $columns = (array) $wpdb->get_col($wpdb->prepare('SHOW COLUMNS FROM %i', $table));
+        if (array_diff(['day', 'product_id', 'views', 'add_to_cart', 'begin_checkout', 'purchases'], $columns) !== []) {
+            return false;
+        }
+        if (self::product_stats_unique_index_ready($table)) {
+            return true;
+        }
+        $wpdb->query($wpdb->prepare('ALTER TABLE %i ADD UNIQUE KEY day_product (day,product_id)', $table));
+        return self::product_stats_unique_index_ready($table);
+    }
+
+    private static function product_stats_unique_index_ready(string $table): bool
+    {
+        global $wpdb;
+        $indexes = (array) $wpdb->get_results($wpdb->prepare('SHOW INDEX FROM %i', $table), ARRAY_A);
+        $day_product = [];
+        foreach ($indexes as $index) {
+            if (($index['Key_name'] ?? '') !== 'day_product' || (int) ($index['Non_unique'] ?? 1) !== 0) {
+                continue;
+            }
+            $day_product[(int) ($index['Seq_in_index'] ?? 0)] = (string) ($index['Column_name'] ?? '');
+        }
+        ksort($day_product);
+        return array_values($day_product) === ['day', 'product_id'];
+    }
+
     public static function uninstall(): void
     {
         global $wpdb;

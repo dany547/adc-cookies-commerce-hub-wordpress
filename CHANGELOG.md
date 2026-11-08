@@ -16,6 +16,16 @@ commit/tag de release — workflow-ul `version-bump.yml` nu rescrie dată; o fac
 responsabilul de release înainte de tag. Intrările viitoare `în lucru` rămân
 neatinse până la publicare.
 
+## [2.6.0] - 2026-11-08
+
+### Adăugat
+- Smart Feed: feeduri de produse selectate după statisticile colectate (best sellers, cele mai vizualizate, adăugate des în coș, interes mare cu cumpărare scăzută), cu perioadă 7/14/30/90 zile, etichetă automată (`custom_label_0` / `internal_label`) și reîmprospătare manuală, orară, zilnică sau săptămânală. Un feed smart nu se publică gol: la eșec rămâne ultimul snapshot.
+- Statistici per produs (opt-in, oprit implicit): vizualizări, add_to_cart, begin_checkout și achiziții, doar agregat zilnic, fără IP sau ID de vizitator, numărate numai cu consimțământul pentru statistici. Text de politică de confidențialitate RO/EN, retenție configurabilă, schema DB v2.
+- Achizițiile se numără o singură dată pe comandă plătită (HPOS), cu retry la eșecuri tranzitorii; colectare limitată per metrică/produs, token zilnic, `begin_checkout` o dată per sesiune WooCommerce.
+
+### Modificat
+- Migrarea verifică și repară indexul UNIQUE `(day, product_id)` înainte de a avansa versiunea DB.
+
 ## [2.5.0] - 2026-11-07
 
 ### Adăugat

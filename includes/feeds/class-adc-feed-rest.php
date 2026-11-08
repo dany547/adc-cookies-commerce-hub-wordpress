@@ -51,7 +51,8 @@ final class ADC_Feed_Rest
 
     public const STATUSES   = array('active', 'disabled');
     public const CONDITIONS = array('new', 'refurbished', 'used');
-    public const SCOPES     = array('all', 'filtered');
+    public const SCOPES     = array('all', 'filtered', 'smart');
+    public const REFRESHES  = array('manual', 'hourly', 'daily', 'weekly');
 
     /** Upper bound on category slugs in one feed. */
     public const CATEGORY_MAX = 50;
@@ -67,7 +68,9 @@ final class ADC_Feed_Rest
         'feed_file_open_failed', 'feed_id_index_unavailable', 'feed_id_index_failed', 'feed_lock_lost',
         'feed_write_failed', 'feed_close_failed', 'feed_file_permissions_failed', 'feed_xml_invalid', 'feed_publish_failed',
         'snapshot_record_failed', 'snapshot_update_failed', 'snapshot_insert_failed', 'snapshot_commit_failed',
-        'run_record_failed', 'filtered_scope_requires_categories', 'invalid_google_config', 'tracking_id_incompatible',
+        'run_record_failed', 'filtered_scope_requires_categories', 'smart_stats_disabled', 'smart_stats_unavailable',
+        'smart_stats_no_data', 'smart_stats_limit_reached', 'smart_rule_invalid', 'smart_variations_limit_reached', 'smart_no_products',
+        'invalid_google_config', 'tracking_id_incompatible',
         'duplicate_feed_item_id', 'product_validation_failed', 'google_validator_api_missing', 'google_validation_failed',
         'shipping_required_for_ro', 'shipping_country_required', 'shipping_country_invalid',
         'shipping_price_invalid', 'id_missing', 'id_too_long', 'item_group_id_too_long', 'title_missing', 'title_too_long',
@@ -114,7 +117,7 @@ final class ADC_Feed_Rest
     private const PREVIEW_KEYS = array('channel', 'format', 'config', 'params', 'n');
 
     /** Keys accepted at each level of the config object (strict: unknown keys are rejected). */
-    private const CONFIG_KEYS = array('scope', 'categories', 'in_stock_only', 'csv_excel_safe', 'exclude_invalid', 'google', 'meta', 'tiktok');
+    private const CONFIG_KEYS = array('scope', 'categories', 'in_stock_only', 'csv_excel_safe', 'exclude_invalid', 'refresh', 'smart_rule', 'google', 'meta', 'tiktok');
     private const GOOGLE_KEYS = array('shipping_country', 'shipping_price', 'shipping_service', 'condition', 'default_category', 'category_map');
     private const META_KEYS   = array('condition', 'brand', 'internal_labels', 'default_category', 'category_map');
     private const TIKTOK_KEYS = array('condition', 'brand', 'default_category', 'category_map');
@@ -415,6 +418,7 @@ final class ADC_Feed_Rest
         if ($params instanceof WP_Error) {
             return $params;
         }
+        $params = self::ensure_smart_label($params, $config, $channel);
 
         $n = $body['n'] ?? self::PREVIEW_DEFAULT;
         if (!is_int($n) && !(is_string($n) && ctype_digit($n))) {
@@ -443,8 +447,9 @@ final class ADC_Feed_Rest
 
         return new WP_REST_Response(
             array(
-                'rows'     => self::preview_rows($result['rows'] ?? array()),
-                'warnings' => self::diagnostics($result['warnings'] ?? array()),
+                'rows'      => self::preview_rows($result['rows'] ?? array()),
+                'selection' => self::selection_rows($result['selection'] ?? array()),
+                'warnings'  => self::diagnostics($result['warnings'] ?? array()),
             ),
             200
         );
@@ -475,12 +480,17 @@ final class ADC_Feed_Rest
             );
         }
 
-        $feed = self::feed_or_fallback($store::get($id), $id);
+        $stored = $store::get($id);
+        $feed = self::feed_or_fallback($stored, $id);
+        $refresh = is_array($stored) ? (string) ($stored['config']['refresh'] ?? 'manual') : 'manual';
+        $refresh_scheduled = class_exists('ADC_Feed_Scheduler')
+            && ADC_Feed_Scheduler::sync_refresh($id, 'active', $refresh);
 
         return new WP_REST_Response(
             array(
-                'feed'   => $feed,
+                'feed' => $feed,
                 'queued' => self::queue_generation($id),
+                'refresh_scheduled' => $refresh_scheduled,
             ),
             201
         );
@@ -510,6 +520,15 @@ final class ADC_Feed_Rest
         if ($changes instanceof WP_Error) {
             return $changes;
         }
+        $target_config = is_array($changes['config'] ?? null)
+            ? $changes['config']
+            : (is_array($before['config'] ?? null) ? $before['config'] : array());
+        if ('smart' === ($target_config['scope'] ?? '') && (array_key_exists('config', $changes) || array_key_exists('params', $changes))) {
+            $params = is_array($changes['params'] ?? null)
+                ? $changes['params']
+                : (is_array($target_config['params'] ?? null) ? $target_config['params'] : self::default_params((string) $before['channel']));
+            $changes['params'] = self::ensure_smart_label($params, $target_config, (string) $before['channel'], is_array($before['config'] ?? null) ? $before['config'] : array());
+        }
 
         $status = $changes['status'] ?? null;
         unset($changes['status']);
@@ -531,9 +550,17 @@ final class ADC_Feed_Rest
             );
         }
 
+        $stored = $store::get($id);
+        $stored_config = is_array($stored['config'] ?? null) ? $stored['config'] : array();
+        $refresh_scheduled = class_exists('ADC_Feed_Scheduler')
+            && ADC_Feed_Scheduler::sync_refresh($id, $final_status, (string) ($stored_config['refresh'] ?? 'manual'));
         $queued = $should_regenerate ? self::queue_generation($id) : false;
         return new WP_REST_Response(
-            array('feed' => self::feed_or_fallback($store::get($id), $id), 'queued' => $queued),
+            array(
+                'feed' => self::feed_or_fallback($stored, $id),
+                'queued' => $queued,
+                'refresh_scheduled' => $refresh_scheduled,
+            ),
             200
         );
     }
@@ -554,6 +581,9 @@ final class ADC_Feed_Rest
         }
         if (!$store::delete($id)) {
             return self::write_failed();
+        }
+        if (class_exists('ADC_Feed_Scheduler')) {
+            ADC_Feed_Scheduler::sync_refresh($id, 'disabled', 'manual');
         }
 
         return new WP_REST_Response(array('deleted' => true, 'id' => $id), 200);
@@ -680,6 +710,7 @@ final class ADC_Feed_Rest
         if ($params instanceof WP_Error) {
             return $params;
         }
+        $params = self::ensure_smart_label($params, $config, $channel);
 
         return array(
             'name'    => $name,
@@ -741,6 +772,78 @@ final class ADC_Feed_Rest
         return $out;
     }
 
+    /** Validate a bounded Smart Feed rule; unsupported combinations are rejected, never silently broadened. */
+    private static function validate_smart_rule(mixed $raw): array|WP_Error
+    {
+        if (!is_array($raw) || null !== self::unknown_keys($raw, array('metric', 'mode', 'period_days', 'limit', 'threshold', 'conversion_percent'))) {
+            return self::invalid_config();
+        }
+        $metric = $raw['metric'] ?? null;
+        $mode = $raw['mode'] ?? null;
+        $days = $raw['period_days'] ?? null;
+        $limit = $raw['limit'] ?? null;
+        if (!is_string($metric) || !in_array($metric, ADC_Feed_Smart::METRICS, true)
+            || !is_string($mode) || !in_array($mode, ADC_Feed_Smart::MODES, true)
+            || !is_int($days) || !in_array($days, ADC_Feed_Smart::PERIODS, true)
+            || !is_int($limit) || $limit < 1 || $limit > ADC_Feed_Smart::MAX_LIMIT
+            || ('low_conversion' === $mode && 'views' !== $metric)) {
+            return self::invalid_config();
+        }
+        if ('min_value' === $mode) {
+            $threshold = $raw['threshold'] ?? null;
+            if (array_key_exists('conversion_percent', $raw) || !is_int($threshold) || $threshold < 1 || $threshold > 1000000) {
+                return self::invalid_config();
+            }
+            return array('metric' => $metric, 'mode' => $mode, 'period_days' => $days, 'limit' => $limit, 'threshold' => $threshold);
+        }
+        if ('low_conversion' === $mode) {
+            $conversion_percent = $raw['conversion_percent'] ?? 2;
+            if (!is_int($conversion_percent) || $conversion_percent < 0 || $conversion_percent > 100 || array_key_exists('threshold', $raw)) {
+                return self::invalid_config();
+            }
+            return array('metric' => $metric, 'mode' => $mode, 'period_days' => $days, 'limit' => $limit, 'conversion_percent' => $conversion_percent);
+        }
+        if (array_key_exists('threshold', $raw) || array_key_exists('conversion_percent', $raw)) {
+            return self::invalid_config();
+        }
+        return array('metric' => $metric, 'mode' => $mode, 'period_days' => $days, 'limit' => $limit);
+    }
+
+    /** Add one editable constant parameter row for the rule label when the channel supports it. */
+    private static function ensure_smart_label(array $params, array $config, string $channel, array $previous_config = array()): array
+    {
+        if ('smart' !== ($config['scope'] ?? '') || !class_exists('ADC_Feed_Smart') || !class_exists('ADC_Feed_Field_Registry')) {
+            return $params;
+        }
+        $field = 'meta' === $channel ? 'internal_label' : 'custom_label_0';
+        foreach (ADC_Feed_Field_Registry::fields($channel) as $definition) {
+            if (($definition['key'] ?? '') !== $field) {
+                continue;
+            }
+            foreach ($params as &$row) {
+                if (is_array($row) && ($row['field'] ?? '') === $field) {
+                    $previous_rule = is_array($previous_config['smart_rule'] ?? null) ? $previous_config['smart_rule'] : array();
+                    $previous_label = '' !== (string) ($previous_rule['metric'] ?? '') ? ADC_Feed_Smart::label_for_rule($previous_rule) : '';
+                    if ('' !== $previous_label && ($row['source']['type'] ?? '') === 'constant'
+                        && ($row['source']['value'] ?? '') === $previous_label) {
+                        $row['source']['value'] = ADC_Feed_Smart::label_for_rule($config['smart_rule'] ?? array());
+                    }
+                    unset($row);
+                    return $params;
+                }
+            }
+            unset($row);
+            $params[] = array(
+                'field' => $field,
+                'source' => array('type' => 'constant', 'value' => ADC_Feed_Smart::label_for_rule($config['smart_rule'] ?? array())),
+                'transforms' => array(),
+                'enabled' => true,
+            );
+            break;
+        }
+        return $params;
+    }
+
     /**
      * Validate the full feed config (the wizard always sends all of it).
      *
@@ -798,6 +901,19 @@ final class ADC_Feed_Rest
         if (!is_bool($csv) || ($csv && 'csv' !== $format)) {
             return self::invalid_config();
         }
+        $refresh = $raw['refresh'] ?? 'manual';
+        if (!is_string($refresh) || !in_array($refresh, self::REFRESHES, true)) {
+            return self::invalid_config();
+        }
+        $smart_rule = null;
+        if ('smart' === $scope) {
+            $smart_rule = self::validate_smart_rule($raw['smart_rule'] ?? null);
+            if ($smart_rule instanceof WP_Error) {
+                return $smart_rule;
+            }
+        } elseif (array_key_exists('smart_rule', $raw)) {
+            return self::invalid_config();
+        }
 
         // Exactly the block of the feed's own channel: others are rejected, the own one is required.
         foreach (self::CHANNEL_BLOCKS as $block) {
@@ -820,7 +936,9 @@ final class ADC_Feed_Rest
             'in_stock_only'  => $in_stock,
             'csv_excel_safe' => $csv,
             'exclude_invalid' => $exclude_invalid,
-            $channel         => $block_value,
+            'refresh'         => $refresh,
+            ...(null === $smart_rule ? array() : array('smart_rule' => $smart_rule)),
+            $channel          => $block_value,
         );
     }
 
@@ -1497,6 +1615,26 @@ final class ADC_Feed_Rest
      *
      * @return array<int, array<string, string>>
      */
+    private static function selection_rows(mixed $raw): array
+    {
+        if (!is_array($raw)) {
+            return array();
+        }
+        $rows = array();
+        foreach (array_slice($raw, 0, self::PREVIEW_MAX) as $row) {
+            if (!is_array($row)) {
+                continue;
+            }
+            $id = (int) ($row['product_id'] ?? 0);
+            $metric = (string) ($row['metric'] ?? '');
+            $value = (int) ($row['value'] ?? 0);
+            if ($id > 0 && in_array($metric, ADC_Feed_Smart::METRICS, true) && $value > 0) {
+                $rows[] = array('product_id' => $id, 'metric' => $metric, 'value' => $value);
+            }
+        }
+        return $rows;
+    }
+
     private static function preview_rows(mixed $raw): array
     {
         if (!is_array($raw)) {

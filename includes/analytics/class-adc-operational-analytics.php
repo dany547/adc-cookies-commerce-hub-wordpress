@@ -43,6 +43,7 @@ final class ADC_Operational_Analytics implements ADC_Module_Interface
 			'ADC_Analytics_Traffic',
 			'ADC_Analytics_Retention',
 			'ADC_Analytics_Csv',
+			'ADC_Product_Stats',
 		) as $module) {
 			if (class_exists($module) && is_subclass_of($module, ADC_Module_Interface::class)) {
 				$module::boot();

@@ -58,6 +58,7 @@ $unavailable   = (array) $get( $v, 'unavailable', array() );
 $compare       = (array) $get( $v, 'compare', array( 'available' => false, 'rows' => array() ) );
 $exports       = (array) $get( $v, 'export_links', array() );
 $settings      = (array) $get( $v, 'settings', array() );
+$product_stats = (array) $get( $v, 'product_stats', array() );
 $paid          = (array) $get( $v, 'paid_statuses', array( 'selected' => array(), 'options' => array(), 'diverges' => false ) );
 $threshold     = (int) $get( $v, 'threshold', 5 );
 $currency      = (string) $get( $v, 'currency', '' );
@@ -1377,6 +1378,34 @@ $render_ranking = static function ( array $list, string $id, string $title, stri
 		<p class="adc-an-draft-body"><?php echo $e( (string) $get( $v, 'notice_draft', '' ) ); ?></p>
 		<p class="adc-an-alert-text"><?php esc_html_e( 'Nu publicați acest text ca afirmație de conformitate; trebuie validat de jurid și adaptat magazinului.', 'adc-marketing' ); ?></p>
 	</details>
+	</div><!-- .adc-box__body -->
+	</section>
+
+	<?php $product_stats_title = __( '5. Statistici per produs', 'adc-marketing' ); ?>
+	<section class="adc-box adc-box--light adc-an-settings-block" id="adc-an-product-stats">
+	<div class="adc-box__head">
+		<h3 class="adc-box__title title"><?php echo $e( $product_stats_title ); ?></h3>
+	</div>
+	<div class="adc-box__body">
+		<p class="adc-admin-section-intro"><?php esc_html_e( 'Numărăm zilnic vizualizările produselor, adăugările în coș, începuturile finalizării comenzii și achizițiile; aceste agregate pot fi folosite în viitor pentru dezvoltări Smart Feed și clasamente de produse planificate sau opționale, nu sunt prezentate ca funcții curente.', 'adc-marketing' ); ?></p>
+		<p class="description"><?php esc_html_e( 'Pluginul nu stochează IP-uri sau identificatori de vizitator în tabelul de statistici. Colectarea are loc numai când această opțiune este activată și vizitatorul și-a dat consimțământul pentru categoria „statistics”. Pentru achiziții se folosește consimțământul salvat la finalizarea comenzii.', 'adc-marketing' ); ?></p>
+		<p class="notice notice-warning inline"><strong><?php esc_html_e( 'Activarea acestei opțiuni nu înlocuiește și nu obține consimțământul vizitatorului.', 'adc-marketing' ); ?></strong></p>
+		<div class="adc-help-options">
+			<p class="adc-help-opt">
+				<label for="adc-product-stats-enabled"><strong><?php esc_html_e( 'Activează colectarea statisticilor per produs', 'adc-marketing' ); ?></strong></label>
+				<input type="checkbox" id="adc-product-stats-enabled" name="product_stats[enabled]" value="1" <?php checked( ! empty( $product_stats['enabled'] ), true ); ?> />
+				<span class="description"><?php esc_html_e( 'Debifat implicit. Chiar și activată, colectarea rămâne condiționată de consimțământul statistics al vizitatorului.', 'adc-marketing' ); ?></span>
+			</p>
+			<p class="adc-help-opt">
+				<label for="adc-product-stats-retention"><strong><?php esc_html_e( 'Păstrează agregatele (zile)', 'adc-marketing' ); ?></strong></label>
+				<input type="number" class="small-text" id="adc-product-stats-retention" name="product_stats[retention_days]" min="30" max="730" step="1" value="<?php echo esc_attr( (string) ( $product_stats['retention_days'] ?? 180 ) ); ?>" />
+				<span class="description"><?php esc_html_e( 'Între 30 și 730 de zile; valoarea implicită este 180. Agregatele mai vechi se șterg automat.', 'adc-marketing' ); ?></span>
+			</p>
+		</div>
+		<h4><?php esc_html_e( 'Text propus pentru Politica de confidențialitate', 'adc-marketing' ); ?></h4>
+		<p class="description"><?php esc_html_e( 'Șablon informativ: verificați-l și validați-l cu operatorul/DPO înainte de publicare. Nu este o evaluare juridică și nu afirmă conformitatea.', 'adc-marketing' ); ?></p>
+		<textarea id="adc-product-stats-privacy-copy" class="large-text" rows="10" readonly><?php echo esc_textarea( (string) $get( $v, 'product_stats_privacy_copy', '' ) ); ?></textarea>
+		<p><button type="button" class="button adc-copy-btn" data-adc-copy="#adc-product-stats-privacy-copy"><?php esc_html_e( 'Copiază', 'adc-marketing' ); ?></button></p>
 	</div><!-- .adc-box__body -->
 	</section>
 

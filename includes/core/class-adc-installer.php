@@ -82,6 +82,8 @@ final class ADC_Installer implements ADC_Module_Interface
         '_adc_marketing_consent_source',
         '_adc_purchase_pushed',
         '_adc_purchase_sent',
+        '_adc_stats_consent',
+        '_adc_product_stats_purchased',
     ];
 
     /**
@@ -101,15 +103,17 @@ final class ADC_Installer implements ADC_Module_Interface
     public static function activate(): void
     {
         self::create_tables();
+        // Save the migration version only after the analytics schema is verified.
+        if (class_exists('ADC_Analytics_Schema') && !ADC_Analytics_Schema::install()) {
+            return;
+        }
         update_option('adc_db_version', self::db_version());
         self::record_migration('db_' . self::db_version());
-
-        // Operational analytics tables (own versioned lifecycle, never bumps adc_db_version).
-        if (class_exists('ADC_Analytics_Schema')) {
-            ADC_Analytics_Schema::activate();
-        }
         if (class_exists('ADC_Feed_Schema')) {
             ADC_Feed_Schema::activate();
+        }
+        if (class_exists('ADC_Feed_Scheduler')) {
+            ADC_Feed_Scheduler::rebuild_active_refreshes();
         }
 
         // Keep 1.0 behaviour: marketing-consent endpoint must exist after activation.
@@ -125,6 +129,9 @@ final class ADC_Installer implements ADC_Module_Interface
      */
     public static function deactivate(): void
     {
+        if (class_exists('ADC_Feed_Scheduler')) {
+            ADC_Feed_Scheduler::cancel_all_refreshes();
+        }
         flush_rewrite_rules();
     }
 
@@ -138,8 +145,14 @@ final class ADC_Installer implements ADC_Module_Interface
         if ($current === self::db_version()) {
             return;
         }
+        if (!is_readable(ABSPATH . 'wp-admin/includes/upgrade.php')) {
+            return;
+        }
 
         self::create_tables();
+        if (class_exists('ADC_Analytics_Schema') && !ADC_Analytics_Schema::install()) {
+            return;
+        }
         update_option('adc_db_version', self::db_version());
         self::record_migration('db_' . self::db_version());
     }
@@ -244,7 +257,7 @@ final class ADC_Installer implements ADC_Module_Interface
      */
     public static function db_version(): string
     {
-        return defined('ADC_MARKETING_DB_VERSION') ? (string) ADC_MARKETING_DB_VERSION : '1';
+        return defined('ADC_MARKETING_DB_VERSION') ? (string) ADC_MARKETING_DB_VERSION : '2';
     }
 
     /**

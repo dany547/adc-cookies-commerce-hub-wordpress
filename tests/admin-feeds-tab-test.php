@@ -57,6 +57,9 @@ function esc_html(string $text): string { return htmlspecialchars($text, ENT_QUO
 function esc_attr(string $text): string { return htmlspecialchars($text, ENT_QUOTES, 'UTF-8'); }
 function esc_url(string $url): string { return htmlspecialchars($url, ENT_QUOTES, 'UTF-8'); }
 function self_admin_url(string $path = ''): string { return 'https://example.test/wp-admin/' . $path; }
+function admin_url(string $path = ''): string { return self_admin_url($path); }
+function do_action(string $hook, mixed ...$args): void { unset($hook, $args); }
+function get_option(string $key, mixed $default = false): mixed { unset($key); return $default; }
 function wp_nonce_url(string $url, string $action): string { return $url . '&_wpnonce=NONCE:' . $action; }
 function rest_url(string $path = ''): string { return 'https://example.test/wp-json/' . $path; }
 function wp_create_nonce(string $action): string { return 'REST-NONCE:' . $action; }
@@ -252,7 +255,7 @@ switch ($state) {
             'shipping_price_missing', 'shipping_price_out_of_range', 'custom_labels_invalid', 'custom_labels_too_many',
             'custom_label_invalid', 'custom_label_too_long', 'weight_invalid',
             // Generator output.
-            'unknown_diagnostic', 'field_registry_unavailable', 'param_enabled_invalid', 'param_field_duplicate', 'param_field_unsupported', 'param_required_missing', 'param_row_invalid', 'param_source_invalid', 'param_transform_invalid', 'param_transforms_invalid', 'unsupported_channel', 'params_invalid', 'tiktok_market_eligibility_requires_confirmation', 'meta_file_size_limit_unverified', 'id_incompatible', 'feed_output_invalid', 'no_valid_products', 'invalid_products_excluded',
+            'unknown_diagnostic', 'field_registry_unavailable', 'param_enabled_invalid', 'param_field_duplicate', 'param_field_unsupported', 'param_required_missing', 'param_row_invalid', 'param_source_invalid', 'param_transform_invalid', 'param_transforms_invalid', 'unsupported_channel', 'params_invalid', 'tiktok_market_eligibility_requires_confirmation', 'meta_file_size_limit_unverified', 'id_incompatible', 'feed_output_invalid', 'smart_stats_disabled', 'smart_stats_unavailable', 'smart_stats_no_data', 'smart_stats_limit_reached', 'smart_rule_invalid', 'smart_variations_limit_reached', 'smart_no_products', 'no_valid_products', 'invalid_products_excluded',
             // Meta and TikTok validators.
             'additional_image_format', 'additional_images_missing', 'age_group_invalid', 'availability_needs_mapping', 'category_missing', 'color_too_long',
             'condition_missing', 'currency_missing', 'description_all_caps', 'description_contains_html', 'description_contains_links', 'gender_invalid',

@@ -14,9 +14,10 @@
 (function () {
     'use strict';
 
-    var MASK_DEFAULT = '••••• (salvat)';
-    var COPY_LABEL = 'Copiază';
-    var COPIED_LABEL = 'Copiat!';
+    var I18N = typeof window !== 'undefined' && window.adcAdminShellI18n ? window.adcAdminShellI18n : {};
+    var MASK_DEFAULT = I18N.mask || '••••• (salvat)';
+    var COPY_LABEL = I18N.copy || 'Copiază';
+    var COPIED_LABEL = I18N.copied || 'Copied!';
     var COPIED_CLASS = 'is-copied';
     var COPIED_MS = 1500;
 
@@ -36,7 +37,7 @@
         input.readOnly = false;
         input.type = 'text';
         input.value = '';
-        button.textContent = 'Renunță';
+        button.textContent = I18N.cancel || 'Renunță';
         button.setAttribute('aria-pressed', 'true');
         input.focus();
     }
@@ -45,7 +46,7 @@
         input.readOnly = true;
         input.type = 'password';
         input.value = input.getAttribute('data-adc-mask') || MASK_DEFAULT;
-        button.textContent = 'Înlocuiește';
+        button.textContent = I18N.replace || 'Înlocuiește';
         button.setAttribute('aria-pressed', 'false');
     }
 

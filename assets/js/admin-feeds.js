@@ -173,6 +173,41 @@
         "feed_ui_161": "Mapare valori",
         "feed_ui_162": "Categorii",
         "feed_ui_163": "Ștergi feedul „%s”? Adresa publică nu va mai funcționa.",
+        "feed_ui_164": "Selectare inteligentă (statistici)",
+        "feed_ui_165": "Statisticile per produs sunt dezactivate. Selectarea inteligentă nu va afișa produse până la activarea statisticilor.",
+        "feed_ui_166": "Deschide setările statisticilor",
+        "feed_ui_167": "Reîmprospătare automată",
+        "feed_ui_168": "Alege intervalul de reîmprospătare.",
+        "feed_ui_169": "Regula inteligentă nu este validă.",
+        "feed_ui_170": "Manual",
+        "feed_ui_171": "La fiecare oră",
+        "feed_ui_172": "Zilnic",
+        "feed_ui_173": "Săptămânal",
+        "feed_ui_174": "Achiziții",
+        "feed_ui_175": "Vizualizări",
+        "feed_ui_176": "Adăugări în coș",
+        "feed_ui_177": "Începuturi de finalizare a comenzii",
+        "feed_ui_178": "Regulă de selectare",
+        "feed_ui_179": "Top produse",
+        "feed_ui_180": "Prag minim al valorii",
+        "feed_ui_181": "Conversie scăzută (maximum 2%)",
+        "feed_ui_182": "Metrică",
+        "feed_ui_183": "Perioadă",
+        "feed_ui_184": "zile",
+        "feed_ui_185": "Număr maxim de produse (1–500)",
+        "feed_ui_186": "Valoare minimă",
+        "feed_ui_187": "Cele mai vândute · 30 zile",
+        "feed_ui_188": "Cele mai vizualizate · 14 zile",
+        "feed_ui_189": "Conversie scăzută · 30 zile",
+        "feed_ui_190": "Adăugate în coș · 30 zile",
+        "feed_ui_191": "„Conversie scăzută” selectează produsele cu cel mult 2% achiziții raportate la vizualizări. Celulele de achiziții suprimate de prag sunt tratate ca zero; apartenența la feed poate dezvălui indirect această limită.",
+        "feed_ui_192": "Reguli inteligente",
+        "feed_ui_193": "Valoare statistică",
+        "feed_ui_194": "Opțional: limitează produsele selectate la aceste categorii.",
+        "feed_ui_195": "Feedul a fost salvat, dar reîmprospătarea recurentă nu a putut fi programată. Verifică Action Scheduler.",
+        "feed_ui_196": "Procent maxim de conversie (0–100)",
+        "feed_ui_197": "Smart: %s · %s · %s zile · reîmprospătare %s",
+        "feed_ui_198": "categorii: %s",
         "feed_ui_099": "în curând"
     };
     var FEED_STRINGS = Object.assign({}, FEED_STRINGS_DEFAULT,
@@ -281,6 +316,13 @@
             name: '',
             scope: 'all',
             categories: '',
+            refresh: 'manual',
+            smartMetric: 'purchases',
+            smartMode: 'top_n',
+            smartDays: 30,
+            smartLimit: 50,
+            smartThreshold: 10,
+            smartConversion: 2,
             inStock: false,
             country: 'RO',
             price: '0.00',
@@ -415,6 +457,41 @@
         return rows;
     }
 
+    /** Keep the Smart rule's default label in the ordinary editable parameter mapping table. */
+    function ensureSmartLabelRow(state) {
+        if (!state || !Array.isArray(state.params)) {
+            return;
+        }
+        var field = state.channel === 'meta' ? 'internal_label' : 'custom_label_0';
+        if (state.scope !== 'smart') {
+            if (state.smartAutoLabel) {
+                state.params = state.params.filter(function (row) {
+                    return !(row.field === field && row.source && row.source.type === 'constant' && row.source.value === state.smartAutoLabel);
+                });
+                state.smartAutoLabel = '';
+            }
+            return;
+        }
+        if (!(state.fields || []).some(function (entry) { return entry.key === field; })) {
+            return;
+        }
+        var rule = normalize(state).smartRule;
+        var metric = rule.mode === 'low_conversion' ? 'views_low_conversion' : rule.metric;
+        var label = (metric + '_' + rule.period_days + 'd' + (rule.mode === 'min_value' ? '_min' + rule.threshold : '')).toLowerCase().replace(/[^a-z0-9_]/g, '').slice(0, 100);
+        var row = state.params.filter(function (entry) { return entry.field === field; })[0];
+        if (row) {
+            if (row.source.type === 'constant' && state.smartAutoLabel && row.source.value === state.smartAutoLabel) {
+                row.source.value = label;
+                state.smartAutoLabel = label;
+            } else if (row.source.type === 'constant' && row.source.value === label) {
+                state.smartAutoLabel = label;
+            }
+            return;
+        }
+        state.params.push({ field: field, source: { type: 'constant', value: label }, transforms: [], enabled: true });
+        state.smartAutoLabel = label;
+    }
+
     /** Options of a field dropdown: fields used by another row are disabled (currentField is this row's own field). */
     function fieldOptions(fields, rows, currentField) {
         return (fields || []).map(function (f) {
@@ -490,7 +567,16 @@
             channel: state.channel,
             format: format,
             scope: state.scope,
-            categories: state.scope === 'filtered' ? parseCategories(state.categories) : [],
+            categories: state.scope === 'filtered' || state.scope === 'smart' ? parseCategories(state.categories) : [],
+            refresh: String(state.refresh || 'manual'),
+            smartRule: {
+                metric: String(state.smartMetric || 'purchases'),
+                mode: String(state.smartMode || 'top_n'),
+                period_days: Number(state.smartDays === undefined || state.smartDays === '' ? 30 : state.smartDays),
+                limit: Number(state.smartLimit === undefined || state.smartLimit === '' ? 50 : state.smartLimit),
+                threshold: Number(state.smartThreshold === undefined || state.smartThreshold === '' ? 10 : state.smartThreshold),
+                conversion_percent: Number(state.smartConversion === undefined || state.smartConversion === '' ? 2 : state.smartConversion)
+            },
             inStock: !!state.inStock,
             country: String(state.country || '').trim().toUpperCase(),
             price: String(state.price || '').trim(),
@@ -503,6 +589,33 @@
             defaultCategory: String(state.defaultCategory || '').trim(),
             categoryMap: cleanCategoryMap(state.categoryMap)
         };
+    }
+
+    /** Render the product row in the review step for each selection scope. */
+    function productSummary(n, translate) {
+        var text = typeof translate === 'function' ? translate : t;
+        var products;
+        if (n.scope === 'smart') {
+            var rule = n.smartRule || {};
+            var metricKeys = { purchases: 'feed_ui_174', views: 'feed_ui_175', add_to_cart: 'feed_ui_176', begin_checkout: 'feed_ui_177' };
+            var modeKeys = { top_n: 'feed_ui_179', min_value: 'feed_ui_180', low_conversion: 'feed_ui_181' };
+            var refreshKeys = { manual: 'feed_ui_170', hourly: 'feed_ui_171', daily: 'feed_ui_172', weekly: 'feed_ui_173' };
+            products = text('feed_ui_197')
+                .replace('%s', text(metricKeys[rule.metric] || rule.metric || ''))
+                .replace('%s', text(modeKeys[rule.mode] || rule.mode || ''))
+                .replace('%s', String(rule.period_days || 30))
+                .replace('%s', text(refreshKeys[n.refresh] || n.refresh || ''));
+            if (n.categories && n.categories.length) {
+                products += ' · ' + text('feed_ui_198').replace('%s', n.categories.join(', '));
+            }
+        } else if (n.scope === 'filtered') {
+            products = text('feed_ui_152') + (n.categories || []).join(', ');
+        } else {
+            products = text('feed_ui_127');
+        }
+        if (n.inStock) { products += text('feed_ui_096'); }
+        products += n.excludeInvalid ? text('feed_ui_153') : text('feed_ui_097');
+        return products;
     }
 
     /** Keep one copy of each identical validation message. */
@@ -528,15 +641,30 @@
         }
 
         if (step === 2) {
-            if (n.scope !== 'all' && n.scope !== 'filtered') {
+            if (n.scope !== 'all' && n.scope !== 'filtered' && n.scope !== 'smart') {
                 errors.push(t('feed_ui_028'));
-            } else if (n.scope === 'filtered') {
-                if (n.categories.length === 0) {
-                    errors.push(t('feed_ui_029'));
-                } else if (n.categories.length > 50) {
+            } else if (n.scope === 'filtered' && n.categories.length === 0) {
+                errors.push(t('feed_ui_029'));
+            }
+            if (n.scope === 'filtered' || (n.scope === 'smart' && n.categories.length > 0)) {
+                if (n.categories.length > 50) {
                     errors.push(t('feed_ui_030'));
                 } else if (n.categories.some(function (s) { return !SLUG_RE.test(s); })) {
                     errors.push(t('feed_ui_031'));
+                }
+            }
+            if (!['manual', 'hourly', 'daily', 'weekly'].includes(n.refresh)) {
+                errors.push(t('feed_ui_168'));
+            }
+            if (n.scope === 'smart') {
+                if (!['views', 'add_to_cart', 'begin_checkout', 'purchases'].includes(n.smartRule.metric)
+                    || !['top_n', 'min_value', 'low_conversion'].includes(n.smartRule.mode)
+                    || ![7, 14, 30, 90].includes(n.smartRule.period_days)
+                    || !Number.isInteger(n.smartRule.limit) || n.smartRule.limit < 1 || n.smartRule.limit > 500
+                    || (n.smartRule.mode === 'low_conversion' && n.smartRule.metric !== 'views')
+                    || (n.smartRule.mode === 'min_value' && (!Number.isInteger(n.smartRule.threshold) || n.smartRule.threshold < 1 || n.smartRule.threshold > 1000000))
+                    || (n.smartRule.mode === 'low_conversion' && (!Number.isInteger(n.smartRule.conversion_percent) || n.smartRule.conversion_percent < 0 || n.smartRule.conversion_percent > 100))) {
+                    errors.push(t('feed_ui_169'));
                 }
             }
         }
@@ -605,8 +733,15 @@
             channel: String(feed.channel || 'google'),
             format: String(feed.format || defaultFormat(channels, feed.channel) || 'xml'),
             name: String(feed.name || ''),
-            scope: config.scope === 'filtered' ? 'filtered' : 'all',
+            scope: config.scope === 'filtered' || config.scope === 'smart' ? config.scope : 'all',
             categories: Array.isArray(config.categories) ? config.categories.join(', ') : '',
+            refresh: String(config.refresh || 'manual'),
+            smartMetric: String(config.smart_rule && config.smart_rule.metric || 'purchases'),
+            smartMode: String(config.smart_rule && config.smart_rule.mode || 'top_n'),
+            smartDays: Number(config.smart_rule && config.smart_rule.period_days || 30),
+            smartLimit: Number(config.smart_rule && config.smart_rule.limit || 50),
+            smartThreshold: Number(config.smart_rule && config.smart_rule.threshold || 10),
+            smartConversion: Number(config.smart_rule && config.smart_rule.conversion_percent !== undefined ? config.smart_rule.conversion_percent : 2),
             inStock: !!config.in_stock_only,
             csvExcelSafe: !!config.csv_excel_safe,
             excludeInvalid: config.exclude_invalid !== false,
@@ -647,8 +782,16 @@
             categories: n.categories,
             in_stock_only: n.inStock,
             csv_excel_safe: n.csvExcelSafe,
-            exclude_invalid: n.excludeInvalid
+            exclude_invalid: n.excludeInvalid,
+            refresh: n.refresh
         };
+        if (n.scope === 'smart') {
+            config.smart_rule = n.smartRule.mode === 'min_value'
+                ? { metric: n.smartRule.metric, mode: n.smartRule.mode, period_days: n.smartRule.period_days, limit: n.smartRule.limit, threshold: n.smartRule.threshold }
+                : n.smartRule.mode === 'low_conversion'
+                    ? { metric: n.smartRule.metric, mode: n.smartRule.mode, period_days: n.smartRule.period_days, limit: n.smartRule.limit, conversion_percent: n.smartRule.conversion_percent }
+                    : { metric: n.smartRule.metric, mode: n.smartRule.mode, period_days: n.smartRule.period_days, limit: n.smartRule.limit };
+        }
         var categories = { default_category: n.defaultCategory, category_map: n.categoryMap };
         if (n.channel === 'google') {
             config.google = Object.assign({
@@ -671,6 +814,7 @@
             config: config
         };
         if (Array.isArray(state.params)) {
+            ensureSmartLabelRow(state);
             payload.params = normalizeParams(state.params);
         }
         return payload;
@@ -989,6 +1133,8 @@
         var channels = parseChannels(root.getAttribute('data-channels')) || DEFAULT_CHANNELS;
         var categories = parseCategoryList(root.getAttribute('data-categories'));
         var sources = parseSourceLists(root.getAttribute('data-sources'));
+        var statsEnabled = root.getAttribute('data-stats-enabled') === '1';
+        var statsSettingsUrl = root.getAttribute('data-stats-settings-url') || '';
 
         var app = {
             feeds: [],
@@ -1119,6 +1265,9 @@
                 loadParams();
                 return;
             }
+            if (step === 3) {
+                ensureSmartLabelRow(app.wizard);
+            }
             draw();
         }
 
@@ -1151,7 +1300,8 @@
             call(method, editId ? feedUrl(editId) : restUrl, payload)
                 .then(function (data) {
                     var url = data && data.feed ? data.feed.url : '';
-                    setNotice('success', (editId ? t('feed_ui_114') : t('feed_ui_115')) + (url ? t('feed_ui_044') + url : ''));
+                    var refreshWarning = payload.config.refresh !== 'manual' && data && data.refresh_scheduled === false ? ' ' + t('feed_ui_195') : '';
+                    setNotice(refreshWarning ? 'warning' : 'success', (editId ? t('feed_ui_114') : t('feed_ui_115')) + (url ? t('feed_ui_044') + url : '') + refreshWarning);
                     app.view = 'list';
                     setBusy(false);
                     return load();
@@ -1397,6 +1547,7 @@
 
             if (step === 2) {
                 var filtered = app.wizard.scope === 'filtered';
+                var smart = app.wizard.scope === 'smart';
                 var productFields = [
                     el('fieldset', { className: 'adc-feeds__fieldset' }, [
                         el('legend', { text: t('feed_ui_125') }),
@@ -1407,15 +1558,37 @@
                         radio('adc-feeds-scope', 'filtered', t('feed_ui_128'), filtered, function () {
                             app.wizard.scope = 'filtered';
                             draw();
+                        }),
+                        radio('adc-feeds-scope', 'smart', t('feed_ui_164'), smart, function () {
+                            app.wizard.scope = 'smart';
+                            draw();
                         })
                     ])
                 ];
-                if (filtered) {
+                if (filtered || smart) {
                     productFields.push(textField(t('feed_ui_069'), 'categories', app.wizard.categories, {
                         placeholder: t('feed_ui_129'),
                         onInput: function (value) { app.wizard.categories = value; }
                     }));
+                    if (smart) {
+                        productFields.push(el('p', { className: 'adc-feeds__note', text: t('feed_ui_194') }));
+                    }
                 }
+                if (smart) {
+                    productFields.push(smartRuleFields());
+                    if (!statsEnabled) {
+                        productFields.push(el('p', { className: 'adc-feeds__notice adc-feeds__notice--warning', role: 'status' }, [
+                            document.createTextNode(t('feed_ui_165') + ' '),
+                            el('a', { href: statsSettingsUrl, text: t('feed_ui_166') })
+                        ]));
+                    }
+                }
+                productFields.push(selectField(t('feed_ui_167'), 'refresh', app.wizard.refresh, [
+                    { id: 'manual', label: t('feed_ui_170') },
+                    { id: 'hourly', label: t('feed_ui_171') },
+                    { id: 'daily', label: t('feed_ui_172') },
+                    { id: 'weekly', label: t('feed_ui_173') }
+                ]));
                 productFields.push(checkbox(t('feed_ui_070'), app.wizard.inStock, function (checked) {
                     app.wizard.inStock = checked;
                 }));
@@ -1430,6 +1603,48 @@
             }
 
             return summary();
+        }
+
+        function smartRuleFields() {
+            var metricChoices = [
+                { id: 'purchases', label: t('feed_ui_174') },
+                { id: 'views', label: t('feed_ui_175') },
+                { id: 'add_to_cart', label: t('feed_ui_176') },
+                { id: 'begin_checkout', label: t('feed_ui_177') }
+            ];
+            var fields = [
+                selectField(t('feed_ui_178'), 'smartMode', app.wizard.smartMode, [
+                    { id: 'top_n', label: t('feed_ui_179') },
+                    { id: 'min_value', label: t('feed_ui_180') },
+                    { id: 'low_conversion', label: t('feed_ui_181') }
+                ]),
+                selectField(t('feed_ui_182'), 'smartMetric', app.wizard.smartMetric, metricChoices),
+                selectField(t('feed_ui_183'), 'smartDays', String(app.wizard.smartDays), [7, 14, 30, 90].map(function (days) { return { id: String(days), label: String(days) + ' ' + t('feed_ui_184') }; }))
+            ];
+            fields.push(textField(t('feed_ui_185'), 'smartLimit', String(app.wizard.smartLimit), { inputmode: 'numeric' }));
+            if (app.wizard.smartMode === 'min_value') {
+                fields.push(textField(t('feed_ui_186'), 'smartThreshold', String(app.wizard.smartThreshold), { inputmode: 'numeric' }));
+            } else if (app.wizard.smartMode === 'low_conversion') {
+                fields.push(textField(t('feed_ui_196'), 'smartConversion', String(app.wizard.smartConversion), { inputmode: 'numeric', min: '0', max: '100' }));
+            }
+            fields.push(el('div', { className: 'adc-feeds__actions adc-feeds__presets' }, [
+                presetButton('purchases', 'top_n', 30, 50, t('feed_ui_187')),
+                presetButton('views', 'top_n', 14, 50, t('feed_ui_188')),
+                presetButton('views', 'low_conversion', 30, 50, t('feed_ui_189')),
+                presetButton('add_to_cart', 'top_n', 30, 50, t('feed_ui_190'))
+            ]));
+            fields.push(el('p', { className: 'adc-feeds__note', text: t('feed_ui_191') }));
+            return el('fieldset', { className: 'adc-feeds__fieldset' }, [el('legend', { text: t('feed_ui_192') })].concat(fields));
+        }
+
+        function presetButton(metric, mode, days, limit, label) {
+            return el('button', { type: 'button', className: 'button', text: label, disabled: app.busy, on: { click: function () {
+                app.wizard.smartMetric = metric;
+                app.wizard.smartMode = mode;
+                app.wizard.smartDays = days;
+                app.wizard.smartLimit = limit;
+                draw();
+            } } });
         }
 
         /** Step 3 depends on the destination: Google shipping, or Meta/TikTok catalogue defaults. */
@@ -1492,6 +1707,7 @@
                     app.wizard.params = app.pendingParams
                         ? initialParams(app.pendingParams, items)
                         : initialParams(data && Array.isArray(data.defaults) ? data.defaults : [], items);
+                    ensureSmartLabelRow(app.wizard);
                     app.pendingParams = null;
                 }, function (err) {
                     app.wizard.step = 2;
@@ -1678,6 +1894,7 @@
         }
 
         function runPreview() {
+            ensureSmartLabelRow(app.wizard);
             var payload = buildPayload(app.wizard, channels);
             setBusy(true);
             app.preview = null;
@@ -1688,7 +1905,7 @@
                 params: payload.params || [],
                 n: 5
             }).then(function (data) {
-                app.preview = { rows: data && Array.isArray(data.rows) ? data.rows : [], warnings: data && Array.isArray(data.warnings) ? data.warnings : [] };
+                app.preview = { rows: data && Array.isArray(data.rows) ? data.rows : [], selection: data && Array.isArray(data.selection) ? data.selection : [], warnings: data && Array.isArray(data.warnings) ? data.warnings : [] };
             }, function (err) {
                 app.preview = { error: err.message || MSG_GENERIC, errors: err.errors || [] };
             }).then(function () {
@@ -1711,18 +1928,34 @@
                 ]);
             }
             if (p.rows.length === 0) {
-                return el('p', { className: 'adc-feeds__note', text: t('feed_ui_087') });
+                var emptyChildren = [el('p', { className: 'adc-feeds__note', text: t('feed_ui_087') })];
+                var emptyWarnings = diagnosticRows(p.warnings, labels);
+                if (emptyWarnings.length) {
+                    emptyChildren.push(messageList('warning', t('feed_ui_108'), emptyWarnings, 0));
+                }
+                return el('div', { className: 'adc-feeds__stack' }, emptyChildren);
             }
             var keys = [];
             p.rows.forEach(function (row) {
                 Object.keys(row).forEach(function (k) { if (keys.indexOf(k) === -1) { keys.push(k); } });
             });
+            var hasSelection = Array.isArray(p.selection) && p.selection.length > 0;
+            var headers = keys.map(function (k) { return el('th', { scope: 'col', text: k }); });
+            if (hasSelection) {
+                headers.push(el('th', { scope: 'col', text: t('feed_ui_193') }));
+            }
             var table = el('table', { className: 'adc-feeds__ptable adc-feeds__preview' }, [
-                el('thead', null, [el('tr', null, keys.map(function (k) { return el('th', { scope: 'col', text: k }); }))]),
-                el('tbody', null, p.rows.map(function (row) {
-                    return el('tr', null, keys.map(function (k) {
+                el('thead', null, [el('tr', null, headers)]),
+                el('tbody', null, p.rows.map(function (row, index) {
+                    var cells = keys.map(function (k) {
                         return el('td', { 'data-label': k, text: row[k] === undefined ? '' : String(row[k]) });
-                    }));
+                    });
+                    if (hasSelection) {
+                        var selected = p.selection[index] || {};
+                        var metricText = selected.metric ? ({ views: t('feed_ui_175'), purchases: t('feed_ui_174'), add_to_cart: t('feed_ui_176'), begin_checkout: t('feed_ui_177') }[selected.metric] || selected.metric) : '';
+                        cells.push(el('td', { 'data-label': t('feed_ui_193'), text: metricText ? metricText + ': ' + selected.value : '' }));
+                    }
+                    return el('tr', null, cells);
                 }))
             ]);
             var children = [el('div', { className: 'adc-feeds__ptable-wrap' }, [table])];
@@ -1791,11 +2024,7 @@
         function summary() {
             var n = normalize(app.wizard);
             var channel = channelById(channels, n.channel);
-            var products = n.scope === 'filtered' ? t('feed_ui_152') + n.categories.join(', ') : t('feed_ui_127');
-            if (n.inStock) {
-                products += t('feed_ui_096');
-            }
-            products += n.excludeInvalid ? t('feed_ui_153') : t('feed_ui_097');
+            var products = productSummary(n);
             var condition = CONDITIONS.filter(function (c) { return c.id === n.condition; })[0];
 
             var rows = [
@@ -1923,9 +2152,17 @@
                 el('select', {
                     id: id,
                     name: name,
-                    on: { change: function (event) { app.wizard[name] = event.target.value; } }
+                    on: { change: function (event) {
+                        app.wizard[name] = event.target.value;
+                        if (name === 'smartMode') {
+                            if (event.target.value === 'low_conversion') {
+                                app.wizard.smartMetric = 'views';
+                            }
+                            draw();
+                        }
+                    } }
                 }, choices.map(function (choice) {
-                    return el('option', { value: choice.id, selected: choice.id === value, text: choice.label });
+                    return el('option', { value: choice.id, selected: String(choice.id) === String(value), text: choice.label });
                 }))
             ]);
         }
@@ -1953,6 +2190,7 @@
         TRANSFORM_OPS: TRANSFORM_OPS,
         cleanCategoryMap: cleanCategoryMap,
         normalize: normalize,
+        productSummary: productSummary,
         validateStep: validateStep,
         validateAll: validateAll,
         uniqueMessages: uniqueMessages,
@@ -1973,6 +2211,7 @@
         diagnosticLabel: diagnosticLabel,
         diagnosticRows: diagnosticRows,
         parseLabels: parseLabels,
+        mount: mount,
         MAX_MESSAGES: MAX_MESSAGES
     };
 

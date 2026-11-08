@@ -336,6 +336,41 @@ final class ADC_Admin_Tab_Feeds implements ADC_Admin_Tab_Interface
             "feed_ui_161" => __('Mapare valori', 'adc-marketing'),
             "feed_ui_162" => __('Categorii', 'adc-marketing'),
             "feed_ui_163" => __('Ștergi feedul „%s”? Adresa publică nu va mai funcționa.', 'adc-marketing'),
+            "feed_ui_164" => __('Selectare inteligentă (statistici)', 'adc-marketing'),
+            "feed_ui_165" => __('Statisticile per produs sunt dezactivate. Selectarea inteligentă nu va afișa produse până la activarea statisticilor.', 'adc-marketing'),
+            "feed_ui_166" => __('Deschide setările statisticilor', 'adc-marketing'),
+            "feed_ui_167" => __('Reîmprospătare automată', 'adc-marketing'),
+            "feed_ui_168" => __('Alege intervalul de reîmprospătare.', 'adc-marketing'),
+            "feed_ui_169" => __('Regula inteligentă nu este validă.', 'adc-marketing'),
+            "feed_ui_170" => __('Manual', 'adc-marketing'),
+            "feed_ui_171" => __('La fiecare oră', 'adc-marketing'),
+            "feed_ui_172" => __('Zilnic', 'adc-marketing'),
+            "feed_ui_173" => __('Săptămânal', 'adc-marketing'),
+            "feed_ui_174" => __('Achiziții', 'adc-marketing'),
+            "feed_ui_175" => __('Vizualizări', 'adc-marketing'),
+            "feed_ui_176" => __('Adăugări în coș', 'adc-marketing'),
+            "feed_ui_177" => __('Începuturi de finalizare a comenzii', 'adc-marketing'),
+            "feed_ui_178" => __('Regulă de selectare', 'adc-marketing'),
+            "feed_ui_179" => __('Top produse', 'adc-marketing'),
+            "feed_ui_180" => __('Prag minim al valorii', 'adc-marketing'),
+            "feed_ui_181" => __('Conversie scăzută (maximum 2%)', 'adc-marketing'),
+            "feed_ui_182" => __('Metrică', 'adc-marketing'),
+            "feed_ui_183" => __('Perioadă', 'adc-marketing'),
+            "feed_ui_184" => __('zile', 'adc-marketing'),
+            "feed_ui_185" => __('Număr maxim de produse (1–500)', 'adc-marketing'),
+            "feed_ui_186" => __('Valoare minimă', 'adc-marketing'),
+            "feed_ui_187" => __('Cele mai vândute · 30 zile', 'adc-marketing'),
+            "feed_ui_188" => __('Cele mai vizualizate · 14 zile', 'adc-marketing'),
+            "feed_ui_189" => __('Conversie scăzută · 30 zile', 'adc-marketing'),
+            "feed_ui_190" => __('Adăugate în coș · 30 zile', 'adc-marketing'),
+            "feed_ui_191" => __('„Conversie scăzută” selectează produsele cu cel mult 2% achiziții raportate la vizualizări. Celulele de achiziții suprimate de prag sunt tratate ca zero; apartenența la feed poate dezvălui indirect această limită.', 'adc-marketing'),
+            "feed_ui_192" => __('Reguli inteligente', 'adc-marketing'),
+            "feed_ui_193" => __('Valoare statistică', 'adc-marketing'),
+            "feed_ui_194" => __('Opțional: limitează produsele selectate la aceste categorii.', 'adc-marketing'),
+            "feed_ui_195" => __('Feedul a fost salvat, dar reîmprospătarea recurentă nu a putut fi programată. Verifică Action Scheduler.', 'adc-marketing'),
+            "feed_ui_196" => __('Procent maxim de conversie (0–100)', 'adc-marketing'),
+            "feed_ui_197" => __('Smart: %s · %s · %s zile · reîmprospătare %s', 'adc-marketing'),
+            "feed_ui_198" => __('categorii: %s', 'adc-marketing'),
             "feed_ui_099" => __('în curând', 'adc-marketing')
         );
     }
@@ -359,6 +394,8 @@ final class ADC_Admin_Tab_Feeds implements ADC_Admin_Tab_Interface
             . ' data-channels="' . esc_attr((string) wp_json_encode(self::channel_rows())) . '"'
             . ' data-categories="' . esc_attr((string) wp_json_encode(self::category_rows())) . '"'
             . ' data-sources="' . esc_attr((string) wp_json_encode(self::source_lists())) . '"'
+            . ' data-stats-enabled="' . ((class_exists('ADC_Settings') && (bool) ADC_Settings::get('product_stats', 'enabled', false)) ? '1' : '0') . '"'
+            . ' data-stats-settings-url="' . esc_url(admin_url('admin.php?page=adc-marketing&tab=analytics')) . '"'
             . ' aria-live="polite">';
         echo '<p class="adc-feeds__status">' . esc_html__('Se încarcă feedurile…', 'adc-marketing') . '</p>';
         echo '<noscript><p class="adc-feeds__note">' . esc_html__('Activează JavaScript pentru a gestiona feedurile.', 'adc-marketing') . '</p></noscript>';
@@ -490,6 +527,13 @@ final class ADC_Admin_Tab_Feeds implements ADC_Admin_Tab_Interface
     {
         return array(
             // Generator.
+            'smart_stats_disabled'             => __('Statisticile per produs sunt dezactivate; activează-le pentru a folosi selectarea inteligentă.', 'adc-marketing'),
+            'smart_stats_unavailable'           => __('Statistica produselor nu este disponibilă în acest moment.', 'adc-marketing'),
+            'smart_stats_no_data'               => __('Nu există suficiente date agregate pentru această regulă.', 'adc-marketing'),
+            'smart_stats_limit_reached'         => __('Rezultatele sunt limitate la maximum 500 de produse de API-ul statisticilor.', 'adc-marketing'),
+            'smart_rule_invalid'                => __('Regula de selectare inteligentă nu este validă.', 'adc-marketing'),
+            'smart_variations_limit_reached'     => __('Selectarea inteligentă a ajuns la limita de 2.000 de variații exportate.', 'adc-marketing'),
+            'smart_no_products'                 => __('Regula inteligentă nu a găsit produse eligibile; feedul gol nu a fost publicat.', 'adc-marketing'),
             'no_valid_products'                => __('Nu există produse valide pentru publicarea feedului.', 'adc-marketing'),
             'invalid_products_excluded'         => __('%d produse omise: nu respectă cerințele destinației.', 'adc-marketing'),
             'invalid_feed_id'                  => __('ID-ul feedului nu este valid.', 'adc-marketing'),

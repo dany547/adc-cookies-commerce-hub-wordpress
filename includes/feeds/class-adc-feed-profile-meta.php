@@ -88,6 +88,15 @@ final class ADC_Feed_Profile_Meta
         } else {
             $extra = array();
         }
+        if (isset($mapped['internal_label']) || isset($extra['internal_label'])) {
+            $labels = array_merge(
+                is_array($extra['internal_label'] ?? null) ? $extra['internal_label'] : (isset($extra['internal_label']) ? array($extra['internal_label']) : array()),
+                is_array($mapped['internal_label'] ?? null) ? $mapped['internal_label'] : (isset($mapped['internal_label']) ? array($mapped['internal_label']) : array())
+            );
+            $labels = array_values(array_unique(array_filter(array_map(static fn(mixed $label): string => self::text($label), $labels))));
+            $extra['internal_label'] = array_slice($labels, 0, 5);
+            unset($mapped['internal_label']);
+        }
         $mapped = array_merge($mapped, $extra);
         return $mapped;
     }

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ADC Marketing 2.2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-08 08:32+0000\n"
+"PO-Revision-Date: 2026-11-08 11:04+0000\n"
 "Last-Translator: ADC Marketing build\n"
 "Language-Team: English\n"
 "Language: en_GB\n"
@@ -181,6 +181,92 @@ msgstr "Policy version"
 
 msgid "Cere din nou consimțământul (crește versiunea politicii)"
 msgstr "Ask for consent again (bump the policy version)"
+
+msgid "Cerere invalidă."
+msgstr "Invalid request."
+
+msgid "Statistici per produs (ADC Marketing)"
+msgstr "Per-product statistics (ADC Marketing)"
+
+msgid "Dacă ați activat statisticile per produs, ADC Marketing numără zilnic "
+"vizualizările produselor, adăugările în coș, începuturile finalizării "
+"comenzii și achizițiile. Aceste agregate pot fi folosite în viitor pentru "
+"dezvoltări Smart Feed și clasamente de produse planificate sau opționale; "
+"acestea nu sunt prezentate aici ca funcții curente. Colectarea are loc "
+"numai după consimțământul vizitatorului pentru categoria „statistics”; "
+"achizițiile sunt numărate numai dacă acel consimțământ a fost salvat la "
+"finalizarea comenzii. Tabelul de statistici păstrează ziua, produsul și "
+"numărătorile, nu adrese IP sau identificatori de vizitator. Tokenul tehnic "
+"se rotește zilnic și este acceptat și în ziua următoare, dar nu dovedește "
+"că a avut loc o interacțiune; nu se folosește un ID de vizitator. Începutul "
+"finalizării este numărat cel mult o dată în sesiunea WooCommerce existentă. "
+"Agregatele se păstrează %d zile, apoi sunt șterse automat. Acest text este "
+"un șablon informativ: operatorul trebuie să îl verifice și să îl valideze "
+"cu DPO/consilierul juridic pentru magazinul său înainte de publicare; nu "
+"reprezintă o afirmație de conformitate."
+msgstr "If enabled, ADC Marketing counts product page views, add-to-cart events, "
+"checkout starts and purchases each day. These aggregates may be used in "
+"future planned or optional Smart Feed and product-ranking development; they "
+"are not described here as current features. Collection takes place only "
+"after the visitor grants consent for the statistics category; purchases are "
+"counted only when that consent was saved during checkout. The statistics "
+"table stores the day, product and counts, not IP addresses or visitor "
+"identifiers. The technical token rotates daily and is accepted on the "
+"following day, but it does not prove that an interaction occurred; no "
+"visitor ID is used. Checkout-start counting is limited to once per existing "
+"WooCommerce session. Aggregates are kept for %d days and then deleted "
+"automatically. This is an informational template: the store operator must "
+"review it with their DPO or legal adviser before publication; it makes no "
+"compliance claim."
+
+msgid "5. Statistici per produs"
+msgstr "5. Per-product statistics"
+
+msgid "Numărăm zilnic vizualizările produselor, adăugările în coș, începuturile "
+"finalizării comenzii și achizițiile; aceste agregate pot fi folosite în "
+"viitor pentru dezvoltări Smart Feed și clasamente de produse planificate "
+"sau opționale, nu sunt prezentate ca funcții curente."
+msgstr "We count product page views, add-to-cart events, checkout starts and "
+"purchases each day; these aggregates may support future planned or optional "
+"Smart Feed and product-ranking development, not features presented as "
+"current."
+
+msgid "Pluginul nu stochează IP-uri sau identificatori de vizitator în tabelul de "
+"statistici. Colectarea are loc numai când această opțiune este activată și "
+"vizitatorul și-a dat consimțământul pentru categoria „statistics”. Pentru "
+"achiziții se folosește consimțământul salvat la finalizarea comenzii."
+msgstr "The plugin does not store IP addresses or visitor identifiers in the "
+"statistics table. Collection only occurs when this option is enabled and "
+"the visitor has consented to the statistics category. Purchases use the "
+"consent saved during checkout."
+
+msgid "Activarea acestei opțiuni nu înlocuiește și nu obține consimțământul "
+"vizitatorului."
+msgstr "Enabling this option does not replace or obtain the visitor's consent."
+
+msgid "Activează colectarea statisticilor per produs"
+msgstr "Enable per-product statistics collection"
+
+msgid "Debifat implicit. Chiar și activată, colectarea rămâne condiționată de "
+"consimțământul statistics al vizitatorului."
+msgstr "Unchecked by default. Even when enabled, collection still requires the "
+"visitor's statistics consent."
+
+msgid "Păstrează agregatele (zile)"
+msgstr "Keep aggregates (days)"
+
+msgid "Între 30 și 730 de zile; valoarea implicită este 180. Agregatele mai vechi "
+"se șterg automat."
+msgstr "Between 30 and 730 days; the default is 180. Older aggregates are deleted "
+"automatically."
+
+msgid "Text propus pentru Politica de confidențialitate"
+msgstr "Suggested privacy policy text"
+
+msgid "Șablon informativ: verificați-l și validați-l cu operatorul/DPO înainte de "
+"publicare. Nu este o evaluare juridică și nu afirmă conformitatea."
+msgstr "Informational template: review and validate it with the operator/DPO before "
+"publication. It is not legal advice and makes no compliance claim."
 
 msgid "Versiunea curentă: %d. Bifați după ce modificați textele sau categoriile, "
 "ca vizitatorii să fie întrebați din nou."
@@ -7518,6 +7604,12 @@ msgstr "Enable"
 msgid "Copiază"
 msgstr "Copy"
 
+msgid "Copiat!"
+msgstr "Copied!"
+
+msgid "••••• (salvat)"
+msgstr "••••• (saved)"
+
 msgid "Copiază adresa feedului "
 msgstr "Copy feed URL "
 
@@ -7804,3 +7896,153 @@ msgstr " · exclude invalid products"
 
 msgid "Pentru categoria „"
 msgstr "For category “"
+
+msgid "Selectare inteligentă (statistici)"
+msgstr "Smart selection (statistics)"
+
+msgid "Statisticile per produs sunt dezactivate. Selectarea inteligentă nu va "
+"afișa produse până la activarea statisticilor."
+msgstr "Per-product statistics are disabled. Smart selection will show no products "
+"until statistics are enabled."
+
+msgid "Deschide setările statisticilor"
+msgstr "Open statistics settings"
+
+msgid "Reîmprospătare automată"
+msgstr "Automatic refresh"
+
+msgid "Alege intervalul de reîmprospătare."
+msgstr "Choose a refresh interval."
+
+msgid "Regula inteligentă nu este validă."
+msgstr "The smart rule is invalid."
+
+msgid "Manual"
+msgstr "Manual"
+
+msgid "La fiecare oră"
+msgstr "Hourly"
+
+msgid "Zilnic"
+msgstr "Daily"
+
+msgid "Săptămânal"
+msgstr "Weekly"
+
+msgid "Achiziții"
+msgstr "Purchases"
+
+msgid "Vizualizări"
+msgstr "Views"
+
+msgid "Adăugări în coș"
+msgstr "Add to cart"
+
+msgid "Începuturi de finalizare a comenzii"
+msgstr "Checkout starts"
+
+msgid "Regulă de selectare"
+msgstr "Selection rule"
+
+msgid "Prag minim al valorii"
+msgstr "Minimum value threshold"
+
+msgid "Interes ridicat, fără achiziții în top"
+msgstr "High interest, no top purchases"
+
+msgid "Metrică"
+msgstr "Metric"
+
+msgid "Perioadă"
+msgstr "Period"
+
+msgid "zile"
+msgstr "days"
+
+msgid "Număr maxim de produse (1–500)"
+msgstr "Maximum products (1–500)"
+
+msgid "Valoare minimă"
+msgstr "Minimum value"
+
+msgid "Cele mai vândute · 30 zile"
+msgstr "Best sellers · 30 days"
+
+msgid "Cele mai vizualizate · 14 zile"
+msgstr "Most viewed · 14 days"
+
+msgid "Interes ridicat, fără achiziții în top · 30 zile"
+msgstr "High interest, no top purchases · 30 days"
+
+msgid "Adăugate în coș · 30 zile"
+msgstr "Most added to cart · 30 days"
+
+msgid "„Interes ridicat” înseamnă produse clasate după vizualizări, excluzând "
+"produsele din topul achizițiilor. Datele sunt agregate și pot fi limitate "
+"de pragul de confidențialitate."
+msgstr "“High interest” ranks products by views and excludes products in the top "
+"purchases. Data is aggregated and may be limited by the privacy threshold."
+
+msgid "Reguli inteligente"
+msgstr "Smart rules"
+
+msgid "Valoare statistică"
+msgstr "Metric value"
+
+msgid "Opțional: limitează produsele selectate la aceste categorii."
+msgstr "Optional: limit selected products to these categories."
+
+msgid "Statisticile per produs sunt dezactivate; activează-le pentru a folosi "
+"selectarea inteligentă."
+msgstr "Per-product statistics are disabled; enable them to use smart selection."
+
+msgid "Statistica produselor nu este disponibilă în acest moment."
+msgstr "Product statistics are currently unavailable."
+
+msgid "Nu există suficiente date agregate pentru această regulă."
+msgstr "There is not enough aggregate data for this rule."
+
+msgid "Rezultatele sunt limitate la maximum 100 de produse de API-ul "
+"statisticilor."
+msgstr "The statistics API limits results to 100 products."
+
+msgid "Regula de selectare inteligentă nu este validă."
+msgstr "The smart selection rule is invalid."
+
+msgid "Regula inteligentă nu a găsit produse eligibile; feedul gol nu a fost "
+"publicat."
+msgstr "The smart rule found no eligible products; an empty feed was not published."
+
+msgid "Feedul a fost salvat, dar reîmprospătarea recurentă nu a putut fi "
+"programată. Verifică Action Scheduler."
+msgstr "The feed was saved, but recurring refresh could not be scheduled. Check "
+"Action Scheduler."
+
+msgid "Selectarea inteligentă a ajuns la limita de 2.000 de variații exportate."
+msgstr "Smart selection reached the limit of 2,000 exported variations."
+
+msgid "Conversie scăzută (maximum 2%)"
+msgstr "Low conversion (maximum 2%)"
+
+msgid "Conversie scăzută · 30 zile"
+msgstr "Low conversion · 30 days"
+
+msgid "„Conversie scăzută” selectează produsele cu cel mult 2% achiziții raportate "
+"la vizualizări. Celulele de achiziții suprimate de prag sunt tratate ca "
+"zero; apartenența la feed poate dezvălui indirect această limită."
+msgstr "“Low conversion” selects products with at most 2% purchases relative to "
+"views. Purchase cells suppressed by the threshold are treated as zero; feed "
+"membership may indirectly reveal this threshold."
+
+msgid "Rezultatele sunt limitate la maximum 500 de produse de API-ul "
+"statisticilor."
+msgstr "Results are limited to a maximum of 500 products by the statistics API."
+
+msgid "Procent maxim de conversie (0–100)"
+msgstr "Maximum conversion rate (0–100)"
+
+msgid "Smart: %s · %s · %s zile · reîmprospătare %s"
+msgstr "Smart: %s · %s · %s days · refresh %s"
+
+msgid "categorii: %s"
+msgstr "categories: %s"

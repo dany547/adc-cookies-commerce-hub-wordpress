@@ -36,5 +36,8 @@ final class ADC_Analytics_Retention implements ADC_Module_Interface
         foreach ([ADC_Analytics_Schema::TRAFFIC, ADC_Analytics_Schema::INTERACTIONS, ADC_Analytics_Schema::CAMPAIGNS] as $key) { ADC_Analytics_Store::purge($key, $trafficBefore); }
         foreach ([ADC_Analytics_Schema::COMMERCE, ADC_Analytics_Schema::PRODUCTS] as $key) { ADC_Analytics_Store::purge($key, $commerceBefore); }
         ADC_Analytics_Store::purge('ledger', $ledgerBefore);
+        if (class_exists('ADC_Product_Stats')) {
+            ADC_Product_Stats::purge((int) ADC_Settings::get('product_stats', 'retention_days', 180));
+        }
     }
 }

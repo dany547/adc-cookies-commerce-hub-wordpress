@@ -519,6 +519,13 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
                 'strategy'  => 'defer',
             )
         );
+        wp_localize_script('adc-admin-shell', 'adcAdminShellI18n', array(
+            'mask'    => __('••••• (salvat)', 'adc-marketing'),
+            'copy'    => __('Copiază', 'adc-marketing'),
+            'copied'  => __('Copiat!', 'adc-marketing'),
+            'cancel'  => __('Renunță', 'adc-marketing'),
+            'replace' => __('Înlocuiește', 'adc-marketing'),
+        ));
     }
 
     /**

@@ -147,8 +147,27 @@ $GLOBALS['store_test_http_status'] = 403;
 $unavailable = ADC_Feed_Store::storage_autotest();
 store_check($unavailable['status'] === 'storage_probe_unavailable' && $unavailable['warning'] && $unavailable['ok'], 'non-success HTTP responses are non-blocking warnings');
 $stored_config = json_decode($GLOBALS['wpdb']->tables['wp_adc_feeds'][0]['config_json'], true);
-store_check(($stored_config['schema_version'] ?? null) === 2, 'config schema version is stored in JSON');
+store_check(($stored_config['schema_version'] ?? null) === 3, 'config schema version is stored in JSON');
+$oversized_config = array('padding' => array_fill(0, 100, str_repeat('x', 750)));
+$rows_before_oversized = count($GLOBALS['wpdb']->tables['wp_adc_feeds']);
+store_check(0 === ADC_Feed_Store::create(array('name' => 'Oversized', 'config' => $oversized_config))
+    && count($GLOBALS['wpdb']->tables['wp_adc_feeds']) === $rows_before_oversized,
+    'oversized config is rejected before inserting a feed');
+$persisted_before_oversized_update = $GLOBALS['wpdb']->tables['wp_adc_feeds'][0]['config_json'];
+store_check(!ADC_Feed_Store::update($id, array('config' => $oversized_config))
+    && $GLOBALS['wpdb']->tables['wp_adc_feeds'][0]['config_json'] === $persisted_before_oversized_update,
+    'oversized update is rejected without mutating the existing feed');
 store_check(($stored_config['params'][0]['transforms'][0]['arg']['from'] ?? '') === 'a', 'top-level REST parameter rows are stored under config.params without losing nested transform arguments');
+$version_three = $GLOBALS['wpdb']->tables['wp_adc_feeds'][0]['config_json'];
+$GLOBALS['wpdb']->tables['wp_adc_feeds'][0]['config_json'] = json_encode(array('schema_version' => 2, 'scope' => 'all', 'categories' => array()));
+$legacy_config = ADC_Feed_Store::get($id)['config'];
+store_check(($legacy_config['refresh'] ?? '') === 'manual' && ($legacy_config['scope'] ?? '') === 'all'
+    && !array_key_exists('schema_version', $legacy_config), 'version-2 feed config hydrates safely with manual refresh defaults');
+$GLOBALS['wpdb']->tables['wp_adc_feeds'][0]['config_json'] = $version_three;
+$GLOBALS['wpdb']->tables['wp_adc_feeds'][0]['config_json'] = '{invalid';
+$invalid_hydrated = ADC_Feed_Store::get($id);
+store_check(($invalid_hydrated['config']['scope'] ?? '') === 'invalid', 'unreadable stored config is marked invalid instead of broadening to all products');
+$GLOBALS['wpdb']->tables['wp_adc_feeds'][0]['config_json'] = $version_three;
 $GLOBALS['wpdb']->tables['wp_adc_feed_runs'][] = array(
     'id' => 3, 'feed_id' => $id, 'status' => 'complete', 'started_at' => '2026-11-07 10:00:00',
     'finished_at' => '2026-11-07 10:01:00', 'products_examined' => 12, 'products_exported' => 10,
