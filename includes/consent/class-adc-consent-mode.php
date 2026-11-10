@@ -191,6 +191,16 @@ final class ADC_Consent_Mode
             }
         }
 
+        // GPC read clamp (§2.2): with honour_gpc on, the cookie-driven update
+        // never lets a stored m=1 grant the ad signals while the browser
+        // signals Sec-GPC; the effective source then reads `gpc`. Baked in
+        // from a site setting only, so the script stays byte-identical per
+        // site (page-cache safe) and unchanged when honour_gpc is off.
+        $gpc_on    = (bool) ADC_Settings::get('consent', 'honor_gpc', true);
+        $gp_decl   = $gpc_on ? 'var gp=navigator.globalPrivacyControl===true;' : '';
+        $gp_mkt    = $gpc_on ? 'c.m==="1"&&!gp' : 'c.m==="1"';
+        $gp_source = $gpc_on ? '(gp&&c.m==="1")?"gpc":(c.src||"")' : 'c.src||""';
+
         $js  = 'window["' . $data_layer . '"]=window["' . $data_layer . '"]||[];';
         $js .= 'function gtag(){window["' . $data_layer . '"].push(arguments);}';
         $js .= "gtag('consent','default'," . self::json($default) . ');';
@@ -217,8 +227,8 @@ final class ADC_Consent_Mode
             . 'g={ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",'
             . 'analytics_storage:"denied",functionality_storage:"denied",personalization_storage:"denied",'
             . 'security_storage:"granted"};'
-            . 'if(ok){st={preferences:c.p==="1",statistics:c.s==="1",marketing:c.m==="1",decided:true,'
-            . 'ts:(+c.ts||0),policy:(+c.pv||0),source:c.src||""};'
+            . 'if(ok){' . $gp_decl . 'st={preferences:c.p==="1",statistics:c.s==="1",marketing:' . $gp_mkt . ',decided:true,'
+            . 'ts:(+c.ts||0),policy:(+c.pv||0),source:' . $gp_source . '};'
             . 'g.ad_storage=g.ad_user_data=g.ad_personalization=st.marketing?"granted":"denied";'
             . 'g.analytics_storage=st.statistics?"granted":"denied";'
             . 'g.functionality_storage=g.personalization_storage=st.preferences?"granted":"denied";'

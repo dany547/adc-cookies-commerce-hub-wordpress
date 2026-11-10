@@ -114,6 +114,8 @@ final class ADC_Marketing
             'ADC_Retention',
             'ADC_Admin_Tab_Matching',
             'ADC_Admin_Tab_Logs',
+            // Conflict detection tab (read-only report + admin-post rescan).
+            'ADC_Admin_Tab_Conflicts',
             // C6 — Meta + TikTok.
             'ADC_Integration_Meta',
             'ADC_Integration_Tiktok',

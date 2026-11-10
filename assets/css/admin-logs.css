@@ -93,3 +93,21 @@
         overflow-x: auto;
     }
 }
+
+/* Conflict summary lines (ADC_Admin_Tab_Logs::render_conflicts_summary). */
+.adc-logs-conflicts-summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--adc-space-1, 8px);
+    margin: 0 0 var(--adc-space-1, 8px);
+}
+
+.adc-logs-conflicts-clear {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--adc-space-1, 8px);
+    margin: 0;
+    color: var(--adc-success, #1a7f37);
+}

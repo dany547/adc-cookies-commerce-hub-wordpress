@@ -149,6 +149,7 @@ final class ADC_Admin_Tab_Meta implements ADC_Admin_Tab_Interface, ADC_Module_In
             __('Pixelul rulează în browser, Conversions API trimite aceleași evenimente de pe server.', 'adc-marketing'),
             'adc-help-meta-data',
             $this->help_meta_data()
+                . '<p>' . esc_html__('Limited Data Use este destinat unor cerințe de confidențialitate din Statele Unite și nu este folosit aici. Pluginul verifică alegerea vizitatorului înainte de trimitere.', 'adc-marketing') . '</p>'
         );
 
         echo '<div class="adc-help-options adc-settings-section">';
@@ -230,7 +231,7 @@ final class ADC_Admin_Tab_Meta implements ADC_Admin_Tab_Interface, ADC_Module_In
 
         echo '</div>';
 
-        echo '<p class="description adc-section-intro">' . esc_html__('Notă: Limited Data Use (data_processing_options) este un mecanism dedicat legilor americane privind confidențialitatea și nu este folosit; pentru UE/România poarta corectă este consimțământul — fără consimțământ, evenimentul nu se trimite deloc.', 'adc-marketing') . '</p>';
+        echo '<p class="description adc-section-intro">' . esc_html__('Evenimentele sunt trimise numai cu consimțământul necesar.', 'adc-marketing') . '</p>';
     }
 
     /**

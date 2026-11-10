@@ -101,11 +101,18 @@ final class ADC_Admin_Tab_Logs implements ADC_Admin_Tab_Interface, ADC_Module_In
                 'debug_console' => false,
             ),
             static function (array $input, array $current): array {
-                $level = (string) ($input['level'] ?? '');
+                // Partial-write contract (2.6.1): an ABSENT key keeps the
+                // stored value; an explicit ''/0/false from the form applies.
+                // The Logs tab always sends both keys explicitly.
+                $level = array_key_exists('level', $input)
+                    ? (string) $input['level']
+                    : (string) ($current['level'] ?? '');
 
                 return array(
                     'level'         => in_array($level, array('off', 'error', 'info', 'debug'), true) ? $level : 'error',
-                    'debug_console' => !empty($input['debug_console']),
+                    'debug_console' => array_key_exists('debug_console', $input)
+                        ? !empty($input['debug_console'])
+                        : !empty($current['debug_console']),
                 );
             },
             array()
@@ -724,80 +731,59 @@ final class ADC_Admin_Tab_Logs implements ADC_Admin_Tab_Interface, ADC_Module_In
      * ------------------------------------------------------------------- */
 
     /**
-     * Scan the home page HTML for duplicate tracking snippets / foreign CMPs.
-     * Cached 12 h in a transient; detection only — never auto-disables (§7.11).
+     * Compact conflict summary in the Logs tab (the detail lives in the
+     * "Conflicte" tab). Reads the cached ADC_Conflict_Detector report only —
+     * no extra HTTP request and no scan on every page load.
      */
     private static function render_conflicts(): void
     {
-        $findings = get_transient('adc_conflict_scan');
-        if (!is_array($findings)) {
-            $findings = self::scan_home_html();
-            set_transient('adc_conflict_scan', $findings, 12 * HOUR_IN_SECONDS);
-        }
-
-        if (array() === $findings) {
+        if (!class_exists('ADC_Conflict_Detector')) {
             return;
         }
-        ?>
-        <h3 class="title"><?php esc_html_e('Detectare conflicte (prima pagină)', 'adc-marketing'); ?></h3>
-        <table class="widefat striped adc-logs-conflicts">
-            <tbody>
-                <?php foreach ($findings as $finding) : ?>
-                    <tr>
-                        <td><strong><?php echo esc_html($finding['label']); ?></strong></td>
-                        <td><?php echo esc_html($finding['detail']); ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-        <?php
-    }
 
-    /**
-     * Fetch the home page once and look for known snippet fingerprints.
-     *
-     * @return array<int, array{label: string, detail: string}>
-     */
-    private static function scan_home_html(): array
-    {
-        $response = wp_remote_get(
-            home_url('/'),
-            array('timeout' => 5, 'redirection' => 0, 'sslverify' => true)
-        );
+        $report   = ADC_Conflict_Detector::cached();
+        $findings = is_array($report['findings'] ?? null) ? $report['findings'] : array();
+        $summary  = is_array($report['summary'] ?? null) ? $report['summary'] : ADC_Conflict_Detector::summary($findings);
+        $conflicts = (int) ($summary[ADC_Conflict_Detector::CONFLICT] ?? 0);
+        $warnings  = (int) ($summary[ADC_Conflict_Detector::WARNING] ?? 0);
 
-        if (is_wp_error($response) || 200 !== (int) wp_remote_retrieve_response_code($response)) {
-            return array();
+        $url = admin_url('admin.php?page=' . ADC_Admin_Shell::PAGE_SLUG . '&tab=conflicts');
+
+        echo '<h3 class="title">' . esc_html__('Detectare conflicte', 'adc-marketing') . '</h3>';
+
+        if (null === $report) {
+            echo '<p class="description">'
+                . esc_html__('Scanarea nu a rulat încă. Deschide tabul Conflicte pentru primul raport.', 'adc-marketing')
+                . ' <a href="' . esc_url($url) . '">' . esc_html__('Deschide Conflicte', 'adc-marketing') . '</a>'
+                . '</p>';
+            return;
         }
 
-        $html = (string) wp_remote_retrieve_body($response);
-        if ('' === $html) {
-            return array();
+        if (0 === $conflicts && 0 === $warnings) {
+            echo '<p class="adc-logs-conflicts-clear">' . esc_html__('Nicio suprapunere detectată.', 'adc-marketing')
+                . ' <a href="' . esc_url($url) . '">' . esc_html__('Vezi raportul', 'adc-marketing') . '</a></p>';
+            return;
         }
 
-        $signals = array(
-            'googletagmanager.com/gtm.js' => __('GTM snippet prezent', 'adc-marketing'),
-            'gtag('                       => __('Apel direct gtag()', 'adc-marketing'),
-            'connect.facebook.net'        => __('Meta Pixel direct', 'adc-marketing'),
-            'analytics.tiktok.com'        => __('TikTok Pixel direct', 'adc-marketing'),
-            'google-analytics.com'        => __('Google Analytics direct', 'adc-marketing'),
-            'complianz'                   => __('Alt CMP activ: Complianz', 'adc-marketing'),
-            'cookiebot'                   => __('Alt CMP activ: Cookiebot', 'adc-marketing'),
-            'cookieyes'                   => __('Alt CMP activ: CookieYes', 'adc-marketing'),
+        echo '<p class="adc-logs-conflicts-summary">';
+        printf(
+            /* translators: 1: number of conflicts, 2: number of warnings. */
+            esc_html__('%1$d conflicte și %2$d atenționări detectate', 'adc-marketing'),
+            $conflicts,
+            $warnings
         );
+        echo ' — <a href="' . esc_url($url) . '">' . esc_html__('Deschide Conflicte', 'adc-marketing') . '</a></p>';
 
-        $findings = array();
-        foreach ($signals as $needle => $label) {
-            $count = substr_count(strtolower($html), strtolower($needle));
-            if ($count > 0) {
-                /* translators: 1: signal label, 2: occurrence count. */
-                $findings[] = array(
-                    'label'  => $label,
-                    'detail' => sprintf(_n('1 apariție în HTML.', '%d apariții în HTML.', $count, 'adc-marketing'), $count),
-                );
+        echo '<ul class="adc-logs-conflicts">';
+        foreach (array_slice($findings, 0, 5) as $finding) {
+            $severity = (string) ($finding['severity'] ?? ADC_Conflict_Detector::INFO);
+            if (ADC_Conflict_Detector::CONFLICT !== $severity && ADC_Conflict_Detector::WARNING !== $severity) {
+                continue;
             }
+            echo '<li><strong>' . esc_html((string) ($finding['title'] ?? '')) . ':</strong> '
+                . esc_html((string) ($finding['detail'] ?? '')) . '</li>';
         }
-
-        return $findings;
+        echo '</ul>';
     }
 
     /**
@@ -809,7 +795,7 @@ final class ADC_Admin_Tab_Logs implements ADC_Admin_Tab_Interface, ADC_Module_In
     public static function site_health_test(array $tests): array
     {
         $tests['direct']['adc_marketing_tracking'] = array(
-            'label' => __('Adcelerum Commerce Hub: pipeline de urmărire', 'adc-marketing'),
+            'label' => __('ADC eCOMM Hub: pipeline de urmărire', 'adc-marketing'),
             'test'  => array(self::class, 'run_site_health_check'),
         );
 
@@ -824,10 +810,10 @@ final class ADC_Admin_Tab_Logs implements ADC_Admin_Tab_Interface, ADC_Module_In
     public static function run_site_health_check(): array
     {
         $result = array(
-            'label'       => __('Adcelerum Commerce Hub: pipeline-ul de trimitere este operațional', 'adc-marketing'),
+            'label'       => __('ADC eCOMM Hub: pipeline-ul de trimitere este operațional', 'adc-marketing'),
             'status'      => 'good',
             'badge'       => array(
-                'label' => __('Adcelerum Commerce Hub', 'adc-marketing'),
+                'label' => __('ADC eCOMM Hub', 'adc-marketing'),
                 'color' => 'green',
             ),
             'test'        => 'adc_marketing_tracking',

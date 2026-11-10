@@ -1,4 +1,4 @@
-# ADC Cookies & Commerce Hub
+# ADC eCOMM Hub
 
 [![CI](https://github.com/dany547/adc-cookies-commerce-hub-wordpress/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/dany547/adc-cookies-commerce-hub-wordpress/actions/workflows/ci.yml?query=branch%3Amain)
 [![Release](https://github.com/dany547/adc-cookies-commerce-hub-wordpress/actions/workflows/release.yml/badge.svg)](https://github.com/dany547/adc-cookies-commerce-hub-wordpress/actions/workflows/release.yml)
@@ -17,13 +17,14 @@ Gestionează cookies, consimțământul vizitatorilor și preferințele de marke
 - **Consimțământ marketing (opțional, separat de cookie-uri)**: checkbox voluntar la checkout WooCommerce, preferințe separate e-mail / SMS din pagina „Marketing” a contului clientului, export CSV cu filtru pe perioadă, vizibilitate în comenzi și profile. *Limitare cunoscută:* căsuța de consimțământ la checkout este redată doar de checkout-ul clasic; checkout-ul pe blocuri (Store API) nu o afișează încă, iar comenzile plasate prin bloc nu înregistrează valoare de consimțământ — o actualizare ulterioară va aduce căsuța și în blocuri. Rapoartele de analitice operaționale/comerciale funcționează și pe checkout-ul cu blocuri; validarea lor E2E este separată de această limitare moștenită.
 - **Pixeli & evenimente consimțământ-gated**: Meta, TikTok, GA4 (Measurement Protocol) și sGTM se activează fiecare separat și trimit doar cu consimțământ; potrivirea avansată trimite exclusiv hash-uri SHA-256.
 - **Analitice operaționale & comerciale**: rapoarte interne (trafic, interacțiuni, reconciliere comercială, retenție, CSV),implicit oprite, rulate local în bazele de date ale site-ului.
+- **Detectare conflicte**: tabul **Conflicte** citește pluginurile active și HTML-ul primei pagini și raportează suprapunerile reale (al doilea CMP, al doilea încărcător GTM, containere/pixeli străini, `dataLayer` reinițializat), cu severitate și remediere. Detecția nu modifică și nu dezactivează nimic automat.
 
 ## Instalare
 
 1. Descarcă `adc-marketing-X.Y.Z.zip` din [GitHub Releases](../../releases) (nu arhiva auto-generată `source.zip`/`tar.gz` a repository-ului — are alt root).
 2. În WordPress: **Pluginuri → Adaugă plugin → Încarcă un plugin**, sau dezarhivează în `wp-content/plugins/` (arhiva conține root-ul `adc-marketing/`).
 3. Activează plugin-ul. Necesită WooCommerce 9.5+ și PHP 8.2+.
-4. Configurează din meniul **ADC Cookies & Commerce Hub**.
+4. Configurează din meniul **ADC eCOMM Hub** (tab **Setări** = indexul tuturor zonelor; **Pro Support** deschide pagina de contact adcelerum.ro).
 
 Fizic, plugin-ul rămâne `adc-marketing/adc-marketing.php` cu text domain `adc-marketing`; prefixele de cod (`ADC_*`, `adc_`), opțiunile, tabelele și endpointurile neschimbate din 1.0 — rebranduirea din 2.2.0 afectează doar textele afișate.
 

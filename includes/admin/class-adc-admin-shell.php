@@ -1,6 +1,6 @@
 <?php
 /**
- * The one Adcelerum Commerce Hub admin page + tab router.
+ * The one ADC eCOMM Hub admin page + tab router.
  *
  * Menu slug stays `adc-marketing` (admin.php?page=adc-marketing, screen id
  * toplevel_page_adc-marketing). Tabs are collected from the `adc_admin_tabs`
@@ -41,6 +41,8 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
     private const DEFAULT_TABS = array(
         // Landing tab: operational statistics only (added by the analytics chunk).
         'ADC_Admin_Tab_Dashboard',
+        // Read-only index of every settings area (state + link per tab).
+        'ADC_Admin_Tab_Settings',
         'ADC_Admin_Tab_Banner',
         'ADC_Admin_Tab_Cookies',
         // Unified Google Tag Manager tab (web container + optional server).
@@ -58,6 +60,8 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
         // Catalog module: feed tab (WooCommerce gate; feed engine comes in later stages).
         'ADC_Admin_Tab_Feeds',
         'ADC_Admin_Tab_Logs',
+        // Read-only tracking/consent conflict report (manual rescan action).
+        'ADC_Admin_Tab_Conflicts',
     );
 
     /**
@@ -71,12 +75,14 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
      * @var array<string, string[]>
      */
     private const NAV_GROUPS = array(
-        'dashboard'    => array('dashboard'),
+        'dashboard'    => array('dashboard', 'settings'),
         'consent'      => array('banner', 'cookies', 'marketing'),
-        'measurement'  => array('analytics', 'gtm', 'events', 'matching'),
-        'integrations' => array('platforms', 'meta', 'ga4', 'tiktok'),
+        'measurement'  => array('analytics', 'events', 'matching'),
+        // GTM travels with the platforms it configures: grouping follows
+        // operator intent (which destination is set up), not implementation.
+        'integrations' => array('platforms', 'gtm', 'meta', 'ga4', 'tiktok'),
         'catalog'      => array('feeds'),
-        'logs'         => array('logs'),
+        'logs'         => array('logs', 'conflicts'),
     );
 
     /**
@@ -205,7 +211,31 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
      */
     public static function plugin_title(): string
     {
-        return __('Adcelerum Commerce Hub', 'adc-marketing');
+        return __('ADC eCOMM Hub', 'adc-marketing');
+    }
+
+    /**
+     * Every navigation group with its Romanian label and tab slugs, in nav order.
+     *
+     * Used by the read-only Setări index so the two lists can never drift.
+     *
+     * @return array<string, array{label: string, tabs: string[]}>
+     */
+    public static function nav_groups(): array
+    {
+        $out = array();
+
+        foreach (self::navigation(self::tabs()) as $key => $group) {
+            $out[(string) $key] = array(
+                'label' => self::group_label((string) $key),
+                'tabs'  => array_map(
+                    static fn (ADC_Admin_Tab_Interface $tab): string => $tab->slug(),
+                    $group['tabs']
+                ),
+            );
+        }
+
+        return $out;
     }
 
     /**
@@ -472,6 +502,14 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
             self::asset_version('css/admin-platforms.css', $version)
         );
 
+        // Conflicts report + Setari index (read-only tables and badges).
+        wp_enqueue_style(
+            'adc-admin-conflicts',
+            self::asset_url('css/admin-conflicts.css'),
+            array('adc-admin-shell'),
+            self::asset_version('css/admin-conflicts.css', $version)
+        );
+
         // Catalog ▸ Feeduri card: loaded only when that tab is open.
         if ('feeds' === self::requested_tab(self::tabs())) {
             wp_enqueue_style(
@@ -597,7 +635,7 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
         ?>
         <header class="adc-admin-header">
             <img class="adc-admin-logo" src="<?php echo esc_url(self::asset_url('svg/adcelerum-commerce-hub-dark.svg')); ?>"
-                 alt="<?php echo esc_attr__('Adcelerum Commerce Hub', 'adc-marketing'); ?>" width="163" height="40">
+                 alt="<?php echo esc_attr(self::plugin_title()); ?>" width="163" height="40">
             <h1 class="adc-sr-only screen-reader-text"><?php echo esc_html($page_title); ?></h1>
             <p class="adc-admin-tagline"><?php esc_html_e('Consimțământ GDPR pentru cookies, măsurare prin GTM și conversii server-side (Meta, GA4, TikTok) pentru magazinul tău WooCommerce.', 'adc-marketing'); ?></p>
             <?php if ('' !== $version) : ?>
@@ -649,6 +687,7 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
     {
         return match ($slug) {
             'dashboard' => __('Cifrele magazinului și starea colectării datelor, pe intervalul ales.', 'adc-marketing'),
+            'settings'  => __('Toate zonele de setări ale pluginului, cu starea fiecăreia dintr-o privire.', 'adc-marketing'),
             'banner'    => __('Ce vede vizitatorul la prima vizită: textele bannerului, aspectul și categoriile de cookie-uri.', 'adc-marketing'),
             'cookies'   => __('Găsește cookie-urile folosite pe site, apoi confirmă categoria și scopul fiecăruia.', 'adc-marketing'),
             'marketing' => __('Textul bifei de marketing din checkout, exportul contactelor și verificarea condițiilor GDPR.', 'adc-marketing'),
@@ -662,6 +701,7 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
             'ga4'       => __('Trimite evenimentele de pe server către Google Analytics 4, mai fiabil decât o etichetă din browser.', 'adc-marketing'),
             'tiktok'    => __('Trimite către TikTok evenimentele magazinului, pentru optimizarea reclamelor și publicuri.', 'adc-marketing'),
             'logs'      => __('Ce a trimis pluginul către platforme, ce a eșuat și ce consimțământ a stat la baza fiecărei trimiteri.', 'adc-marketing'),
+            'conflicts' => __('Verifică dacă alte pluginuri sau tema încarcă aceleași etichete de tracking.', 'adc-marketing'),
             default     => '',
         };
     }
@@ -714,7 +754,7 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
     {
         return match ($key) {
             'dashboard'    => __('Prezentare generală', 'adc-marketing'),
-            'consent'      => __('Cookies', 'adc-marketing'),
+            'consent'      => __('Consimțământ', 'adc-marketing'),
             'measurement'  => __('Măsurare', 'adc-marketing'),
             'integrations' => __('Platforme', 'adc-marketing'),
             'catalog'      => __('Catalog', 'adc-marketing'),
@@ -741,7 +781,10 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
             }
         }
         ?>
-        <nav class="adc-admin-nav" aria-label="<?php esc_attr_e('Navigare Adcelerum Commerce Hub', 'adc-marketing'); ?>">
+        <nav class="adc-admin-nav" aria-label="<?php
+        /* translators: %s: plugin name. */
+        echo esc_attr(sprintf(__('Navigare %s', 'adc-marketing'), self::plugin_title()));
+        ?>">
             <ul class="adc-admin-tabs adc-admin-tabs--groups" role="list">
                 <?php foreach ($groups as $key => $group) : ?>
                     <?php $entry = $group['tabs'][0]; ?>
@@ -752,6 +795,11 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
                         </a>
                     </li>
                 <?php endforeach; ?>
+                <li class="adc-admin-group adc-admin-group--support">
+                    <a href="<?php echo esc_url(self::support_url()); ?>" target="_blank" rel="noopener">
+                        <?php esc_html_e('Pro Support', 'adc-marketing'); ?><span class="screen-reader-text"> <?php esc_html_e('(deschide adcelerum.ro într-un tab nou)', 'adc-marketing'); ?></span>
+                    </a>
+                </li>
             </ul>
 
             <?php if ('' !== $activeKey && count($groups[$activeKey]['tabs']) > 1) : ?>
@@ -780,6 +828,18 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
     private static function tab_url(string $slug): string
     {
         return add_query_arg(array('tab' => $slug), admin_url('admin.php?page=' . self::PAGE_SLUG));
+    }
+
+    /**
+     * External support/contact page (Adcelerum), opened in a new tab.
+     *
+     * @return string
+     */
+    public static function support_url(): string
+    {
+        return class_exists('ADC_Admin_Tab_Settings')
+            ? ADC_Admin_Tab_Settings::SUPPORT_URL
+            : 'https://adcelerum.ro/contact/';
     }
 
     /**

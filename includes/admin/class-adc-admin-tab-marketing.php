@@ -138,8 +138,8 @@ final class ADC_Admin_Tab_Marketing implements ADC_Admin_Tab_Interface
                    href="<?php echo esc_url($this->export_url('adc_export_non_consented_users')); ?>">
                     <?php esc_html_e('Exportă utilizatori care NU au consimțit', 'adc-marketing'); ?>
                 </a>
+                <span class="adc-inline-warning"><?php esc_html_e('Contactele fără consimțământ nu trebuie contactate.', 'adc-marketing'); ?></span>
             </p>
-            <p class="description"><?php esc_html_e('Fișierul CSV (email, telefon, prenume, nume) se descarcă direct în browserul dumneavoastră; primul buton listează contactele permise, al doilea pe cei care NU trebuie contactați.', 'adc-marketing'); ?></p>
         </div>
 
         <?php ADC_Admin_Help::section(

@@ -108,19 +108,30 @@ final class ADC_Integration_Ga4 implements ADC_Integration_Interface, ADC_Module
     {
         ADC_Settings::register_group(
             'ga4',
-            array(
-                'enabled_server'     => false,
-                'browser_mode'       => self::default_browser_mode(),
-                'measurement_id'     => '',
-                'api_secret'         => '',
-                'send_when_denied'   => false,
-                'debug'              => false,
-                'fallback_client_id' => false,
-                'endpoint_region'    => 'eu',     // D7: EU collection endpoint by default.
-                'purchase_channel'   => 'browser', // D6: one channel for purchase.
-            ),
+            self::defaults(),
             array(self::class, 'sanitize_settings'),
             array('api_secret')
+        );
+    }
+
+    /**
+     * Default values of the `ga4` group (single source for registration
+     * and the sanitizer merge).
+     *
+     * @return array<string, mixed>
+     */
+    public static function defaults(): array
+    {
+        return array(
+            'enabled_server'     => false,
+            'browser_mode'       => self::default_browser_mode(),
+            'measurement_id'     => '',
+            'api_secret'         => '',
+            'send_when_denied'   => false,
+            'debug'              => false,
+            'fallback_client_id' => false,
+            'endpoint_region'    => 'eu',     // D7: EU collection endpoint by default.
+            'purchase_channel'   => 'browser', // D6: one channel for purchase.
         );
     }
 
@@ -142,33 +153,56 @@ final class ADC_Integration_Ga4 implements ADC_Integration_Interface, ADC_Module
      * api_secret passes through raw; ADC_Settings::update seals it and
      * keeps the stored value on empty input.
      *
+     * Partial-write contract (2.6.1): a key ABSENT from $input keeps the
+     * stored value; an EXPLICIT empty/0/false from the form applies. The
+     * GA4 tab always sends a complete input.
+     *
      * @param array $input   Raw input.
      * @param array $current Current stored values.
      * @return array
      */
     public static function sanitize_settings(array $input, array $current): array
     {
-        $mode = (string) ($input['browser_mode'] ?? '');
+        $out = array_merge(self::defaults(), $current);
 
-        $mid = strtoupper(trim(sanitize_text_field((string) ($input['measurement_id'] ?? ''))));
-        if ('' !== $mid && 1 !== preg_match('/^G-[A-Z0-9]+$/', $mid)) {
-            $mid = ''; // Invalid measurement id: keep empty (the tab shows a warning).
+        if (array_key_exists('enabled_server', $input)) {
+            $out['enabled_server'] = !empty($input['enabled_server']);
         }
 
-        $region = (string) ($input['endpoint_region'] ?? '');
-        $channel = (string) ($input['purchase_channel'] ?? '');
+        if (array_key_exists('browser_mode', $input)) {
+            $mode = (string) $input['browser_mode'];
+            $out['browser_mode'] = in_array($mode, array('off', 'gtm', 'direct'), true) ? $mode : 'off';
+        }
 
-        return array(
-            'enabled_server'     => !empty($input['enabled_server']),
-            'browser_mode'       => in_array($mode, array('off', 'gtm', 'direct'), true) ? $mode : 'off',
-            'measurement_id'     => $mid,
-            'api_secret'         => trim((string) ($input['api_secret'] ?? '')),
-            'send_when_denied'   => !empty($input['send_when_denied']),
-            'debug'              => !empty($input['debug']),
-            'fallback_client_id' => !empty($input['fallback_client_id']),
-            'endpoint_region'    => in_array($region, array('eu', 'global'), true) ? $region : 'eu',
-            'purchase_channel'   => in_array($channel, array('browser', 'server'), true) ? $channel : 'browser',
-        );
+        if (array_key_exists('measurement_id', $input)) {
+            $mid = strtoupper(trim(sanitize_text_field((string) $input['measurement_id'])));
+            if ('' !== $mid && 1 !== preg_match('/^G-[A-Z0-9]+$/', $mid)) {
+                $mid = ''; // Invalid measurement id: keep empty (the tab shows a warning).
+            }
+            $out['measurement_id'] = $mid;
+        }
+
+        if (array_key_exists('api_secret', $input)) {
+            $out['api_secret'] = trim((string) $input['api_secret']);
+        }
+
+        foreach (array('send_when_denied', 'debug', 'fallback_client_id') as $flag) {
+            if (array_key_exists($flag, $input)) {
+                $out[$flag] = !empty($input[$flag]);
+            }
+        }
+
+        if (array_key_exists('endpoint_region', $input)) {
+            $region = (string) $input['endpoint_region'];
+            $out['endpoint_region'] = in_array($region, array('eu', 'global'), true) ? $region : 'eu';
+        }
+
+        if (array_key_exists('purchase_channel', $input)) {
+            $channel = (string) $input['purchase_channel'];
+            $out['purchase_channel'] = in_array($channel, array('browser', 'server'), true) ? $channel : 'browser';
+        }
+
+        return $out;
     }
 
     /**

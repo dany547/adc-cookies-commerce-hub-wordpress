@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ADC Marketing 2.2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-08 11:04+0000\n"
+"PO-Revision-Date: 2026-11-10 16:36+0000\n"
 "Last-Translator: ADC Marketing build\n"
 "Language-Team: English\n"
 "Language: en_GB\n"
@@ -8046,3 +8046,456 @@ msgstr "Smart: %s · %s · %s days · refresh %s"
 
 msgid "categorii: %s"
 msgstr "categories: %s"
+
+msgid "ADC eCOMM Hub"
+msgstr "ADC eCOMM Hub"
+
+msgid "Navigare %s"
+msgstr "Navigation %s"
+
+msgid "Pro Support"
+msgstr "Pro Support"
+
+msgid "(deschide adcelerum.ro într-un tab nou)"
+msgstr "(opens adcelerum.ro in a new tab)"
+
+msgid "Conflicte"
+msgstr "Conflicts"
+
+msgid "Ce rulează deja în site"
+msgstr "What is already running on the site"
+
+msgid "Detectarea citește lista de pluginuri active și HTML-ul primei pagini, apoi "
+"compară cu ce emite acest plugin. Nu modifică și nu dezactivează nimic "
+"automat."
+msgstr "The scan reads the active plugin list and the home page HTML, then compares "
+"them with what this plugin emits. Nothing is changed or deactivated "
+"automatically."
+
+msgid "Scanarea a fost reluată."
+msgstr "The scan has been restarted."
+
+msgid "Ultima scanare: %s."
+msgstr "Last scan: %s."
+
+msgid "Prima pagină nu a putut fi citită (%s), deci doar pluginurile active au "
+"fost verificate."
+msgstr "The home page could not be fetched (%s), so only active plugins were "
+"checked."
+
+msgid "HTML-ul primei pagini a fost verificat."
+msgstr "The home page HTML was checked."
+
+msgid "Rescanează"
+msgstr "Rescan"
+
+msgid "Suprapuneri detectate"
+msgstr "Detected overlaps"
+
+msgid "Fiecare rând arată ce s-a găsit și ce ai de făcut. Conflictele pot produce "
+"evenimente dublate sau etichete încărcate fără consimțământ."
+msgstr "Each row shows what was found and what to do about it. Conflicts can "
+"produce duplicated events or tags that load without consent."
+
+msgid "Nicio suprapunere detectată."
+msgstr "No overlaps detected."
+
+msgid "Găsit"
+msgstr "Found"
+
+msgid "Detaliu"
+msgstr "Detail"
+
+msgid "Ce faci:"
+msgstr "What to do:"
+
+msgid "Pluginuri recunoscute în site"
+msgstr "Recognised plugins on this site"
+
+msgid "Lista este construită din pluginurile active; „Altele” poate conține cod "
+"hardcodat în temă, care apare doar în scanarea paginii."
+msgstr "The list is built from active plugins; hardcoded theme code only shows up "
+"in the page scan."
+
+msgid "Niciun plugin de tracking sau consimțământ cunoscut nu este activ."
+msgstr "No known tracking or consent plugin is active."
+
+msgid "Limitare: scanarea paginii vede doar HTML-ul livrat de server. Etichetele "
+"injectate exclusiv din JavaScript, după încărcare, nu apar aici."
+msgstr "Limitation: the page scan only sees the HTML delivered by the server. Tags "
+"injected purely from JavaScript after load do not appear here."
+
+msgid "Conflict"
+msgstr "Conflict"
+
+msgid "Atenționare"
+msgstr "Warning"
+
+msgid "Fără suprapuneri"
+msgstr "No overlaps"
+
+msgid "conflicte"
+msgstr "conflicts"
+
+msgid "atenționări"
+msgstr "warnings"
+
+msgid "informative"
+msgstr "informational"
+
+msgid "banner de consimțământ"
+msgstr "consent banner"
+
+msgid "cod injectat"
+msgstr "injected code"
+
+msgid "necunoscut"
+msgstr "unknown"
+
+msgid "Detectare conflicte"
+msgstr "Conflict detection"
+
+msgid "Scanarea nu a rulat încă. Deschide tabul Conflicte pentru primul raport."
+msgstr "The scan has not run yet. Open the Conflicts tab for the first report."
+
+msgid "Deschide Conflicte"
+msgstr "Open Conflicts"
+
+msgid "Vezi raportul"
+msgstr "View the report"
+
+msgid "%1$d conflicte și %2$d atenționări detectate"
+msgstr "%1$d conflicts and %2$d warnings detected"
+
+msgid "ADC eCOMM Hub: pipeline de urmărire"
+msgstr "ADC eCOMM Hub: tracking pipeline"
+
+msgid "ADC eCOMM Hub: pipeline-ul de trimitere este operațional"
+msgstr "ADC eCOMM Hub: the delivery pipeline is operational"
+
+msgid "Setări"
+msgstr "Settings"
+
+msgid "Toate setările, într-un singur loc"
+msgstr "All settings in one place"
+
+msgid "Starea este calculată din valorile salvate. Deschide zona de care ai nevoie "
+"— fiecare tab își salvează propriile câmpuri."
+msgstr "The state is computed from the stored values. Open the area you need — each "
+"tab saves its own fields."
+
+msgid "Zonă"
+msgstr "Area"
+
+msgid "Deschide"
+msgstr "Open"
+
+msgid "Ajutor și suport"
+msgstr "Help and support"
+
+msgid "Pentru întrebări despre configurare sau integrări personalizate, scrie "
+"echipei Adcelerum."
+msgstr "For questions about configuration or custom integrations, write to the "
+"Adcelerum team."
+
+msgid "Deschide pagina de contact adcelerum.ro într-un tab nou."
+msgstr "Opens the adcelerum.ro contact page in a new tab."
+
+msgid "Fără comutator"
+msgstr "No switch"
+
+msgid "Configurare incompletă"
+msgstr "Incomplete configuration"
+
+msgid "Al doilea instrument de consimțământ este activ"
+msgstr "A second consent tool is active"
+
+msgid "%s gestionează deja bannerul și consimțământul în acest site. Cu bannerul "
+"propriu pornit rulează două CMP-uri: vizitatorul vede două bannere, iar "
+"etichetele depind de două stări de consimțământ care pot să nu fie "
+"sincronizate."
+msgstr "%s already handles the banner and consent on this site. With your own "
+"banner on, two CMPs run: the visitor sees two banners and tags depend on "
+"two consent states that may not be in sync."
+
+msgid "Păstrați un singur CMP: fie opriți bannerul propriu din tabul Banner, fie "
+"dezactivați celălalt plugin. Evenimentele trebuie să pornească dintr-o "
+"singură sursă de consimțământ."
+msgstr "Keep a single CMP: either turn off your own banner in the Banner tab or "
+"deactivate the other plugin. Events must start from one consent source."
+
+msgid "Alt instrument de consimțământ detectat"
+msgstr "Another consent tool detected"
+
+msgid "%s este activ, dar bannerul propriu este oprit — cele două nu se suprapun."
+msgstr "%s is active, but your own banner is off — the two do not overlap."
+
+msgid "Al doilea încărcător Google Tag Manager"
+msgstr "A second Google Tag Manager loader"
+
+msgid "%1$s poate încărca propriul container GTM, iar containerul propriu (%2$s) "
+"se încarcă în paralel. Rezultatul tipic: page_view și evenimentele de "
+"comerț numărate de două ori."
+msgstr "%1$s may load its own GTM container while your container (%2$s) loads in "
+"parallel. The usual result: page_view and commerce events counted twice."
+
+msgid "Alegeți o singură cale: lăsați containerul în grija pluginului propriu (și "
+"opriți încărcarea în celălalt plugin) sau goliți ID-ul containerului "
+"propriu și folosiți-l pe al lor."
+msgstr "Pick one path: let this plugin own the container (and stop the loader in "
+"the other plugin), or clear your container ID and use theirs."
+
+msgid "Alt instrument care încarcă GTM"
+msgstr "Another tool that loads GTM"
+
+msgid "%s este activ. Containerul propriu este oprit, deci nu există suprapunere."
+msgstr "%s is active. Your own container is off, so there is no overlap."
+
+msgid "Cod injectat manual detectat"
+msgstr "Manually injected code detected"
+
+msgid "%s permite adăugarea de cod în site. Verificați dacă fragmentele "
+"GTM/gtag/pixel sunt introduse și acolo, nu doar în acest plugin."
+msgstr "%s lets you add code to the site. Check whether GTM/gtag/pixel snippets are "
+"also added there, not only in this plugin."
+
+msgid "%s este trimis de două ori din browser"
+msgstr "%s is sent twice from the browser"
+
+msgid "%1$s trimite deja evenimente %2$s direct din browser, iar pluginul propriu "
+"este setat pe „direct” pentru %2$s. Aceleași conversii pot fi raportate de "
+"două ori."
+msgstr "%1$s already sends %2$s events directly from the browser, and this plugin "
+"is set to “direct” for %2$s. The same conversions can be reported twice."
+
+msgid "Puneți %s pe „prin GTM” (o singură etichetă în container) sau dezactivați-l "
+"dacă pixelul rămâne în grija celuilalt plugin."
+msgstr "Set %s to “via GTM” (one tag in the container) or turn it off if the other "
+"plugin keeps the pixel."
+
+msgid "%s poate fi raportat de două ori"
+msgstr "%s may be reported twice"
+
+msgid "%1$s este activ și încarcă %2$s. Dacă aceeași etichetă %2$s există și în "
+"containerul propriu, evenimentele se dublează."
+msgstr "%1$s is active and loads %2$s. If the same %2$s tag also exists in your "
+"container, events double."
+
+msgid "Verificați containerul GTM: păstrați o singură etichetă pentru platformă."
+msgstr "Check the GTM container: keep a single tag per platform."
+
+msgid "%s este gestionat de alt plugin"
+msgstr "%s is handled by another plugin"
+
+msgid "%1$s încarcă %2$s, iar pluginul propriu are %2$s oprit — nu se suprapune."
+msgstr "%1$s loads %2$s while this plugin has %2$s off — no overlap."
+
+msgid "Container GTM străin în pagină"
+msgstr "Foreign GTM container in the page"
+
+msgid "În HTML-ul primei pagini apar containere GTM pe care pluginul nu le "
+"cunoaște: %s. Ele înseamnă un snippet hardcodat în temă sau în alt plugin, "
+"care rulează în paralel cu containerul propriu."
+msgstr "The home page HTML contains GTM containers this plugin does not know about: "
+"%s. They mean a snippet hardcoded in the theme or in another plugin, "
+"running in parallel with your container."
+
+msgid "Scoateți snippet-ul din temă/plugin sau renunțați la containerul propriu, "
+"apoi rescanați."
+msgstr "Remove the snippet from the theme/plugin or drop your own container, then "
+"rescan."
+
+msgid "Containerul propriu se încarcă de două ori"
+msgstr "Your container loads twice"
+
+msgid "Păstrați un singur încărcător: opriți snippet-ul hardcodat sau încărcarea "
+"din celălalt plugin."
+msgstr "Keep a single loader: stop the hardcoded snippet or the loader in the other "
+"plugin."
+
+msgid "Containerul GTM se încarcă înainte de consimțământ"
+msgstr "The GTM container loads before consent"
+
+msgid "Modul „doar după consimțământ” este activ, dar containerul %s apare deja în "
+"HTML-ul paginii — semn de snippet hardcodat în temă sau în alt plugin. "
+"Etichetele pot porni fără consimțământ."
+msgstr "“Only after consent” mode is on, yet container %s already appears in the "
+"page HTML — a sign of a snippet hardcoded in the theme or another plugin. "
+"Tags may start without consent."
+
+msgid "Eliminați snippet-ul hardcodat; lăsați încărcarea exclusiv pluginului, după "
+"consimțământ."
+msgstr "Remove the hardcoded snippet; let this plugin load it, after consent only."
+
+msgid "Containerul propriu nu apare în pagină"
+msgstr "Your container does not appear in the page"
+
+msgid "Containerul %s este configurat, dar codul GTM nu apare în HTML-ul primei "
+"pagini. Verificați un cache/CDN sau o eroare de randare a temei."
+msgstr "Container %s is configured, but the GTM code is missing from the home page "
+"HTML. Check a cache/CDN or a theme rendering error."
+
+msgid "Goliți cache-ul site-ului și rescanați."
+msgstr "Clear the site cache and rescan."
+
+msgid "%s apare în pagină și prin altă cale"
+msgstr "%s also appears in the page through another path"
+
+msgid "Pagina încarcă %1$s (%2$s), iar pluginul propriu este setat pe „direct” "
+"pentru %1$s: același pixel este inițializat de două ori."
+msgstr "The page loads %1$s (%2$s) while this plugin is set to “direct” for %1$s: "
+"the same pixel is initialised twice."
+
+msgid "Păstrați o singură sursă pentru %s (pluginul propriu sau celălalt) și "
+"rescanați."
+msgstr "Keep a single source for %s (this plugin or the other one) and rescan."
+
+msgid "%s este încărcat de altundeva"
+msgstr "%s is loaded from somewhere else"
+
+msgid "Pagina conține inițializarea %1$s (%2$s) din altă sursă. Pluginul propriu "
+"are %1$s pe „%3$s” — verificați să nu rulați aceeași etichetă de două ori."
+msgstr "The page contains %1$s initialisation (%2$s) from another source. This "
+"plugin has %1$s set to “%3$s” — make sure the same tag does not run twice."
+
+msgid "oprit"
+msgstr "off"
+
+msgid "dataLayer este reinițializat"
+msgstr "dataLayer is re-initialised"
+
+msgid "Căutați `dataLayer = []` în snippet-urile altor pluginuri/temă și "
+"înlocuiți-l cu `window.dataLayer = window.dataLayer || []`."
+msgstr "Look for `dataLayer = []` in other plugin/theme snippets and replace it "
+"with `window.dataLayer = window.dataLayer || []`."
+
+msgid "Al doilea banner de consimțământ în pagină"
+msgstr "A second consent banner in the page"
+
+msgid "HTML-ul primei pagini conține cod de la %s, deci un al doilea banner "
+"rulează în browser, deși bannerul propriu este pornit."
+msgstr "The home page HTML contains code from %s, so a second banner runs in the "
+"browser even though your own banner is on."
+
+msgid "Păstrați un singur banner de consimțământ (vezi și tabul Banner)."
+msgstr "Keep a single consent banner (see also the Banner tab)."
+
+msgid "%d conflict de tracking cu alte pluginuri: evenimentele pot fi dublate. "
+"Verificați tabul Conflicte."
+msgid_plural "%d conflicte de tracking cu alte pluginuri: evenimentele pot fi dublate. "
+"Verificați tabul Conflicte."
+msgstr[0] "%d tracking conflict with other plugins: events may be duplicated. Check "
+"the Conflicts tab."
+msgstr[1] "%d tracking conflicts with other plugins: events may be duplicated. Check "
+"the Conflicts tab."
+
+msgid "Containerul %1$s apare de %2$d ori în HTML-ul paginii."
+msgid_plural "Containerul %1$s apare de %2$d ori în HTML-ul paginii."
+msgstr[0] "Container %1$s appears %2$d times in the page HTML."
+msgstr[1] "Container %1$s appears %2$d times in the page HTML."
+
+msgid "Pagina golește variabila dataLayer (%d reinițializare). Evenimentele "
+"trimise înainte de acel punct se pierd."
+msgid_plural "Pagina golește variabila dataLayer (%d reinițializări). Evenimentele "
+"trimise înainte de acel punct se pierd."
+msgstr[0] "The page resets the dataLayer variable (%d reset). Events pushed before "
+"that point are lost."
+msgstr[1] "The page resets the dataLayer variable (%d resets). Events pushed before "
+"that point are lost."
+
+msgid "Colectează statistici zilnice pentru fiecare produs."
+msgstr "Collects daily statistics for each product."
+
+msgid "Activarea nu obține consimțământul vizitatorului."
+msgstr "Enabling this does not obtain the visitor's consent."
+
+msgid "Pluginul numără vizualizările produselor, adăugările în coș, începuturile "
+"finalizării comenzii și achizițiile. Tabelul de statistici nu păstrează "
+"adrese IP sau identificatori ai vizitatorilor. Colectarea are loc numai "
+"când opțiunea este activă și vizitatorul a acceptat categoria de "
+"statistici. Pentru achiziții se folosește alegerea salvată la finalizarea "
+"comenzii. Agregatele pot fi folosite în dezvoltări viitoare ale Smart Feed."
+msgstr "The plugin counts product views, add-to-cart actions, checkout starts and "
+"purchases. The stats table keeps no visitor IP addresses or identifiers. "
+"Collection happens only when the option is on and the visitor has accepted "
+"the statistics category. For purchases it uses the choice saved at "
+"checkout. The aggregates may be used in future Smart Feed development."
+
+msgid "Un domeniu propriu poate permite folosirea unui transport first-party. "
+"Comportamentul cookie-urilor depinde de configurare și de browser; această "
+"opțiune nu garantează că ele vor fi acceptate."
+msgstr "A custom domain can enable first-party transport. Cookie behaviour depends "
+"on the configuration and the browser; this option does not guarantee that "
+"cookies will be accepted."
+
+msgid "Containerul server poate primi evenimente pe domeniul propriu."
+msgstr "The server container can receive events on the custom domain."
+
+msgid "Domeniul furnizorului nu oferă avantajele unui domeniu propriu."
+msgstr "The provider's domain does not offer the benefits of a custom domain."
+
+msgid "Adresa folosește un domeniu implicit al furnizorului, precum run.app. "
+"Pentru transport pe domeniul propriu, configurați un subdomeniu al "
+"site-ului și folosiți adresa sa aici."
+msgstr "The address uses a default provider domain such as run.app. For transport "
+"on your own domain, set up a subdomain of the site and use its address "
+"here."
+
+msgid "Ordinea vizuală este și ordinea din cod: tastatura și cititoarele de ecran "
+"parcurg butoanele în aceeași succesiune. Puteți redenumi «Personalizează» "
+"din câmpul de text."
+msgstr "The visual order is also the code order: the keyboard and screen readers go "
+"through the buttons in the same sequence. You can rename “Customise” from "
+"the text field."
+
+msgid "Alegeți ordinea butoanelor din banner."
+msgstr "Choose the order of the buttons in the banner."
+
+msgid "Scanarea din browser vede cookie-urile trackerelor numai dacă "
+"administratorul și-a dat consimțământul pe site. Scanarea săptămânală în "
+"fundal vede doar cookie-urile setate de server."
+msgstr "The browser scan sees tracker cookies only if the administrator gave "
+"consent on the site. The weekly background scan sees only cookies set by "
+"the server."
+
+msgid "Scanare cookie-uri"
+msgstr "Cookie scan"
+
+msgid "Scanarea în browser depinde de consimțământul administratorului."
+msgstr "The browser scan depends on the administrator's consent."
+
+msgid "Contactele fără consimțământ nu trebuie contactate."
+msgstr "Contacts without consent must not be contacted."
+
+msgid "Limited Data Use este destinat unor cerințe de confidențialitate din "
+"Statele Unite și nu este folosit aici. Pluginul verifică alegerea "
+"vizitatorului înainte de trimitere."
+msgstr "Limited Data Use targets certain United States privacy requirements and is "
+"not used here. The plugin checks the visitor's choice before sending."
+
+msgid "Evenimentele sunt trimise numai cu consimțământul necesar."
+msgstr "Events are sent only with the necessary consent."
+
+msgid "Pentru comenzile eligibile, client_id provine din cookie-ul _ga capturat la "
+"finalizarea comenzii."
+msgstr "For eligible orders, client_id comes from the _ga cookie captured at "
+"checkout."
+
+msgid "Transportul prin containerul server se configurează în Google Tag Manager."
+msgstr "Transport through the server container is configured in Google Tag Manager."
+
+msgid "Identificatorul GA4 este folosit numai cu acordul pentru statistici."
+msgstr "The GA4 identifier is used only with consent for statistics."
+
+msgid "Consimțământ"
+msgstr "Consent"
+
+msgid "Toate zonele de setări ale pluginului, cu starea fiecăreia dintr-o privire."
+msgstr "All the plugin's settings areas, with each one's status at a glance."
+
+msgid "Verifică dacă alte pluginuri sau tema încarcă aceleași etichete de "
+"tracking."
+msgstr "Checks whether other plugins or the theme load the same tracking tags."
+
+msgid "Detectorul de conflicte nu este disponibil în această instalare."
+msgstr "The conflict detector is not available in this installation."

@@ -149,6 +149,7 @@ final class ADC_Admin_Tab_Analytics implements ADC_Admin_Tab_Interface {
 			'opt_exclusions'        => $this->help_analytics_exclusions(),
 			'opt_min_cell'          => $this->help_analytics_min_cell(),
 			'internal_notes'        => $this->help_analytics_internal_notes(),
+			'product_stats'         => '<p>' . esc_html__( 'Pluginul numără vizualizările produselor, adăugările în coș, începuturile finalizării comenzii și achizițiile. Tabelul de statistici nu păstrează adrese IP sau identificatori ai vizitatorilor. Colectarea are loc numai când opțiunea este activă și vizitatorul a acceptat categoria de statistici. Pentru achiziții se folosește alegerea salvată la finalizarea comenzii. Agregatele pot fi folosite în dezvoltări viitoare ale Smart Feed.', 'adc-marketing' ) . '</p>',
 			'section_unavailable'   => $this->help_analytics_unavailable(),
 			'blocked_utm'           => $this->help_analytics_utm(),
 			'blocked_add_to_cart'   => $this->help_analytics_add_to_cart(),

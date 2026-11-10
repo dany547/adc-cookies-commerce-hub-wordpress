@@ -485,6 +485,15 @@
     margin-inline: 0;
 }
 
+/* Short semantic warning tied to the control or data row it affects: 8px top
+   gap, palette warning ink (never a one-off colour). */
+.adc-admin-shell .adc-inline-warning {
+    display: block;
+    margin-block: var(--adc-space-1, 8px) 0;
+    color: var(--adc-warning, #7a5311);
+    font-weight: 600;
+}
+
 /* ---------- Sticky save bar ---------- */
 /* Bleeds the shell padding AND #wpcontent padding-left so it reads as a
    full-width action bar of the admin window on every width, including mobile. */

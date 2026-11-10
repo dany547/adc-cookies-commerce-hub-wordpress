@@ -436,8 +436,8 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
                 <?php endforeach; ?>
             </fieldset>
 
-            <h3><?php esc_html_e('Ordinea butoanelor', 'adc-marketing'); ?></h3>
-            <p class="description"><?php esc_html_e('Cum se așază și în ce ordine apar cele trei butoane — ordinea vizuală este și ordinea din cod (tastatură, cititoare de ecran).', 'adc-marketing'); ?></p>
+            <h3><?php esc_html_e('Ordinea butoanelor', 'adc-marketing'); ?> <?php echo ADC_Admin_Help::icon('adc-help-banner-button-order', __('Ordinea butoanelor', 'adc-marketing'), '<p>' . esc_html__('Ordinea vizuală este și ordinea din cod: tastatura și cititoarele de ecran parcurg butoanele în aceeași succesiune. Puteți redenumi «Personalizează» din câmpul de text.', 'adc-marketing') . '</p>'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- helper escapes its own output. ?></h3>
+            <p class="description"><?php esc_html_e('Alegeți ordinea butoanelor din banner.', 'adc-marketing'); ?></p>
             <table class="form-table" role="presentation"><tbody>
                 <tr>
                     <th scope="row"><label for="adc-banner-button-order"><?php esc_html_e('Ordinea butoanelor', 'adc-marketing'); ?></label></th>
@@ -447,7 +447,6 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
                                 <option value="<?php echo esc_attr($slug); ?>" data-order="<?php echo esc_attr(implode(' ', (array) $definition['actions'])); ?>" <?php selected(self::stored_button_order($banner), $slug); ?>><?php echo esc_html((string) $definition['label']); ?></option>
                             <?php endforeach; ?>
                         </select>
-                        <p class="description"><?php esc_html_e('Ordinea aleasă este și ordinea din codul HTML, deci Tab-ul și cititorul de ecran parcurg butoanele exact cum le vede vizitatorul. Butonul „Personalizează” poate fi redenumit în „Setări” din câmpul de mai sus.', 'adc-marketing'); ?></p>
                     </td>
                 </tr>
             </tbody></table>

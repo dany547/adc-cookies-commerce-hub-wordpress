@@ -1,6 +1,6 @@
 <?php
 /**
- * WP left menu: "Adcelerum Commerce Hub" top-level page + one submenu per nav
+ * WP left menu: "ADC eCOMM Hub" top-level page + one submenu per nav
  * group, each linking to the group's first tab, and the parent_file /
  * submenu_file filters highlight the submenu that owns the open tab.
  *
@@ -62,13 +62,13 @@ ADC_Admin_Shell::boot();
 ADC_Admin_Shell::register_menu();
 
 $menu = $GLOBALS['adc_menu'][0] ?? array();
-check(($menu['menu_title'] ?? '') === 'Adcelerum Commerce Hub', 'top-level menu title is "Adcelerum Commerce Hub"');
-check(($menu['page_title'] ?? '') === 'Adcelerum Commerce Hub', 'top-level page title is "Adcelerum Commerce Hub"');
+check(($menu['menu_title'] ?? '') === 'ADC eCOMM Hub', 'top-level menu title is "ADC eCOMM Hub"');
+check(($menu['page_title'] ?? '') === 'ADC eCOMM Hub', 'top-level page title is "ADC eCOMM Hub"');
 check(($menu['slug'] ?? '') === 'adc-marketing', 'top-level page slug stays adc-marketing');
 
 $expected = array(
     'Prezentare generală' => array('adc-marketing', 'dashboard'),
-    'Cookies'             => array('admin.php?page=adc-marketing&tab=banner', 'banner'),
+    'Consimțământ'        => array('admin.php?page=adc-marketing&tab=banner', 'banner'),
     'Măsurare'            => array(null, null), // first tab depends on which measurement tabs exist
     'Platforme'           => array('admin.php?page=adc-marketing&tab=platforms', 'platforms'),
     'Catalog'             => array('admin.php?page=adc-marketing&tab=feeds', 'feeds'),
@@ -81,7 +81,7 @@ check(array_column($subs, 'menu_title') === array_keys($expected), 'submenu labe
 
 foreach ($subs as $i => $sub) {
     check($sub['parent'] === 'adc-marketing' && $sub['cap'] === 'manage_options', $sub['menu_title'] . ': parent adc-marketing, cap manage_options');
-    check($sub['page_title'] === 'Adcelerum Commerce Hub', $sub['menu_title'] . ': page title is the plugin name');
+    check($sub['page_title'] === 'ADC eCOMM Hub', $sub['menu_title'] . ': page title is the plugin name');
     [$slug] = $expected[$sub['menu_title']] ?? array(null);
     if (null !== $slug) {
         check($sub['slug'] === $slug, $sub['menu_title'] . ': links to ' . $slug);
@@ -93,6 +93,40 @@ foreach ($subs as $i => $sub) {
     }
 }
 
+// Navigation membership after the IA regrouping (design review F6): GTM sits
+// with the platforms it configures; the group keys and slugs are unchanged.
+$groups = ADC_Admin_Shell::nav_groups();
+check(array_keys($groups) === array('dashboard', 'consent', 'measurement', 'integrations', 'catalog', 'logs'), 'nav group keys and order unchanged: ' . implode(' / ', array_keys($groups)));
+check(in_array('gtm', $groups['integrations']['tabs'], true), 'gtm belongs to the Platforme (integrations) group');
+check(!in_array('gtm', $groups['measurement']['tabs'], true), 'gtm is no longer under Măsurare');
+check($groups['measurement']['tabs'] === array_values(array_intersect(array('analytics', 'events', 'matching'), $groups['measurement']['tabs'])), 'Măsurare keeps only the measurement tabs');
+check($groups['consent']['tabs'] === array('banner', 'cookies', 'marketing'), 'Consimțământ group keeps banner / cookies / marketing');
+
+// "Altele" fallback: any registered but unclaimed slug is collected, with one
+// or many tabs (the sub-nav itself only renders for >1, per render_nav()).
+$tabs_prop = (new ReflectionClass(ADC_Admin_Shell::class))->getProperty('tabs');
+$tabs_prop->setAccessible(true);
+$original_tabs = $tabs_prop->getValue();
+$fake_tab = static fn (string $slug): ADC_Admin_Tab_Interface => new class($slug) implements ADC_Admin_Tab_Interface {
+    public function __construct(private string $name) {}
+    public function slug(): string { return $this->name; }
+    public function label(): string { return strtoupper($this->name); }
+    public function group(): string { return ''; }
+    public function order(): int { return 999; }
+    public function render(): void {}
+    public function save(array $post): array { return array(); }
+};
+$tabs = $original_tabs;
+$tabs['zz-ext-one'] = $fake_tab('zz-ext-one');
+$tabs_prop->setValue(null, $tabs);
+$groups = ADC_Admin_Shell::nav_groups();
+check(isset($groups['others']) && $groups['others']['tabs'] === array('zz-ext-one') && 'Altele' === $groups['others']['label'], 'single unclaimed tab lands in the Altele group');
+$tabs['zz-ext-two'] = $fake_tab('zz-ext-two');
+$tabs_prop->setValue(null, $tabs);
+$groups = ADC_Admin_Shell::nav_groups();
+check(isset($groups['others']) && count($groups['others']['tabs']) === 2, 'multiple unclaimed tabs all land in the Altele group');
+$tabs_prop->setValue(null, $original_tabs);
+
 // Every tab's slug must keep its URL and highlight exactly its group's submenu.
 $entries = ADC_Admin_Shell::menu_entries();
 $tab_to_sub = array();
@@ -101,22 +135,25 @@ foreach ($entries as $entry) {
         $tab_to_sub[$tab_slug] = $entry['slug'];
     }
 }
-check(isset($tab_to_sub['dashboard'], $tab_to_sub['banner'], $tab_to_sub['cookies'], $tab_to_sub['marketing'], $tab_to_sub['gtm'], $tab_to_sub['events'], $tab_to_sub['matching'], $tab_to_sub['platforms'], $tab_to_sub['meta'], $tab_to_sub['ga4'], $tab_to_sub['tiktok'], $tab_to_sub['feeds'], $tab_to_sub['logs']), 'all known tab slugs are reachable from a submenu group');
+check(isset($tab_to_sub['dashboard'], $tab_to_sub['settings'], $tab_to_sub['banner'], $tab_to_sub['cookies'], $tab_to_sub['marketing'], $tab_to_sub['gtm'], $tab_to_sub['events'], $tab_to_sub['matching'], $tab_to_sub['platforms'], $tab_to_sub['meta'], $tab_to_sub['ga4'], $tab_to_sub['tiktok'], $tab_to_sub['feeds'], $tab_to_sub['logs'], $tab_to_sub['conflicts']), 'all known tab slugs are reachable from a submenu group');
 
 $group_of = array(
     'dashboard' => 'adc-marketing',
+    'settings' => 'adc-marketing',
     'banner' => 'admin.php?page=adc-marketing&tab=banner',
     'cookies' => 'admin.php?page=adc-marketing&tab=banner',
     'marketing' => 'admin.php?page=adc-marketing&tab=banner',
     'platforms' => 'admin.php?page=adc-marketing&tab=platforms',
+    'gtm' => 'admin.php?page=adc-marketing&tab=platforms',
     'meta' => 'admin.php?page=adc-marketing&tab=platforms',
     'ga4' => 'admin.php?page=adc-marketing&tab=platforms',
     'tiktok' => 'admin.php?page=adc-marketing&tab=platforms',
     'feeds' => 'admin.php?page=adc-marketing&tab=feeds',
     'logs' => 'admin.php?page=adc-marketing&tab=logs',
+    'conflicts' => 'admin.php?page=adc-marketing&tab=logs',
 );
 $measurement = $entries[2]['slug'] ?? '';
-foreach (array('analytics', 'gtm', 'events', 'matching') as $m) {
+foreach (array('analytics', 'events', 'matching') as $m) {
     if (isset($tab_to_sub[$m])) {
         $group_of[$m] = $measurement;
     }

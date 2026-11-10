@@ -100,15 +100,26 @@ final class ADC_Gtm implements ADC_Module_Interface
             $out['web_enabled'] = filter_var($input['web_enabled'], FILTER_VALIDATE_BOOLEAN);
         }
 
-        $id = strtoupper(trim(sanitize_text_field((string) ($input['container_id'] ?? ''))));
-        if ('' === $id || 1 === preg_match('/^GTM-[A-Z0-9]+$/', $id)) {
-            $out['container_id'] = $id;
-        } // Invalid input keeps the stored value (the admin tab adds a warning notice).
+        // Container id: an absent key keeps the stored value (partial writers
+        // such as the legacy `server_container_url` cleanup must never wipe it),
+        // an explicit empty string clears it, invalid input keeps the stored
+        // value (the admin tab adds a warning notice).
+        // Scalar-only guard: a crafted POST must never cast an array to the
+        // literal string "Array" (or raise an Array-to-string warning); a
+        // non-scalar value is treated like an absent key (stored value kept).
+        if (array_key_exists('container_id', $input) && is_scalar($input['container_id'])) {
+            $id = strtoupper(trim(sanitize_text_field((string) $input['container_id'])));
+            if ('' === $id || 1 === preg_match('/^GTM-[A-Z0-9]+$/', $id)) {
+                $out['container_id'] = $id;
+            }
+        }
 
-        $mode = sanitize_key((string) ($input['mode'] ?? ''));
-        $out['mode'] = in_array($mode, array(self::MODE_ALWAYS, self::MODE_AFTER), true)
-            ? $mode
-            : self::MODE_AFTER;
+        if (array_key_exists('mode', $input)) {
+            $mode = sanitize_key((string) $input['mode']);
+            $out['mode'] = in_array($mode, array(self::MODE_ALWAYS, self::MODE_AFTER), true)
+                ? $mode
+                : self::MODE_AFTER;
+        }
 
         // Legacy field: the server URL now lives in the `sgtm` group. Only an
         // explicit key is honoured, so saving the Events tab never clears it.
@@ -121,13 +132,22 @@ final class ADC_Gtm implements ADC_Module_Interface
             }
         }
 
-        $datalayer = sanitize_text_field((string) ($input['datalayer_name'] ?? ''));
-        $out['datalayer_name'] = 1 === preg_match('/^[A-Za-z_][A-Za-z0-9_]*$/', $datalayer)
-            ? $datalayer
-            : 'dataLayer';
+        // Remaining keys follow the same rule: absent = keep stored, present =
+        // typed/validated (invalid falls back to the documented default).
+        if (array_key_exists('datalayer_name', $input)) {
+            $datalayer = sanitize_text_field((string) $input['datalayer_name']);
+            $out['datalayer_name'] = 1 === preg_match('/^[A-Za-z_][A-Za-z0-9_]*$/', $datalayer)
+                ? $datalayer
+                : 'dataLayer';
+        }
 
-        $out['env_auth']    = sanitize_text_field((string) ($input['env_auth'] ?? ''));
-        $out['env_preview'] = sanitize_text_field((string) ($input['env_preview'] ?? ''));
+        if (array_key_exists('env_auth', $input) && is_scalar($input['env_auth'])) {
+            $out['env_auth'] = sanitize_text_field((string) $input['env_auth']);
+        }
+
+        if (array_key_exists('env_preview', $input) && is_scalar($input['env_preview'])) {
+            $out['env_preview'] = sanitize_text_field((string) $input['env_preview']);
+        }
 
         return $out;
     }

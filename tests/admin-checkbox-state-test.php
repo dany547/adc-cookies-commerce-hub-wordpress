@@ -50,6 +50,7 @@ function esc_attr(string $text): string { return htmlspecialchars($text, ENT_QUO
 function esc_textarea(string $text): string { return htmlspecialchars($text, ENT_QUOTES); }
 function wp_unslash($value) { return $value; }
 function admin_url(string $path = ''): string { return 'http://example.test/wp-admin/' . $path; }
+function esc_url(string $url): string { return htmlspecialchars($url, ENT_QUOTES); }
 function current_user_can(string $cap): bool { return true; }
 function wp_create_nonce(string $action = ''): string { return 'nonce'; }
 function wp_json_encode($value, int $flags = 0): string|false { return json_encode($value, $flags); }
@@ -143,6 +144,12 @@ final class ADC_Integration_Sgtm
     {
         return '';
     }
+}
+
+/** Minimal shell double: only the page slug constant the tabs reference when building internal links. */
+final class ADC_Admin_Shell
+{
+    public const PAGE_SLUG = 'adc-marketing';
 }
 
 require ADC_MARKETING_PLUGIN_DIR . 'includes/admin/trait-adc-admin-help-content.php';

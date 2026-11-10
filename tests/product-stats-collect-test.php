@@ -278,7 +278,21 @@ check_collect(str_contains(ADC_Product_Stats::privacy_policy_text(), '90 zile'),
 ADC_Product_Stats::register_privacy_policy_content();
 check_collect(count($GLOBALS['privacy_policy_content']) === 1 && str_contains($GLOBALS['privacy_policy_content'][0][1], '90 zile'), 'WordPress privacy policy content is registered with current retention');
 $analytics_template = file_get_contents(__DIR__ . '/../templates/admin/analytics-dashboard.php');
+$analytics_help   = file_get_contents(__DIR__ . '/../includes/admin/class-adc-admin-tab-analytics.php');
 check_collect(is_string($analytics_template) && str_contains($analytics_template, 'name="product_stats[enabled]"') && str_contains($analytics_template, 'name="product_stats[retention_days]"'), 'product stats setting controls are rendered in analytics tab');
-check_collect(str_contains($analytics_template, 'readonly') && str_contains($analytics_template, 'data-adc-copy="#adc-product-stats-privacy-copy"') && str_contains($analytics_template, 'nu înlocuiește și nu obține consimțământul'), 'privacy text is read-only, copyable, and warns consent is still required');
-check_collect(str_contains($analytics_template, 'pot fi folosite în viitor') && !str_contains($analytics_template, 'folosim aceste agregate pentru Smart Feed'), 'UI describes Smart Feed and rankings as possible future uses');
+// Design fix: the long privacy paragraph was replaced by a short intro + help modal. The template
+// must keep the readonly copyable textarea and an explicit consent warning next to the switch;
+// the no-IP statement now lives in the help body rendered by the analytics tab class.
+check_collect(
+	is_string($analytics_template)
+	&& str_contains($analytics_template, 'readonly')
+	&& str_contains($analytics_template, 'data-adc-copy="#adc-product-stats-privacy-copy"')
+	&& str_contains($analytics_template, 'Activarea nu obține consimțământul vizitatorului.')
+	&& is_string($analytics_help)
+	&& str_contains($analytics_help, 'nu păstrează adrese IP'),
+	'privacy text is read-only, copyable, warns consent is still required, and the help body states no IPs are kept'
+);
+// Same design fix: the "possible future use" sentence moved into the help modal body; the old
+// first-person phrasing must be gone from both files.
+check_collect(str_contains($analytics_help, 'pot fi folosite în dezvoltări viitoare ale Smart Feed') && !str_contains($analytics_template, 'folosim aceste agregate pentru Smart Feed') && !str_contains($analytics_help, 'folosim aceste agregate pentru Smart Feed'), 'UI describes Smart Feed and rankings as possible future uses');
 echo "product-stats-collect-test: PASS\n";

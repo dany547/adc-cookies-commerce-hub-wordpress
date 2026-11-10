@@ -49,19 +49,30 @@ final class ADC_Integration_Sgtm implements ADC_Integration_Interface, ADC_Modul
     }
 
     /**
+     * Default values of the `sgtm` group (single source for registration
+     * and the sanitizer merge).
+     *
+     * @return array<string, mixed>
+     */
+    public static function defaults(): array
+    {
+        return array(
+            'enabled'              => false,
+            'server_container_url' => '',
+            'mode'                 => 'loader', // loader | mp_forward (experimental).
+            'api_secret'           => '',
+            'measurement_id'       => '',
+        );
+    }
+
+    /**
      * Register the `sgtm` settings group (§4; api_secret sealed at rest).
      */
     public static function register_settings(): void
     {
         ADC_Settings::register_group(
             'sgtm',
-            array(
-                'enabled'              => false,
-                'server_container_url' => '',
-                'mode'                 => 'loader', // loader | mp_forward (experimental).
-                'api_secret'           => '',
-                'measurement_id'       => '',
-            ),
+            self::defaults(),
             array(self::class, 'sanitize_settings'),
             array('api_secret')
         );
@@ -86,35 +97,51 @@ final class ADC_Integration_Sgtm implements ADC_Integration_Interface, ADC_Modul
      * normalisation beyond trailing-slash trimming. api_secret passes
      * through raw; ADC_Settings::update seals it.
      *
+     * Partial-write contract (2.6.1): a key ABSENT from $input keeps the
+     * stored value; an EXPLICIT empty/0/false from the form applies. Only
+     * the unified GTM tab writes this group today, and it always sends a
+     * complete input.
+     *
      * @param array $input   Raw input.
      * @param array $current Current stored values.
      * @return array
      */
     public static function sanitize_settings(array $input, array $current): array
     {
-        $url = esc_url_raw(trim((string) ($input['server_container_url'] ?? '')));
-        if ('' === $url) {
-            $url = '';
-        } elseif (!self::is_valid_https_url($url)) {
-            $url = (string) ($current['server_container_url'] ?? ''); // Invalid input keeps the stored value.
-        } else {
-            $url = rtrim($url, '/');
+        $out = array_merge(self::defaults(), $current);
+
+        if (array_key_exists('enabled', $input)) {
+            $out['enabled'] = !empty($input['enabled']);
         }
 
-        $mode = (string) ($input['mode'] ?? '');
-
-        $mid = strtoupper(trim(sanitize_text_field((string) ($input['measurement_id'] ?? ''))));
-        if ('' !== $mid && 1 !== preg_match('/^G-[A-Z0-9]+$/', $mid)) {
-            $mid = ''; // Falls back to ga4.measurement_id.
+        if (array_key_exists('server_container_url', $input)) {
+            $url = esc_url_raw(trim((string) $input['server_container_url']));
+            if ('' === $url) {
+                $out['server_container_url'] = ''; // Explicit empty clears.
+            } elseif (self::is_valid_https_url($url)) {
+                $out['server_container_url'] = rtrim($url, '/');
+            }
+            // Invalid input keeps the stored value.
         }
 
-        return array(
-            'enabled'              => !empty($input['enabled']),
-            'server_container_url' => $url,
-            'mode'                 => in_array($mode, array('loader', 'mp_forward'), true) ? $mode : 'loader',
-            'api_secret'           => trim((string) ($input['api_secret'] ?? '')),
-            'measurement_id'       => $mid,
-        );
+        if (array_key_exists('mode', $input)) {
+            $mode = (string) $input['mode'];
+            $out['mode'] = in_array($mode, array('loader', 'mp_forward'), true) ? $mode : 'loader';
+        }
+
+        if (array_key_exists('api_secret', $input)) {
+            $out['api_secret'] = trim((string) $input['api_secret']);
+        }
+
+        if (array_key_exists('measurement_id', $input)) {
+            $mid = strtoupper(trim(sanitize_text_field((string) $input['measurement_id'])));
+            if ('' !== $mid && 1 !== preg_match('/^G-[A-Z0-9]+$/', $mid)) {
+                $mid = ''; // Invalid measurement id: clear (falls back to ga4.measurement_id).
+            }
+            $out['measurement_id'] = $mid;
+        }
+
+        return $out;
     }
 
     /**

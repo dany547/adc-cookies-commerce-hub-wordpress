@@ -68,19 +68,31 @@ final class ADC_Integration_Tiktok implements ADC_Integration_Interface, ADC_Mod
     }
 
     /**
+     * Default values of the `tiktok` group (single source for registration
+     * and the sanitizer merge). The browser_mode default depends on whether
+     * a GTM container is configured.
+     *
+     * @return array<string, mixed>
+     */
+    public static function defaults(): array
+    {
+        return array(
+            'enabled_server'  => false,
+            'browser_mode'    => (class_exists('ADC_Gtm') ? ADC_Gtm::container_id() : (string) ADC_Settings::get('gtm', 'container_id', '')) !== '' ? 'gtm' : 'off',
+            'pixel_code'      => '',
+            'access_token'    => '',
+            'test_event_code' => '',
+        );
+    }
+
+    /**
      * Register the `tiktok` settings group (§4; access_token sealed at rest).
      */
     public static function register_settings(): void
     {
         ADC_Settings::register_group(
             'tiktok',
-            array(
-                'enabled_server'  => false,
-                'browser_mode'    => (class_exists('ADC_Gtm') ? ADC_Gtm::container_id() : (string) ADC_Settings::get('gtm', 'container_id', '')) !== '' ? 'gtm' : 'off',
-                'pixel_code'      => '',
-                'access_token'    => '',
-                'test_event_code' => '',
-            ),
+            self::defaults(),
             array(self::class, 'sanitize_settings'),
             array('access_token')
         );
@@ -102,23 +114,42 @@ final class ADC_Integration_Tiktok implements ADC_Integration_Interface, ADC_Mod
     /**
      * Sanitizer: fn(array $input, array $current): array (complete, typed).
      *
+     * Partial-write contract (2.6.1): a key ABSENT from $input keeps the
+     * stored value; an EXPLICIT empty/0/false from the form applies. The
+     * TikTok tab always sends a complete input.
+     *
      * @param array $input   Raw input.
      * @param array $current Current stored values.
      * @return array
      */
     public static function sanitize_settings(array $input, array $current): array
     {
-        $mode  = (string) ($input['browser_mode'] ?? '');
-        $pixel = preg_replace('/[^0-9A-Za-z]/', '', (string) ($input['pixel_code'] ?? '')) ?? '';
-        $test  = preg_replace('/[^0-9A-Za-z]/', '', (string) ($input['test_event_code'] ?? '')) ?? '';
+        $out = array_merge(self::defaults(), $current);
 
-        return array(
-            'enabled_server'  => !empty($input['enabled_server']),
-            'browser_mode'    => in_array($mode, array('off', 'gtm', 'direct'), true) ? $mode : 'off',
-            'pixel_code'      => substr($pixel, 0, 40),
-            'access_token'    => trim((string) ($input['access_token'] ?? '')),
-            'test_event_code' => substr($test, 0, 40),
-        );
+        if (array_key_exists('enabled_server', $input)) {
+            $out['enabled_server'] = !empty($input['enabled_server']);
+        }
+
+        if (array_key_exists('browser_mode', $input)) {
+            $mode = (string) $input['browser_mode'];
+            $out['browser_mode'] = in_array($mode, array('off', 'gtm', 'direct'), true) ? $mode : 'off';
+        }
+
+        if (array_key_exists('pixel_code', $input)) {
+            $pixel = preg_replace('/[^0-9A-Za-z]/', '', (string) $input['pixel_code']) ?? '';
+            $out['pixel_code'] = substr($pixel, 0, 40);
+        }
+
+        if (array_key_exists('access_token', $input)) {
+            $out['access_token'] = trim((string) $input['access_token']);
+        }
+
+        if (array_key_exists('test_event_code', $input)) {
+            $test = preg_replace('/[^0-9A-Za-z]/', '', (string) $input['test_event_code']) ?? '';
+            $out['test_event_code'] = substr($test, 0, 40);
+        }
+
+        return $out;
     }
 
     /**

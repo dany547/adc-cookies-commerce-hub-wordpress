@@ -121,17 +121,16 @@ final class ADC_Event_Hooks implements ADC_Module_Interface
     }
 
     /**
-     * Sanitise a full events-group input (complete typed array returned).
+     * The toggleable event switches (§2.4): key => default state.
      *
-     * @param array $input   Raw input.
-     * @param array $current Currently stored values.
-     * @return array<string, mixed>
+     * Canonical list shared by the sanitizer and the Events tab (which
+     * normalises the raw checkbox POST into explicit booleans).
+     *
+     * @return string[]
      */
-    public static function sanitize_events(array $input, array $current): array
+    public static function switch_keys(): array
     {
-        $out = array_merge(self::defaults(), $current);
-
-        $booleans = array(
+        return array(
             'view_item_list',
             'select_item',
             'view_item',
@@ -149,53 +148,88 @@ final class ADC_Event_Hooks implements ADC_Module_Interface
             'generate_lead',
             'server_page_view',
         );
+    }
+
+    /**
+     * Sanitise a full events-group input (complete typed array returned).
+     *
+     * Partial-write contract (2.6.1): a key ABSENT from $input keeps the
+     * stored value; an EXPLICIT empty/0/false from the form applies. The
+     * Events tab normalises every checkbox into a complete input, so the
+     * form behaviour (unchecked = off, empty role list = cleared) is
+     * unchanged; only latent partial writers are protected.
+     *
+     * @param array $input   Raw input.
+     * @param array $current Currently stored values.
+     * @return array<string, mixed>
+     */
+    public static function sanitize_events(array $input, array $current): array
+    {
+        $out = array_merge(self::defaults(), $current);
+
+        $booleans = self::switch_keys();
         foreach ($booleans as $key) {
-            $out[$key] = !empty($input[$key]);
-        }
-
-        $source = (string) ($input['item_id_source'] ?? 'id');
-        $out['item_id_source'] = in_array($source, array('id', 'sku', 'gla'), true) ? $source : 'id';
-
-        $mode = (string) ($input['value_mode'] ?? 'excl_tax_excl_shipping');
-        $out['value_mode'] = in_array($mode, array('excl_tax_excl_shipping', 'incl_tax'), true)
-            ? $mode
-            : 'excl_tax_excl_shipping';
-
-        $known_statuses = function_exists('wc_get_order_statuses') ? wc_get_order_statuses() : array();
-        $statuses       = isset($input['purchase_statuses']) && is_array($input['purchase_statuses'])
-            ? $input['purchase_statuses']
-            : array();
-        $clean          = array();
-        foreach ($statuses as $status) {
-            $status = sanitize_key((string) $status);
-            if ('' !== $status && (empty($known_statuses) || isset($known_statuses['wc-' . $status]))) {
-                $clean[] = $status;
+            if (array_key_exists($key, $input)) {
+                $out[$key] = !empty($input[$key]);
             }
         }
-        if (!empty($clean)) {
-            $out['purchase_statuses'] = array_values(array_unique($clean));
+
+        if (array_key_exists('item_id_source', $input)) {
+            $source = (string) $input['item_id_source'];
+            $out['item_id_source'] = in_array($source, array('id', 'sku', 'gla'), true) ? $source : 'id';
         }
 
-        $out['server_delay_seconds'] = max(0, min(600, (int) ($input['server_delay_seconds'] ?? 60)));
+        if (array_key_exists('value_mode', $input)) {
+            $mode = (string) $input['value_mode'];
+            $out['value_mode'] = in_array($mode, array('excl_tax_excl_shipping', 'incl_tax'), true)
+                ? $mode
+                : 'excl_tax_excl_shipping';
+        }
 
-        $role_names = function_exists('wp_roles') ? wp_roles()->get_names() : array();
-        $roles      = isset($input['exclude_roles']) && is_array($input['exclude_roles'])
-            ? $input['exclude_roles']
-            : array();
-        $clean      = array();
-        foreach ($roles as $role) {
-            $role = sanitize_key((string) $role);
-            if ('' !== $role && (empty($role_names) || isset($role_names[$role]))) {
-                $clean[] = $role;
+        if (array_key_exists('purchase_statuses', $input)) {
+            $known_statuses = function_exists('wc_get_order_statuses') ? wc_get_order_statuses() : array();
+            $statuses       = is_array($input['purchase_statuses']) ? $input['purchase_statuses'] : array();
+            $clean          = array();
+            foreach ($statuses as $status) {
+                $status = sanitize_key((string) $status);
+                if ('' !== $status && (empty($known_statuses) || isset($known_statuses['wc-' . $status]))) {
+                    $clean[] = $status;
+                }
+            }
+            if (!empty($clean)) {
+                $out['purchase_statuses'] = array_values(array_unique($clean));
             }
         }
-        $out['exclude_roles'] = array_values(array_unique($clean));
 
-        $taxonomy = sanitize_key((string) ($input['brand_taxonomy'] ?? 'product_brand'));
-        $out['brand_taxonomy'] = '' !== $taxonomy ? $taxonomy : 'product_brand';
+        if (array_key_exists('server_delay_seconds', $input)) {
+            $out['server_delay_seconds'] = max(0, min(600, (int) $input['server_delay_seconds']));
+        }
 
-        $out['outbox_sent_days'] = max(1, (int) ($input['outbox_sent_days'] ?? 14));
-        $out['outbox_dead_days'] = max(1, (int) ($input['outbox_dead_days'] ?? 30));
+        if (array_key_exists('exclude_roles', $input)) {
+            $role_names = function_exists('wp_roles') ? wp_roles()->get_names() : array();
+            $roles      = is_array($input['exclude_roles']) ? $input['exclude_roles'] : array();
+            $clean      = array();
+            foreach ($roles as $role) {
+                $role = sanitize_key((string) $role);
+                if ('' !== $role && (empty($role_names) || isset($role_names[$role]))) {
+                    $clean[] = $role;
+                }
+            }
+            $out['exclude_roles'] = array_values(array_unique($clean));
+        }
+
+        if (array_key_exists('brand_taxonomy', $input)) {
+            $taxonomy = sanitize_key((string) $input['brand_taxonomy']);
+            $out['brand_taxonomy'] = '' !== $taxonomy ? $taxonomy : 'product_brand';
+        }
+
+        if (array_key_exists('outbox_sent_days', $input)) {
+            $out['outbox_sent_days'] = max(1, (int) $input['outbox_sent_days']);
+        }
+
+        if (array_key_exists('outbox_dead_days', $input)) {
+            $out['outbox_dead_days'] = max(1, (int) $input['outbox_dead_days']);
+        }
 
         return $out;
     }

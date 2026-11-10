@@ -380,6 +380,11 @@ final class ADC_Datalayer implements ADC_Module_Interface
      * push (undecided state when no valid cookie) — so the verified push
      * order (adc_consent_init before gtm.js) holds standalone too.
      *
+     * Applies the same GPC read clamp (§2.2) as C2
+     * (ADC_Consent_Mode::render_head_script): with honour_gpc on, the
+     * cookie-driven update never lets a stored m=1 grant the ad signals
+     * while the browser signals Sec-GPC; the effective source reads `gpc`.
+     *
      * @return string JavaScript (no <script> tags).
      */
     private static function fallback_consent_script(): string
@@ -388,7 +393,15 @@ final class ADC_Datalayer implements ADC_Module_Interface
         $policy = (int) ADC_Settings::get('consent', 'policy_version', 1);
         $passth = (bool) ADC_Settings::get('consent', 'url_passthrough', true);
         $redact = (bool) ADC_Settings::get('consent', 'ads_data_redaction', true);
-        $cookie = 'adc_consent'; // Fixed cookie name per §2.2.
+        $gpc_on  = (bool) ADC_Settings::get('consent', 'honor_gpc', true);
+        $cookie  = 'adc_consent'; // Fixed cookie name per §2.2.
+
+        // Same GPC read clamp as ADC_Consent_Mode::render_head_script()
+        // (§2.2): with honour_gpc on, a stored m=1 never grants the ad
+        // signals while the browser signals Global Privacy Control, and the
+        // effective source reads `gpc`. Baked in from the site setting
+        // only, so the output stays page-cache safe; absent when
+        // honour_gpc is off, keeping the pre-fix bytes identical.
 
         $static = array(
             'defaults' => array(
@@ -412,6 +425,10 @@ final class ADC_Datalayer implements ADC_Module_Interface
             return '';
         }
 
+        $gp_decl   = $gpc_on ? 'var gp=navigator.globalPrivacyControl===true;' : '';
+        $gp_mkt    = $gpc_on ? 'p.m==="1"&&!gp' : 'p.m==="1"';
+        $gp_source = $gpc_on ? '(gp&&p.m==="1")?"gpc":(p.src||"")' : 'p.src||""';
+
         return 'window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;'
             . 'gtag("consent","default",' . $json . '.defaults);'
             . '(function(s){if(s.passthru)gtag("set","url_passthrough",true);if(s.redact)gtag("set","ads_data_redaction",true);'
@@ -421,12 +438,13 @@ final class ADC_Datalayer implements ADC_Module_Interface
             . 'var m=document.cookie.match("(?:^|;\\s*)"+s.cookie+"=([^;]*)");'
             . 'if(m){try{var p={};decodeURIComponent(m[1]).split("&").forEach(function(kv){var a=kv.split("=");p[a[0]]=a[1];});'
             . 'if(p.v==="1"&&p.cid&&parseInt(p.pv||"0",10)>=s.policy){'
+            . $gp_decl
             . 'u.analytics_storage=p.s==="1"?"granted":"denied";'
-            . 'u.ad_storage=u.ad_user_data=u.ad_personalization=p.m==="1"?"granted":"denied";'
+            . 'u.ad_storage=u.ad_user_data=u.ad_personalization=' . $gp_mkt . '?"granted":"denied";'
             . 'u.functionality_storage=u.personalization_storage=p.p==="1"?"granted":"denied";'
             . 'gtag("consent","update",u);'
-            . 'c={preferences:p.p==="1",statistics:p.s==="1",marketing:p.m==="1",decided:true,'
-            . 'ts:parseInt(p.ts||"0",10),policy:parseInt(p.pv||"0",10),source:p.src||""};}}catch(e){}}'
+            . 'c={preferences:p.p==="1",statistics:p.s==="1",marketing:' . $gp_mkt . ',decided:true,'
+            . 'ts:parseInt(p.ts||"0",10),policy:parseInt(p.pv||"0",10),source:' . $gp_source . '};}}catch(e){}}'
             . 'dataLayer.push({event:"adc_consent_init",adc_consent:c,gcm:u});})(' . $json . ');';
     }
 }

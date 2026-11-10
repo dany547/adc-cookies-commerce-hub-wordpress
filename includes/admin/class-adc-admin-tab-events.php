@@ -227,12 +227,36 @@ final class ADC_Admin_Tab_Events implements ADC_Admin_Tab_Interface
      * run inside; unknown/invalid values fall back to stored/default). The
      * `gtm` group is saved by ADC_Admin_Tab_Gtm, not here.
      *
+     * The sanitizer follows the partial-write contract (2.6.1: an ABSENT key
+     * keeps the stored value), so this tab — like every other settings tab —
+     * normalises the raw checkbox POST into a complete input: unchecked
+     * boxes become an explicit false, keeping the "uncheck = disable" form
+     * behaviour byte-identical. The switch list is the tab's own
+     * event_labels() plus server_page_view — the same list it renders.
+     *
      * @param array $post wp_unslash($_POST).
      * @return array<int, array{type: string, message: string}>
      */
     public function save(array $post): array
     {
-        $events_input = isset($post['events']) && is_array($post['events']) ? $post['events'] : array();
+        $raw = isset($post['events']) && is_array($post['events']) ? $post['events'] : array();
+
+        // Normalise the raw checkbox POST into a complete input: unchecked
+        // switches and unselected multi-arrays become explicit false/empty,
+        // exactly what the pre-hardening sanitizer derived from their
+        // absence. The sanitizer can then keep its absent-keeps-stored
+        // contract for programmatic partial writers.
+        $events_input = $raw;
+        foreach (array_keys(self::event_labels()) as $key) {
+            $events_input[$key] = !empty($raw[$key]);
+        }
+        $events_input['server_page_view'] = !empty($raw['server_page_view']);
+        $events_input['purchase_statuses'] = isset($raw['purchase_statuses']) && is_array($raw['purchase_statuses'])
+            ? $raw['purchase_statuses']
+            : array();
+        $events_input['exclude_roles'] = isset($raw['exclude_roles']) && is_array($raw['exclude_roles'])
+            ? $raw['exclude_roles']
+            : array();
 
         ADC_Settings::update('events', $events_input);
 

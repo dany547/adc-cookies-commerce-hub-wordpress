@@ -236,7 +236,7 @@ final class ADC_Admin_Tab_Ga4 implements ADC_Admin_Tab_Interface, ADC_Module_Int
             __('Evenimentele fără cookie _ga se pot trimite mai departe, dar sub un identificator nou — sesiunile nu se mai leagă de cele din browser.', 'adc-marketing'),
             null,
             'adc-help-ga4-fallback',
-            '<p>' . esc_html__('Un eveniment GA4 are nevoie de client_id pentru a fi atribuit unei sesiuni. Când vizitatorul nu a acceptat cookie-urile, _ga lipsește:', 'adc-marketing') . '</p><ul><li>' . esc_html__('Opțiune dezactivată: evenimentul fără client_id NU se trimite (rapoartele subestimează vizitatorii care refuză).', 'adc-marketing') . '</li><li>' . esc_html__('Opțiune activată: se folosește cid-ul (identificatorul de consimțământ) ca înlocuitor, dar DOAR dacă vizitatorul a acordat statistici; cei care au refuză nu primesc niciun identificator persistent.', 'adc-marketing') . '</li></ul><p>' . esc_html__('Sesiunea GA4 rezultată nu se corelează cu cea din browser — bun pentru numărătoare, slab pentru rapoartele de utilizator.', 'adc-marketing') . '</p>'
+            '<p>' . esc_html__('Un eveniment GA4 are nevoie de client_id pentru a fi atribuit unei sesiuni. Când vizitatorul nu a acceptat cookie-urile, _ga lipsește:', 'adc-marketing') . '</p><ul><li>' . esc_html__('Opțiune dezactivată: evenimentul fără client_id NU se trimite (rapoartele subestimează vizitatorii care refuză).', 'adc-marketing') . '</li><li>' . esc_html__('Opțiune activată: se folosește cid-ul (identificatorul de consimțământ) ca înlocuitor, dar DOAR dacă vizitatorul a acordat statistici; cei care au refuză nu primesc niciun identificator persistent.', 'adc-marketing') . '</li></ul><p>' . esc_html__('Sesiunea GA4 rezultată nu se corelează cu cea din browser — bun pentru numărătoare, slab pentru rapoartele de utilizator.', 'adc-marketing') . '</p><p>' . esc_html__('Pentru comenzile eligibile, client_id provine din cookie-ul _ga capturat la finalizarea comenzii.', 'adc-marketing') . '</p><p><a href="' . esc_url(admin_url('admin.php?page=' . ADC_Admin_Shell::PAGE_SLUG . '&tab=gtm')) . '">' . esc_html__('Transportul prin containerul server se configurează în Google Tag Manager.', 'adc-marketing') . '</a></p>'
         );
 
         ADC_Admin_Help::row(
@@ -258,7 +258,7 @@ final class ADC_Admin_Tab_Ga4 implements ADC_Admin_Tab_Interface, ADC_Module_Int
 
         echo '</div>';
 
-        echo '<p class="description adc-section-intro">' . esc_html__('Notă: client_id este luat din cookie-ul _ga capturat la momentul comenzii, doar cu consimțământ de statistici. Pentru transport first-party (Server GTM) folosiți tabul „Server GTM”.', 'adc-marketing') . '</p>';
+        echo '<p class="description adc-section-intro">' . esc_html__('Identificatorul GA4 este folosit numai cu acordul pentru statistici.', 'adc-marketing') . '</p>';
     }
 
     /**

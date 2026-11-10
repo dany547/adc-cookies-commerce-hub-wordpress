@@ -16,6 +16,25 @@ commit/tag de release — workflow-ul `version-bump.yml` nu rescrie dată; o fac
 responsabilul de release înainte de tag. Intrările viitoare `în lucru` rămân
 neatinse până la publicare.
 
+## [2.6.1] - 2026-11-10
+
+### Adăugat
+- Tab nou **Conflicte**: detectează pluginurile de tracking activate, containerele GTM și pixelii Meta/TikTok încărcați de alte pluginuri sau de temă, cu rescanare la cerere.
+- Tab nou **Setări**: index al tuturor zonelor de setări ale pluginului cu starea fiecăreia (activ/inactiv) și link **Pro Support** către pagina de contact adcelerum.ro.
+- Suport GPC (Global Privacy Control): semnalul de „nu vinde sau nu partajează datele mele” este citit din browser, iar marketingul este limitat (clamp) la citire — afișare, pixeli și trimiterea evenimentelor.
+
+### Modificat
+- Rebrand **ADC eCOMM Hub**: numele afișat în antetul pluginului și în meniul de admin; slug-ul (`adc-marketing`) și text domain-ul rămân neschimbate.
+- GTM mutat din Integrări în tabul **Platforme**, împreună cu containerul web și cel server.
+- Design admin: rânduri unificate (etichetă + control + descriere + help), avertismente contextuale lângă comutatori, paragrafele lungi de confidențialitate sunt mutate în modale de help cu buton de copiere.
+- Sanitizoarele pentru cele 7 grupuri de setări: o cheie absentă dintr-o salvare păstrează valoarea stocată; până acum o salvare parțială golea restul grupului.
+
+### Fixat
+- ID-ul containerului GTM nu se salva: o scriere parțială golea `container_id`, `mode` și `env` la salvarea din tabul Platforme.
+- Valoarea GPC citită în JS, Consent Mode, `ADC_Consent::current()` și fallback-ul dataLayer nu era limitată (clamp).
+- Detector de conflicte: răspunsul HTTP scanat este limitat la 2 MB, comentariile HTML nu mai generează semnale false, TikTok este detectat prin `pixel_code`, iar tabul Conflicte degradează la un mesaj (nu la o eroare fatală) când clasa detectorului lipsește.
+- Cataloagele de traduceri au fost reconstruite: 22 de șiruri noi (taburile Conflicte/Setări, modalele Analytics, bannerul) au primit prima traducere în engleză; șirurile eliminate prin redesign au dispărut din .pot.
+
 ## [2.6.0] - 2026-11-08
 
 ### Adăugat

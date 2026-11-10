@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ADC Marketing 2.2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-08 11:04+0000\n"
+"POT-Creation-Date: 2026-11-10 16:36+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -37,7 +37,7 @@ msgstr ""
 msgid "Setări avansate"
 msgstr ""
 
-#: includes/admin/class-adc-admin-help.php:185 includes/admin/class-adc-admin-tab-dashboard.php:908 includes/admin/class-adc-admin-tab-feeds.php:279 includes/admin/class-adc-admin-tab-feeds.php:315 includes/admin/class-adc-admin-tab-gtm.php:101 includes/admin/class-adc-admin-tab-platforms.php:193 includes/admin/class-adc-admin-tab-platforms.php:337
+#: includes/admin/class-adc-admin-help.php:185 includes/admin/class-adc-admin-tab-dashboard.php:908 includes/admin/class-adc-admin-tab-feeds.php:279 includes/admin/class-adc-admin-tab-feeds.php:315 includes/admin/class-adc-admin-tab-gtm.php:101 includes/admin/class-adc-admin-tab-platforms.php:193 includes/admin/class-adc-admin-tab-platforms.php:337 includes/admin/class-adc-admin-tab-settings.php:259
 msgid "Activ"
 msgstr ""
 
@@ -74,159 +74,176 @@ msgstr ""
 msgid "Ascunde acest mesaj"
 msgstr ""
 
-#: includes/admin/class-adc-admin-promo.php:100 includes/admin/class-adc-admin-shell.php:334 includes/admin/class-adc-admin-shell.php:398 includes/admin/class-adc-admin-tab-banner.php:619 includes/admin/class-adc-admin-tab-cookies.php:78 includes/admin/class-adc-admin-tab-logs.php:350 includes/analytics/class-adc-analytics-csv.php:85 includes/class-adc-marketing-export.php:65 includes/class-adc-marketing-export.php:79
+#: includes/admin/class-adc-admin-promo.php:100 includes/admin/class-adc-admin-shell.php:364 includes/admin/class-adc-admin-shell.php:428 includes/admin/class-adc-admin-tab-banner.php:618 includes/admin/class-adc-admin-tab-conflicts.php:110 includes/admin/class-adc-admin-tab-cookies.php:78 includes/admin/class-adc-admin-tab-logs.php:357 includes/analytics/class-adc-analytics-csv.php:85 includes/class-adc-marketing-export.php:65 includes/class-adc-marketing-export.php:79
 msgid "Nu aveți permisiunea necesară."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:208 includes/admin/class-adc-admin-shell.php:600 includes/admin/class-adc-admin-tab-logs.php:830
-msgid "Adcelerum Commerce Hub"
+#: includes/admin/class-adc-admin-shell.php:214 includes/admin/class-adc-admin-tab-logs.php:816
+msgid "ADC eCOMM Hub"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:350
+#: includes/admin/class-adc-admin-shell.php:380
 msgid "Niciun tab de administrare nu este disponibil momentan."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:381
+#: includes/admin/class-adc-admin-shell.php:411
 msgid "Salvează setările"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:406
+#: includes/admin/class-adc-admin-shell.php:436
 msgid "Securitatea formularului nu a putut fi verificată. Reîncărcați pagina și "
 "încercați din nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:411
+#: includes/admin/class-adc-admin-shell.php:441
 msgid "Tab necunoscut."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:523
+#: includes/admin/class-adc-admin-shell.php:561
 msgid "••••• (salvat)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:524 includes/admin/class-adc-admin-tab-feeds.php:225 templates/admin/analytics-dashboard.php:1408
+#: includes/admin/class-adc-admin-shell.php:562 includes/admin/class-adc-admin-tab-feeds.php:225 templates/admin/analytics-dashboard.php:1455
 msgid "Copiază"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:525
+#: includes/admin/class-adc-admin-shell.php:563
 msgid "Copiat!"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:526 includes/admin/class-adc-admin-tab-feeds.php:239
+#: includes/admin/class-adc-admin-shell.php:564 includes/admin/class-adc-admin-tab-feeds.php:239
 msgid "Renunță"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:527 includes/admin/class-adc-admin-tab-feeds.php:198
+#: includes/admin/class-adc-admin-shell.php:565 includes/admin/class-adc-admin-tab-feeds.php:198
 msgid "Înlocuiește"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:602
+#: includes/admin/class-adc-admin-shell.php:640
 msgid "Consimțământ GDPR pentru cookies, măsurare prin GTM și conversii "
 "server-side (Meta, GA4, TikTok) pentru magazinul tău WooCommerce."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:651
+#: includes/admin/class-adc-admin-shell.php:689
 msgid "Cifrele magazinului și starea colectării datelor, pe intervalul ales."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:652
+#: includes/admin/class-adc-admin-shell.php:690
+msgid "Toate zonele de setări ale pluginului, cu starea fiecăreia dintr-o privire."
+msgstr ""
+
+#: includes/admin/class-adc-admin-shell.php:691
 msgid "Ce vede vizitatorul la prima vizită: textele bannerului, aspectul și "
 "categoriile de cookie-uri."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:653
+#: includes/admin/class-adc-admin-shell.php:692
 msgid "Găsește cookie-urile folosite pe site, apoi confirmă categoria și scopul "
 "fiecăruia."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:654
+#: includes/admin/class-adc-admin-shell.php:693
 msgid "Textul bifei de marketing din checkout, exportul contactelor și verificarea "
 "condițiilor GDPR."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:655
+#: includes/admin/class-adc-admin-shell.php:694
 msgid "Ce date colectează modulul de analiză, cât timp le păstrează și ce rămâne "
 "blocat."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:656
+#: includes/admin/class-adc-admin-shell.php:695
 msgid "Containerul web Google Tag Manager și, opțional, containerul server, "
 "configurate din același loc."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:657
+#: includes/admin/class-adc-admin-shell.php:696
 msgid "Alege ce acțiuni ale vizitatorilor se măsoară și cum se calculează datele "
 "trimise platformelor."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:658
+#: includes/admin/class-adc-admin-shell.php:697
 msgid "Trimite platformelor e-mailul și telefonul clienților doar ca hash, ca să "
 "atribuie mai multe comenzi campaniilor."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:659
+#: includes/admin/class-adc-admin-shell.php:698
 msgid "Starea fiecărei platforme dintr-o privire: ce se încarcă în browser, ce "
 "pleacă de pe server și ce trebuie verificat."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:660
+#: includes/admin/class-adc-admin-shell.php:699
 msgid "Feedurile de produse pentru Google, Meta, TikTok și OLX, construite din "
 "catalogul WooCommerce."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:661
+#: includes/admin/class-adc-admin-shell.php:700
 msgid "Trimite către Meta (Facebook și Instagram) evenimentele magazinului, pentru "
 "optimizarea reclamelor și publicuri."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:662
+#: includes/admin/class-adc-admin-shell.php:701
 msgid "Trimite evenimentele de pe server către Google Analytics 4, mai fiabil "
 "decât o etichetă din browser."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:663
+#: includes/admin/class-adc-admin-shell.php:702
 msgid "Trimite către TikTok evenimentele magazinului, pentru optimizarea "
 "reclamelor și publicuri."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:664
+#: includes/admin/class-adc-admin-shell.php:703
 msgid "Ce a trimis pluginul către platforme, ce a eșuat și ce consimțământ a stat "
 "la baza fiecărei trimiteri."
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:716 includes/admin/class-adc-admin-tab-dashboard.php:2219
+#: includes/admin/class-adc-admin-shell.php:704
+msgid "Verifică dacă alte pluginuri sau tema încarcă aceleași etichete de "
+"tracking."
+msgstr ""
+
+#: includes/admin/class-adc-admin-shell.php:756 includes/admin/class-adc-admin-tab-dashboard.php:2240
 msgid "Prezentare generală"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:717
-msgid "Cookies"
+#: includes/admin/class-adc-admin-shell.php:757
+msgid "Consimțământ"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:718
+#: includes/admin/class-adc-admin-shell.php:758
 msgid "Măsurare"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:719 includes/admin/class-adc-admin-tab-platforms.php:83
+#: includes/admin/class-adc-admin-shell.php:759 includes/admin/class-adc-admin-tab-platforms.php:83
 msgid "Platforme"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:720 includes/admin/class-adc-admin-tab-feeds.php:52 includes/admin/class-adc-admin-tab-feeds.php:291
+#: includes/admin/class-adc-admin-shell.php:760 includes/admin/class-adc-admin-tab-feeds.php:52 includes/admin/class-adc-admin-tab-feeds.php:291
 msgid "Catalog"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:721 includes/admin/class-adc-admin-tab-logs.php:128
+#: includes/admin/class-adc-admin-shell.php:761 includes/admin/class-adc-admin-tab-logs.php:135
 msgid "Jurnale"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:722 includes/admin/class-adc-admin-tab-dashboard.php:2101
+#: includes/admin/class-adc-admin-shell.php:762 includes/admin/class-adc-admin-tab-dashboard.php:2122
 msgid "Altele"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:744
-msgid "Navigare Adcelerum Commerce Hub"
+#: includes/admin/class-adc-admin-shell.php:786
+msgid "Navigare %s"
+msgstr ""
+
+#: includes/admin/class-adc-admin-shell.php:800 includes/admin/class-adc-admin-tab-settings.php:239
+msgid "Pro Support"
+msgstr ""
+
+#: includes/admin/class-adc-admin-shell.php:800
+msgid "(deschide adcelerum.ro într-un tab nou)"
 msgstr ""
 
 #. translators: %s: navigation group name.
-#: includes/admin/class-adc-admin-shell.php:759
+#: includes/admin/class-adc-admin-shell.php:807
 msgid "Tab-uri din grupul %s"
 msgstr ""
 
@@ -234,7 +251,7 @@ msgstr ""
 msgid "Analiză (setări)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-analytics.php:80 includes/admin/class-adc-admin-tab-dashboard.php:2243
+#: includes/admin/class-adc-admin-tab-analytics.php:80 includes/admin/class-adc-admin-tab-dashboard.php:2264
 msgid "Acces limitat la administratori."
 msgstr ""
 
@@ -242,24 +259,33 @@ msgstr ""
 msgid "Vezi rapoartele în Prezentare generală"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-analytics.php:215
+#: includes/admin/class-adc-admin-tab-analytics.php:152
+msgid "Pluginul numără vizualizările produselor, adăugările în coș, începuturile "
+"finalizării comenzii și achizițiile. Tabelul de statistici nu păstrează "
+"adrese IP sau identificatori ai vizitatorilor. Colectarea are loc numai "
+"când opțiunea este activă și vizitatorul a acceptat categoria de "
+"statistici. Pentru achiziții se folosește alegerea salvată la finalizarea "
+"comenzii. Agregatele pot fi folosite în dezvoltări viitoare ale Smart Feed."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-analytics.php:216
 msgid "Setările de analiză operațională au fost salvate."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-analytics.php:237
+#: includes/admin/class-adc-admin-tab-analytics.php:238
 msgid "Referințele juridice au fost salvate ca notițe interne. Nu activează nicio "
 "colectare în această versiune."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-analytics.php:250
+#: includes/admin/class-adc-admin-tab-analytics.php:251
 msgid "În prelucrare"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-analytics.php:251
+#: includes/admin/class-adc-admin-tab-analytics.php:252
 msgid "Finalizate"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-analytics.php:287
+#: includes/admin/class-adc-admin-tab-analytics.php:288
 msgid "Draft de notificare (nezvălit, nepublicat): operator [nume firmă, date de "
 "contact]; scop: contoare operaționale agregate pentru paginații și comenzi; "
 "categorii de date: număr de cereri de pagină pe zi, canal și tip de pagină "
@@ -310,7 +336,7 @@ msgstr ""
 msgid "Afișat pe site"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:182 includes/admin/class-adc-admin-tab-dashboard.php:909 templates/admin/analytics-dashboard.php:80
+#: includes/admin/class-adc-admin-tab-banner.php:182 includes/admin/class-adc-admin-tab-dashboard.php:909 templates/admin/analytics-dashboard.php:121
 msgid "Oprit"
 msgstr ""
 
@@ -338,7 +364,7 @@ msgstr ""
 msgid "Activarea bannerului, textele, butoanele și paginile legale."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:273 includes/admin/class-adc-admin-tab-gtm.php:254
+#: includes/admin/class-adc-admin-tab-banner.php:273 includes/admin/class-adc-admin-tab-gtm.php:255
 msgid "Activare"
 msgstr ""
 
@@ -489,270 +515,407 @@ msgstr ""
 msgid "Ordinea butoanelor"
 msgstr ""
 
+#: includes/admin/class-adc-admin-tab-banner.php:439
+msgid "Ordinea vizuală este și ordinea din cod: tastatura și cititoarele de ecran "
+"parcurg butoanele în aceeași succesiune. Puteți redenumi «Personalizează» "
+"din câmpul de text."
+msgstr ""
+
 #: includes/admin/class-adc-admin-tab-banner.php:440
-msgid "Cum se așază și în ce ordine apar cele trei butoane — ordinea vizuală este "
-"și ordinea din cod (tastatură, cititoare de ecran)."
+msgid "Alegeți ordinea butoanelor din banner."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:450
-msgid "Ordinea aleasă este și ordinea din codul HTML, deci Tab-ul și cititorul de "
-"ecran parcurg butoanele exact cum le vede vizitatorul. Butonul "
-"„Personalizează” poate fi redenumit în „Setări” din câmpul de mai sus."
-msgstr ""
-
-#: includes/admin/class-adc-admin-tab-banner.php:455
+#: includes/admin/class-adc-admin-tab-banner.php:454
 msgid "Alinierea butoanelor"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:456
+#: includes/admin/class-adc-admin-tab-banner.php:455
 msgid "Alegeți poziția grupului de butoane. Pe spații înguste, butoanele trec pe "
 "rândul următor fără să ascundă vreo alegere."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:459
+#: includes/admin/class-adc-admin-tab-banner.php:458
 msgid "Aliniere"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:462
+#: includes/admin/class-adc-admin-tab-banner.php:461
 msgid "La început"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:463
+#: includes/admin/class-adc-admin-tab-banner.php:462
 msgid "Centrat"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:464
+#: includes/admin/class-adc-admin-tab-banner.php:463
 msgid "La sfârșit"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:470
+#: includes/admin/class-adc-admin-tab-banner.php:469
 msgid "Culori"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:494
+#: includes/admin/class-adc-admin-tab-banner.php:493
 msgid "Colțuri, umbră și fundal"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:495
+#: includes/admin/class-adc-admin-tab-banner.php:494
 msgid "Finisaje vizuale minore: colțuri rotunjite, umbră sub banner și întunecarea "
 "fundalului paginii (doar la fereastra centrată)."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:498
+#: includes/admin/class-adc-admin-tab-banner.php:497
 msgid "Rază colțuri"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:505
+#: includes/admin/class-adc-admin-tab-banner.php:504
 msgid "Font"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:508
+#: includes/admin/class-adc-admin-tab-banner.php:507
 msgid "Moștenește fontul temei (recomandat)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:509
+#: includes/admin/class-adc-admin-tab-banner.php:508
 msgid "Font de sistem (neutru)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:511
+#: includes/admin/class-adc-admin-tab-banner.php:510
 msgid "Cu opțiunea implicită, bannerul și fereastra de preferințe folosesc același "
 "font ca restul site-ului."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:515
+#: includes/admin/class-adc-admin-tab-banner.php:514
 msgid "Umbră"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:519
+#: includes/admin/class-adc-admin-tab-banner.php:518
 msgid "Afișează umbra bannerului"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:524
+#: includes/admin/class-adc-admin-tab-banner.php:523
 msgid "Fundal întunecat"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:528
+#: includes/admin/class-adc-admin-tab-banner.php:527
 msgid "Întunecă fundalul paginii (doar pentru fereastra centrată)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:534
+#: includes/admin/class-adc-admin-tab-banner.php:533
 msgid "Butoanele „Acceptă tot” și „Acceptă doar cele necesare” au aceeași mărime "
 "și greutate vizuală; diferă doar culoarea. Alegerea cookie-urilor necesare "
 "dezactivează categoriile opționale."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:541 includes/admin/class-adc-admin-tab-feeds.php:337 includes/admin/class-adc-admin-tab-feeds.php:453 includes/feeds/class-adc-feed-params.php:36
+#: includes/admin/class-adc-admin-tab-banner.php:540 includes/admin/class-adc-admin-tab-feeds.php:337 includes/admin/class-adc-admin-tab-feeds.php:453 includes/feeds/class-adc-feed-params.php:36
 msgid "Categorii"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:542
+#: includes/admin/class-adc-admin-tab-banner.php:541
 msgid "Alegerile din banner și cookie-urile declarate."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:545
+#: includes/admin/class-adc-admin-tab-banner.php:544
 msgid "Alegerile pe care vizitatorul le poate face în banner și ce se întâmplă "
 "pentru fiecare când le acordă sau le refuză."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:545
+#: includes/admin/class-adc-admin-tab-banner.php:544
 msgid "Categorii de cookie-uri"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:553
+#: includes/admin/class-adc-admin-tab-banner.php:552
 msgid "Nume categorie"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:559
+#: includes/admin/class-adc-admin-tab-banner.php:558
 msgid "Descriere categorie"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:568
+#: includes/admin/class-adc-admin-tab-banner.php:567
 msgid "Cookie-uri declarate"
 msgstr ""
 
 #. translators: 1: number of cookies in the inventory, 2: number of cookies that have a category.
-#: includes/admin/class-adc-admin-tab-banner.php:574
+#: includes/admin/class-adc-admin-tab-banner.php:573
 msgid "%1$s cookie-uri în inventar, %2$s categorisite"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:590
+#: includes/admin/class-adc-admin-tab-banner.php:589
 msgid "Necategorisite"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:596
+#: includes/admin/class-adc-admin-tab-banner.php:595
 msgid "Niciun cookie nu este în inventar încă: rulați o scanare pentru a-i detecta "
 "pe cei folosiți de site."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:598
+#: includes/admin/class-adc-admin-tab-banner.php:597
 msgid "Lista de cookie-uri se editează acum într-un singur loc, în tabul „Scanner "
 "cookie-uri”; aici rămâne doar rezumatul."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:600
+#: includes/admin/class-adc-admin-tab-banner.php:599
 msgid "Deschide Scanner cookie-uri"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:649
+#: includes/admin/class-adc-admin-tab-banner.php:648
 msgid "Setările bannerului au fost salvate."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:656
+#: includes/admin/class-adc-admin-tab-banner.php:655
 msgid "Modificare posibil necompliantă:"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:663
+#: includes/admin/class-adc-admin-tab-banner.php:662
 msgid "Versiunea politicii a fost crescută. Vizitatorii vor fi întrebați din nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:736 includes/consent/class-adc-consent-banner.php:198
+#: includes/admin/class-adc-admin-tab-banner.php:735 includes/consent/class-adc-consent-banner.php:198
 msgid "Luminos"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:753 includes/consent/class-adc-consent-banner.php:189
+#: includes/admin/class-adc-admin-tab-banner.php:752 includes/consent/class-adc-consent-banner.php:189
 msgid "Întunecat"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:770 includes/consent/class-adc-consent-banner.php:213
+#: includes/admin/class-adc-admin-tab-banner.php:769 includes/consent/class-adc-consent-banner.php:213
 msgid "Culoare brand"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:787 includes/consent/class-adc-consent-banner.php:192
+#: includes/admin/class-adc-admin-tab-banner.php:786 includes/consent/class-adc-consent-banner.php:192
 msgid "Minimal (monocrom)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:804 includes/consent/class-adc-consent-banner.php:195
+#: includes/admin/class-adc-admin-tab-banner.php:803 includes/consent/class-adc-consent-banner.php:195
 msgid "Contrast ridicat (WCAG AAA)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:833
+#: includes/admin/class-adc-admin-tab-banner.php:832
 msgid "Fundal și text"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:837
+#: includes/admin/class-adc-admin-tab-banner.php:836
 msgid "Buton Acceptă"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:841
+#: includes/admin/class-adc-admin-tab-banner.php:840
 msgid "Buton Refuză"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:845
+#: includes/admin/class-adc-admin-tab-banner.php:844
 msgid "Buton Setări"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:849 includes/admin/class-adc-admin-tab-banner.php:868
+#: includes/admin/class-adc-admin-tab-banner.php:848 includes/admin/class-adc-admin-tab-banner.php:867
 msgid "Link"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:864
+#: includes/admin/class-adc-admin-tab-banner.php:863
 msgid "Fundal"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:865
+#: includes/admin/class-adc-admin-tab-banner.php:864
 msgid "Text"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:866
+#: includes/admin/class-adc-admin-tab-banner.php:865
 msgid "Text secundar"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:867
+#: includes/admin/class-adc-admin-tab-banner.php:866
 msgid "Bordură"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:869
+#: includes/admin/class-adc-admin-tab-banner.php:868
 msgid "Fundal buton Acceptă"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:870
+#: includes/admin/class-adc-admin-tab-banner.php:869
 msgid "Text buton Acceptă"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:871
+#: includes/admin/class-adc-admin-tab-banner.php:870
 msgid "Fundal buton Refuză"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:872
+#: includes/admin/class-adc-admin-tab-banner.php:871
 msgid "Text buton Refuză"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:873
+#: includes/admin/class-adc-admin-tab-banner.php:872
 msgid "Fundal buton Setări"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:874
+#: includes/admin/class-adc-admin-tab-banner.php:873
 msgid "Text buton Setări"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:912
+#: includes/admin/class-adc-admin-tab-banner.php:911
 msgid "Contrastul dintre text și fundal este sub 4,5:1 (WCAG AA). Alegeți culori "
 "mai contrastante, ca textul să fie ușor de citit."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:933
+#: includes/admin/class-adc-admin-tab-banner.php:932
 msgid "Acceptă · Setări · Respinge (implicit)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:937
+#: includes/admin/class-adc-admin-tab-banner.php:936
 msgid "Setări · Acceptă · Respinge"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:941
+#: includes/admin/class-adc-admin-tab-banner.php:940
 msgid "Acceptă · Respinge · Setări"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:1030
+#: includes/admin/class-adc-admin-tab-banner.php:1029
 msgid "Verificare conformitate: proeminența butoanelor"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:1036
+#: includes/admin/class-adc-admin-tab-banner.php:1035
 msgid "Modificați culorile, nu dimensiunea: „Acceptă” și „Refuză” trebuie să "
 "rămână la fel de vizibile și de ușor de apăsat."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-banner.php:1060
+#: includes/admin/class-adc-admin-tab-banner.php:1059
 msgid "Alte culori"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:58
+msgid "Conflicte"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:134
+msgid "Detectorul de conflicte nu este disponibil în această instalare."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:147
+msgid "Ce rulează deja în site"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:148
+msgid "Detectarea citește lista de pluginuri active și HTML-ul primei pagini, apoi "
+"compară cu ce emite acest plugin. Nu modifică și nu dezactivează nimic "
+"automat."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:153
+msgid "Scanarea a fost reluată."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:170
+msgid "Ultima scanare: %s."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:178
+msgid "Prima pagină nu a putut fi citită (%s), deci doar pluginurile active au "
+"fost verificate."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:181
+msgid "HTML-ul primei pagini a fost verificat."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:189
+msgid "Rescanează"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:196
+msgid "Suprapuneri detectate"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:197
+msgid "Fiecare rând arată ce s-a găsit și ce ai de făcut. Conflictele pot produce "
+"evenimente dublate sau etichete încărcate fără consimțământ."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:202 includes/admin/class-adc-admin-tab-logs.php:763
+msgid "Nicio suprapunere detectată."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:207
+msgid "Găsit"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:208
+msgid "Detaliu"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:218
+msgid "Ce faci:"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:229
+msgid "Pluginuri recunoscute în site"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:230
+msgid "Lista este construită din pluginurile active; „Altele” poate conține cod "
+"hardcodat în temă, care apare doar în scanarea paginii."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:234
+msgid "Niciun plugin de tracking sau consimțământ cunoscut nu este activ."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:246
+msgid "Limitare: scanarea paginii vede doar HTML-ul livrat de server. Etichetele "
+"injectate exclusiv din JavaScript, după încărcare, nu apar aici."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:259
+msgid "Conflict"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:260
+msgid "Atenționare"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:261 includes/admin/class-adc-admin-tab-logs.php:260
+msgid "Informativ"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:283
+msgid "Fără suprapuneri"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:289
+msgid "conflicte"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:290
+msgid "atenționări"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:291
+msgid "informative"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:315
+msgid "banner de consimțământ"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:316 includes/admin/class-adc-admin-tab-gtm.php:58 includes/tracking/class-adc-gtm.php:336
+msgid "Google Tag Manager"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:317
+msgid "cod injectat"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:318 includes/admin/class-adc-admin-tab-dashboard.php:444 includes/admin/class-adc-admin-tab-ga4.php:109
+msgid "GA4"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:319 includes/admin/class-adc-admin-tab-dashboard.php:443 includes/admin/class-adc-admin-tab-meta.php:110
+msgid "Meta"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:320 includes/admin/class-adc-admin-tab-dashboard.php:445 includes/admin/class-adc-admin-tab-tiktok.php:107
+msgid "TikTok"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-conflicts.php:321
+msgid "necunoscut"
 msgstr ""
 
 #: includes/admin/class-adc-admin-tab-cookies.php:21
@@ -804,10 +967,18 @@ msgstr ""
 msgid "Acceptă sugestiile"
 msgstr ""
 
+#: includes/admin/class-adc-admin-tab-cookies.php:61
+msgid "Scanare cookie-uri"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-cookies.php:61
+msgid "Scanarea din browser vede cookie-urile trackerelor numai dacă "
+"administratorul și-a dat consimțământul pe site. Scanarea săptămânală în "
+"fundal vede doar cookie-urile setate de server."
+msgstr ""
+
 #: includes/admin/class-adc-admin-tab-cookies.php:62
-msgid "Cookie-urile setate de trackere apar în scanarea din browser numai dacă "
-"administratorul și-a acordat consimțământul pe site. Scanarea săptămânală "
-"din fundal vede doar cookie-urile setate de server."
+msgid "Scanarea în browser depinde de consimțământul administratorului."
 msgstr ""
 
 #: includes/admin/class-adc-admin-tab-cookies.php:63
@@ -854,7 +1025,7 @@ msgstr ""
 msgid "Durată de expirare"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-cookies.php:66 includes/admin/class-adc-admin-tab-logs.php:197
+#: includes/admin/class-adc-admin-tab-cookies.php:66 includes/admin/class-adc-admin-tab-logs.php:204
 msgid "Acțiuni"
 msgstr ""
 
@@ -907,19 +1078,19 @@ msgstr ""
 msgid "Interval: %1$s → %2$s"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:424 includes/admin/trait-adc-admin-help-content.php:448 templates/admin/analytics-dashboard.php:595
+#: includes/admin/class-adc-admin-tab-dashboard.php:424 includes/admin/trait-adc-admin-help-content.php:448 templates/admin/analytics-dashboard.php:636
 msgid "Interval"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:425 includes/admin/class-adc-admin-tab-marketing.php:112 templates/admin/analytics-dashboard.php:671
+#: includes/admin/class-adc-admin-tab-dashboard.php:425 includes/admin/class-adc-admin-tab-marketing.php:112 templates/admin/analytics-dashboard.php:712
 msgid "Data început"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:426 includes/admin/class-adc-admin-tab-marketing.php:121 templates/admin/analytics-dashboard.php:677
+#: includes/admin/class-adc-admin-tab-dashboard.php:426 includes/admin/class-adc-admin-tab-marketing.php:121 templates/admin/analytics-dashboard.php:718
 msgid "Data sfârșit"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:427 includes/admin/trait-adc-admin-help-content.php:450 includes/analytics/class-adc-analytics-csv.php:377 includes/analytics/class-adc-analytics-csv.php:509 includes/analytics/class-adc-analytics-csv.php:571 templates/admin/analytics-dashboard.php:623
+#: includes/admin/class-adc-admin-tab-dashboard.php:427 includes/admin/trait-adc-admin-help-content.php:450 includes/analytics/class-adc-analytics-csv.php:377 includes/analytics/class-adc-analytics-csv.php:509 includes/analytics/class-adc-analytics-csv.php:571 templates/admin/analytics-dashboard.php:664
 msgid "Monedă"
 msgstr ""
 
@@ -927,11 +1098,11 @@ msgstr ""
 msgid "Canal"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:429 includes/analytics/class-adc-analytics-csv.php:446 templates/admin/analytics-dashboard.php:526 templates/admin/analytics-dashboard.php:533 templates/admin/analytics-dashboard.php:647
+#: includes/admin/class-adc-admin-tab-dashboard.php:429 includes/analytics/class-adc-analytics-csv.php:446 templates/admin/analytics-dashboard.php:567 templates/admin/analytics-dashboard.php:574 templates/admin/analytics-dashboard.php:688
 msgid "Tip pagină"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:430 includes/admin/class-adc-admin-tab-dashboard.php:2094 includes/analytics/class-adc-analytics-reports.php:1420
+#: includes/admin/class-adc-admin-tab-dashboard.php:430 includes/admin/class-adc-admin-tab-dashboard.php:2115 includes/analytics/class-adc-analytics-reports.php:1420
 msgid "Produs"
 msgstr ""
 
@@ -939,27 +1110,15 @@ msgstr ""
 msgid "GTM web"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:442 includes/admin/class-adc-admin-tab-sgtm.php:124 includes/integrations/class-adc-integration-sgtm.php:133
+#: includes/admin/class-adc-admin-tab-dashboard.php:442 includes/admin/class-adc-admin-tab-sgtm.php:124 includes/integrations/class-adc-integration-sgtm.php:160
 msgid "Server GTM"
-msgstr ""
-
-#: includes/admin/class-adc-admin-tab-dashboard.php:443 includes/admin/class-adc-admin-tab-meta.php:110
-msgid "Meta"
-msgstr ""
-
-#: includes/admin/class-adc-admin-tab-dashboard.php:444 includes/admin/class-adc-admin-tab-ga4.php:109
-msgid "GA4"
-msgstr ""
-
-#: includes/admin/class-adc-admin-tab-dashboard.php:445 includes/admin/class-adc-admin-tab-tiktok.php:107
-msgid "TikTok"
 msgstr ""
 
 #: includes/admin/class-adc-admin-tab-dashboard.php:446 includes/admin/class-adc-admin-tab-matching.php:49
 msgid "Potrivire avansată"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:457 includes/admin/class-adc-admin-tab-feeds.php:280 includes/admin/class-adc-admin-tab-gtm.php:94 includes/admin/class-adc-admin-tab-logs.php:251 includes/admin/class-adc-admin-tab-platforms.php:191 includes/admin/class-adc-admin-tab-platforms.php:392
+#: includes/admin/class-adc-admin-tab-dashboard.php:457 includes/admin/class-adc-admin-tab-feeds.php:280 includes/admin/class-adc-admin-tab-gtm.php:94 includes/admin/class-adc-admin-tab-logs.php:258 includes/admin/class-adc-admin-tab-platforms.php:191 includes/admin/class-adc-admin-tab-platforms.php:392 includes/admin/class-adc-admin-tab-settings.php:260
 msgid "Dezactivat"
 msgstr ""
 
@@ -983,11 +1142,11 @@ msgstr ""
 msgid "Parametri UTM"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:896 templates/admin/analytics-dashboard.php:1313
+#: includes/admin/class-adc-admin-tab-dashboard.php:896 templates/admin/analytics-dashboard.php:1357
 msgid "Eveniment „adăugare în coș”"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:897 templates/admin/analytics-dashboard.php:1318
+#: includes/admin/class-adc-admin-tab-dashboard.php:897 templates/admin/analytics-dashboard.php:1362
 msgid "Eveniment „începere finalizare”"
 msgstr ""
 
@@ -1059,248 +1218,258 @@ msgstr ""
 msgid "Produs nesemnalat"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1339
+#. translators: %d: number of detected tracking conflicts.
+#: includes/admin/class-adc-admin-tab-dashboard.php:1346
+msgid "%d conflict de tracking cu alte pluginuri: evenimentele pot fi dublate. "
+"Verificați tabul Conflicte."
+msgid_plural "%d conflicte de tracking cu alte pluginuri: evenimentele pot fi dublate. "
+"Verificați tabul Conflicte."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/class-adc-admin-tab-dashboard.php:1356
 msgid "Motorul de rapoarte nu este disponibil în această instalare: se afișează "
 "doar setările. Cifrele nu sunt estimate manual."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1360
+#: includes/admin/class-adc-admin-tab-dashboard.php:1377
 msgid "Ultima zi din interval nu este încheiată; comparația cu intervalul anterior "
 "este afișată doar când ambele intervale sunt complete."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1369
+#. translators: %s: metric label.
+#: includes/admin/class-adc-admin-tab-dashboard.php:1390 templates/admin/analytics-dashboard.php:81
 msgid "Diferență de recalculare pentru „%s”: agregatul nu corespunde cu totalul "
 "direct din comenzi. Verificați manual."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1379
+#: includes/admin/class-adc-admin-tab-dashboard.php:1400
 msgid "%d celulă (celule) sub pragul de %d valori au fost ascunse pentru a evita "
 "identificarea indirectă."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1385
+#: includes/admin/class-adc-admin-tab-dashboard.php:1406
 msgid "Cererile de pagină sunt estimative: cache/CDN nu înregistrează toate "
 "vizitele, iar roboții pot fi filtrați parțial."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1402
+#: includes/admin/class-adc-admin-tab-dashboard.php:1423
 msgid "Comparație indisponibilă: motorul de rapoarte lipsește."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1410
+#: includes/admin/class-adc-admin-tab-dashboard.php:1431
 msgid "Interval incomplet — comparația cu perioada anterioară nu este afișată."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1419 includes/admin/class-adc-admin-tab-dashboard.php:1869 includes/admin/class-adc-admin-tab-dashboard.php:1944 includes/admin/trait-adc-admin-help-content.php:464 includes/analytics/class-adc-analytics-csv.php:379 includes/analytics/class-adc-analytics-csv.php:511 templates/admin/analytics-dashboard.php:262
+#: includes/admin/class-adc-admin-tab-dashboard.php:1440 includes/admin/class-adc-admin-tab-dashboard.php:1890 includes/admin/class-adc-admin-tab-dashboard.php:1965 includes/admin/trait-adc-admin-help-content.php:464 includes/analytics/class-adc-analytics-csv.php:379 includes/analytics/class-adc-analytics-csv.php:511 templates/admin/analytics-dashboard.php:303
 msgid "Comenzi plătite"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1420 includes/admin/class-adc-admin-tab-dashboard.php:1882 includes/admin/class-adc-admin-tab-dashboard.php:1954 includes/admin/trait-adc-admin-help-content.php:465 includes/analytics/class-adc-analytics-csv.php:380 includes/analytics/class-adc-analytics-csv.php:512 templates/admin/analytics-dashboard.php:263
+#: includes/admin/class-adc-admin-tab-dashboard.php:1441 includes/admin/class-adc-admin-tab-dashboard.php:1903 includes/admin/class-adc-admin-tab-dashboard.php:1975 includes/admin/trait-adc-admin-help-content.php:465 includes/analytics/class-adc-analytics-csv.php:380 includes/analytics/class-adc-analytics-csv.php:512 templates/admin/analytics-dashboard.php:304
 msgid "Venit brut"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1421 includes/admin/class-adc-admin-tab-dashboard.php:1883 includes/admin/class-adc-admin-tab-dashboard.php:1959 includes/admin/trait-adc-admin-help-content.php:466 includes/analytics/class-adc-analytics-csv.php:382 includes/analytics/class-adc-analytics-csv.php:514
+#: includes/admin/class-adc-admin-tab-dashboard.php:1442 includes/admin/class-adc-admin-tab-dashboard.php:1904 includes/admin/class-adc-admin-tab-dashboard.php:1980 includes/admin/trait-adc-admin-help-content.php:466 includes/analytics/class-adc-analytics-csv.php:382 includes/analytics/class-adc-analytics-csv.php:514
 msgid "Venit net"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1422 includes/admin/class-adc-admin-tab-dashboard.php:1877 includes/admin/class-adc-admin-tab-dashboard.php:1884 includes/admin/class-adc-admin-tab-dashboard.php:1969 includes/analytics/class-adc-analytics-csv.php:381 includes/analytics/class-adc-analytics-csv.php:513
+#: includes/admin/class-adc-admin-tab-dashboard.php:1443 includes/admin/class-adc-admin-tab-dashboard.php:1898 includes/admin/class-adc-admin-tab-dashboard.php:1905 includes/admin/class-adc-admin-tab-dashboard.php:1990 includes/analytics/class-adc-analytics-csv.php:381 includes/analytics/class-adc-analytics-csv.php:513
 msgid "Rambursări"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1446
+#: includes/admin/class-adc-admin-tab-dashboard.php:1467
 msgid "Fără date comparabile pentru intervalul anterior."
 msgstr ""
 
 #. translators: 1: total, 2: peak value, 3: peak day.
-#: includes/admin/class-adc-admin-tab-dashboard.php:1523
+#: includes/admin/class-adc-admin-tab-dashboard.php:1544
 msgid "%1$s în total · maxim %2$s în ziua de %3$s"
 msgstr ""
 
 #. translators: 1: order count, 2: revenue, 3: best day.
-#: includes/admin/class-adc-admin-tab-dashboard.php:1626
+#: includes/admin/class-adc-admin-tab-dashboard.php:1647
 msgid "%1$s comenzi plătite · %2$s venit brut · cea mai bună zi: %3$s"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1870 includes/admin/class-adc-admin-tab-dashboard.php:1949 includes/admin/trait-adc-admin-help-content.php:463 includes/analytics/class-adc-analytics-csv.php:378 includes/analytics/class-adc-analytics-csv.php:510
+#: includes/admin/class-adc-admin-tab-dashboard.php:1891 includes/admin/class-adc-admin-tab-dashboard.php:1970 includes/admin/trait-adc-admin-help-content.php:463 includes/analytics/class-adc-analytics-csv.php:378 includes/analytics/class-adc-analytics-csv.php:510
 msgid "Comenzi create"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1871
+#: includes/admin/class-adc-admin-tab-dashboard.php:1892
 msgid "Valoarea comenzilor"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1872
+#: includes/admin/class-adc-admin-tab-dashboard.php:1893
 msgid "Taxe"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1873
+#: includes/admin/class-adc-admin-tab-dashboard.php:1894
 msgid "Transport"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1874
+#: includes/admin/class-adc-admin-tab-dashboard.php:1895
 msgid "Taxă transport"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1875 includes/analytics/class-adc-analytics-csv.php:385
+#: includes/admin/class-adc-admin-tab-dashboard.php:1896 includes/analytics/class-adc-analytics-csv.php:385
 msgid "Reduceri"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1876
+#: includes/admin/class-adc-admin-tab-dashboard.php:1897
 msgid "Taxă reduceri"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1878
+#: includes/admin/class-adc-admin-tab-dashboard.php:1899
 msgid "Produse (fără taxă)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1879
+#: includes/admin/class-adc-admin-tab-dashboard.php:1900
 msgid "Taxa produselor"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1880 templates/admin/analytics-dashboard.php:935
+#: includes/admin/class-adc-admin-tab-dashboard.php:1901 templates/admin/analytics-dashboard.php:976
 msgid "Bucăți"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1881
+#: includes/admin/class-adc-admin-tab-dashboard.php:1902
 msgid "Stări atinse"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1936 includes/analytics/class-adc-analytics-csv.php:388 includes/analytics/class-adc-analytics-csv.php:418 includes/analytics/class-adc-analytics-csv.php:449 includes/analytics/class-adc-analytics-csv.php:479
+#: includes/admin/class-adc-admin-tab-dashboard.php:1957 includes/analytics/class-adc-analytics-csv.php:388 includes/analytics/class-adc-analytics-csv.php:418 includes/analytics/class-adc-analytics-csv.php:449 includes/analytics/class-adc-analytics-csv.php:479
 msgid "Cereri de pagină estimate"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1939
+#: includes/admin/class-adc-admin-tab-dashboard.php:1960
 msgid "Estimativ: cache/CDN și roboții afectează precizia"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1940
+#: includes/admin/class-adc-admin-tab-dashboard.php:1961
 msgid "Indisponibil — colectarea oprită"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1946 templates/admin/analytics-dashboard.php:97
+#: includes/admin/class-adc-admin-tab-dashboard.php:1967 templates/admin/analytics-dashboard.php:138
 msgid "Din comenzi WooCommerce"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1951
+#: includes/admin/class-adc-admin-tab-dashboard.php:1972
 msgid "Include stări neplătite"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1956
+#: includes/admin/class-adc-admin-tab-dashboard.php:1977
 msgid "Suma valorilor comenzilor plătite"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1961
+#: includes/admin/class-adc-admin-tab-dashboard.php:1982
 msgid "Brut minus rambursări"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1964 includes/admin/trait-adc-admin-help-content.php:467 includes/analytics/class-adc-analytics-csv.php:386
+#: includes/admin/class-adc-admin-tab-dashboard.php:1985 includes/admin/trait-adc-admin-help-content.php:467 includes/analytics/class-adc-analytics-csv.php:386
 msgid "Valoare medie comandă"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1966
+#: includes/admin/class-adc-admin-tab-dashboard.php:1987
 msgid "Brut / comenzi plătite"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1971
+#: includes/admin/class-adc-admin-tab-dashboard.php:1992
 msgid "Nu scad numărul de comenzi plătite"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1974
+#: includes/admin/class-adc-admin-tab-dashboard.php:1995
 msgid "Bucăți vândute"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:1976
+#: includes/admin/class-adc-admin-tab-dashboard.php:1997
 msgid "Brute, din comenzile plătite; rambursările nu scad"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:2074
+#: includes/admin/class-adc-admin-tab-dashboard.php:2095
 msgid "Direct (fără referer)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:2075
+#: includes/admin/class-adc-admin-tab-dashboard.php:2096
 msgid "Căutare"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:2076
+#: includes/admin/class-adc-admin-tab-dashboard.php:2097
 msgid "Rețele sociale"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:2077
+#: includes/admin/class-adc-admin-tab-dashboard.php:2098
 msgid "Trimis de alt site"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:2078 includes/analytics/class-adc-analytics-reports.php:1454
+#: includes/admin/class-adc-admin-tab-dashboard.php:2099 includes/analytics/class-adc-analytics-reports.php:1454
 msgid "Intern"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:2079 includes/analytics/class-adc-analytics-reports.php:1450
+#: includes/admin/class-adc-admin-tab-dashboard.php:2100 includes/analytics/class-adc-analytics-reports.php:1450
 msgid "Necunoscut"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:2090
+#: includes/admin/class-adc-admin-tab-dashboard.php:2111
 msgid "Acasă"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:2091
+#: includes/admin/class-adc-admin-tab-dashboard.php:2112
 msgid "Listă articole"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:2092 includes/analytics/class-adc-analytics-reports.php:1418
+#: includes/admin/class-adc-admin-tab-dashboard.php:2113 includes/analytics/class-adc-analytics-reports.php:1418
 msgid "Articol"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:2093 includes/analytics/class-adc-analytics-reports.php:1419
+#: includes/admin/class-adc-admin-tab-dashboard.php:2114 includes/analytics/class-adc-analytics-reports.php:1419
 msgid "Pagină"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:2095 includes/analytics/class-adc-analytics-reports.php:1421
+#: includes/admin/class-adc-admin-tab-dashboard.php:2116 includes/analytics/class-adc-analytics-reports.php:1421
 msgid "Categorie produse"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:2096 includes/analytics/class-adc-analytics-reports.php:1422
+#: includes/admin/class-adc-admin-tab-dashboard.php:2117 includes/analytics/class-adc-analytics-reports.php:1422
 msgid "Etichetă produse"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:2097
+#: includes/admin/class-adc-admin-tab-dashboard.php:2118
 msgid "Categorie articole"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:2098
+#: includes/admin/class-adc-admin-tab-dashboard.php:2119
 msgid "Etichetă articole"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:2099 includes/analytics/class-adc-analytics-reports.php:1425
+#: includes/admin/class-adc-admin-tab-dashboard.php:2120 includes/analytics/class-adc-analytics-reports.php:1425
 msgid "Magazin"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:2100 includes/analytics/class-adc-analytics-reports.php:1426
+#: includes/admin/class-adc-admin-tab-dashboard.php:2121 includes/analytics/class-adc-analytics-reports.php:1426
 msgid "Arhivă"
 msgstr ""
 
 #. translators: %d: number of days.
-#: includes/admin/class-adc-admin-tab-dashboard.php:2118
+#: includes/admin/class-adc-admin-tab-dashboard.php:2139
 msgid "%d zile"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:2128
+#: includes/admin/class-adc-admin-tab-dashboard.php:2149
 msgid "Toate canalele"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:2144
+#: includes/admin/class-adc-admin-tab-dashboard.php:2165
 msgid "Moneda implicită"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:2159
+#: includes/admin/class-adc-admin-tab-dashboard.php:2180
 msgid "Toate tipurile de pagină"
 msgstr ""
 
 #. translators: %d: number of list rows.
-#: includes/admin/class-adc-admin-tab-dashboard.php:2177 templates/admin/analytics-dashboard.php:538
+#: includes/admin/class-adc-admin-tab-dashboard.php:2198 templates/admin/analytics-dashboard.php:579
 msgid "Top %d"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:2193 templates/admin/analytics-dashboard.php:521
+#: includes/admin/class-adc-admin-tab-dashboard.php:2214 templates/admin/analytics-dashboard.php:562
 msgid "Interval personalizat"
 msgstr ""
 
@@ -1494,7 +1663,7 @@ msgid "După câte zile se șterg evenimentele eșuate definitiv; păstrați-le 
 "dacă reîncercați manual erorile (implicit 30)."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-events.php:242
+#: includes/admin/class-adc-admin-tab-events.php:266
 msgid "Setările de evenimente au fost salvate."
 msgstr ""
 
@@ -2207,7 +2376,7 @@ msgstr ""
 msgid "Regulă de selectare"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-feeds.php:354 templates/admin/analytics-dashboard.php:935
+#: includes/admin/class-adc-admin-tab-feeds.php:354 templates/admin/analytics-dashboard.php:976
 msgid "Top produse"
 msgstr ""
 
@@ -2994,7 +3163,7 @@ msgstr ""
 msgid "Dezactivat — fără gtag în browser"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-ga4.php:163 includes/admin/class-adc-admin-tab-meta.php:167 includes/admin/class-adc-admin-tab-tiktok.php:164
+#: includes/admin/class-adc-admin-tab-ga4.php:163 includes/admin/class-adc-admin-tab-meta.php:168 includes/admin/class-adc-admin-tab-tiktok.php:164
 msgid "Gestionat prin Google Tag Manager (recomandat)"
 msgstr ""
 
@@ -3020,7 +3189,7 @@ msgid "ID-ul fluxului de date (G-XXXXXXX) în care Google înregistrează "
 "evenimentele trimise de server."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-ga4.php:186 includes/admin/class-adc-admin-tab-gtm.php:293
+#: includes/admin/class-adc-admin-tab-ga4.php:186 includes/admin/class-adc-admin-tab-gtm.php:296
 msgid "••••• (salvat) — lasă câmpul gol pentru a păstra cheia curentă."
 msgstr ""
 
@@ -3085,11 +3254,11 @@ msgid "De aceea alegeți UN SINGUR canal pentru purchase. Recomandat: Browser, c
 "tag-ul GTM (condiție de custom event) și verificați dublarea în DebugView."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-ga4.php:222 includes/admin/class-adc-admin-tab-gtm.php:303 includes/admin/class-adc-admin-tab-meta.php:200 includes/admin/class-adc-admin-tab-tiktok.php:197
+#: includes/admin/class-adc-admin-tab-ga4.php:222 includes/admin/class-adc-admin-tab-gtm.php:306 includes/admin/class-adc-admin-tab-meta.php:201 includes/admin/class-adc-admin-tab-tiktok.php:197
 msgid "Testare conexiune"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-ga4.php:223 includes/admin/class-adc-admin-tab-gtm.php:304 includes/admin/class-adc-admin-tab-meta.php:201 includes/admin/class-adc-admin-tab-tiktok.php:198
+#: includes/admin/class-adc-admin-tab-ga4.php:223 includes/admin/class-adc-admin-tab-gtm.php:307 includes/admin/class-adc-admin-tab-meta.php:202 includes/admin/class-adc-admin-tab-tiktok.php:198
 msgid "Testează conexiunea"
 msgstr ""
 
@@ -3138,6 +3307,15 @@ msgid "Sesiunea GA4 rezultată nu se corelează cu cea din browser — bun pentr
 "numărătoare, slab pentru rapoartele de utilizator."
 msgstr ""
 
+#: includes/admin/class-adc-admin-tab-ga4.php:239
+msgid "Pentru comenzile eligibile, client_id provine din cookie-ul _ga capturat la "
+"finalizarea comenzii."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-ga4.php:239
+msgid "Transportul prin containerul server se configurează în Google Tag Manager."
+msgstr ""
+
 #: includes/admin/class-adc-admin-tab-ga4.php:243
 msgid "Trimitere chiar și fără consimțământ"
 msgstr ""
@@ -3180,9 +3358,7 @@ msgid "Test fără poluarea rapoartelor: evenimentele merg în DebugView-ul Goog
 msgstr ""
 
 #: includes/admin/class-adc-admin-tab-ga4.php:261
-msgid "Notă: client_id este luat din cookie-ul _ga capturat la momentul comenzii, "
-"doar cu consimțământ de statistici. Pentru transport first-party (Server "
-"GTM) folosiți tabul „Server GTM”."
+msgid "Identificatorul GA4 este folosit numai cu acordul pentru statistici."
 msgstr ""
 
 #: includes/admin/class-adc-admin-tab-ga4.php:289
@@ -3207,10 +3383,6 @@ msgstr ""
 #: includes/admin/class-adc-admin-tab-ga4.php:317
 msgid "Trimiterea fără consimțământ de statistici este activă — asigurați-vă că "
 "politica de confidențialitate permite acest lucru."
-msgstr ""
-
-#: includes/admin/class-adc-admin-tab-gtm.php:58 includes/tracking/class-adc-gtm.php:316
-msgid "Google Tag Manager"
 msgstr ""
 
 #: includes/admin/class-adc-admin-tab-gtm.php:135
@@ -3241,7 +3413,7 @@ msgstr ""
 msgid "paginile deschise de vizitatori"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:161 includes/admin/class-adc-admin-tab-gtm.php:185
+#: includes/admin/class-adc-admin-tab-gtm.php:161 includes/admin/class-adc-admin-tab-gtm.php:186
 msgid "Container web"
 msgstr ""
 
@@ -3272,581 +3444,563 @@ msgid "Containerul web se încarcă în site; containerul server este opțional 
 "primește evenimentele de la cel web."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:186
+#: includes/admin/class-adc-admin-tab-gtm.php:177
+msgid "Un domeniu propriu poate permite folosirea unui transport first-party. "
+"Comportamentul cookie-urilor depinde de configurare și de browser; această "
+"opțiune nu garantează că ele vor fi acceptate."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-gtm.php:187
 msgid "Snippet-ul GTM inserat în paginile site-ului, în browserul vizitatorilor."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:191
+#: includes/admin/class-adc-admin-tab-gtm.php:192
 msgid "Container web activ"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:192
+#: includes/admin/class-adc-admin-tab-gtm.php:193
 msgid "Activează containerul GTM web (în browserul vizitatorilor)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:193
+#: includes/admin/class-adc-admin-tab-gtm.php:194
 msgid "Debifat, snippet-ul GTM nu se mai inserează în site, dar ID-ul rămâne "
 "salvat. Server GTM este independent și se configurează în cardul de lângă."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:198
+#: includes/admin/class-adc-admin-tab-gtm.php:199
 msgid "ID container GTM"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:200
+#: includes/admin/class-adc-admin-tab-gtm.php:201
 msgid "Cu ID-ul salvat aici se inserează snippet-ul GTM în site; lăsat gol, "
 "containerul nu se încarcă deloc."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:207
+#: includes/admin/class-adc-admin-tab-gtm.php:208
 msgid "Mod încărcare"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:209
+#: includes/admin/class-adc-admin-tab-gtm.php:210
 msgid "Întotdeauna (cu seturi implicite de consimțământ)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:210
+#: includes/admin/class-adc-admin-tab-gtm.php:211
 msgid "Doar după acordarea consimțământului"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:212
+#: includes/admin/class-adc-admin-tab-gtm.php:213
 msgid "Pentru blocare înainte de acord, alegeți „Doar după acordarea "
 "consimțământului”. Modul „Întotdeauna” încarcă GTM imediat; Consent Mode nu "
 "garantează blocarea tuturor etichetelor din container."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:219
+#: includes/admin/class-adc-admin-tab-gtm.php:220
 msgid "Nume dataLayer"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:221
+#: includes/admin/class-adc-admin-tab-gtm.php:222
 msgid "Numele variabilei JS în care pluginul scrie evenimentele; schimbă-l doar "
 "dacă containerul dumneavoastră folosește alt nume."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:226
+#: includes/admin/class-adc-admin-tab-gtm.php:227
 msgid "Mediu: auth"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:228
+#: includes/admin/class-adc-admin-tab-gtm.php:229
 msgid "Token-ul de acces al unui mediu GTM (Auth Preview), pentru testarea unei "
 "versiuni nepublicate a containerului."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:233
+#: includes/admin/class-adc-admin-tab-gtm.php:234
 msgid "Mediu: preview"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:235
+#: includes/admin/class-adc-admin-tab-gtm.php:236
 msgid "Eticheta mediului de previzualizare (ex. env-123); ambele valori trebuie "
 "completate pentru a activa previzualizarea."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:246
+#: includes/admin/class-adc-admin-tab-gtm.php:247
 msgid "Server GTM (opțional)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:248
-msgid "„Transport first-party” înseamnă că etichetele de măsurare se încarcă de pe "
-"domeniul dumneavoastră, nu de pe serverele Google — cookie-urile rămân ale "
-"site-ului și nu sunt blocate de browsere."
-msgstr ""
-
-#: includes/admin/class-adc-admin-tab-gtm.php:255
-msgid "Activează Server GTM (transport first-party)"
+#: includes/admin/class-adc-admin-tab-gtm.php:249
+msgid "Containerul server poate primi evenimente pe domeniul propriu."
 msgstr ""
 
 #: includes/admin/class-adc-admin-tab-gtm.php:256
+msgid "Activează Server GTM (transport first-party)"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-gtm.php:257
 msgid "Pornește transportul; rămâne inactiv până salvați un URL valid de container "
 "server."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:264
-msgid "Atenție: folosiți un domeniu oferit de un provider implicit (ex. *.run.app) "
-"— în acest caz cookie-urile setate de container nu au beneficiu first-party "
-"(rămân cookie-uri JavaScript). Pentru avantaj complet folosiți un domeniu "
-"propriu."
+#: includes/admin/class-adc-admin-tab-gtm.php:265
+msgid "Domeniul furnizorului nu oferă avantajele unui domeniu propriu."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:267
+#: includes/admin/class-adc-admin-tab-gtm.php:268
 msgid "URL container server"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:269
+#: includes/admin/class-adc-admin-tab-gtm.php:270
 msgid "Adresa https a containerului server, pe domeniul propriu (ex. "
 "https://analytics.exemplu.ro); o valoare greșită oprește silențios "
 "colectarea."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:274
+#: includes/admin/class-adc-admin-tab-gtm.php:273
+msgid "Adresa folosește un domeniu implicit al furnizorului, precum run.app. "
+"Pentru transport pe domeniul propriu, configurați un subdomeniu al "
+"site-ului și folosiți adresa sa aici."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-gtm.php:277
 msgid "Mod loader / MP"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:276
+#: includes/admin/class-adc-admin-tab-gtm.php:279
 msgid "Transport (recomandat) — gtag/GTM își trimit evenimentele prin containerul "
 "server"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:277
+#: includes/admin/class-adc-admin-tab-gtm.php:280
 msgid "Experimental: forward MP din server către container"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:279
+#: includes/admin/class-adc-admin-tab-gtm.php:282
 msgid "„Transport” schimbă doar încărcarea etichetei pe domeniul propriu; „forward "
 "MP” (experimental) redirecționează și trimiterile GA4 de pe server."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:286
+#: includes/admin/class-adc-admin-tab-gtm.php:289
 msgid "Measurement ID (opțional)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:288
+#: includes/admin/class-adc-admin-tab-gtm.php:291
 msgid "Suprascrie Measurement ID-ul din tabul GA4, doar în modul experimental "
 "„forward MP”."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:294
+#: includes/admin/class-adc-admin-tab-gtm.php:297
 msgid "Necesară doar în modul experimental, dacă containerul o cere; se stochează "
 "criptat."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:296
+#: includes/admin/class-adc-admin-tab-gtm.php:299
 msgid "Cheie API (opțional)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:305
+#: includes/admin/class-adc-admin-tab-gtm.php:308
 msgid "În modul „Transport” confirmă configurarea URL-ului; în modul experimental "
 "trimite un eveniment sintetic în container."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:310
+#: includes/admin/class-adc-admin-tab-gtm.php:313
 msgid "În containerul GTM (Server), clientul GA4 este preinstalat — nu sunt "
 "necesare modificări de cod în container pentru ca evenimentele gtag să "
 "ajungă la el."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:364
+#: includes/admin/class-adc-admin-tab-gtm.php:367
 msgid "Setările Google Tag Manager au fost salvate."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:371
+#: includes/admin/class-adc-admin-tab-gtm.php:374
 msgid "ID-ul containerului GTM nu este valid (format corect: GTM-XXXXXXX). "
 "Valoarea veche a fost păstrată."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:379
+#: includes/admin/class-adc-admin-tab-gtm.php:382
 msgid "URL invalid — se acceptă doar adrese https valide."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:386
+#: includes/admin/class-adc-admin-tab-gtm.php:389
 msgid "Fără URL de container server, Server GTM rămâne inactiv."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-gtm.php:393
+#: includes/admin/class-adc-admin-tab-gtm.php:396
 msgid "Modul experimental „forward MP” este activ: funcție neverificată oficial de "
 "documentația Google — testați în DebugView înainte de producție."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:159
+#: includes/admin/class-adc-admin-tab-logs.php:166
 msgid "Evenimente trimise"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:160
+#: includes/admin/class-adc-admin-tab-logs.php:167
 msgid "Numărătoarea pe stări a cozii de expediere: „În așteptare”, „Trimis”, "
 "„Eșuat definitiv” și „Omis” (fără consimțământ / integrare dezactivată)."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:173
+#: includes/admin/class-adc-admin-tab-logs.php:180
 msgid "Ștergi definitiv intrările trimise/dead din jurnal?"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:174
+#: includes/admin/class-adc-admin-tab-logs.php:181
 msgid "Curăță jurnalul (retenție)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:176
+#: includes/admin/class-adc-admin-tab-logs.php:183
 msgid "Trimiți un eveniment de test către platformele activate (conform "
 "consimțământului browserului tău)?"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:177 includes/admin/class-adc-admin-tab-logs.php:179
+#: includes/admin/class-adc-admin-tab-logs.php:184 includes/admin/class-adc-admin-tab-logs.php:186
 msgid "Trimite eveniment test"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:182
+#: includes/admin/class-adc-admin-tab-logs.php:189
 msgid "„Curăță jurnalul” aplică imediat limitele de retenție (rândurile "
 "trimise/dead se șterg); „Trimite eveniment test” trece prin pipeline-ul "
 "real ca să verifici configurarea."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:184
+#: includes/admin/class-adc-admin-tab-logs.php:191
 msgid "Ultimele 200 intrări"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:185
+#: includes/admin/class-adc-admin-tab-logs.php:192
 msgid "Ultimele evenimente înregistrate în coadă, cu starea, încercările și "
 "eroarea finală; „Reîncearcă” reprogramează imediat o intrare eșuată."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:189
+#: includes/admin/class-adc-admin-tab-logs.php:196
 msgid "ID"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:190
+#: includes/admin/class-adc-admin-tab-logs.php:197
 msgid "Eveniment"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:191 includes/admin/class-adc-admin-tab-platforms.php:314
+#: includes/admin/class-adc-admin-tab-logs.php:198 includes/admin/class-adc-admin-tab-platforms.php:314
 msgid "Platformă"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:192 includes/consent/class-adc-consent-privacy.php:192
+#: includes/admin/class-adc-admin-tab-logs.php:199 includes/consent/class-adc-consent-privacy.php:192
 msgid "Comandă"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:193 includes/admin/class-adc-admin-tab-logs.php:293 includes/admin/class-adc-admin-tab-platforms.php:317 includes/feeds/class-adc-feed-field-registry.php:661 templates/admin/analytics-dashboard.php:946
+#: includes/admin/class-adc-admin-tab-logs.php:200 includes/admin/class-adc-admin-tab-logs.php:300 includes/admin/class-adc-admin-tab-platforms.php:317 includes/admin/class-adc-admin-tab-settings.php:208 includes/feeds/class-adc-feed-field-registry.php:661 templates/admin/analytics-dashboard.php:987
 msgid "Stare"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:194
+#: includes/admin/class-adc-admin-tab-logs.php:201
 msgid "Încercări"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:195
+#: includes/admin/class-adc-admin-tab-logs.php:202
 msgid "HTTP"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:196
+#: includes/admin/class-adc-admin-tab-logs.php:203
 msgid "Programat"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:202
+#: includes/admin/class-adc-admin-tab-logs.php:209
 msgid "Nicio intrare în jurnal."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:217
+#: includes/admin/class-adc-admin-tab-logs.php:224
 msgid "Reîncearcă"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:234
+#: includes/admin/class-adc-admin-tab-logs.php:241
 msgid "Instrumente și setări avansate"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:236
+#: includes/admin/class-adc-admin-tab-logs.php:243
 msgid "Căutare consimțământ după cid"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:237
+#: includes/admin/class-adc-admin-tab-logs.php:244
 msgid "Lipește identificatorul anonim de consimțământ (UUID) al unui vizitator "
 "pentru a-i vedea deciziile efectiv valabile — util pentru solicitări GDPR."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:240
+#: includes/admin/class-adc-admin-tab-logs.php:247
 msgid "Caută"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:244
+#: includes/admin/class-adc-admin-tab-logs.php:251
 msgid "Setări jurnal"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:249
+#: includes/admin/class-adc-admin-tab-logs.php:256
 msgid "Nivel jurnal"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:252
+#: includes/admin/class-adc-admin-tab-logs.php:259
 msgid "Doar erori"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:253
-msgid "Informativ"
-msgstr ""
-
-#: includes/admin/class-adc-admin-tab-logs.php:254
+#: includes/admin/class-adc-admin-tab-logs.php:261
 msgid "Debug"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:256
+#: includes/admin/class-adc-admin-tab-logs.php:263
 msgid "Cât de detaliat scrie pluginul în jurnalul PHP al serverului; „Debug” doar "
 "pentru depanare temporară, nu în producție."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:260
+#: includes/admin/class-adc-admin-tab-logs.php:267
 msgid "Consolă dataLayer"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:261
+#: includes/admin/class-adc-admin-tab-logs.php:268
 msgid "Afișează evenimentele dataLayer în consolă (doar pentru utilizatori "
 "autentificați ca admin)"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:262
+#: includes/admin/class-adc-admin-tab-logs.php:269
 msgid "Vizualizorii autentificați cu rol de admin văd în consola browserului "
 "fiecare eveniment trimis în dataLayer; vizitatorii obișnuiți nu."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:279
+#: includes/admin/class-adc-admin-tab-logs.php:286
 msgid "Cerințe Catalog"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:281
+#: includes/admin/class-adc-admin-tab-logs.php:288
 msgid "Verificarea cerințelor Catalog nu este disponibilă în această versiune."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:287
+#: includes/admin/class-adc-admin-tab-logs.php:294
 msgid "Nu au fost raportate cerințe Catalog."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:292
+#: includes/admin/class-adc-admin-tab-logs.php:299
 msgid "Cerință"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:303
+#: includes/admin/class-adc-admin-tab-logs.php:310
 msgid "Neverificat"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:305
+#: includes/admin/class-adc-admin-tab-logs.php:312
 msgid "Atenție"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:306
+#: includes/admin/class-adc-admin-tab-logs.php:313
 msgid "Disponibil"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:306
+#: includes/admin/class-adc-admin-tab-logs.php:313
 msgid "Lipsește"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:333
+#: includes/admin/class-adc-admin-tab-logs.php:340
 msgid "Setările de jurnal au fost salvate."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:365
+#: includes/admin/class-adc-admin-tab-logs.php:372
 msgid "Intrarea nu poate fi reîncercată."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:369
+#: includes/admin/class-adc-admin-tab-logs.php:376
 msgid "Reprogramarea a eșuat."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:379
+#: includes/admin/class-adc-admin-tab-logs.php:386
 msgid "Intrarea a fost reprogramată."
 msgstr ""
 
 #. translators: %d: number of deleted rows.
-#: includes/admin/class-adc-admin-tab-logs.php:398
+#: includes/admin/class-adc-admin-tab-logs.php:405
 msgid "%d intrare a fost ștearsă."
 msgid_plural "%d intrări au fost șterse."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:420
+#: includes/admin/class-adc-admin-tab-logs.php:427
 msgid "Platforma nu este disponibilă."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:600
+#: includes/admin/class-adc-admin-tab-logs.php:607
 msgid "Integrarea este dezactivată. Activează platforma din setări și testează din "
 "nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:601
+#: includes/admin/class-adc-admin-tab-logs.php:608
 msgid "Browserul curent nu a acordat consimțământ pentru măsurare. Acordă-l din "
 "bannerul de cookie-uri și testează din nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:602
+#: includes/admin/class-adc-admin-tab-logs.php:609
 msgid "Comenzile (purchase) se trimit doar prin canalul server, deci testul din "
 "browser este omis intenționat."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:603
+#: includes/admin/class-adc-admin-tab-logs.php:610
 msgid "Lipsește identificatorul de client al browserului (client_id). Vizitează "
 "site-ul cu consimțământ acordat și testează din nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:604
+#: includes/admin/class-adc-admin-tab-logs.php:611
 msgid "Lipsește ID-ul de măsurare GA4 (Measurement ID). Completează-l, salvează și "
 "testează din nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:605
+#: includes/admin/class-adc-admin-tab-logs.php:612
 msgid "Lipsește API secret pentru GA4. Completează-l, salvează și testează din "
 "nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:606
+#: includes/admin/class-adc-admin-tab-logs.php:613
 msgid "Containerul server GTM rulează în mod „loader”, deci evenimentele nu se "
 "trimit direct. Testul este omis."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:607
+#: includes/admin/class-adc-admin-tab-logs.php:614
 msgid "Lipsește URL-ul containerului server (sGTM). Completează-l, salvează și "
 "testează din nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:608
+#: includes/admin/class-adc-admin-tab-logs.php:615
 msgid "Datele despre utilizator sunt insuficiente pentru potrivirea avansată. "
 "Folosește un test cu e-mail și telefon completate."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:609
+#: includes/admin/class-adc-admin-tab-logs.php:616
 msgid "Lipsește ID-ul de pixel Meta. Completează-l, salvează și testează din nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:610
+#: includes/admin/class-adc-admin-tab-logs.php:617
 msgid "Lipsește token-ul de acces. Completează-l, salvează și testează din nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:611
+#: includes/admin/class-adc-admin-tab-logs.php:618
 msgid "Lipsește codul de test al evenimentelor (Test Event Code) din Meta Events "
 "Manager. Completează-l, salvează și testează din nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:612
+#: includes/admin/class-adc-admin-tab-logs.php:619
 msgid "Lipsește codul de pixel TikTok (Pixel Code). Completează-l, salvează și "
 "testează din nou."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:629
+#: includes/admin/class-adc-admin-tab-logs.php:636
 msgid "Browserul tău nu are consimțământ acordat pentru măsurare. Acordă "
 "consimțământul pe site și reia testul."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:650
+#: includes/admin/class-adc-admin-tab-logs.php:657
 msgid "Nicio platformă activă pentru acest eveniment."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:651
+#: includes/admin/class-adc-admin-tab-logs.php:658
 msgid "Evenimentul a fost adăugat în coadă. Rulează procesarea Action Scheduler "
 "pentru livrare."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:669
+#: includes/admin/class-adc-admin-tab-logs.php:676
 msgid "Identificator invalid."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:673
+#: includes/admin/class-adc-admin-tab-logs.php:680
 msgid "Motorul de consimțământ nu este disponibil."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:704
+#: includes/admin/class-adc-admin-tab-logs.php:711
 msgid "Se reprogramează…"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:705
+#: includes/admin/class-adc-admin-tab-logs.php:712
 msgid "Se curăță…"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:706
+#: includes/admin/class-adc-admin-tab-logs.php:713
 msgid "Se trimite…"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:707
+#: includes/admin/class-adc-admin-tab-logs.php:714
 msgid "Se caută…"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:708
+#: includes/admin/class-adc-admin-tab-logs.php:715
 msgid "Consimțământ efectiv pentru acest cid:"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:709
+#: includes/admin/class-adc-admin-tab-logs.php:716
 msgid "Nicio decizie de consimțământ pentru acest cid."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:710
+#: includes/admin/class-adc-admin-tab-logs.php:717
 msgid "acordat"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:711
+#: includes/admin/class-adc-admin-tab-logs.php:718
 msgid "refuzat"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:712
+#: includes/admin/class-adc-admin-tab-logs.php:719
 msgid "A apărut o eroare. Reîncarcă pagina."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:742
-msgid "Detectare conflicte (prima pagină)"
+#: includes/admin/class-adc-admin-tab-logs.php:752
+msgid "Detectare conflicte"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:778
-msgid "GTM snippet prezent"
+#: includes/admin/class-adc-admin-tab-logs.php:756
+msgid "Scanarea nu a rulat încă. Deschide tabul Conflicte pentru primul raport."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:779
-msgid "Apel direct gtag()"
+#: includes/admin/class-adc-admin-tab-logs.php:757 includes/admin/class-adc-admin-tab-logs.php:775
+msgid "Deschide Conflicte"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:780
-msgid "Meta Pixel direct"
+#: includes/admin/class-adc-admin-tab-logs.php:764
+msgid "Vezi raportul"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:781
-msgid "TikTok Pixel direct"
+#. translators: 1: number of conflicts, 2: number of warnings.
+#: includes/admin/class-adc-admin-tab-logs.php:771
+msgid "%1$d conflicte și %2$d atenționări detectate"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:782
-msgid "Google Analytics direct"
+#: includes/admin/class-adc-admin-tab-logs.php:798
+msgid "ADC eCOMM Hub: pipeline de urmărire"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:783
-msgid "Alt CMP activ: Complianz"
+#: includes/admin/class-adc-admin-tab-logs.php:813
+msgid "ADC eCOMM Hub: pipeline-ul de trimitere este operațional"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:784
-msgid "Alt CMP activ: Cookiebot"
-msgstr ""
-
-#: includes/admin/class-adc-admin-tab-logs.php:785
-msgid "Alt CMP activ: CookieYes"
-msgstr ""
-
-#: includes/admin/class-adc-admin-tab-logs.php:795
-msgid "1 apariție în HTML."
-msgid_plural "%d apariții în HTML."
-msgstr[0] ""
-msgstr[1] ""
-
-#: includes/admin/class-adc-admin-tab-logs.php:812
-msgid "Adcelerum Commerce Hub: pipeline de urmărire"
-msgstr ""
-
-#: includes/admin/class-adc-admin-tab-logs.php:827
-msgid "Adcelerum Commerce Hub: pipeline-ul de trimitere este operațional"
-msgstr ""
-
-#: includes/admin/class-adc-admin-tab-logs.php:838
+#: includes/admin/class-adc-admin-tab-logs.php:824
 msgid "Action Scheduler nu este disponibil — coada folosește WP-Cron ca rezervă"
 msgstr ""
 
 #. translators: %d: number of dead jobs.
-#: includes/admin/class-adc-admin-tab-logs.php:849
+#: includes/admin/class-adc-admin-tab-logs.php:835
 msgid "%d eveniment a eșuat definitiv (dead)."
 msgid_plural "%d evenimente au eșuat definitiv (dead)."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:896 includes/admin/trait-adc-admin-help-content.php:174
+#: includes/admin/class-adc-admin-tab-logs.php:882 includes/admin/trait-adc-admin-help-content.php:174
 msgid "În așteptare"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:897 includes/admin/trait-adc-admin-help-content.php:174
+#: includes/admin/class-adc-admin-tab-logs.php:883 includes/admin/trait-adc-admin-help-content.php:174
 msgid "Trimis"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:898 includes/admin/trait-adc-admin-help-content.php:174
+#: includes/admin/class-adc-admin-tab-logs.php:884 includes/admin/trait-adc-admin-help-content.php:174
 msgid "Eșuat definitiv"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:899 includes/admin/trait-adc-admin-help-content.php:174
+#: includes/admin/class-adc-admin-tab-logs.php:885 includes/admin/trait-adc-admin-help-content.php:174
 msgid "Omis"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:900
+#: includes/admin/class-adc-admin-tab-logs.php:886
 msgid "Fără consimțământ"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-logs.php:901
+#: includes/admin/class-adc-admin-tab-logs.php:887
 msgid "Integrare dezactivată"
 msgstr ""
 
@@ -3895,10 +4049,8 @@ msgstr ""
 msgid "Exportă utilizatori care NU au consimțit"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-marketing.php:142
-msgid "Fișierul CSV (email, telefon, prenume, nume) se descarcă direct în "
-"browserul dumneavoastră; primul buton listează contactele permise, al "
-"doilea pe cei care NU trebuie contactați."
+#: includes/admin/class-adc-admin-tab-marketing.php:141
+msgid "Contactele fără consimțământ nu trebuie contactate."
 msgstr ""
 
 #: includes/admin/class-adc-admin-tab-marketing.php:146
@@ -4101,116 +4253,119 @@ msgid "Pixelul rulează în browser, Conversions API trimite aceleași eveniment
 "pe server."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-meta.php:157
-msgid "Trimitere server (CAPI)"
+#: includes/admin/class-adc-admin-tab-meta.php:152
+msgid "Limited Data Use este destinat unor cerințe de confidențialitate din "
+"Statele Unite și nu este folosit aici. Pluginul verifică alegerea "
+"vizitatorului înainte de trimitere."
 msgstr ""
 
 #: includes/admin/class-adc-admin-tab-meta.php:158
+msgid "Trimitere server (CAPI)"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-meta.php:159
 msgid "Activează trimiterea evenimentelor server-side către Conversions API"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-meta.php:159 includes/admin/class-adc-admin-tab-tiktok.php:156
+#: includes/admin/class-adc-admin-tab-meta.php:160 includes/admin/class-adc-admin-tab-tiktok.php:156
 msgid "Pornește expedierea de pe server; evenimentele pleacă doar pentru "
 "vizitatorii cu consimțământ de marketing bifat."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-meta.php:166 includes/admin/class-adc-admin-tab-tiktok.php:163
+#: includes/admin/class-adc-admin-tab-meta.php:167 includes/admin/class-adc-admin-tab-tiktok.php:163
 msgid "Dezactivat — fără pixel în browser"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-meta.php:168 includes/admin/class-adc-admin-tab-tiktok.php:165
+#: includes/admin/class-adc-admin-tab-meta.php:169 includes/admin/class-adc-admin-tab-tiktok.php:165
 msgid "Încărcare directă — doar după consimțământul de marketing"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-meta.php:176 includes/admin/class-adc-admin-tab-tiktok.php:173
+#: includes/admin/class-adc-admin-tab-meta.php:177 includes/admin/class-adc-admin-tab-tiktok.php:173
 msgid "Mod pixel în browser"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-meta.php:178
+#: includes/admin/class-adc-admin-tab-meta.php:179
 msgid "Cum se încarcă pixelul Meta în pagini: deloc, prin GTM (îl gestionați din "
 "container) sau direct de plugin, după consimțământ."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-meta.php:183
+#: includes/admin/class-adc-admin-tab-meta.php:184
 msgid "Pixel / Dataset ID"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-meta.php:185
+#: includes/admin/class-adc-admin-tab-meta.php:186
 msgid "Identificatorul contului țintă din Events Manager; evenimentele server-side "
 "se atașează de acest ID."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-meta.php:190 includes/admin/class-adc-admin-tab-tiktok.php:187
+#: includes/admin/class-adc-admin-tab-meta.php:191 includes/admin/class-adc-admin-tab-tiktok.php:187
 msgid "••••• (salvat) — lasă câmpul gol pentru a păstra tokenul curent."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-meta.php:191
+#: includes/admin/class-adc-admin-tab-meta.php:192
 msgid "Tokenul din Events Manager; se stochează criptat și nu se mai afișează după "
 "salvare."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-meta.php:193 includes/admin/class-adc-admin-tab-tiktok.php:190
+#: includes/admin/class-adc-admin-tab-meta.php:194 includes/admin/class-adc-admin-tab-tiktok.php:190
 msgid "Token de acces"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-meta.php:202
+#: includes/admin/class-adc-admin-tab-meta.php:203
 msgid "Trimite un eveniment sintetic către Test Events; necesită Pixel/Dataset ID, "
 "token și cod de eveniment test salvate."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-meta.php:207
+#: includes/admin/class-adc-admin-tab-meta.php:208
 msgid "Versiunea API și codul de eveniment test; schimbă-le doar dacă ai un motiv "
 "concret."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-meta.php:212
+#: includes/admin/class-adc-admin-tab-meta.php:213
 msgid "Versiune API Graph"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-meta.php:214
+#: includes/admin/class-adc-admin-tab-meta.php:215
 msgid "Versiunea API Meta folosită la trimitere (ex. v26.0); schimbați doar la "
 "cererea platformei."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-meta.php:219 includes/admin/class-adc-admin-tab-tiktok.php:209
+#: includes/admin/class-adc-admin-tab-meta.php:220 includes/admin/class-adc-admin-tab-tiktok.php:209
 msgid "Cod eveniment test"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-meta.php:222
+#: includes/admin/class-adc-admin-tab-meta.php:223
 msgid "Atenție: cu un cod de test activ, evenimentele nu mai ajung în rapoartele "
 "reale — ștergeți codul în producție."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-meta.php:223
+#: includes/admin/class-adc-admin-tab-meta.php:224
 msgid "Gol = evenimente reale. Completat, toate evenimentele se direcționează doar "
 "în Test Events."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-meta.php:226
+#: includes/admin/class-adc-admin-tab-meta.php:227
 msgid "Codul de eveniment test (TEST123...) se generează în Meta Events Manager → "
 "Test Events. Cât timp este salvat aici, NICIUN eveniment nu mai este "
 "raportat ca producție — toate merg în fereastra de test, inclusiv comenzile "
 "reale."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-meta.php:226
+#: includes/admin/class-adc-admin-tab-meta.php:227
 msgid "Folosiți-l temporar pentru verificare, apoi ștergeți câmpul și salvați. "
 "Pluginul afișează un avertisment la fiecare salvare cât timp codul este "
 "activ."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-meta.php:233
-msgid "Notă: Limited Data Use (data_processing_options) este un mecanism dedicat "
-"legilor americane privind confidențialitatea și nu este folosit; pentru "
-"UE/România poarta corectă este consimțământul — fără consimțământ, "
-"evenimentul nu se trimite deloc."
+#: includes/admin/class-adc-admin-tab-meta.php:234
+msgid "Evenimentele sunt trimise numai cu consimțământul necesar."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-meta.php:258
+#: includes/admin/class-adc-admin-tab-meta.php:259
 msgid "Setările Meta au fost salvate."
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-meta.php:265
+#: includes/admin/class-adc-admin-tab-meta.php:266
 msgid "Codul de eveniment test este activ — evenimentele Meta nu mai sunt "
 "ignorate. Șterge-l înainte de producție."
 msgstr ""
@@ -4308,12 +4463,54 @@ msgstr ""
 msgid "Deschide tabul %s"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-platforms.php:390
+#: includes/admin/class-adc-admin-tab-platforms.php:390 includes/core/class-adc-conflict-detector.php:801
 msgid "prin GTM"
 msgstr ""
 
 #: includes/admin/class-adc-admin-tab-platforms.php:391 includes/analytics/class-adc-analytics-reports.php:1449
 msgid "Direct"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-settings.php:50
+msgid "Setări"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-settings.php:201
+msgid "Toate setările, într-un singur loc"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-settings.php:202
+msgid "Starea este calculată din valorile salvate. Deschide zona de care ai nevoie "
+"— fiecare tab își salvează propriile câmpuri."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-settings.php:207
+msgid "Zonă"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-settings.php:209 includes/admin/class-adc-admin-tab-settings.php:228
+msgid "Deschide"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-settings.php:234
+msgid "Ajutor și suport"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-settings.php:235
+msgid "Pentru întrebări despre configurare sau integrări personalizate, scrie "
+"echipei Adcelerum."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-settings.php:241
+msgid "Deschide pagina de contact adcelerum.ro într-un tab nou."
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-settings.php:255
+msgid "Fără comutator"
+msgstr ""
+
+#: includes/admin/class-adc-admin-tab-settings.php:261
+msgid "Configurare incompletă"
 msgstr ""
 
 #: includes/admin/class-adc-admin-tab-tiktok.php:146
@@ -5348,7 +5545,7 @@ msgid "7/30/90 de zile încheiate azi, sau un interval personalizat ales cu Data
 "are nevoie de ambele date, altfel se revine la presetul de 30 de zile."
 msgstr ""
 
-#: includes/admin/trait-adc-admin-help-content.php:449 templates/admin/analytics-dashboard.php:608
+#: includes/admin/trait-adc-admin-help-content.php:449 templates/admin/analytics-dashboard.php:649
 msgid "Canale"
 msgstr ""
 
@@ -5542,7 +5739,7 @@ msgstr ""
 msgid "Rata rambursărilor"
 msgstr ""
 
-#: includes/analytics/class-adc-analytics-csv.php:388 includes/analytics/class-adc-analytics-csv.php:397 includes/analytics/class-adc-analytics-csv.php:613 includes/analytics/class-adc-analytics-csv.php:644 templates/admin/analytics-dashboard.php:1118
+#: includes/analytics/class-adc-analytics-csv.php:388 includes/analytics/class-adc-analytics-csv.php:397 includes/analytics/class-adc-analytics-csv.php:613 includes/analytics/class-adc-analytics-csv.php:644 templates/admin/analytics-dashboard.php:1162
 msgid "indisponibil"
 msgstr ""
 
@@ -5578,7 +5775,7 @@ msgstr ""
 msgid "Valoare"
 msgstr ""
 
-#: includes/analytics/class-adc-analytics-csv.php:417 includes/analytics/class-adc-analytics-csv.php:508 includes/analytics/class-adc-analytics-csv.php:637 templates/admin/analytics-dashboard.php:260
+#: includes/analytics/class-adc-analytics-csv.php:417 includes/analytics/class-adc-analytics-csv.php:508 includes/analytics/class-adc-analytics-csv.php:637 templates/admin/analytics-dashboard.php:301
 msgid "Data"
 msgstr ""
 
@@ -5630,11 +5827,11 @@ msgstr ""
 msgid "Status comandă"
 msgstr ""
 
-#: includes/analytics/class-adc-analytics-csv.php:608 templates/admin/analytics-dashboard.php:947
+#: includes/analytics/class-adc-analytics-csv.php:608 templates/admin/analytics-dashboard.php:988
 msgid "Comenzi"
 msgstr ""
 
-#: includes/analytics/class-adc-analytics-csv.php:638 templates/admin/analytics-dashboard.php:997
+#: includes/analytics/class-adc-analytics-csv.php:638 templates/admin/analytics-dashboard.php:1038
 msgid "Diferență"
 msgstr ""
 
@@ -6139,7 +6336,7 @@ msgstr ""
 msgid "180 de zile"
 msgstr ""
 
-#: includes/consent/class-adc-consent-banner.php:724 templates/consent/preferences.php:20
+#: includes/consent/class-adc-consent-banner.php:727 templates/consent/preferences.php:20
 msgid "Setări cookie-uri"
 msgstr ""
 
@@ -6265,6 +6462,238 @@ msgstr ""
 
 #: includes/consent/class-adc-cookie-scanner.php:178
 msgid "Inventarul de cookie-uri este plin (maximum 100 de intrări)."
+msgstr ""
+
+#: includes/core/class-adc-conflict-detector.php:544
+msgid "Al doilea instrument de consimțământ este activ"
+msgstr ""
+
+#. translators: %s: plugin names, comma separated.
+#: includes/core/class-adc-conflict-detector.php:547
+msgid "%s gestionează deja bannerul și consimțământul în acest site. Cu bannerul "
+"propriu pornit rulează două CMP-uri: vizitatorul vede două bannere, iar "
+"etichetele depind de două stări de consimțământ care pot să nu fie "
+"sincronizate."
+msgstr ""
+
+#: includes/core/class-adc-conflict-detector.php:550
+msgid "Păstrați un singur CMP: fie opriți bannerul propriu din tabul Banner, fie "
+"dezactivați celălalt plugin. Evenimentele trebuie să pornească dintr-o "
+"singură sursă de consimțământ."
+msgstr ""
+
+#: includes/core/class-adc-conflict-detector.php:557
+msgid "Alt instrument de consimțământ detectat"
+msgstr ""
+
+#. translators: %s: plugin names, comma separated.
+#: includes/core/class-adc-conflict-detector.php:560
+msgid "%s este activ, dar bannerul propriu este oprit — cele două nu se suprapun."
+msgstr ""
+
+#: includes/core/class-adc-conflict-detector.php:575
+msgid "Al doilea încărcător Google Tag Manager"
+msgstr ""
+
+#. translators: 1: plugin names, 2: own GTM container id.
+#: includes/core/class-adc-conflict-detector.php:578
+msgid "%1$s poate încărca propriul container GTM, iar containerul propriu (%2$s) "
+"se încarcă în paralel. Rezultatul tipic: page_view și evenimentele de "
+"comerț numărate de două ori."
+msgstr ""
+
+#: includes/core/class-adc-conflict-detector.php:582
+msgid "Alegeți o singură cale: lăsați containerul în grija pluginului propriu (și "
+"opriți încărcarea în celălalt plugin) sau goliți ID-ul containerului "
+"propriu și folosiți-l pe al lor."
+msgstr ""
+
+#: includes/core/class-adc-conflict-detector.php:588
+msgid "Alt instrument care încarcă GTM"
+msgstr ""
+
+#. translators: %s: plugin names, comma separated.
+#: includes/core/class-adc-conflict-detector.php:591
+msgid "%s este activ. Containerul propriu este oprit, deci nu există suprapunere."
+msgstr ""
+
+#: includes/core/class-adc-conflict-detector.php:604
+msgid "Cod injectat manual detectat"
+msgstr ""
+
+#. translators: %s: plugin names, comma separated.
+#: includes/core/class-adc-conflict-detector.php:607
+msgid "%s permite adăugarea de cod în site. Verificați dacă fragmentele "
+"GTM/gtag/pixel sunt introduse și acolo, nu doar în acest plugin."
+msgstr ""
+
+#. translators: %s: platform name.
+#: includes/core/class-adc-conflict-detector.php:630
+msgid "%s este trimis de două ori din browser"
+msgstr ""
+
+#. translators: 1: plugin names, 2: platform name.
+#: includes/core/class-adc-conflict-detector.php:635
+msgid "%1$s trimite deja evenimente %2$s direct din browser, iar pluginul propriu "
+"este setat pe „direct” pentru %2$s. Aceleași conversii pot fi raportate de "
+"două ori."
+msgstr ""
+
+#. translators: %s: platform name.
+#: includes/core/class-adc-conflict-detector.php:641
+msgid "Puneți %s pe „prin GTM” (o singură etichetă în container) sau dezactivați-l "
+"dacă pixelul rămâne în grija celuilalt plugin."
+msgstr ""
+
+#. translators: %s: platform name.
+#: includes/core/class-adc-conflict-detector.php:651
+msgid "%s poate fi raportat de două ori"
+msgstr ""
+
+#. translators: 1: plugin names, 2: platform name.
+#: includes/core/class-adc-conflict-detector.php:656
+msgid "%1$s este activ și încarcă %2$s. Dacă aceeași etichetă %2$s există și în "
+"containerul propriu, evenimentele se dublează."
+msgstr ""
+
+#: includes/core/class-adc-conflict-detector.php:660
+msgid "Verificați containerul GTM: păstrați o singură etichetă pentru platformă."
+msgstr ""
+
+#. translators: %s: platform name.
+#: includes/core/class-adc-conflict-detector.php:668
+msgid "%s este gestionat de alt plugin"
+msgstr ""
+
+#. translators: 1: plugin names, 2: platform name.
+#: includes/core/class-adc-conflict-detector.php:673
+msgid "%1$s încarcă %2$s, iar pluginul propriu are %2$s oprit — nu se suprapune."
+msgstr ""
+
+#: includes/core/class-adc-conflict-detector.php:696
+msgid "Container GTM străin în pagină"
+msgstr ""
+
+#. translators: %s: comma separated GTM container ids.
+#: includes/core/class-adc-conflict-detector.php:699
+msgid "În HTML-ul primei pagini apar containere GTM pe care pluginul nu le "
+"cunoaște: %s. Ele înseamnă un snippet hardcodat în temă sau în alt plugin, "
+"care rulează în paralel cu containerul propriu."
+msgstr ""
+
+#: includes/core/class-adc-conflict-detector.php:702
+msgid "Scoateți snippet-ul din temă/plugin sau renunțați la containerul propriu, "
+"apoi rescanați."
+msgstr ""
+
+#: includes/core/class-adc-conflict-detector.php:713
+msgid "Containerul propriu se încarcă de două ori"
+msgstr ""
+
+#. translators: 1: GTM container id, 2: number of occurrences.
+#: includes/core/class-adc-conflict-detector.php:716
+msgid "Containerul %1$s apare de %2$d ori în HTML-ul paginii."
+msgid_plural "Containerul %1$s apare de %2$d ori în HTML-ul paginii."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/core/class-adc-conflict-detector.php:720
+msgid "Păstrați un singur încărcător: opriți snippet-ul hardcodat sau încărcarea "
+"din celălalt plugin."
+msgstr ""
+
+#: includes/core/class-adc-conflict-detector.php:726
+msgid "Containerul GTM se încarcă înainte de consimțământ"
+msgstr ""
+
+#. translators: %s: GTM container id.
+#: includes/core/class-adc-conflict-detector.php:729
+msgid "Modul „doar după consimțământ” este activ, dar containerul %s apare deja în "
+"HTML-ul paginii — semn de snippet hardcodat în temă sau în alt plugin. "
+"Etichetele pot porni fără consimțământ."
+msgstr ""
+
+#: includes/core/class-adc-conflict-detector.php:732
+msgid "Eliminați snippet-ul hardcodat; lăsați încărcarea exclusiv pluginului, după "
+"consimțământ."
+msgstr ""
+
+#: includes/core/class-adc-conflict-detector.php:739
+msgid "Containerul propriu nu apare în pagină"
+msgstr ""
+
+#. translators: %s: GTM container id.
+#: includes/core/class-adc-conflict-detector.php:742
+msgid "Containerul %s este configurat, dar codul GTM nu apare în HTML-ul primei "
+"pagini. Verificați un cache/CDN sau o eroare de randare a temei."
+msgstr ""
+
+#: includes/core/class-adc-conflict-detector.php:745
+msgid "Goliți cache-ul site-ului și rescanați."
+msgstr ""
+
+#. translators: %s: platform name.
+#: includes/core/class-adc-conflict-detector.php:772
+msgid "%s apare în pagină și prin altă cale"
+msgstr ""
+
+#. translators: 1: platform name, 2: comma separated ids.
+#: includes/core/class-adc-conflict-detector.php:777
+msgid "Pagina încarcă %1$s (%2$s), iar pluginul propriu este setat pe „direct” "
+"pentru %1$s: același pixel este inițializat de două ori."
+msgstr ""
+
+#. translators: %s: platform name.
+#: includes/core/class-adc-conflict-detector.php:783
+msgid "Păstrați o singură sursă pentru %s (pluginul propriu sau celălalt) și "
+"rescanați."
+msgstr ""
+
+#. translators: %s: platform name.
+#: includes/core/class-adc-conflict-detector.php:793
+msgid "%s este încărcat de altundeva"
+msgstr ""
+
+#. translators: 1: platform name, 2: comma separated ids.
+#: includes/core/class-adc-conflict-detector.php:798
+msgid "Pagina conține inițializarea %1$s (%2$s) din altă sursă. Pluginul propriu "
+"are %1$s pe „%3$s” — verificați să nu rulați aceeași etichetă de două ori."
+msgstr ""
+
+#: includes/core/class-adc-conflict-detector.php:801
+msgid "oprit"
+msgstr ""
+
+#: includes/core/class-adc-conflict-detector.php:814
+msgid "dataLayer este reinițializat"
+msgstr ""
+
+#. translators: %d: number of resets.
+#: includes/core/class-adc-conflict-detector.php:817
+msgid "Pagina golește variabila dataLayer (%d reinițializare). Evenimentele "
+"trimise înainte de acel punct se pierd."
+msgid_plural "Pagina golește variabila dataLayer (%d reinițializări). Evenimentele "
+"trimise înainte de acel punct se pierd."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/core/class-adc-conflict-detector.php:820
+msgid "Căutați `dataLayer = []` în snippet-urile altor pluginuri/temă și "
+"înlocuiți-l cu `window.dataLayer = window.dataLayer || []`."
+msgstr ""
+
+#: includes/core/class-adc-conflict-detector.php:831
+msgid "Al doilea banner de consimțământ în pagină"
+msgstr ""
+
+#. translators: %s: comma separated CMP names found in the HTML.
+#: includes/core/class-adc-conflict-detector.php:834
+msgid "HTML-ul primei pagini conține cod de la %s, deci un al doilea banner "
+"rulează în browser, deși bannerul propriu este pornit."
+msgstr ""
+
+#: includes/core/class-adc-conflict-detector.php:837
+msgid "Păstrați un singur banner de consimțământ (vezi și tabul Banner)."
 msgstr ""
 
 #: includes/core/class-adc-github-updater.php:1131
@@ -8249,24 +8678,24 @@ msgid "Sunt de acord să primesc e-mailuri de marketing și promoții prin SMS d
 "de Confidențialitate[/privacy-policy-link]."
 msgstr ""
 
-#: includes/integrations/class-adc-integration-ga4.php:187
+#: includes/integrations/class-adc-integration-ga4.php:221
 msgid "GA4 (Measurement Protocol)"
 msgstr ""
 
-#: includes/integrations/class-adc-integration-meta.php:138
+#: includes/integrations/class-adc-integration-meta.php:171
 msgid "Meta (CAPI + Pixel)"
 msgstr ""
 
 #. translators: %s: first-party loader URL.
-#: includes/integrations/class-adc-integration-sgtm.php:257
+#: includes/integrations/class-adc-integration-sgtm.php:284
 msgid "Transport configurat: %s"
 msgstr ""
 
-#: includes/integrations/class-adc-integration-sgtm.php:258
+#: includes/integrations/class-adc-integration-sgtm.php:285
 msgid "Transport configurat (fără container GTM — loader-ul public va fi folosit)."
 msgstr ""
 
-#: includes/integrations/class-adc-integration-tiktok.php:137
+#: includes/integrations/class-adc-integration-tiktok.php:168
 msgid "TikTok (Events API + Pixel)"
 msgstr ""
 
@@ -8282,397 +8711,397 @@ msgstr ""
 msgid "Dovada consimțământului este păstrată pentru comanda #%s"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:98
+#: templates/admin/analytics-dashboard.php:139
 msgid "Estimativ"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:132
+#: templates/admin/analytics-dashboard.php:173
 msgid "creștere"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:132
+#: templates/admin/analytics-dashboard.php:173
 msgid "scădere"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:133
+#: templates/admin/analytics-dashboard.php:174
 msgid "față de intervalul anterior"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:253
+#: templates/admin/analytics-dashboard.php:294
 msgid "Datele graficului (tabel)"
 msgstr ""
 
 #. translators: %d: number of rows.
-#: templates/admin/analytics-dashboard.php:254
+#: templates/admin/analytics-dashboard.php:295
 msgid "%d zi"
 msgid_plural "%d zile"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/admin/analytics-dashboard.php:256
+#: templates/admin/analytics-dashboard.php:297
 msgid "Tabel de date pe zile, derulabil"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:265 templates/admin/analytics-dashboard.php:791 templates/admin/analytics-dashboard.php:928 templates/admin/analytics-dashboard.php:929
+#: templates/admin/analytics-dashboard.php:306 templates/admin/analytics-dashboard.php:832 templates/admin/analytics-dashboard.php:969 templates/admin/analytics-dashboard.php:970
 msgid "Cereri estimate"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:275 templates/admin/analytics-dashboard.php:280
+#: templates/admin/analytics-dashboard.php:316 templates/admin/analytics-dashboard.php:321
 msgid "sub pragă"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:325
+#: templates/admin/analytics-dashboard.php:366
 msgid "cu filtrele și intervalul active"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:344
+#: templates/admin/analytics-dashboard.php:385
 msgid "Element"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:346
+#: templates/admin/analytics-dashboard.php:387
 msgid "Reprezentare grafică relativă"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:348
+#: templates/admin/analytics-dashboard.php:389
 msgid "Valoare (fără taxă)"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:396 templates/admin/analytics-dashboard.php:817 templates/admin/analytics-dashboard.php:888
+#: templates/admin/analytics-dashboard.php:437 templates/admin/analytics-dashboard.php:858 templates/admin/analytics-dashboard.php:929
 msgid "Fără celule deasupra pragului de confidențialitate pentru acest interval."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:400
+#: templates/admin/analytics-dashboard.php:441
 msgid "Clasamentul complet"
 msgstr ""
 
 #. translators: %d: number of rows.
-#: templates/admin/analytics-dashboard.php:401 templates/admin/analytics-dashboard.php:990
+#: templates/admin/analytics-dashboard.php:442 templates/admin/analytics-dashboard.php:1031
 msgid "%d rând"
 msgid_plural "%d rânduri"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/admin/analytics-dashboard.php:403
+#: templates/admin/analytics-dashboard.php:444
 msgid "Clasament, tabel derulabil"
 msgstr ""
 
 #. translators: %d: number of hidden cells.
-#: templates/admin/analytics-dashboard.php:416
+#: templates/admin/analytics-dashboard.php:457
 msgid "%d rânduri sub prag au fost ascunse."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:537 templates/admin/analytics-dashboard.php:659
+#: templates/admin/analytics-dashboard.php:578 templates/admin/analytics-dashboard.php:700
 msgid "Lista"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:543 templates/admin/analytics-dashboard.php:683
+#: templates/admin/analytics-dashboard.php:584 templates/admin/analytics-dashboard.php:724
 msgid "Produs (ID)"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:553
+#: templates/admin/analytics-dashboard.php:594
 msgid "Starea canalelor"
 msgstr ""
 
 #. translators: %d: minimum cell value.
-#: templates/admin/analytics-dashboard.php:573
+#: templates/admin/analytics-dashboard.php:614
 msgid "Prag minim: %d"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:582
+#: templates/admin/analytics-dashboard.php:623
 msgid "Rapoartele nu sunt disponibile în această instalare"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:583
+#: templates/admin/analytics-dashboard.php:624
 msgid "Motorul de agregare (ADC_Analytics_Reports) nu este încă încărcat. Setările "
 "de mai jos se pot salva; cifrele nu sunt simulate nicăieri în pagină."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:590
+#: templates/admin/analytics-dashboard.php:631
 msgid "Filtre raport"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:596
+#: templates/admin/analytics-dashboard.php:637
 msgid "Interval de timp"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:609
+#: templates/admin/analytics-dashboard.php:650
 msgid "Canal de proveniență"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:624
+#: templates/admin/analytics-dashboard.php:665
 msgid "Monedă pentru cifre financiare"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:639
+#: templates/admin/analytics-dashboard.php:680
 msgid "Filtre avansate"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:655
+#: templates/admin/analytics-dashboard.php:696
 msgid "Filtrează cifrele de trafic pe un singur tip de pagină."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:667
+#: templates/admin/analytics-dashboard.php:708
 msgid "Câte rânduri se afișează în clasamente."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:673
+#: templates/admin/analytics-dashboard.php:714
 msgid "Se folosește doar împreună cu data de sfârșit."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:679
+#: templates/admin/analytics-dashboard.php:720
 msgid "Capătul intervalului personalizat."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:686
+#: templates/admin/analytics-dashboard.php:727
 msgid "Limitează produsele și listele la un singur produs."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:690
+#: templates/admin/analytics-dashboard.php:731
 msgid "Intervalul personalizat și filtrele de tip pagină, listă sau produs se "
 "aplică prin linkul de mai sus (navigare prin URL). Fără JavaScript, "
 "folosiți intervalele prestabilite și editați parametrii din URL: range, "
 "from, to, currency, channel, page_type, top, product."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:693
+#: templates/admin/analytics-dashboard.php:734
 msgid "JavaScript este dezactivat: filtrele de tip pagină, listă, produs și "
 "intervalul personalizat nu pot fi aplicate din formularele de mai sus; "
 "folosiți linkurile de interval și parametrii din URL."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:710
+#: templates/admin/analytics-dashboard.php:751
 msgid "Aplică filtrele"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:713
+#: templates/admin/analytics-dashboard.php:754
 msgid "Resetați filtrele"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:722
+#: templates/admin/analytics-dashboard.php:763
 msgid "Cifre cheie"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:723
+#: templates/admin/analytics-dashboard.php:764
 msgid "Valorile intervalului selectat, pe cele două registre separate."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:739
+#: templates/admin/analytics-dashboard.php:780
 msgid "Alte cifre ale intervalului"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:760
+#: templates/admin/analytics-dashboard.php:801
 msgid "Față de intervalul anterior:"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:775
+#: templates/admin/analytics-dashboard.php:816
 msgid "Tendințe pe zile"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:776
+#: templates/admin/analytics-dashboard.php:817
 msgid "Graficul alături de valorile pe zile: aceeași poveste, două forme."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:784
+#: templates/admin/analytics-dashboard.php:825
 msgid "Cereri de pagină pe zi"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:790
+#: templates/admin/analytics-dashboard.php:831
 msgid "Cereri de pagină estimate pe zi"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:793
+#: templates/admin/analytics-dashboard.php:834
 msgid "Fără date de trafic pentru acest interval"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:793
+#: templates/admin/analytics-dashboard.php:834
 msgid "Colectarea este activă, dar nu a fost înregistrată nicio celulă de trafic "
 "între datele selectate."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:802 templates/admin/analytics-dashboard.php:813
+#: templates/admin/analytics-dashboard.php:843 templates/admin/analytics-dashboard.php:854
 msgid "Cereri pe zile (valori)"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:804
+#: templates/admin/analytics-dashboard.php:845
 msgid "Export CSV — trafic"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:825
+#: templates/admin/analytics-dashboard.php:866
 msgid "Trafic (estimativ)"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:831
+#: templates/admin/analytics-dashboard.php:872
 msgid "Numărătoarea traficului este oprită"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:834
+#: templates/admin/analytics-dashboard.php:875
 msgid "Vezi secțiunea de trafic"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:846
+#: templates/admin/analytics-dashboard.php:887
 msgid "Comenzi și venit pe zi"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:852
+#: templates/admin/analytics-dashboard.php:893
 msgid "Comenzi plătite (bare) și venit brut (linie), pe zi"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:855
+#: templates/admin/analytics-dashboard.php:896
 msgid "Venit brut (linie)"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:856
+#: templates/admin/analytics-dashboard.php:897
 msgid "Comenzi plătite (bare)"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:861
+#: templates/admin/analytics-dashboard.php:902
 msgid "Fără comenzi înregistrate în acest interval"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:862
+#: templates/admin/analytics-dashboard.php:903
 msgid "Agregatele financiare sunt goale pentru datele selectate. Comenzile "
 "existente în alte monede nu sunt incluse — alegeți moneda corectă de mai "
 "sus."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:872 templates/admin/analytics-dashboard.php:884
+#: templates/admin/analytics-dashboard.php:913 templates/admin/analytics-dashboard.php:925
 msgid "Comenzi și venit pe zile (valori)"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:874
+#: templates/admin/analytics-dashboard.php:915
 msgid "Export CSV — comenzi"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:875
+#: templates/admin/analytics-dashboard.php:916
 msgid "Export CSV — venit"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:896
+#: templates/admin/analytics-dashboard.php:937
 msgid "Comenzi și venit"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:902
+#: templates/admin/analytics-dashboard.php:943
 msgid "Raportarea financiară nu este activă"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:905
+#: templates/admin/analytics-dashboard.php:946
 msgid "Deschideți setările financiare"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:922
+#: templates/admin/analytics-dashboard.php:963
 msgid "Defalcări și topuri"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:923
+#: templates/admin/analytics-dashboard.php:964
 msgid "Detaliile pe surse: liste ordonate, fiecare cu exportul ei."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:928
+#: templates/admin/analytics-dashboard.php:969
 msgid "Canale de proveniență (orientativ)"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:928
+#: templates/admin/analytics-dashboard.php:969
 msgid "Export CSV — canale"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:929
+#: templates/admin/analytics-dashboard.php:970
 msgid "Top pagini"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:929
+#: templates/admin/analytics-dashboard.php:970
 msgid "Export CSV — pagini"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:935
+#: templates/admin/analytics-dashboard.php:976
 msgid "Export CSV — produse"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:940
+#: templates/admin/analytics-dashboard.php:981
 msgid "Comenzi pe stare (instantaneu)"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:956
+#: templates/admin/analytics-dashboard.php:997
 msgid "plătită"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:964
+#: templates/admin/analytics-dashboard.php:1005
 msgid "Numărul curent pe stare se citește direct din comenzi și nu face parte din "
 "agregatele pe zile."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:975
+#: templates/admin/analytics-dashboard.php:1016
 msgid "Verificarea datelor"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:976
+#: templates/admin/analytics-dashboard.php:1017
 msgid "Diferențele se raportează, nu se corectează automat."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:984 templates/admin/analytics-dashboard.php:1029
+#: templates/admin/analytics-dashboard.php:1025 templates/admin/analytics-dashboard.php:1073
 msgid "Recalculare (agregate vs. comenzi)"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:989
+#: templates/admin/analytics-dashboard.php:1030
 msgid "Detaliile recalculării (tabel)"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:992
+#: templates/admin/analytics-dashboard.php:1033
 msgid "Tabel de recalculare, derulabil"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:996
+#: templates/admin/analytics-dashboard.php:1037
 msgid "Metric"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1039
+#: templates/admin/analytics-dashboard.php:1083
 msgid "Interacțiuni"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1054
+#: templates/admin/analytics-dashboard.php:1098
 msgid "Stare colectare și note"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1055
+#: templates/admin/analytics-dashboard.php:1099
 msgid "Ce colectează modulul acum și ce nu poate determina din principiile lui."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1061
+#: templates/admin/analytics-dashboard.php:1105
 msgid "Stare colectare"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1080
+#: templates/admin/analytics-dashboard.php:1124
 msgid "Cele două registre"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1083
+#: templates/admin/analytics-dashboard.php:1127
 msgid "Două registre separate: cererile de pagină sunt stimate din logările "
 "serverului, iar cifrele financiare provin din comenzile WooCommerce. Ele nu "
 "se împart una la alta: acest modul nu calculează rată de conversie, "
 "vizitatori unici sau atribuire."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1091
+#: templates/admin/analytics-dashboard.php:1135
 msgid "Avertismente (%d)"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1094
+#: templates/admin/analytics-dashboard.php:1138
 msgid "Atenționări și precizii"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1112
+#: templates/admin/analytics-dashboard.php:1156
 msgid "Ce nu poate determina acest modul"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1130
+#: templates/admin/analytics-dashboard.php:1174
 msgid "Exportul CSV nu este disponibil în această instalare (motorul de export "
 "lipsește)."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1142
+#: templates/admin/analytics-dashboard.php:1186
 msgid "1. Rapoarte financiare din comenzi"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1149
+#: templates/admin/analytics-dashboard.php:1193
 msgid "Adună pe zile valorile comenzilor din WooCommerce (comenzi plătite, venit, "
 "TVA, livrare, reduceri, rambursări) și le afișează în Prezentare generală. "
 "Datele provin din comenzile proprii ale magazinului, rămân în baza de date "
@@ -8680,299 +9109,288 @@ msgid "Adună pe zile valorile comenzilor din WooCommerce (comenzi plătite, ven
 "de consimțământ."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1155
+#: templates/admin/analytics-dashboard.php:1199
 msgid "Înregistrez agregate financiare pe zile, din comenzile WooCommerce"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1157
+#: templates/admin/analytics-dashboard.php:1201
 msgid "Dacă o bifați, la prima intrare a unei comenzi în stările plătite se scrie "
 "un rând agregat pe ziua respectivă; fără această bifă (și fără confirmarea "
 "de mai jos) nu se scrie nimic."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1164
+#: templates/admin/analytics-dashboard.php:1208
 msgid "Confirm că venit brut = suma valorilor comenzilor plătite, venit net = brut "
 "minus rambursări, iar retenția de mai jos corespunde politicii magazinului."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1166
+#: templates/admin/analytics-dashboard.php:1210
 msgid "A doua confirmare este obligatorie: fără ea, cheltuielile și veniturile "
 "rămân oprite, chiar dacă ați activat opțiunea de mai sus."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1178
+#: templates/admin/analytics-dashboard.php:1222
 msgid "Atenție: aceste stări diferă de stările de purchase folosite la "
 "evenimentele de marketing; cifrele din cele două module nu vor coincidea."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1181
+#: templates/admin/analytics-dashboard.php:1225
 msgid "Stări considerate plătite"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1183
+#: templates/admin/analytics-dashboard.php:1227
 msgid "O comandă se numără o singură dată, la prima tranziție într-una dintre "
 "aceste stări; rambursările nu scad numărul de comenzi plătite."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1193
+#: templates/admin/analytics-dashboard.php:1237
 msgid "2. Contor statistic de trafic (fără identificatori)"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1200
+#: templates/admin/analytics-dashboard.php:1244
 msgid "Numără accesările de pagină pe zi, grupate pe tip de pagină și pe canalul "
 "de proveniență. Numărarea se face pe server, fără cookie, fără JavaScript "
 "și fără niciun identificator de vizitator; datele rămân în baza de date "
 "WordPress."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1204
+#: templates/admin/analytics-dashboard.php:1248
 msgid "Se numără: cereri de pagină pe zi, grupate pe tip de pagină (produs, "
 "articol, coș etc.) și pe canalul de proveniență (direct, căutare, rețea "
 "socială, trimitere de pe alt site)."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1207
+#: templates/admin/analytics-dashboard.php:1251
 msgid "NU se colectează: adresă IP, cookie, ID de utilizator, user agent sau URL "
 "referer. Nu se poate identifica un vizitator individual și nu se creează "
 "profiluri."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1210
+#: templates/admin/analytics-dashboard.php:1254
 msgid "Cererile care semnalează confidențialitate (Sec-GPC: 1 sau DNT: 1) nu sunt "
 "numărate; parametrii UTM nu sunt stocați; cifrele sunt estimative și "
 "subestimate din cauza cache-ului, CDN-ului și a boților."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1220
+#: templates/admin/analytics-dashboard.php:1264
 msgid "Activează contorul statistic de trafic"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1222
+#: templates/admin/analytics-dashboard.php:1266
 msgid "Dacă o bifați, fiecare pagină generată de WordPress pe site adaugă unu la "
 "contorul zilei respective; oprirea nu șterge ce a fost deja numărat."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1229
+#: templates/admin/analytics-dashboard.php:1273
 msgid "Am actualizat Politica de Confidențialitate și descriu acolo acest contor "
 "anonim-agregat, inclusiv dreptul de a obiecta."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1231
+#: templates/admin/analytics-dashboard.php:1275
 msgid "Fără această confirmare, contorul rămâne oprit chiar dacă primul câmp este "
 "bifat — este momentul în care vă asumați activarea măsurării."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1238
+#: templates/admin/analytics-dashboard.php:1282
 msgid "Excluderi din numărare"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1241
+#: templates/admin/analytics-dashboard.php:1285
 msgid "Nu număra vizitele administratorilor autentificați"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1244
+#: templates/admin/analytics-dashboard.php:1288
 msgid "Filtrare roboți conservatoare (pe user agent, fără a-l stoca)"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1245
+#: templates/admin/analytics-dashboard.php:1289
 msgid "Ambele se aplică doar contorului de trafic, după pornirea lui; cu una "
 "dezactivată, acea categorie ajunge în cifre."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1252
+#: templates/admin/analytics-dashboard.php:1296
 msgid "Prag minim pentru celule (valori)"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1254
+#: templates/admin/analytics-dashboard.php:1298
 msgid "Celulele mai mici decât această valoare nu se afișează și nu se exportă; se "
 "aplică și listelor de produse, care există independent de trafic."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1263
+#: templates/admin/analytics-dashboard.php:1307
 msgid "Notițe interne (nu activează nimic)"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1264
+#: templates/admin/analytics-dashboard.php:1308
 msgid "Câmpurile de mai jos sunt doar pentru evidența internă a evaluării "
 "juridice. Ele nu pornesc nicio colectare și nu înlocuiesc bifa de "
 "confirmare de mai sus."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1268
+#: templates/admin/analytics-dashboard.php:1312
 msgid "— fără temei stabilit —"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1269
+#: templates/admin/analytics-dashboard.php:1313
 msgid "Interes legitim (evaluare LIA)"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1272
+#: templates/admin/analytics-dashboard.php:1316
 msgid "Temei juridic propus"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1274
+#: templates/admin/analytics-dashboard.php:1318
 msgid "Notiță de documentație: doar „interes legitim” este acceptat de modul; "
 "selecția nu activează nimic de una singură."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1279
+#: templates/admin/analytics-dashboard.php:1323
 msgid "Referință LIA (notiță)"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1280
+#: templates/admin/analytics-dashboard.php:1324
 msgid "ID document / URL / data evaluării"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1281
+#: templates/admin/analytics-dashboard.php:1325
 msgid "Unde găsiți evaluarea (ID document, URL, dată). Rămâne în WordPress și nu "
 "se trimite nicăieri."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1286
+#: templates/admin/analytics-dashboard.php:1330
 msgid "Data aprobării (notiță)"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1288
+#: templates/admin/analytics-dashboard.php:1332
 msgid "Data de la care considerați evaluarea aprobată; o dată viitoare sau "
 "invalidă este eliminată la salvare."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1297
+#: templates/admin/analytics-dashboard.php:1341
 msgid "3. Indisponibile în această versiune"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1304
+#: templates/admin/analytics-dashboard.php:1348
 msgid "Ce înseamnă: funcțiile de mai jos au cod și tabele în modul, dar porțile "
 "lor sunt închise în cod și nu au comutator. Nicio setare nu le poate "
 "activa; interfața nu afișează câmpuri pentru ele ca să nu sugereze că ar "
 "merge."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1308
+#: templates/admin/analytics-dashboard.php:1352
 msgid "Parametri UTM și atribuirea campaniilor"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1309
+#: templates/admin/analytics-dashboard.php:1353
 msgid "Ar lega o comandă de campania din linkul de reclamă (utm_source / "
 "utm_medium / utm_campaign). Nu sunt stocați și nu sunt citiți din URL."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1314
+#: templates/admin/analytics-dashboard.php:1358
 msgid "Ar număra de câte ori intră un produs în coș, înainte de comandă. În "
 "schimb, topul produselor vândute din comenzi plătite este disponibil."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1319
+#: templates/admin/analytics-dashboard.php:1363
 msgid "Ar sta la baza calcului abandonului de coș. WooCommerce nu are un punct "
 "verificat pe server pentru „a început finalizarea”, deci abandonul nu poate "
 "fi calculat corect."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1326
+#: templates/admin/analytics-dashboard.php:1370
 msgid "4. Retenție și dezinstalare"
 msgstr ""
 
 #. translators: 1: financial days, 2: ledger days, 3: traffic days.
-#: templates/admin/analytics-dashboard.php:1335
+#: templates/admin/analytics-dashboard.php:1379
 msgid "Acum: financiar %1$d zile · registru %2$d zile · trafic %3$d zile"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1340
+#: templates/admin/analytics-dashboard.php:1384
 msgid "Retenție date"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1342
+#: templates/admin/analytics-dashboard.php:1386
 msgid "Cât timp se păstrează datele colectate; ce e mai vechi se șterge automat."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1346
+#: templates/admin/analytics-dashboard.php:1390
 msgid "Retenție agregate financiare (zile)"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1348
+#: templates/admin/analytics-dashboard.php:1392
 msgid "Între 90 și 3650 de zile; agregatele mai vechi decât această perioadă se "
 "șterg automat și dispar din rapoarte și din CSV."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1355
+#: templates/admin/analytics-dashboard.php:1399
 msgid "Retenție registru de deduplicare (zile)"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1357
+#: templates/admin/analytics-dashboard.php:1401
 msgid "Registrul conține ID-uri interne de comandă pentru a preveni dublarea; nu "
 "poate fi reținut mai puțin decât agregatele financiare."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1364
+#: templates/admin/analytics-dashboard.php:1408
 msgid "Retenție agregate trafic (zile)"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1366
+#: templates/admin/analytics-dashboard.php:1410
 msgid "Între 30 și 180 de zile. Contoarele mai vechi decât această perioadă se "
 "șterg automat; o perioadă mai scurtă înseamnă și o bază de date mai mică."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1374
+#: templates/admin/analytics-dashboard.php:1418
 msgid "Ștergerea la dezinstalare urmează opțiunea existentă „Șterge datele la "
 "dezinstalare” din setările de consimțământ; acest modul nu adaugă un al "
 "doilea comutator."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1377
+#: templates/admin/analytics-dashboard.php:1421
 msgid "Draft de notificare de confidențialitate (pentru validare juridică)"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1379
+#: templates/admin/analytics-dashboard.php:1423
 msgid "Nu publicați acest text ca afirmație de conformitate; trebuie validat de "
 "jurid și adaptat magazinului."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1384
+#: templates/admin/analytics-dashboard.php:1428
 msgid "5. Statistici per produs"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1390
-msgid "Numărăm zilnic vizualizările produselor, adăugările în coș, începuturile "
-"finalizării comenzii și achizițiile; aceste agregate pot fi folosite în "
-"viitor pentru dezvoltări Smart Feed și clasamente de produse planificate "
-"sau opționale, nu sunt prezentate ca funcții curente."
+#: templates/admin/analytics-dashboard.php:1434
+msgid "Colectează statistici zilnice pentru fiecare produs."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1391
-msgid "Pluginul nu stochează IP-uri sau identificatori de vizitator în tabelul de "
-"statistici. Colectarea are loc numai când această opțiune este activată și "
-"vizitatorul și-a dat consimțământul pentru categoria „statistics”. Pentru "
-"achiziții se folosește consimțământul salvat la finalizarea comenzii."
-msgstr ""
-
-#: templates/admin/analytics-dashboard.php:1392
-msgid "Activarea acestei opțiuni nu înlocuiește și nu obține consimțământul "
-"vizitatorului."
-msgstr ""
-
-#: templates/admin/analytics-dashboard.php:1395
+#: templates/admin/analytics-dashboard.php:1438
 msgid "Activează colectarea statisticilor per produs"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1397
+#: templates/admin/analytics-dashboard.php:1440
+msgid "Activarea nu obține consimțământul vizitatorului."
+msgstr ""
+
+#: templates/admin/analytics-dashboard.php:1441
 msgid "Debifat implicit. Chiar și activată, colectarea rămâne condiționată de "
 "consimțământul statistics al vizitatorului."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1400
+#: templates/admin/analytics-dashboard.php:1445
 msgid "Păstrează agregatele (zile)"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1402
+#: templates/admin/analytics-dashboard.php:1447
 msgid "Între 30 și 730 de zile; valoarea implicită este 180. Agregatele mai vechi "
 "se șterg automat."
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1405
+#: templates/admin/analytics-dashboard.php:1452
 msgid "Text propus pentru Politica de confidențialitate"
 msgstr ""
 
-#: templates/admin/analytics-dashboard.php:1406
+#: templates/admin/analytics-dashboard.php:1453
 msgid "Șablon informativ: verificați-l și validați-l cu operatorul/DPO înainte de "
 "publicare. Nu este o evaluare juridică și nu afirmă conformitatea."
 msgstr ""

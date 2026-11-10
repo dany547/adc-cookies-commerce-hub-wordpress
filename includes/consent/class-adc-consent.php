@@ -79,7 +79,10 @@ final class ADC_Consent implements ADC_Module_Interface
     /**
      * Current request state: cookie -> (logged-in) user meta if newer ->
      * denied(). Stale policy version or expired decision (cookie_days, D16)
-     * counts as undecided. Never creates a cid.
+     * counts as undecided. Never creates a cid. While the request carries an
+     * active GPC signal (gpc_active()), marketing is clamped to denied on
+     * read even when the stored cookie/user meta says granted; the stored
+     * decision is never rewritten, only the effective source becomes `gpc`.
      *
      * @return ADC_Consent_State
      */
@@ -108,6 +111,24 @@ final class ADC_Consent implements ADC_Module_Interface
             if (null === $best || $candidate->ts > $best->ts) {
                 $best = $candidate;
             }
+        }
+
+        // GPC read clamp (§2.2, revalidation H2/MEDIUM): Sec-GPC denies
+        // marketing even when the stored cookie or user meta says granted.
+        // Applies only to this request's effective state — no cookie rewrite,
+        // no log row — and only when the downgrade actually bites, so
+        // visitors without an effective marketing grant keep their own source.
+        if (null !== $best && $best->marketing && self::gpc_active()) {
+            $best = new ADC_Consent_State(
+                $best->preferences,
+                $best->statistics,
+                false,
+                $best->decided,
+                $best->ts,
+                $best->policy,
+                $best->cid,
+                'gpc',
+            );
         }
 
         return $best ?? ADC_Consent_State::denied();
@@ -153,6 +174,24 @@ final class ADC_Consent implements ADC_Module_Interface
     public static function honor_gpc(): bool
     {
         return (bool) ADC_Settings::get('consent', 'honor_gpc', true);
+    }
+
+    /**
+     * Whether the CURRENT request carries an active Global Privacy Control
+     * signal: `consent.honor_gpc` on and the `Sec-GPC: 1` request header
+     * (HTTP_SEC_GPC, same reading convention as the traffic analytics).
+     * Per-request only; never persisted from here.
+     *
+     * @return bool
+     */
+    public static function gpc_active(): bool
+    {
+        if (!self::honor_gpc()) {
+            return false;
+        }
+
+        return isset($_SERVER['HTTP_SEC_GPC'])
+            && '1' === trim((string) wp_unslash($_SERVER['HTTP_SEC_GPC']));
     }
 
     /**

@@ -174,6 +174,7 @@ final class ADC_Admin_Tab_Gtm implements ADC_Admin_Tab_Interface
             __('Containerul web se încarcă în site; containerul server este opțional și primește evenimentele de la cel web.', 'adc-marketing'),
             'adc-help-gtm-schema',
             $this->help_gtm_schema()
+                . '<p>' . esc_html__('Un domeniu propriu poate permite folosirea unui transport first-party. Comportamentul cookie-urilor depinde de configurare și de browser; această opțiune nu garantează că ele vor fi acceptate.', 'adc-marketing') . '</p>'
         );
 
         echo '<div class="adc-gtm-cards">';
@@ -245,7 +246,7 @@ final class ADC_Admin_Tab_Gtm implements ADC_Admin_Tab_Interface
         echo '<section class="adc-gtm-card adc-gtm-card--server">';
         echo '<header class="adc-gtm-card-head"><h3>' . esc_html__('Server GTM (opțional)', 'adc-marketing') . '</h3>' . self::status_badge($server_status) . '</header>';
         echo '<p class="adc-gtm-card-intro">'
-            . esc_html__('„Transport first-party” înseamnă că etichetele de măsurare se încarcă de pe domeniul dumneavoastră, nu de pe serverele Google — cookie-urile rămân ale site-ului și nu sunt blocate de browsere.', 'adc-marketing')
+            . esc_html__('Containerul server poate primi evenimente pe domeniul propriu.', 'adc-marketing')
             . '</p>';
 
         echo '<div class="adc-help-options">';
@@ -261,13 +262,15 @@ final class ADC_Admin_Tab_Gtm implements ADC_Admin_Tab_Interface
 
         $url_control = '<input type="url" id="adc-sgtm-url" name="sgtm[server_container_url]" value="' . esc_attr((string) $sgtm['server_container_url']) . '" class="regular-text code" placeholder="https://analytics.exemplu.ro" autocomplete="off" spellcheck="false" />';
         if ($provider_hint) {
-            $url_control .= '<p class="description" style="color:#e2401c;">' . esc_html__('Atenție: folosiți un domeniu oferit de un provider implicit (ex. *.run.app) — în acest caz cookie-urile setate de container nu au beneficiu first-party (rămân cookie-uri JavaScript). Pentru avantaj complet folosiți un domeniu propriu.', 'adc-marketing') . '</p>';
+            $url_control .= '<p class="adc-inline-warning">' . esc_html__('Domeniul furnizorului nu oferă avantajele unui domeniu propriu.', 'adc-marketing') . '</p>';
         }
         ADC_Admin_Help::row(
             __('URL container server', 'adc-marketing'),
             $url_control,
             __('Adresa https a containerului server, pe domeniul propriu (ex. https://analytics.exemplu.ro); o valoare greșită oprește silențios colectarea.', 'adc-marketing'),
-            'adc-sgtm-url'
+            'adc-sgtm-url',
+            'adc-help-sgtm-url',
+            '<p>' . esc_html__('Adresa folosește un domeniu implicit al furnizorului, precum run.app. Pentru transport pe domeniul propriu, configurați un subdomeniu al site-ului și folosiți adresa sa aici.', 'adc-marketing') . '</p>'
         );
 
         ADC_Admin_Help::row(

@@ -165,6 +165,15 @@
             return undecidedState();
         }
 
+        // GPC read clamp (§2.2): a stored m=1 never becomes effective again
+        // while the browser signals Sec-GPC and honour_gpc is on. Only the
+        // in-memory effective state is clamped (marketing denied, source
+        // `gpc` so readers see why); the stored cookie is left untouched.
+        if (gpcActive() && parsed.categories.marketing) {
+            parsed.categories.marketing = false;
+            parsed.source = 'gpc';
+        }
+
         return parsed;
     }
 

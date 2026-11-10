@@ -61,21 +61,32 @@ final class ADC_Integration_Meta implements ADC_Integration_Interface, ADC_Modul
     }
 
     /**
+     * Default values of the `meta` group (single source for registration
+     * and the sanitizer merge).
+     *
+     * @return array<string, mixed>
+     */
+    public static function defaults(): array
+    {
+        return array(
+            'enabled_server'  => false,
+            'browser_mode'    => self::default_browser_mode(),
+            'pixel_id'        => '',
+            'access_token'    => '',
+            'test_event_code' => '',
+            'api_version'     => 'v26.0', // D2: latest verified Graph version (PLATFORMS §2.1).
+            'action_source'   => 'website',
+        );
+    }
+
+    /**
      * Register the `meta` settings group (§4; access_token sealed at rest).
      */
     public static function register_settings(): void
     {
         ADC_Settings::register_group(
             'meta',
-            array(
-                'enabled_server'  => false,
-                'browser_mode'    => self::default_browser_mode(),
-                'pixel_id'        => '',
-                'access_token'    => '',
-                'test_event_code' => '',
-                'api_version'     => 'v26.0', // D2: latest verified Graph version (PLATFORMS §2.1).
-                'action_source'   => 'website',
-            ),
+            self::defaults(),
             array(self::class, 'sanitize_settings'),
             array('access_token')
         );
@@ -99,27 +110,49 @@ final class ADC_Integration_Meta implements ADC_Integration_Interface, ADC_Modul
      * The access_token passes through raw here; ADC_Settings::update seals
      * it and keeps the stored value on empty input.
      *
+     * Partial-write contract (2.6.1): a key ABSENT from $input keeps the
+     * stored value; an EXPLICIT empty/0/false from the form applies. The
+     * Meta tab always sends a complete input.
+     *
      * @param array $input   Raw input.
      * @param array $current Current stored values.
      * @return array
      */
     public static function sanitize_settings(array $input, array $current): array
     {
-        $mode = (string) ($input['browser_mode'] ?? '');
+        $out = array_merge(self::defaults(), $current);
 
-        $pixel = preg_replace('/[^0-9A-Za-z]/', '', (string) ($input['pixel_id'] ?? '')) ?? '';
-        $test  = preg_replace('/[^0-9A-Za-z]/', '', (string) ($input['test_event_code'] ?? '')) ?? '';
-        $ver   = (string) ($input['api_version'] ?? '');
+        if (array_key_exists('enabled_server', $input)) {
+            $out['enabled_server'] = !empty($input['enabled_server']);
+        }
 
-        return array(
-            'enabled_server'  => !empty($input['enabled_server']),
-            'browser_mode'    => in_array($mode, array('off', 'gtm', 'direct'), true) ? $mode : 'off',
-            'pixel_id'        => substr($pixel, 0, 30),
-            'access_token'    => trim((string) ($input['access_token'] ?? '')),
-            'test_event_code' => substr($test, 0, 40),
-            'api_version'     => 1 === preg_match('/^v\d+\.\d+$/', $ver) ? $ver : 'v26.0',
-            'action_source'   => 'website', // Fixed per D11.
-        );
+        if (array_key_exists('browser_mode', $input)) {
+            $mode = (string) $input['browser_mode'];
+            $out['browser_mode'] = in_array($mode, array('off', 'gtm', 'direct'), true) ? $mode : 'off';
+        }
+
+        if (array_key_exists('pixel_id', $input)) {
+            $pixel = preg_replace('/[^0-9A-Za-z]/', '', (string) $input['pixel_id']) ?? '';
+            $out['pixel_id'] = substr($pixel, 0, 30);
+        }
+
+        if (array_key_exists('access_token', $input)) {
+            $out['access_token'] = trim((string) $input['access_token']);
+        }
+
+        if (array_key_exists('test_event_code', $input)) {
+            $test = preg_replace('/[^0-9A-Za-z]/', '', (string) $input['test_event_code']) ?? '';
+            $out['test_event_code'] = substr($test, 0, 40);
+        }
+
+        if (array_key_exists('api_version', $input)) {
+            $ver = (string) $input['api_version'];
+            $out['api_version'] = 1 === preg_match('/^v\d+\.\d+$/', $ver) ? $ver : 'v26.0';
+        }
+
+        $out['action_source'] = 'website'; // Fixed per D11.
+
+        return $out;
     }
 
     /**

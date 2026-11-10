@@ -66,6 +66,47 @@ $commerce_on   = (bool) $get( $v, 'commerce', false );
 $traffic_on    = (bool) $get( $v, 'traffic', false );
 $has_reports   = (bool) $get( $v, 'reports_ready', false );
 
+/**
+ * Row-bound reconciliation warning (design review F2).
+ *
+ * A discrepancy is shown next to the metric it describes, inside the
+ * reconciliation table, instead of only in the collapsed general-warnings
+ * disclosure. The disclosure keeps the genuinely general caveats:
+ * reconciliation-derived rows are matched out of it by their 'recon'
+ * marker (ADC_Admin_Tab_Dashboard::warning_rows()), not by text.
+ */
+$recon_warning_text = static function ( mixed $label ): string {
+	return sprintf(
+		/* translators: %s: metric label. */
+		__( 'Diferență de recalculare pentru „%s”: agregatul nu corespunde cu totalul direct din comenzi. Verificați manual.', 'adc-marketing' ),
+		(string) $label
+	);
+};
+
+$recon_warning_texts = array();
+foreach ( (array) $get( $recon, 'rows', array() ) as $recon_row ) {
+	if ( ! empty( $recon_row['notify'] ) ) {
+		$recon_warning_texts[] = $recon_warning_text( $recon_row['label'] ?? '' );
+	}
+}
+
+$general_warnings = array_values(
+	array_filter(
+		(array) $warnings,
+		static function ( $warning ): bool {
+			if ( ! is_array( $warning ) ) {
+				return true;
+			}
+
+			// Reconciliation-derived warnings are rendered next to their
+			// metric row (design review F2); drop them from this disclosure
+			// by the 'recon' marker (added by ADC_Admin_Tab_Dashboard::
+			// warning_rows) instead of matching the rendered text.
+			return empty( $warning['recon'] );
+		}
+	)
+);
+
 $gate_state = static function ( string $feature ) use ( $gates ): array {
 	foreach ( $gates as $gate ) {
 		if ( (string) ( $gate['feature'] ?? '' ) === $feature ) {
@@ -984,7 +1025,7 @@ $render_ranking = static function ( array $list, string $id, string $title, stri
 							<h3 class="adc-box__title" id="recon-h"><?php esc_html_e( 'Recalculare (agregate vs. comenzi)', 'adc-marketing' ); ?><?php echo $icon( 'reconciliation', 'adc-help-an-reconciliation', __( 'Recalculare (agregate vs. comenzi)', 'adc-marketing' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ADC_Admin_Help::icon() escapes its own output. ?></h3>
 						</div>
 						<div class="adc-box__body">
-							<details class="adc-an-data">
+							<details class="adc-an-data"<?php echo $recon_warning_texts !== array() ? ' open' : ''; ?>>
 								<summary>
 									<?php esc_html_e( 'Detaliile recalculării (tabel)', 'adc-marketing' ); ?>
 									<span class="adc-an-data-count"><?php echo $e( sprintf( /* translators: %d: number of rows. */ _n( '%d rând', '%d rânduri', count( $recon_rows ), 'adc-marketing' ), count( $recon_rows ) ) ); ?></span>
@@ -1004,6 +1045,9 @@ $render_ranking = static function ( array $list, string $id, string $title, stri
 												<?php echo $e( $row['label'] ); ?>
 												<?php if ( '' !== (string) ( $row['date'] ?? '' ) ) : ?>
 													<span class="adc-an-prov"><?php echo $e( (string) $row['date'] ); ?></span>
+												<?php endif; ?>
+												<?php if ( ! empty( $row['notify'] ) ) : ?>
+													<span class="adc-inline-warning"><?php echo $e( $recon_warning_text( $row['label'] ?? '' ) ); ?></span>
 												<?php endif; ?>
 											</th>
 											<td class="adc-an-num<?php echo ! empty( $row['notify'] ) ? ' adc-an-alert' : ''; ?>">
@@ -1085,17 +1129,17 @@ $render_ranking = static function ( array $list, string $id, string $title, stri
 			</section>
 		</div>
 
-		<div class="adc-an-row<?php echo ( $warnings === array() || $unavailable === array() ) ? ' adc-an-row--single' : ''; ?>">
-			<?php if ( $warnings !== array() ) : ?>
+		<div class="adc-an-row<?php echo ( $general_warnings === array() || $unavailable === array() ) ? ' adc-an-row--single' : ''; ?>">
+			<?php if ( $general_warnings !== array() ) : ?>
 				<details class="adc-an-warnings">
-					<summary><?php printf( esc_html__( 'Avertismente (%d)', 'adc-marketing' ), count( $warnings ) ); ?></summary>
+					<summary><?php printf( esc_html__( 'Avertismente (%d)', 'adc-marketing' ), count( $general_warnings ) ); ?></summary>
 				<section class="adc-box adc-box--light" aria-labelledby="adc-an-notes-h">
 					<div class="adc-box__head">
 						<h3 class="adc-box__title" id="adc-an-notes-h"><?php $t = __( 'Atenționări și precizii', 'adc-marketing' ); echo esc_html( $t ) . $icon( 'warnings', 'adc-help-an-warnings', $t ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ADC_Admin_Help::icon() escapes its own output. ?></h3>
 					</div>
 					<div class="adc-box__body">
 						<ul class="adc-an-note-list">
-							<?php foreach ( $warnings as $warning ) : ?>
+							<?php foreach ( $general_warnings as $warning ) : ?>
 								<li class="adc-an-note adc-an-note--<?php echo esc_attr( (string) ( $warning['tone'] ?? 'info' ) ); ?>">
 									<?php echo $e( $warning['text'] ?? '' ); ?>
 								</li>
@@ -1384,23 +1428,26 @@ $render_ranking = static function ( array $list, string $id, string $title, stri
 	<?php $product_stats_title = __( '5. Statistici per produs', 'adc-marketing' ); ?>
 	<section class="adc-box adc-box--light adc-an-settings-block" id="adc-an-product-stats">
 	<div class="adc-box__head">
-		<h3 class="adc-box__title title"><?php echo $e( $product_stats_title ); ?></h3>
+		<h3 class="adc-box__title title"><?php echo esc_html( $product_stats_title ) . $icon( 'product_stats', 'adc-help-an-product-stats', $product_stats_title ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ADC_Admin_Help::icon() escapes its own output. ?></h3>
 	</div>
 	<div class="adc-box__body">
-		<p class="adc-admin-section-intro"><?php esc_html_e( 'Numărăm zilnic vizualizările produselor, adăugările în coș, începuturile finalizării comenzii și achizițiile; aceste agregate pot fi folosite în viitor pentru dezvoltări Smart Feed și clasamente de produse planificate sau opționale, nu sunt prezentate ca funcții curente.', 'adc-marketing' ); ?></p>
-		<p class="description"><?php esc_html_e( 'Pluginul nu stochează IP-uri sau identificatori de vizitator în tabelul de statistici. Colectarea are loc numai când această opțiune este activată și vizitatorul și-a dat consimțământul pentru categoria „statistics”. Pentru achiziții se folosește consimțământul salvat la finalizarea comenzii.', 'adc-marketing' ); ?></p>
-		<p class="notice notice-warning inline"><strong><?php esc_html_e( 'Activarea acestei opțiuni nu înlocuiește și nu obține consimțământul vizitatorului.', 'adc-marketing' ); ?></strong></p>
+		<p class="adc-admin-section-intro"><?php esc_html_e( 'Colectează statistici zilnice pentru fiecare produs.', 'adc-marketing' ); ?></p>
 		<div class="adc-help-options">
-			<p class="adc-help-opt">
-				<label for="adc-product-stats-enabled"><strong><?php esc_html_e( 'Activează colectarea statisticilor per produs', 'adc-marketing' ); ?></strong></label>
-				<input type="checkbox" id="adc-product-stats-enabled" name="product_stats[enabled]" value="1" <?php checked( ! empty( $product_stats['enabled'] ), true ); ?> />
-				<span class="description"><?php esc_html_e( 'Debifat implicit. Chiar și activată, colectarea rămâne condiționată de consimțământul statistics al vizitatorului.', 'adc-marketing' ); ?></span>
-			</p>
-			<p class="adc-help-opt">
-				<label for="adc-product-stats-retention"><strong><?php esc_html_e( 'Păstrează agregatele (zile)', 'adc-marketing' ); ?></strong></label>
-				<input type="number" class="small-text" id="adc-product-stats-retention" name="product_stats[retention_days]" min="30" max="730" step="1" value="<?php echo esc_attr( (string) ( $product_stats['retention_days'] ?? 180 ) ); ?>" />
-				<span class="description"><?php esc_html_e( 'Între 30 și 730 de zile; valoarea implicită este 180. Agregatele mai vechi se șterg automat.', 'adc-marketing' ); ?></span>
-			</p>
+			<?php
+			$option(
+				__( 'Activează colectarea statisticilor per produs', 'adc-marketing' ),
+				'<input type="checkbox" id="adc-product-stats-enabled" name="product_stats[enabled]" value="1" ' . checked( ! empty( $product_stats['enabled'] ), true, false ) . ' />'
+					. '<p class="adc-inline-warning">' . esc_html__( 'Activarea nu obține consimțământul vizitatorului.', 'adc-marketing' ) . '</p>',
+				__( 'Debifat implicit. Chiar și activată, colectarea rămâne condiționată de consimțământul statistics al vizitatorului.', 'adc-marketing' ),
+				'adc-product-stats-enabled'
+			);
+			$option(
+				__( 'Păstrează agregatele (zile)', 'adc-marketing' ),
+				'<input type="number" class="small-text" id="adc-product-stats-retention" name="product_stats[retention_days]" min="30" max="730" step="1" value="' . esc_attr( (string) ( $product_stats['retention_days'] ?? 180 ) ) . '" />',
+				__( 'Între 30 și 730 de zile; valoarea implicită este 180. Agregatele mai vechi se șterg automat.', 'adc-marketing' ),
+				'adc-product-stats-retention'
+			);
+			?>
 		</div>
 		<h4><?php esc_html_e( 'Text propus pentru Politica de confidențialitate', 'adc-marketing' ); ?></h4>
 		<p class="description"><?php esc_html_e( 'Șablon informativ: verificați-l și validați-l cu operatorul/DPO înainte de publicare. Nu este o evaluare juridică și nu afirmă conformitatea.', 'adc-marketing' ); ?></p>

@@ -1,0 +1,213 @@
+/**
+ * Conflicte tab + Setări index (read-only tables, badges and the rescan bar).
+ * Button look/padding lives in admin-shell.css; this file only adds the
+ * pieces those two tabs introduce.
+ */
+
+/* --- Conflicte: status bar ------------------------------------------------ */
+
+.adc-conflicts-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--adc-space-2, 16px);
+    justify-content: space-between;
+    margin: 0 0 var(--adc-space-3, 24px);
+}
+
+.adc-conflicts-summary {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--adc-space-1, 8px);
+}
+
+.adc-conflicts-meta {
+    margin: 0;
+    flex-basis: 100%;
+}
+
+.adc-conflicts-meta-warn {
+    color: #b32d2e;
+}
+
+/* --- Badges (icon + text, never colour alone) ----------------------------- */
+
+.adc-conflicts-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 10px;
+    border-radius: 999px;
+    border: 1px solid currentColor;
+    font-size: 12px;
+    line-height: 1.9;
+    white-space: nowrap;
+}
+
+.adc-conflicts-dot {
+    font-weight: 700;
+}
+
+.adc-conflicts-badge--conflict {
+    color: #b32d2e;
+    background: #fcf0f1;
+}
+
+.adc-conflicts-badge--warning {
+    color: #8a4b00;
+    background: #fdf6ec;
+}
+
+.adc-conflicts-badge--info {
+    color: #1d4f91;
+    background: #f0f6fc;
+}
+
+.adc-conflicts-badge--ok {
+    color: #1a7f37;
+    background: #f0f9f2;
+}
+
+/* --- Conflicte: findings table ------------------------------------------- */
+
+.adc-admin-shell .adc-conflicts-table {
+    margin: 0 0 var(--adc-space-3, 24px);
+    border-collapse: collapse;
+}
+
+.adc-admin-shell .adc-conflicts-table th,
+.adc-admin-shell .adc-conflicts-table td {
+    vertical-align: top;
+    padding: 12px;
+}
+
+.adc-admin-shell .adc-conflicts-table thead th {
+    font-weight: 600;
+}
+
+.adc-conflicts-title {
+    display: block;
+    margin-top: 6px;
+    font-weight: 600;
+}
+
+.adc-conflicts-detail,
+.adc-conflicts-action {
+    margin: 0 0 6px;
+}
+
+.adc-conflicts-action {
+    color: #3c434a;
+}
+
+.adc-conflicts-clear {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+
+.adc-conflicts-plugins {
+    margin: 0 0 var(--adc-space-2, 16px);
+    padding-left: 18px;
+}
+
+.adc-conflicts-plugins li {
+    margin: 0 0 4px;
+}
+
+.adc-conflicts-note {
+    margin-top: var(--adc-space-2, 16px);
+}
+
+/* --- Conflicte: findings rows ------------------------------------------- */
+
+/* Subtle severity rail on each finding row; colour is never the only
+   signal — the badge carries the same severity (WCAG 1.4.1 safe). */
+.adc-admin-shell .adc-conflicts-row--conflict {
+    border-inline-start: 3px solid var(--adc-danger, #8a2424);
+}
+
+.adc-admin-shell .adc-conflicts-row--warning {
+    border-inline-start: 3px solid var(--adc-warning, #8a4b00);
+}
+
+.adc-admin-shell .adc-conflicts-row--info {
+    border-inline-start: 3px solid var(--adc-info, #1d4f91);
+}
+
+/* --- Setări: index table ------------------------------------------------- */
+
+.adc-admin-shell .adc-settings-index {
+    margin: 0 0 var(--adc-space-3, 24px);
+    border-collapse: collapse;
+}
+
+.adc-admin-shell .adc-settings-index th,
+.adc-admin-shell .adc-settings-index td {
+    vertical-align: middle;
+    padding: 10px 12px;
+}
+
+.adc-admin-shell .adc-settings-index .adc-settings-index-group th {
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 11px;
+    color: #50575e;
+    background: #f6f7f7;
+}
+
+.adc-settings-state {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.adc-settings-state--on {
+    color: #1a7f37;
+}
+
+.adc-settings-state--off {
+    color: #646970;
+}
+
+.adc-settings-state--partial {
+    color: #8a4b00;
+}
+
+.adc-settings-state--na {
+    color: #a7aaad;
+}
+
+.adc-settings-state-dot {
+    font-weight: 700;
+}
+
+.adc-settings-support {
+    display: flex;
+    align-items: center;
+    gap: var(--adc-space-2, 16px);
+    flex-wrap: wrap;
+}
+
+@media (max-width: 782px) {
+    .adc-admin-shell .adc-conflicts-table thead,
+    .adc-admin-shell .adc-conflicts-table th[scope="col"] {
+        display: none;
+    }
+
+    .adc-admin-shell .adc-conflicts-table,
+    .adc-admin-shell .adc-conflicts-table tbody,
+    .adc-admin-shell .adc-conflicts-table tr,
+    .adc-admin-shell .adc-conflicts-table th,
+    .adc-admin-shell .adc-conflicts-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .adc-admin-shell .adc-conflicts-table tr {
+        border-bottom: 1px solid #dcdcde;
+    }
+}

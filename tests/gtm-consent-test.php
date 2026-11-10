@@ -46,6 +46,29 @@ function check(bool $condition, string $message): void {
 check(ADC_Gtm::MODE_AFTER === ADC_Gtm::defaults()['mode'], 'defaults use after_consent');
 check(ADC_Gtm::MODE_AFTER === ADC_Gtm::sanitize(array('mode' => 'bogus'), array())['mode'], 'invalid mode sanitizes to after_consent');
 check(ADC_Gtm::MODE_ALWAYS === ADC_Gtm::sanitize(array('mode' => ADC_Gtm::MODE_ALWAYS), array())['mode'], 'sanitize preserves explicit always mode');
+
+// Partial writes must never wipe the rest of the group. The unified GTM tab
+// clears the legacy gtm.server_container_url right after saving the card, so a
+// sanitize() that reset absent keys used to drop container_id (status badge
+// showed "Inactiv: lipsește ID-ul containerului"), the load mode and the env
+// values on every save.
+$stored_gtm = array(
+    'container_id'   => 'GTM-ABC123',
+    'mode'           => ADC_Gtm::MODE_ALWAYS,
+    'datalayer_name' => 'dl',
+    'env_auth'       => 'A',
+    'env_preview'    => 'env-1',
+    'web_enabled'    => true,
+);
+$after_cleanup = ADC_Gtm::sanitize(array('server_container_url' => ''), $stored_gtm);
+check('GTM-ABC123' === $after_cleanup['container_id'], 'partial write keeps the stored container id');
+check(ADC_Gtm::MODE_ALWAYS === $after_cleanup['mode'], 'partial write keeps the stored load mode');
+check('dl' === $after_cleanup['datalayer_name'], 'partial write keeps the stored dataLayer name');
+check('A' === $after_cleanup['env_auth'] && 'env-1' === $after_cleanup['env_preview'], 'partial write keeps the stored GTM env values');
+check(true === $after_cleanup['web_enabled'], 'partial write keeps the stored web switch');
+check('' === ADC_Gtm::sanitize(array('container_id' => ''), $stored_gtm)['container_id'], 'an explicit empty container id still clears it');
+check('GTM-ABC123' === ADC_Gtm::sanitize(array('container_id' => 'GTM-BAD!'), $stored_gtm)['container_id'], 'invalid container id keeps the stored value');
+check('GTM-LOWER9' === ADC_Gtm::sanitize(array('container_id' => ' gtm-lower9 '), $stored_gtm)['container_id'], 'container id is trimmed and uppercased');
 $GLOBALS['adc_test_settings'] = array();
 check(ADC_Gtm::MODE_AFTER === ADC_Gtm::mode(), 'absent mode resolves to after_consent');
 $GLOBALS['adc_test_settings'] = array('mode' => 'invalid');

@@ -61,6 +61,9 @@ final class ADC_Settings implements ADC_Module_Interface
      * @param string   $group        Group slug, e.g. 'consent', 'meta'.
      * @param array    $defaults     Default values per key.
      * @param callable $sanitize     fn(array $input, array $current): array — must return a complete, typed array.
+     *                               Contract (2.6.1): a key ABSENT from $input must keep the value from
+     *                               $current; only an explicit ''/0/false from the form may clear it.
+     *                               Enforced by tests/settings-partial-write-test.php.
      * @param string[] $secret_keys  Keys stored sealed (encrypted) at rest.
      */
     public static function register_group(string $group, array $defaults, callable $sanitize, array $secret_keys = array()): void

@@ -557,7 +557,10 @@ final class ADC_Consent_Banner implements ADC_Module_Interface
 
         $out['privacy_page_id']      = absint($input['privacy_page_id'] ?? $current['privacy_page_id']);
         $out['cookie_page_id']       = absint($input['cookie_page_id'] ?? $current['cookie_page_id']);
-        $out['show_floating_button'] = (bool) ($input['show_floating_button'] ?? false);
+        // Absent key keeps the stored value (partial writers must never flip
+        // it); the banner tab always sends an explicit boolean, so an
+        // unchecked box still applies false.
+        $out['show_floating_button'] = (bool) ($input['show_floating_button'] ?? $current['show_floating_button'] ?? false);
 
         if (isset($input['colors']) && is_array($input['colors'])) {
             foreach (self::COLOR_KEYS as $key) {

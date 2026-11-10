@@ -85,24 +85,39 @@ final class ADC_Advanced_Matching implements ADC_Module_Interface
     {
         ADC_Settings::register_group(
             'matching',
-            array(
-                'enabled'          => false,
-                'require'          => 'marketing',
-                'capture_checkout' => true,
-                'capture_account'  => true,
-                'form_selectors'   => '',
-                'calling_code'     => '40',
-                'send_to'          => array('meta', 'tiktok', 'ga4'),
-                'use_external_id'  => true,
-                'datalayer_format' => 'hashed',
-            ),
+            self::defaults(),
             array(self::class, 'sanitize_settings'),
             array()
         );
     }
 
     /**
+     * Default values of the `matching` group (single source for registration
+     * and the sanitizer merge).
+     *
+     * @return array<string, mixed>
+     */
+    public static function defaults(): array
+    {
+        return array(
+            'enabled'          => false,
+            'require'          => 'marketing',
+            'capture_checkout' => true,
+            'capture_account'  => true,
+            'form_selectors'   => '',
+            'calling_code'     => '40',
+            'send_to'          => array('meta', 'tiktok', 'ga4'),
+            'use_external_id'  => true,
+            'datalayer_format' => 'hashed',
+        );
+    }
+
+    /**
      * Sanitizer: fn(array $input, array $current): array (complete, typed).
+     *
+     * Partial-write contract (2.6.1): a key ABSENT from $input keeps the
+     * stored value; an EXPLICIT empty/0/false from the form applies. The
+     * Matching tab always sends a complete input.
      *
      * @param array $input   Raw input.
      * @param array $current Current stored values.
@@ -110,26 +125,36 @@ final class ADC_Advanced_Matching implements ADC_Module_Interface
      */
     public static function sanitize_settings(array $input, array $current): array
     {
-        $out = $current;
+        $out = array_merge(self::defaults(), $current);
 
         foreach (array('enabled', 'capture_checkout', 'capture_account', 'use_external_id') as $flag) {
-            $out[$flag] = !empty($input[$flag]);
+            if (array_key_exists($flag, $input)) {
+                $out[$flag] = !empty($input[$flag]);
+            }
         }
 
-        $calling = preg_replace('/[^0-9]/', '', (string) ($input['calling_code'] ?? ''));
-        $out['calling_code'] = substr($calling ?? '', 0, 5);
+        if (array_key_exists('calling_code', $input)) {
+            $calling = preg_replace('/[^0-9]/', '', (string) $input['calling_code']);
+            $out['calling_code'] = substr($calling ?? '', 0, 5);
+        }
 
-        $out['form_selectors'] = self::sanitize_form_selectors((string) ($input['form_selectors'] ?? ''));
+        if (array_key_exists('form_selectors', $input)) {
+            $out['form_selectors'] = self::sanitize_form_selectors((string) $input['form_selectors']);
+        }
 
-        $send_to   = $input['send_to'] ?? array();
-        $send_to   = is_array($send_to) ? $send_to : array();
-        $out['send_to'] = array_values(array_intersect(
-            array_map('sanitize_key', $send_to),
-            array('meta', 'tiktok', 'ga4')
-        ));
+        if (array_key_exists('send_to', $input)) {
+            $send_to = is_array($input['send_to']) ? $input['send_to'] : array();
+            $out['send_to'] = array_values(array_intersect(
+                array_map('sanitize_key', $send_to),
+                array('meta', 'tiktok', 'ga4')
+            ));
+        }
 
-        $out['require']          = 'marketing'; // Fixed per §4.
-        $out['datalayer_format'] = 'plain' === ($input['datalayer_format'] ?? '') ? 'plain' : 'hashed';
+        $out['require'] = 'marketing'; // Fixed per §4.
+
+        if (array_key_exists('datalayer_format', $input)) {
+            $out['datalayer_format'] = 'plain' === ($input['datalayer_format'] ?? '') ? 'plain' : 'hashed';
+        }
 
         return $out;
     }

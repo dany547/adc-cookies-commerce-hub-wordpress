@@ -1333,6 +1333,23 @@ trait ADC_Admin_Analytics_Stats {
 	private function warning_rows( array $range, bool $reports, array $recon, array $series, array $traffic ): array {
 		$out = array();
 
+		// Tracking conflicts with other plugins (cached report of the Conflicte
+		// tab; never triggers a scan here).
+		if ( class_exists( 'ADC_Conflict_Detector' ) ) {
+			$conflict_report = ADC_Conflict_Detector::cached();
+			$conflicts       = (int) ( $conflict_report['summary'][ ADC_Conflict_Detector::CONFLICT ] ?? 0 );
+			if ( $conflicts > 0 ) {
+				$out[] = array(
+					'tone' => 'warning',
+					'text' => sprintf(
+						/* translators: %d: number of detected tracking conflicts. */
+						_n( '%d conflict de tracking cu alte pluginuri: evenimentele pot fi dublate. Verificați tabul Conflicte.', '%d conflicte de tracking cu alte pluginuri: evenimentele pot fi dublate. Verificați tabul Conflicte.', $conflicts, 'adc-marketing' ),
+						$conflicts
+					),
+				);
+			}
+		}
+
 		if ( ! $reports ) {
 			$out[] = array(
 				'tone' => 'info',
@@ -1363,8 +1380,12 @@ trait ADC_Admin_Analytics_Stats {
 
 		foreach ( $recon as $row ) {
 			if ( ! empty( $row['notify'] ) ) {
+				// 'recon' marks the row as reconciliation-derived: the admin
+				// template filters its general-warnings disclosure by this
+				// key instead of matching rendered text (design review F2).
 				$out[] = array(
-					'tone' => 'warning',
+					'tone'  => 'warning',
+					'recon' => true,
 					/* translators: %s: metric label. */
 					'text'  => sprintf( __( 'Diferență de recalculare pentru „%s”: agregatul nu corespunde cu totalul direct din comenzi. Verificați manual.', 'adc-marketing' ), $row['label'] ),
 				);

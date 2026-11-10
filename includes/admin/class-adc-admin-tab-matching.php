@@ -148,7 +148,7 @@ final class ADC_Admin_Tab_Matching implements ADC_Admin_Tab_Interface
             . '<option value="plain" ' . selected('plain', (string) $s['datalayer_format'], false) . '>' . esc_html__('Text clar (tag-ul GTM criptează)', 'adc-marketing') . '</option>'
             . '</select>';
         if ('plain' === (string) $s['datalayer_format']) {
-            $datalayer_control .= '<div class="notice notice-warning inline" style="margin: 4px 0 0;"><p>' . esc_html__('Atenție: formatul „text clar” expune e-mailul, telefonul și numele în text necifrat în dataLayer, unde orice tag GTM sau script terț de pe pagină le poate citi. Recomandăm formatul „criptat (sha256_*)”.', 'adc-marketing') . '</p></div>';
+            $datalayer_control .= '<div class="notice notice-warning inline" style="margin-block-start:var(--adc-space-0);"><p>' . esc_html__('Atenție: formatul „text clar” expune e-mailul, telefonul și numele în text necifrat în dataLayer, unde orice tag GTM sau script terț de pe pagină le poate citi. Recomandăm formatul „criptat (sha256_*)”.', 'adc-marketing') . '</p></div>';
         }
         ADC_Admin_Help::row(
             __('Format în dataLayer', 'adc-marketing'),
