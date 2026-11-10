@@ -16,6 +16,11 @@ commit/tag de release — workflow-ul `version-bump.yml` nu rescrie dată; o fac
 responsabilul de release înainte de tag. Intrările viitoare `în lucru` rămân
 neatinse până la publicare.
 
+## [2.6.2] - 2026-11-10
+
+### Adăugat
+- Pe pagina **Pluginuri**, în rândul pluginului (lângă „Dezactivează”) apar acum **Setări** — deschide indexul de setări al pluginului — și **Pro Support** (îngroșat), care deschide într-un tab nou pagina de contact adcelerum.ro. Linkurile sunt vizibile doar utilizatorilor cu `manage_options`, iar linkurile native WordPress rămân neschimbate.
+
 ## [2.6.1] - 2026-11-10
 
 ### Adăugat

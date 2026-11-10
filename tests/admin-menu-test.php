@@ -30,6 +30,7 @@ function add_filter(string $hook, callable $cb): bool { $GLOBALS['adc_filters'][
 function add_action(mixed ...$args): bool { return true; }
 function sanitize_key(string $key): string { return strtolower((string) preg_replace('/[^a-z0-9_\-]/i', '', $key)); }
 function wp_unslash(mixed $v): mixed { return $v; }
+function esc_url(string $url): string { return $url; }
 function admin_url(string $path = ''): string { return 'https://example.test/wp-admin/' . $path; }
 function add_query_arg(array $args, string $url): string { return $url . (str_contains($url, '?') ? '&' : '?') . http_build_query($args); }
 function current_user_can(string $cap): bool { return true; }
@@ -178,5 +179,16 @@ check(apply_filters('submenu_file', null, 'adc-marketing') === 'adc-marketing', 
 $GLOBALS['plugin_page'] = 'woocommerce';
 check(apply_filters('submenu_file', 'edit.php', 'woocommerce') === 'edit.php', 'other admin pages are left untouched (submenu_file)');
 check(apply_filters('parent_file', 'woocommerce') === 'woocommerce', 'other admin pages are left untouched (parent_file)');
+
+// Plugin row (Plugins → Installed Plugins): "Setări" + bold "Pro Support".
+$links = ADC_Admin_Shell::plugin_action_links(array('deactivate' => '<a href="#">Dezactivează</a>'));
+check(isset($links['adc-settings']) && str_contains($links['adc-settings'], 'tab=settings'), 'plugin row: Setări links to the settings tab');
+check(isset($links['adc-support']) && str_contains($links['adc-support'], 'https://adcelerum.ro/contact/'), 'plugin row: Pro Support links to the contact page');
+check(str_contains($links['adc-support'], 'font-weight:600'), 'plugin row: Pro Support is bold');
+check(str_contains($links['adc-support'], 'target="_blank"') && str_contains($links['adc-support'], 'rel="noopener"'), 'plugin row: Pro Support opens in a new tab safely');
+check(isset($links['deactivate']), 'plugin row: WordPress own links are preserved');
+check(array_keys($links)[0] === 'adc-settings' && array_keys($links)[1] === 'adc-support', 'plugin row: our links come first');
+$GLOBALS['adc_test_cap'] = true;
+check(ADC_Admin_Shell::plugin_action_links(array()) !== array(), 'plugin row: links rendered for manage_options');
 
 exit($failed > 0 ? 1 : 0);

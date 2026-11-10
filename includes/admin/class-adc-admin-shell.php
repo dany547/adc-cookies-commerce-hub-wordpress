@@ -109,6 +109,8 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
         add_action('admin_post_adc_save_tab', array(self::class, 'handle_save'));
         add_action('admin_enqueue_scripts', array(self::class, 'enqueue_assets'));
         add_action('in_footer', array(self::class, 'render_help_modal'), 99);
+        // Plugins → Installed Plugins: "Setări" + "Pro Support" in the plugin row.
+        add_filter('plugin_action_links_' . self::plugin_basename(), array(self::class, 'plugin_action_links'));
         add_filter('admin_footer_text', array(self::class, 'footer_text'));
         add_filter('update_footer', array(self::class, 'footer_version'), 99);
         ADC_Admin_Promo::boot();
@@ -840,6 +842,46 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
         return class_exists('ADC_Admin_Tab_Settings')
             ? ADC_Admin_Tab_Settings::SUPPORT_URL
             : 'https://adcelerum.ro/contact/';
+    }
+
+    /**
+     * Plugin basename used for the plugin-row filters (`adc-marketing/adc-marketing.php`).
+     *
+     * @return string
+     */
+    private static function plugin_basename(): string
+    {
+        if (defined('ADC_MARKETING_PLUGIN_BASENAME')) {
+            return (string) constant('ADC_MARKETING_PLUGIN_BASENAME');
+        }
+
+        return 'adc-marketing/adc-marketing.php';
+    }
+
+    /**
+     * Plugins → Installed Plugins: prepend "Setări" and a bold "Pro Support".
+     *
+     * WordPress' own links (Dezactivează, …) keep their place after ours.
+     * Both entries are plain links; "Setări" opens the settings index tab and
+     * "Pro Support" opens the Adcelerum contact page in a new tab.
+     *
+     * @param string[] $links Existing action links.
+     * @return string[]
+     */
+    public static function plugin_action_links(array $links): array
+    {
+        if (!current_user_can('manage_options')) {
+            return $links;
+        }
+
+        $own = array(
+            'adc-settings' => '<a href="' . esc_url(admin_url('admin.php?page=' . self::PAGE_SLUG . '&tab=settings')) . '">'
+                . esc_html__('Setări', 'adc-marketing') . '</a>',
+            'adc-support'  => '<a href="' . esc_url(self::support_url()) . '" target="_blank" rel="noopener" style="font-weight:600">'
+                . esc_html__('Pro Support', 'adc-marketing') . '</a>',
+        );
+
+        return array_merge($own, $links);
     }
 
     /**
