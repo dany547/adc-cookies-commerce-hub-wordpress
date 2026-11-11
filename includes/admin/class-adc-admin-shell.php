@@ -48,6 +48,7 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
         // Unified Google Tag Manager tab (web container + optional server).
         'ADC_Admin_Tab_Gtm',
         'ADC_Admin_Tab_Events',
+        'ADC_Admin_Tab_Custom_Events',
         'ADC_Admin_Tab_Meta',
         'ADC_Admin_Tab_Ga4',
         // 'ADC_Admin_Tab_Sgtm' merged into ADC_Admin_Tab_Gtm; the class stays
@@ -77,7 +78,7 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
     private const NAV_GROUPS = array(
         'dashboard'    => array('dashboard', 'settings'),
         'consent'      => array('banner', 'cookies', 'marketing'),
-        'measurement'  => array('analytics', 'events', 'matching'),
+        'measurement'  => array('analytics', 'events', 'custom-events', 'matching'),
         // GTM travels with the platforms it configures: grouping follows
         // operator intent (which destination is set up), not implementation.
         'integrations' => array('platforms', 'gtm', 'meta', 'ga4', 'tiktok'),
@@ -696,6 +697,7 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
             'analytics' => __('Ce date colectează modulul de analiză, cât timp le păstrează și ce rămâne blocat.', 'adc-marketing'),
             'gtm'       => __('Containerul web Google Tag Manager și, opțional, containerul server, configurate din același loc.', 'adc-marketing'),
             'events'    => __('Alege ce acțiuni ale vizitatorilor se măsoară și cum se calculează datele trimise platformelor.', 'adc-marketing'),
+            'custom-events' => __('Definește evenimente proprii (click-uri, formulare, scroll) fără cod și trimite-le în dataLayer și pe server.', 'adc-marketing'),
             'matching'  => __('Trimite platformelor e-mailul și telefonul clienților doar ca hash, ca să atribuie mai multe comenzi campaniilor.', 'adc-marketing'),
             'platforms' => __('Starea fiecărei platforme dintr-o privire: ce se încarcă în browser, ce pleacă de pe server și ce trebuie verificat.', 'adc-marketing'),
             'feeds'     => __('Feedurile de produse pentru Google, Meta, TikTok și OLX, construite din catalogul WooCommerce.', 'adc-marketing'),

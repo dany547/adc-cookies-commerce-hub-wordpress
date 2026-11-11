@@ -100,7 +100,7 @@ $groups = ADC_Admin_Shell::nav_groups();
 check(array_keys($groups) === array('dashboard', 'consent', 'measurement', 'integrations', 'catalog', 'logs'), 'nav group keys and order unchanged: ' . implode(' / ', array_keys($groups)));
 check(in_array('gtm', $groups['integrations']['tabs'], true), 'gtm belongs to the Platforme (integrations) group');
 check(!in_array('gtm', $groups['measurement']['tabs'], true), 'gtm is no longer under Măsurare');
-check($groups['measurement']['tabs'] === array_values(array_intersect(array('analytics', 'events', 'matching'), $groups['measurement']['tabs'])), 'Măsurare keeps only the measurement tabs');
+check($groups['measurement']['tabs'] === array_values(array_intersect(array('analytics', 'events', 'custom-events', 'matching'), $groups['measurement']['tabs'])), 'Măsurare keeps only the measurement tabs');
 check($groups['consent']['tabs'] === array('banner', 'cookies', 'marketing'), 'Consimțământ group keeps banner / cookies / marketing');
 
 // "Altele" fallback: any registered but unclaimed slug is collected, with one

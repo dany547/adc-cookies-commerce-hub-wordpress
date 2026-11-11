@@ -81,6 +81,21 @@ function current_user_can(string $cap): bool { return (bool) ($GLOBALS['caps'][$
 function wp_verify_nonce(string $nonce, string $action): bool { return 'valid-nonce' === $nonce && 'wp_rest' === $action; }
 function get_transient(string $key): mixed { return $GLOBALS['transients'][$key] ?? false; }
 function set_transient(string $key, mixed $value, int $ttl): bool { $GLOBALS['transients'][$key] = $value; return true; }
+function get_option(string $key, mixed $default = false): mixed { return $GLOBALS['options'][$key] ?? $default; }
+function add_option(string $key, mixed $value, string $deprecated = '', string|bool $autoload = 'yes'): bool
+{
+    $GLOBALS['option_autoload'][$key] = $autoload;
+    if (array_key_exists($key, $GLOBALS['options'])) { return false; }
+    $GLOBALS['options'][$key] = $value;
+    return true;
+}
+function update_option(string $key, mixed $value, string|bool|null $autoload = null): bool
+{
+    $GLOBALS['option_autoload'][$key] = $autoload;
+    if (($GLOBALS['options'][$key] ?? null) === $value) { return false; }
+    $GLOBALS['options'][$key] = $value;
+    return true;
+}
 function add_action(string $hook, callable|array|string $callback, int $priority = 10): void {}
 function register_rest_route(string $ns, string $route, array $args): bool
 {
@@ -192,11 +207,14 @@ function check(bool $ok, string $label): void
 }
 
 require __DIR__ . '/../includes/feeds/class-adc-feed-smart.php';
+require __DIR__ . '/../includes/feeds/class-adc-feed-taxonomy.php';
 require __DIR__ . '/../includes/feeds/class-adc-feed-rest.php';
 
 $GLOBALS['caps'] = array('manage_options' => true);
 $GLOBALS['transients'] = array();
 $GLOBALS['routes'] = array();
+$GLOBALS['options'] = array();
+$GLOBALS['option_autoload'] = array();
 // Requests with a valid wp_rest nonce, as the browser sends them.
 function req(array $params = array()): WP_REST_Request { return new WP_REST_Request($params, array('x_wp_nonce' => 'valid-nonce')); }
 
@@ -560,6 +578,23 @@ check(is_array($lr) && $lr['errors'] === array(
 ), 'get: diagnostics are whitelisted {code,count} rows with unknown values normalized');
 check(is_array($lr) && $lr['warnings'] === array(array('code' => 'unknown_diagnostic', 'count' => 60)), 'get: duplicate unknown warnings are combined before applying the cap');
 check(is_array($lr) && $lr['warnings'] === ADC_Feed_Rest::format_run(array('warnings' => array_map(static fn (int $i): string => 'warn_' . $i, range(1, 60))))['warnings'], 'format_run: unknown diagnostic aggregation is deterministic');
+$known_codes_method = new ReflectionMethod(ADC_Feed_Rest::class, 'known_diagnostic_codes');
+$known_codes_method->setAccessible(true);
+$many_warnings = array_merge(array_slice($known_codes_method->invoke(null), 0, 60), array(
+    array('code' => 'invalid_products_excluded', 'count' => 7),
+));
+$capped_warnings = ADC_Feed_Rest::format_run(array('warnings' => $many_warnings))['warnings'];
+check(count($capped_warnings) === ADC_Feed_Rest::RUN_MESSAGE_MAX
+    && end($capped_warnings) === array('code' => 'invalid_products_excluded', 'count' => 7)
+    && count(array_filter($capped_warnings, static fn (array $row): bool => $row['code'] !== 'invalid_products_excluded')) === ADC_Feed_Rest::RUN_MESSAGE_MAX - 1,
+    'format_run: exclusion summary is retained at the cap without displacing aggregated findings');
+$ordinary_warnings = ADC_Feed_Rest::format_run(array('warnings' => array(
+    array('code' => 'invalid_products_excluded', 'count' => 2), 'id_incompatible',
+)))['warnings'];
+check($ordinary_warnings === array(
+    array('code' => 'id_incompatible', 'count' => 1),
+    array('code' => 'invalid_products_excluded', 'count' => 2),
+), 'format_run: normal warnings retain counts and whitelist response shape');
 check(is_array($lr) && !array_key_exists('file_path', $lr) && !array_key_exists('trace', $lr)
     && !str_contains(json_encode($lr), '/var/x'), 'get: last_run drops paths and arbitrary diagnostic text');
 check(!str_contains(json_encode($with_run->data), '/var/www'), 'get: no filesystem path reaches the JSON');
@@ -580,6 +615,54 @@ ADC_Feed_Store::$next_id = 1;
 ADC_Feed_Generator::$requested = array();
 $routes_ok = isset($GLOBALS['routes']['adc/v1/feeds/fields']) && isset($GLOBALS['routes']['adc/v1/feeds/preview']);
 check($routes_ok, 'routes: fields and preview are registered');
+$taxonomy_route = $GLOBALS['routes']['adc/v1/feeds/taxonomy'] ?? array();
+check(isset($taxonomy_route[0]['methods'], $taxonomy_route[1]['methods'])
+    && $taxonomy_route[0]['methods'] === WP_REST_Server::CREATABLE
+    && $taxonomy_route[1]['methods'] === WP_REST_Server::READABLE,
+    'taxonomy routes are registered before the numeric feed-id route');
+$taxonomy_text = "# Google_Product_Taxonomy_Version: 2025-01-06\n"
+    . "1 - Îmbrăcăminte și accesorii\n2 - Copii\n";
+$GLOBALS['caps']['manage_options'] = false;
+$taxonomy_denied = ADC_Feed_Rest::handle_taxonomy_import(req(array('content' => $taxonomy_text)));
+$GLOBALS['caps']['manage_options'] = true;
+$taxonomy_no_nonce = ADC_Feed_Rest::handle_taxonomy_search(new WP_REST_Request(array('q' => 'Copii')));
+check(is_wp_error($taxonomy_denied) && $taxonomy_denied->get_error_code() === 'adc_feed_forbidden'
+    && is_wp_error($taxonomy_no_nonce) && $taxonomy_no_nonce->get_error_code() === 'adc_feed_bad_nonce',
+    'taxonomy import and search require manage_options and a valid REST nonce');
+$taxonomy_import = ADC_Feed_Rest::handle_taxonomy_import(req(array('content' => $taxonomy_text)));
+check($taxonomy_import instanceof WP_REST_Response && $taxonomy_import->data === array('imported' => true, 'version' => '2025-01-06', 'count' => 2)
+    && $GLOBALS['option_autoload']['adc_feed_google_taxonomy'] === 'no',
+    'valid taxonomy import stores only validated parsed rows in a non-autoload option');
+$stored_taxonomy = $GLOBALS['options']['adc_feed_google_taxonomy'];
+$taxonomy_invalid = ADC_Feed_Rest::handle_taxonomy_import(req(array('content' => "# invalid\n1 - Bad\n")));
+check(is_wp_error($taxonomy_invalid) && $GLOBALS['options']['adc_feed_google_taxonomy'] === $stored_taxonomy,
+    'invalid taxonomy import leaves the previous validated option unchanged');
+$search_text = "# Google_Product_Taxonomy_Version: 2025-01-06\n";
+for ($taxonomy_index = 1; $taxonomy_index <= 60; ++$taxonomy_index) {
+    $search_text .= $taxonomy_index . " - Categoria comun\n";
+}
+$search_import = ADC_Feed_Rest::handle_taxonomy_import(req(array('content' => $search_text)));
+$taxonomy_search = ADC_Feed_Rest::handle_taxonomy_search(req(array('q' => 'CATEGORIA COMUN', 'limit' => 50)));
+check($search_import instanceof WP_REST_Response && $taxonomy_search instanceof WP_REST_Response
+    && $taxonomy_search->data['version'] === '2025-01-06' && count($taxonomy_search->data['items']) === 50
+    && !array_key_exists('content', $taxonomy_search->data),
+    'taxonomy search returns version and at most 50 compact local matches, never source text');
+unset($GLOBALS['options']['adc_feed_google_taxonomy']);
+$empty_taxonomy_search = ADC_Feed_Rest::handle_taxonomy_search(req(array('q' => 'anything')));
+$oversized_taxonomy_query = ADC_Feed_Rest::handle_taxonomy_search(req(array('q' => str_repeat('q', 401))));
+$zero_taxonomy_limit = ADC_Feed_Rest::handle_taxonomy_search(req(array('q' => 'anything', 'limit' => 0)));
+$large_taxonomy_limit = ADC_Feed_Rest::handle_taxonomy_search(req(array('q' => 'anything', 'limit' => 51)));
+check($empty_taxonomy_search instanceof WP_REST_Response && $empty_taxonomy_search->data === array('version' => null, 'items' => array()),
+    'taxonomy search on an empty store returns a safe empty response');
+check(is_wp_error($oversized_taxonomy_query) && $oversized_taxonomy_query->get_error_code() === 'adc_feed_taxonomy_query_invalid'
+    && is_wp_error($zero_taxonomy_limit) && $zero_taxonomy_limit->get_error_code() === 'adc_feed_taxonomy_limit_invalid'
+    && is_wp_error($large_taxonomy_limit) && $large_taxonomy_limit->get_error_code() === 'adc_feed_taxonomy_limit_invalid',
+    'taxonomy search rejects oversized queries and limits outside 1 through 50');
+$search_import = ADC_Feed_Rest::handle_taxonomy_import(req(array('content' => $search_text)));
+$taxonomy_too_large = ADC_Feed_Rest::handle_taxonomy_import(req(array('content' => str_repeat('x', 2097153))));
+check(is_wp_error($taxonomy_too_large) && $GLOBALS['options']['adc_feed_google_taxonomy'] === array('version' => '2025-01-06', 'items' => array_slice(array_map(
+    static fn (int $index): array => array('id' => (string) $index, 'path' => 'Categoria comun'), range(1, 60)
+), 0, 60)), 'taxonomy oversized-import rejection preserves existing data');
 
 $fields_res = ADC_Feed_Rest::handle_fields(req(array('channel' => 'google')));
 check($fields_res instanceof WP_REST_Response && $fields_res->status === 200, 'fields: 200 for an available channel');

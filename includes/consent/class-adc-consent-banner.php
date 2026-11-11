@@ -660,6 +660,9 @@ final class ADC_Consent_Banner implements ADC_Module_Interface
      */
     public static function frontend_config(array $config): array
     {
+        if (class_exists('ADC_Picker') && ADC_Picker::active()) {
+            return $config;
+        }
         if (!self::is_enabled()) {
             return $config;
         }
@@ -679,7 +682,7 @@ final class ADC_Consent_Banner implements ADC_Module_Interface
      */
     public static function enqueue_assets(): void
     {
-        if (!self::is_enabled()) {
+        if ((class_exists('ADC_Picker') && ADC_Picker::active()) || !self::is_enabled()) {
             return;
         }
 
@@ -703,7 +706,7 @@ final class ADC_Consent_Banner implements ADC_Module_Interface
      */
     public static function render_banner(): void
     {
-        if (!self::is_enabled()) {
+        if ((class_exists('ADC_Picker') && ADC_Picker::active()) || !self::is_enabled()) {
             return;
         }
 
@@ -730,6 +733,9 @@ final class ADC_Consent_Banner implements ADC_Module_Interface
         );
 
         $url = self::page_url((int) ADC_Settings::get('banner', 'cookie_page_id', 0));
+        if ('' === $url) {
+            $url = (string) get_privacy_policy_url();
+        }
 
         return sprintf(
             '<a class="adc-consent-link" href="%1$s" data-adc-open-preferences>%2$s</a>',

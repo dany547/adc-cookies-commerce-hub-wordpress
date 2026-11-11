@@ -282,7 +282,7 @@ final class ADC_Gtm implements ADC_Module_Interface
      */
     public static function print_snippet(): void
     {
-        if (self::disabled() || self::MODE_ALWAYS !== self::mode()) {
+        if ((class_exists('ADC_Picker') && ADC_Picker::active()) || self::disabled() || self::MODE_ALWAYS !== self::mode()) {
             return;
         }
 
@@ -320,7 +320,7 @@ final class ADC_Gtm implements ADC_Module_Interface
      */
     public static function print_noscript(): void
     {
-        if (self::disabled() || self::MODE_ALWAYS !== self::mode()) {
+        if ((class_exists('ADC_Picker') && ADC_Picker::active()) || self::disabled() || self::MODE_ALWAYS !== self::mode()) {
             return;
         }
 

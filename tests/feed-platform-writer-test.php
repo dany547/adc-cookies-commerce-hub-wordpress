@@ -44,6 +44,48 @@ foreach (array('meta' => ADC_Feed_Profile_Meta::class, 'tiktok' => ADC_Feed_Prof
     unlink($csv_path);
 }
 
+$resume_config = array();
+$guard = "<?php exit; ?>\n";
+$seed_path = sys_get_temp_dir() . '/adc-feed-csv-seed-' . bin2hex(random_bytes(8)) . '.csv';
+$seed_writer = new ADC_Feed_Writer_Csv();
+platform_writer_check($seed_writer->open($seed_path, ADC_Feed_Profile_Tiktok::class)
+    && $seed_writer->write_item($item) && $seed_writer->close(), 'CSV resume seed writes one ordinary row');
+$seed_csv = file_get_contents($seed_path);
+$resume_path = sys_get_temp_dir() . '/adc-feed-csv-resume-' . bin2hex(random_bytes(8)) . '.csv';
+file_put_contents($resume_path, $guard . (string) $seed_csv);
+$one_shot_path = sys_get_temp_dir() . '/adc-feed-csv-one-shot-' . bin2hex(random_bytes(8)) . '.csv';
+$one_shot = new ADC_Feed_Writer_Csv();
+$formula_item = array_replace($item, array('title' => '=1+1'));
+$third_item = array_replace($item, array('feed_item_id' => 'sku-3', 'title' => 'Third row'));
+platform_writer_check($one_shot->open($one_shot_path, ADC_Feed_Profile_Tiktok::class, $resume_config)
+    && $one_shot->write_item($item) && $one_shot->write_item($formula_item)
+    && $one_shot->write_item($third_item) && $one_shot->close(), 'one-shot CSV reference is complete');
+$resumer_one = new ADC_Feed_Writer_Csv();
+platform_writer_check($resumer_one->resume_existing($resume_path, ADC_Feed_Profile_Tiktok::class, $resume_config)
+    && $resumer_one->write_item($formula_item) && $resumer_one->close(), 'first independent CSV writer resumes an existing guarded target');
+$resumer_two = new ADC_Feed_Writer_Csv();
+platform_writer_check($resumer_two->resume_existing($resume_path, ADC_Feed_Profile_Tiktok::class, $resume_config)
+    && $resumer_two->write_item($third_item) && $resumer_two->close(), 'second independent CSV writer resumes the same guarded target');
+$resumed_csv = file_get_contents($resume_path);
+$one_shot_csv = file_get_contents($one_shot_path);
+platform_writer_check(is_string($resumed_csv) && is_string($one_shot_csv)
+    && $resumed_csv === $guard . $one_shot_csv
+    && substr_count($resumed_csv, "\xEF\xBB\xBF") === 1
+    && substr_count($resumed_csv, 'sku_id,title,description') === 1
+    && str_contains($resumed_csv, "'=1+1"),
+    'resumed CSV exactly matches one-shot output with one BOM/header and formula protection intact');
+$missing_resume = new ADC_Feed_Writer_Csv();
+$before_invalid_resume = file_get_contents($resume_path);
+$missing_path = $resume_path . '.missing';
+platform_writer_check(!$missing_resume->resume_existing($missing_path, ADC_Feed_Profile_Tiktok::class)
+    && !$missing_resume->resume_existing($resume_path, ADC_Feed_Profile_Tiktok::class, array('csv_excel_safe' => 'false'))
+    && !$missing_resume->resume_existing($resume_path, ADC_Feed_Profile_Google::class)
+    && !file_exists($missing_path) && file_get_contents($resume_path) === $before_invalid_resume,
+    'CSV resume refuses missing targets, unsupported profiles, and invalid config without modifying files');
+unlink($seed_path);
+unlink($resume_path);
+unlink($one_shot_path);
+
 foreach (array(
     'google' => ADC_Feed_Profile_Google::class,
     'meta' => ADC_Feed_Profile_Meta::class,

@@ -21,22 +21,35 @@ final class ADC_Cookie_Scanner implements ADC_Module_Interface
     public static function known_cookies(): array
     {
         $rows = array();
-        $add = static function (array $patterns, string $category, string $provider, string $purpose) use (&$rows): void {
+        $add = static function (array $patterns, string $category, string $provider, string $purpose, string $duration = '') use (&$rows): void {
             foreach ($patterns as $pattern) {
                 $wildcard = str_ends_with($pattern, '*');
-                $rows[] = array('pattern' => $pattern, 'wildcard' => $wildcard, 'category' => $category, 'provider' => $provider, 'purpose' => $purpose, 'duration' => '');
+                $rows[] = array('pattern' => $pattern, 'wildcard' => $wildcard, 'category' => $category, 'provider' => $provider, 'purpose' => $purpose, 'duration' => $duration);
             }
         };
         // Purposes are literal gettext calls (a dynamic __($purpose) would be invisible
         // to bin/i18n-build.py and missing from the POT).
         $add(array('wordpress_logged_in_*','wordpress_sec_*','wordpress_test_cookie','wp-settings-*','wp-settings-time-*','comment_author_*','comment_author_email_*','comment_author_url_*','wp_lang','wordpress_*','PHPSESSID'), 'necessary', 'WordPress', __('Asigură autentificarea și funcționarea site-ului.', 'adc-marketing'));
-        $add(array('woocommerce_cart_hash','woocommerce_items_in_cart','woocommerce_recently_viewed','wp_woocommerce_session_*','woocommerce_*','store_notice*','tk_*'), 'necessary', 'WooCommerce', __('Păstrează coșul și sesiunea de cumpărături.', 'adc-marketing'));
+        $add(array('woocommerce_cart_hash','woocommerce_items_in_cart','woocommerce_recently_viewed','wp_woocommerce_session_*','woocommerce_*','store_notice*'), 'necessary', 'WooCommerce', __('Păstrează coșul și sesiunea de cumpărături.', 'adc-marketing'));
         $add(array('sbjs_*'), 'statistics', 'WooCommerce', __('Măsoară sursele de trafic și atribuirea comenzilor.', 'adc-marketing'));
         $add(array('_fbp','_fbc','fr'), 'marketing', 'Meta', __('Măsoară și personalizează publicitatea Meta.', 'adc-marketing'));
         $add(array('_ga','_ga_*','_gid','_gat*'), 'statistics', 'Google Analytics', __('Măsoară utilizarea site-ului.', 'adc-marketing'));
         $add(array('_gcl_au','_gcl_aw','_gcl_dc','_gcl_*'), 'marketing', 'Google Ads', __('Măsoară eficiența publicității Google.', 'adc-marketing'));
         $add(array('NID','IDE','1P_JAR','AEC','SOCS','CONSENT'), 'marketing', 'Google', __('Reține setări și măsoară publicitatea Google.', 'adc-marketing'));
         $add(array('_ttp','_tt_enable_cookie','ttclid','tt_*'), 'marketing', 'TikTok', __('Măsoară eficiența publicității TikTok.', 'adc-marketing'));
+        // Observed on a live test site and cross-checked with vendor docs (2026-11); durations are indicative.
+        $add(array('tk_ai','tk_qs','tk_r3d','tk_tc','tk_*'), 'statistics', 'Automattic (Jetpack / WooCommerce Tracks)', __('Identificator anonim pentru statistici de utilizare trimise către Automattic.', 'adc-marketing'));
+        $add(array('tk_lr','tk_or'), 'marketing', 'Automattic (Jetpack / WooCommerce Tracks)', __('Reține sursa și originea vizitei pentru analiză.', 'adc-marketing'), 'variabilă');
+        $add(array('mc_cid','mc_eid','mc_landing_site'), 'marketing', 'Mailchimp', __('Reține campania sau e-mailul Mailchimp care a adus vizitatorul, pentru atribuirea comenzilor.', 'adc-marketing'), '14 zile');
+        $add(array('ttcsid*'), 'marketing', 'TikTok', __('Identificator de sesiune folosit de pixelul TikTok.', 'adc-marketing'), '1 an');
+        $add(array('_gac_*'), 'marketing', 'Google Ads', __('Reține informații despre campaniile Google Ads care au adus vizitatorul.', 'adc-marketing'), '90 de zile');
+        $add(array('_clck','_clsk'), 'statistics', 'Microsoft Clarity', __('Analizează comportamentul vizitatorilor pe site.', 'adc-marketing'), '1 an');
+        $add(array('_hjSessionUser_*','_hjSession_*','_hjid','_hjAbsoluteSessionInProgress','_hjFirstSeen','_hjIncludedInSessionSample*','_hjIncludedInPageviewSample'), 'statistics', 'Hotjar', __('Identifică sesiunea pentru hărți termice și înregistrări de sesiune.', 'adc-marketing'), '30 de minute – 1 an');
+        $add(array('__stripe_mid','__stripe_sid'), 'necessary', 'Stripe', __('Prevenirea fraudei și detectarea plăților suspecte.', 'adc-marketing'), '30 de minute – 1 an');
+        $add(array('__cf_bm','cf_clearance','_cfuvid','__cflb'), 'necessary', 'Cloudflare', __('Protecție împotriva traficului automat și distribuirea încărcării.', 'adc-marketing'), 'sesiune – 30 de minute');
+        $add(array('pll_language'), 'preferences', 'Polylang', __('Reține limba aleasă de vizitator.', 'adc-marketing'), '1 an');
+        $add(array('wf_loginalerted_*','wfwaf-authcookie-*'), 'necessary', 'Wordfence', __('Securitate: recunoaște dispozitivele de administrare și autentificarea pentru firewall.', 'adc-marketing'), 'sesiune – 1 an');
+        $add(array('wp-postpass_*'), 'necessary', 'WordPress', __('Menține accesul la un articol protejat cu parolă.', 'adc-marketing'), '10 zile');
         $add(array('adc_consent'), 'necessary', 'ADC Marketing', __('Reține alegerile privind cookie-urile.', 'adc-marketing'));
         return $rows;
     }

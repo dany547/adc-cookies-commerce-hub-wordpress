@@ -234,7 +234,7 @@ switch ($state) {
         $labels = json_decode(html_entity_decode($m[1] ?? '', ENT_QUOTES, 'UTF-8'), true);
         $codes = array(
             // Generator.
-            'invalid_feed_id', 'feed_not_found', 'feed_disabled', 'unsupported_feed_profile', 'feed_busy',
+            'invalid_feed_id', 'feed_not_found', 'feed_disabled', 'unsupported_feed_profile', 'feed_busy', 'run_progress_update_failed',
             'feed_busy_retry_failed', 'feed_busy_retry_exhausted', 'feed_dirty_retry_failed', 'feed_dirty_retry_exhausted',
             'feed_id_index_failed', 'feed_generation_failed', 'tracking_id_incompatible', 'duplicate_feed_item_id',
             'google_validator_api_missing', 'google_validation_failed',
@@ -255,7 +255,7 @@ switch ($state) {
             'shipping_price_missing', 'shipping_price_out_of_range', 'custom_labels_invalid', 'custom_labels_too_many',
             'custom_label_invalid', 'custom_label_too_long', 'weight_invalid',
             // Generator output.
-            'unknown_diagnostic', 'field_registry_unavailable', 'param_enabled_invalid', 'param_field_duplicate', 'param_field_unsupported', 'param_required_missing', 'param_row_invalid', 'param_source_invalid', 'param_transform_invalid', 'param_transforms_invalid', 'unsupported_channel', 'params_invalid', 'tiktok_market_eligibility_requires_confirmation', 'meta_file_size_limit_unverified', 'id_incompatible', 'feed_output_invalid', 'smart_stats_disabled', 'smart_stats_unavailable', 'smart_stats_no_data', 'smart_stats_limit_reached', 'smart_rule_invalid', 'smart_variations_limit_reached', 'smart_no_products', 'no_valid_products', 'invalid_products_excluded',
+            'unknown_diagnostic', 'param_type_mismatch', 'field_registry_unavailable', 'param_enabled_invalid', 'param_field_duplicate', 'param_field_unsupported', 'param_required_missing', 'param_row_invalid', 'param_source_invalid', 'param_transform_invalid', 'param_transforms_invalid', 'unsupported_channel', 'params_invalid', 'tiktok_market_eligibility_requires_confirmation', 'meta_file_size_limit_unverified', 'id_incompatible', 'feed_output_invalid', 'smart_stats_disabled', 'smart_stats_unavailable', 'smart_stats_no_data', 'smart_stats_limit_reached', 'smart_rule_invalid', 'smart_variations_limit_reached', 'smart_no_products', 'no_valid_products', 'invalid_products_excluded',
             // Meta and TikTok validators.
             'additional_image_format', 'additional_images_missing', 'age_group_invalid', 'availability_needs_mapping', 'category_missing', 'color_too_long',
             'condition_missing', 'currency_missing', 'description_all_caps', 'description_contains_html', 'description_contains_links', 'gender_invalid',
@@ -267,6 +267,10 @@ switch ($state) {
             'video_link_invalid', 'video_link_platform', 'weight_unit_missing',
         );
         check(is_array($labels), '[active] label map decodes from the data attribute');
+        foreach (array('run_progress_update_failed', 'param_type_mismatch') as $review_code) {
+            $review_label = (string) ($labels[$review_code] ?? '');
+            check($review_label !== '' && preg_match('/[ăâîșț]/u', $review_label) === 1, "[active] {$review_code} has a Romanian label");
+        }
         $missing = array_values(array_filter($codes, static fn (string $code): bool => !isset($labels[$code]) || '' === trim((string) $labels[$code])));
         check($missing === array(), '[active] every generator, profile and validator code has a Romanian label' . ($missing === array() ? '' : ': missing ' . implode(', ', $missing)));
         check(array_diff(array_keys($labels ?? array()), $codes) === array(), '[active] the map has no code that the expected list does not know');

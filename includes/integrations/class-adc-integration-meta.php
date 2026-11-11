@@ -213,7 +213,8 @@ final class ADC_Integration_Meta implements ADC_Integration_Interface, ADC_Modul
             return (bool) ADC_Settings::get('events', 'server_page_view', false);
         }
 
-        return isset(self::EVENT_MAP[$event_name]);
+        return isset(self::EVENT_MAP[$event_name])
+            || (str_starts_with($event_name, 'custom_') && ADC_Custom_Events::routes_to($event_name, 'meta'));
     }
 
     /**
@@ -339,7 +340,7 @@ final class ADC_Integration_Meta implements ADC_Integration_Interface, ADC_Modul
      */
     public static function enqueue_assets(): void
     {
-        if (defined('ADC_MARKETING_DISABLE_TRACKING') && ADC_MARKETING_DISABLE_TRACKING) {
+        if ((class_exists('ADC_Picker') && ADC_Picker::active()) || (defined('ADC_MARKETING_DISABLE_TRACKING') && ADC_MARKETING_DISABLE_TRACKING)) {
             return;
         }
 
@@ -471,6 +472,18 @@ final class ADC_Integration_Meta implements ADC_Integration_Interface, ADC_Modul
      */
     private function build_custom_data(ADC_Event $event): array
     {
+        if (str_starts_with($event->name, 'custom_')) {
+            $out = $event->params;
+            if (null !== $event->value) {
+                $out['value'] = $event->value;
+            }
+            if ('' !== $event->currency) {
+                $out['currency'] = $event->currency;
+            }
+
+            return $out;
+        }
+
         $out = array();
 
         $ids      = array();
@@ -555,7 +568,7 @@ final class ADC_Integration_Meta implements ADC_Integration_Interface, ADC_Modul
         $token    = ADC_Settings::secret('meta', 'access_token');
 
         $url  = 'https://graph.facebook.com/' . rawurlencode($version) . '/' . rawurlencode($pixel_id) . '/events';
-        $data = wp_json_encode($events, JSON_UNESCAPED_UNICODE);
+        $data = wp_json_encode($events, JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE);
 
         $fields = array(
             'data'         => is_string($data) ? $data : '[]',

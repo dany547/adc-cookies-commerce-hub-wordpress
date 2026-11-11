@@ -22,7 +22,7 @@ final class ADC_Feed_Generator
         return array(
             'invalid_feed_id', 'feed_not_found', 'feed_disabled', 'unsupported_feed_profile',
             'tiktok_market_eligibility_requires_confirmation', 'meta_file_size_limit_unverified',
-            'feed_profile_unavailable', 'feed_busy', 'feed_busy_retry_scheduled',
+            'feed_profile_unavailable', 'feed_busy', 'feed_busy_retry_scheduled', 'run_progress_update_failed',
             'feed_busy_retry_exhausted', 'feed_busy_retry_failed', 'feed_busy_retry_pending',
             'feed_dirty_retry_exhausted', 'feed_dirty_retry_failed', 'tracking_id_incompatible',
             'id_incompatible', 'duplicate_feed_item_id', 'feed_id_index_failed',
@@ -392,6 +392,9 @@ final class ADC_Feed_Generator
                     if (!empty($validation['errors'])) {
                         if (($config['exclude_invalid'] ?? true) === true) {
                             ++$invalid_excluded;
+                            foreach ($validation['errors'] as $error_code) {
+                                self::add_diagnostic($result, 'warnings', (string) $error_code);
+                            }
                             continue;
                         }
                         foreach ($validation['errors'] as $error_code) {
@@ -403,6 +406,9 @@ final class ADC_Feed_Generator
                         throw new RuntimeException('feed_write_failed');
                     }
                     ++$result['exported'];
+                }
+                if ($examined > 0 && !self::update_run_progress($wpdb, $runs_table, $run_id, $result)) {
+                    throw new RuntimeException('run_progress_update_failed');
                 }
                 $offset += $examined;
                 if (0 === $examined) {
@@ -685,6 +691,24 @@ final class ADC_Feed_Generator
         if (false !== $inserted) {
             self::finish_run($wpdb, $table, (int) $wpdb->insert_id, 'failed', $result, '');
         }
+    }
+
+    /** Persist actual processed counters after each catalog chunk, before generation can succeed. */
+    private static function update_run_progress(object $wpdb, string $table, int $run_id, array $result): bool
+    {
+        if ($run_id <= 0) {
+            return false;
+        }
+        return 1 === $wpdb->update(
+            $table,
+            array(
+                'products_examined' => (int) $result['examined'],
+                'products_exported' => (int) $result['exported'],
+            ),
+            array('id' => $run_id),
+            array('%d', '%d'),
+            array('%d')
+        );
     }
 
     private static function finish_run(object $wpdb, string $table, int $run_id, string $status, array $result, string $checksum): void

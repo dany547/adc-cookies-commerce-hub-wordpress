@@ -209,6 +209,10 @@ final class ADC_Integration_Sgtm implements ADC_Integration_Interface, ADC_Modul
             return false; // Transport-only mode: no server events at all.
         }
 
+        if (str_starts_with($event_name, 'custom_')) {
+            return ADC_Custom_Events::routes_to($event_name, 'sgtm');
+        }
+
         $ga4 = new ADC_Integration_Ga4();
 
         return $ga4->supports($event_name);

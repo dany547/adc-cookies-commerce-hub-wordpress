@@ -331,7 +331,7 @@ final class ADC_Integration_Tiktok implements ADC_Integration_Interface, ADC_Mod
      */
     public static function enqueue_assets(): void
     {
-        if (defined('ADC_MARKETING_DISABLE_TRACKING') && ADC_MARKETING_DISABLE_TRACKING) {
+        if ((class_exists('ADC_Picker') && ADC_Picker::active()) || (defined('ADC_MARKETING_DISABLE_TRACKING') && ADC_MARKETING_DISABLE_TRACKING)) {
             return;
         }
 

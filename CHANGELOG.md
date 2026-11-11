@@ -16,6 +16,19 @@ commit/tag de release — workflow-ul `version-bump.yml` nu rescrie dată; o fac
 responsabilul de release înainte de tag. Intrările viitoare `în lucru` rămân
 neatinse până la publicare.
 
+## [2.7.0] - 2026-11-11
+
+### Adăugat
+- Tab nou **Evenimente custom** în Măsurare: reguli fără cod, cu declanșatoare click, trimitere de formular (CF7, WPForms, Elementor, cupon WooCommerce), element vizibil, adâncime de scroll și timp petrecut pe pagină. Presetări pentru `tel:`, `mailto:`, WhatsApp, descărcări și linkuri externe; parametri statici și token-uri sigure, fără date personale. Fiecare regulă are o categorie de consimțământ (statistici sau marketing). Evenimentele sunt trimise în dataLayer și, opțional, pe server către GA4, sGTM și Meta.
+- **Selector vizual**: alegi elementul direct pe site, într-un iframe de același origin. Accesul are un token de 10 minute și este doar pentru administratori. Selectorul propune variante de selector grupate, are un test de potriviri și moduri Selectează, Navighează și Îngheață.
+- Baza scannerului de cookie-uri include acum cookie-uri ale unor pluginuri frecvente (Jetpack/Tracks, Mailchimp, Hotjar, Clarity, Stripe, Cloudflare, Polylang, Wordfence și altele), cu durate. Scannerul afișează o notificare că unele cookie-uri nu vor fi recunoscute automat.
+- **Feed Manager**: selector de taxonomie Google pentru produse, progres real al generării și generare pe tranșe. Produsele excluse sunt raportate în diagnostic.
+- Tabelul de cookie-uri, afișat prin shortcode, folosește ca fallback pagina Politicii de confidențialitate din WordPress când pagina de cookie-uri lipsește.
+
+### Modificat
+- Cookie-urile `tk_*` (Automattic / Tracks) sunt acum clasificate ca statistici sau marketing, nu ca „necesare”.
+- În modul de selecție vizuală nu se încarcă tracking-ul pluginului, ca să nu fie trimise evenimente în timpul alegerii elementului.
+
 ## [2.6.2] - 2026-11-10
 
 ### Adăugat

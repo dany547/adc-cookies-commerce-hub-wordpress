@@ -1,0 +1,496 @@
+/*
+ * ADC Marketing — Custom Events admin tab (chunk C7, docs/CUSTOM-EVENTS.md §6.3).
+ *
+ * Scope: only .adc-ce-* classes. Colours and spacing come from the --adc-*
+ * tokens defined on .adc-admin in admin-shell.css (DESIGN.md §7); fallbacks
+ * keep the page readable if the tokens are missing. Status pills reuse the
+ * existing .adc-status--on / --off classes from admin-help.css and are not
+ * redefined here.
+ */
+
+/* ---------- Container & toolbar ---------- */
+
+.adc-ce {
+    display: flex;
+    flex-direction: column;
+    gap: var(--adc-space-2, 16px);
+    color: var(--adc-ink, #1d2327);
+}
+
+.adc-ce-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--adc-space-1, 8px);
+}
+
+.adc-ce-presets {
+    position: relative;
+}
+
+.adc-ce-presets > summary {
+    list-style: none;
+    cursor: pointer;
+}
+
+.adc-ce-presets > summary::-webkit-details-marker {
+    display: none;
+}
+
+.adc-ce-presets > ul {
+    position: absolute;
+    z-index: 10;
+    inset-block-start: calc(100% + 4px);
+    inset-inline-start: 0;
+    min-width: 200px;
+    margin: 0;
+    padding: var(--adc-space-1, 8px) 0;
+    list-style: none;
+    background: var(--adc-surface, #fff);
+    border: 1px solid var(--adc-border-soft, #dcdcde);
+    border-radius: var(--adc-radius-box, 6px);
+    box-shadow: var(--adc-shadow-pop, 0 12px 32px rgba(18, 26, 41, .18));
+}
+
+.adc-ce-presets > ul a {
+    display: block;
+    padding: 6px var(--adc-space-2, 16px);
+    color: var(--adc-ink, #1d2327);
+    text-decoration: none;
+}
+
+.adc-ce-presets > ul a:hover,
+.adc-ce-presets > ul a:focus-visible {
+    background: var(--adc-accent-tint, #eef3fa);
+}
+
+.adc-ce-count {
+    margin-inline-start: auto;
+    font-size: 12.5px;
+    color: var(--adc-muted, #50575e);
+}
+
+/* Disabled "Adaugă regulă" at the 50-rule limit (aria-disabled, still a link). */
+.adc-ce-toolbar a[aria-disabled="true"] {
+    opacity: .55;
+    pointer-events: none;
+}
+
+/* ---------- Table in a box ---------- */
+
+.adc-ce-table-box {
+    background: var(--adc-surface, #fff);
+    border: 1px solid var(--adc-border-soft, #dcdcde);
+    border-radius: var(--adc-radius-box, 6px);
+    box-shadow: var(--adc-shadow-box, 0 1px 2px rgba(18, 26, 41, .06));
+    overflow-x: auto;
+}
+
+.adc-ce-table-box > .adc-ce-table {
+    border: 0;
+    box-shadow: none;
+    margin: 0;
+}
+
+.adc-ce-table.widefat th,
+.adc-ce-table.widefat td {
+    font-size: 12.5px;
+    vertical-align: middle;
+    border-color: var(--adc-border-soft, #dcdcde);
+}
+
+.adc-ce-table.widefat thead th {
+    font-size: 11.5px;
+    font-weight: 600;
+    background: var(--adc-surface-subtle, #f6f7f7);
+}
+
+/* Zebra stripes: very light, so state stays the signal. */
+.adc-ce-table.striped > tbody > tr:nth-child(odd) > * {
+    background-color: var(--adc-surface-subtle, #f6f7f7);
+}
+
+.adc-ce-table.striped > tbody > tr:nth-child(even) > * {
+    background-color: var(--adc-surface, #fff);
+}
+
+/* Disabled rule: dimmed row. Status pill still shows "Oprit" in full text. */
+.adc-ce-row:has(.adc-status--off) > * {
+    color: var(--adc-muted, #50575e);
+}
+
+.adc-ce-row th code {
+    font-size: 11.5px;
+    color: var(--adc-muted, #50575e);
+    background: transparent;
+    padding: 0;
+}
+
+.adc-ce-table td code {
+    font-variant-numeric: tabular-nums;
+}
+
+.adc-ce-actions {
+    white-space: nowrap;
+}
+
+.adc-ce-actions .button-link,
+.adc-ce-actions a,
+.adc-ce-actions button {
+    margin-inline-end: var(--adc-space-1, 8px);
+}
+
+/* Destination pills (dataLayer, Server, GA4, sGTM, Meta). */
+.adc-ce-pill {
+    display: inline-block;
+    margin-inline-end: 4px;
+    padding: 1px 8px;
+    border-radius: var(--adc-radius-pill, 999px);
+    border: 1px solid var(--adc-border-soft, #dcdcde);
+    background: var(--adc-accent-tint, #eef3fa);
+    color: var(--adc-accent-hover, #2b5580);
+    font-size: 11.5px;
+    font-weight: 600;
+    line-height: 1.6;
+    white-space: nowrap;
+}
+
+/* ---------- Empty state: dashed box, one action (DESIGN.md §5) ---------- */
+
+.adc-ce-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--adc-space-1, 8px);
+    padding: var(--adc-space-3, 24px);
+    border: 1px dashed var(--adc-border, #c3c4c7);
+    border-radius: var(--adc-radius-box, 6px);
+    background: var(--adc-surface-subtle, #f6f7f7);
+}
+
+.adc-ce-empty > p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--adc-ink, #1d2327);
+}
+
+/* ---------- Editor: sections & form rows ---------- */
+
+.adc-ce-editor {
+    display: flex;
+    flex-direction: column;
+    gap: var(--adc-space-4, 32px);
+}
+
+.adc-ce-section-title {
+    margin: 0 0 var(--adc-space-2, 16px);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--adc-ink, #1d2327);
+}
+
+.adc-ce-field {
+    display: grid;
+    gap: 4px;
+    margin: 0 0 var(--adc-space-2, 16px);
+    padding: 0;
+    border: 0;
+}
+
+.adc-ce-field > label,
+.adc-ce-field > legend,
+.adc-ce-trigger > legend,
+.adc-ce-trigger-choice > legend {
+    padding: 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--adc-ink, #1d2327);
+}
+
+.adc-ce-field input[type="text"],
+.adc-ce-field input[type="number"],
+.adc-ce-field select,
+.adc-ce-field textarea,
+.adc-ce-trigger input[type="text"],
+.adc-ce-trigger input[type="number"],
+.adc-ce-trigger select {
+    min-height: 32px;
+    max-width: 100%;
+    border-radius: var(--adc-radius, 4px);
+}
+
+.adc-ce-field .description {
+    margin: 0;
+    font-size: 12.5px;
+    color: var(--adc-muted, #50575e);
+}
+
+/* Form grid: one column below 782px (WP admin breakpoint), two from 782px up.
+   Section titles, trigger fieldsets, params and actions span both columns. */
+.adc-ce-editor {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--adc-space-4, 32px);
+    column-gap: var(--adc-space-4, 32px);
+}
+
+.adc-ce-editor > .adc-ce-section-title,
+.adc-ce-editor > .adc-ce-trigger-choice,
+.adc-ce-editor > .adc-ce-trigger,
+.adc-ce-editor > .adc-ce-params,
+.adc-ce-editor > .adc-ce-editor-actions,
+.adc-ce-editor > .adc-ce-example {
+    grid-column: 1 / -1;
+}
+
+@media (min-width: 782px) {
+    .adc-ce-editor {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Name field: fixed "custom_" prefix glued to the editable suffix. */
+.adc-ce-name {
+    display: flex;
+    align-items: stretch;
+    max-width: 100%;
+}
+
+.adc-ce-name > span {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 var(--adc-space-1, 8px);
+    font-family: ui-monospace, monospace;
+    font-size: 13px;
+    color: var(--adc-muted, #50575e);
+    background: var(--adc-surface-subtle, #f6f7f7);
+    border: 1px solid var(--adc-border, #c3c4c7);
+    border-inline-end: 0;
+    border-radius: var(--adc-radius, 4px) 0 0 var(--adc-radius, 4px);
+}
+
+.adc-ce-name input {
+    font-family: ui-monospace, monospace;
+    border-radius: 0 var(--adc-radius, 4px) var(--adc-radius, 4px) 0;
+}
+
+/* Checkbox/radio labels inside field groups: inline, aligned to the control. */
+.adc-ce-field label:not(.adc-ce-segment),
+.adc-ce-trigger label:not(.adc-ce-segment) {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-inline-end: var(--adc-space-2, 16px);
+    font-size: 13px;
+    color: var(--adc-ink-soft, #40464d);
+}
+
+.adc-ce-field input[type="checkbox"],
+.adc-ce-field input[type="radio"],
+.adc-ce-trigger input[type="checkbox"],
+.adc-ce-trigger input[type="radio"] {
+    margin: 0;
+}
+
+/* Trigger type segmented control (DESIGN.md §5). */
+.adc-ce-trigger-choice > div[role="radiogroup"] {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0;
+    padding: 2px;
+    border: 1px solid var(--adc-border, #c3c4c7);
+    border-radius: var(--adc-radius, 4px);
+    background: var(--adc-surface-subtle, #f6f7f7);
+}
+
+.adc-ce-segment {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    margin: 0;
+    padding: 0 var(--adc-space-2, 16px);
+    border: 0;
+    border-radius: calc(var(--adc-radius, 4px) - 2px);
+    background: transparent;
+    box-shadow: none;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--adc-ink-soft, #40464d);
+    cursor: pointer;
+}
+
+.adc-ce-segment:hover {
+    color: var(--adc-accent-hover, #2b5580);
+}
+
+/* Visually hidden radio keeps keyboard + screen reader support. */
+.adc-ce-segment > input[type="radio"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.adc-ce-segment:has(> input:checked) {
+    background: var(--adc-accent, #3b6ea5);
+    color: #fff;
+    font-weight: 600;
+}
+
+.adc-ce-segment:has(> input:focus-visible) {
+    outline: 2px solid var(--adc-accent, #3b6ea5);
+    outline-offset: 2px;
+}
+
+/* ---------- Trigger fieldsets (one per type, shown with `hidden`) ---------- */
+
+.adc-ce-trigger {
+    display: grid;
+    gap: var(--adc-space-2, 16px);
+    margin: var(--adc-space-2, 16px) 0 0;
+    padding: var(--adc-space-2, 16px);
+    border: 1px solid var(--adc-border-soft, #dcdcde);
+    border-radius: var(--adc-radius-box, 6px);
+    background: var(--adc-surface-subtle, #f6f7f7);
+}
+
+.adc-ce-trigger[hidden],
+.adc-ce-selector-field[hidden],
+.adc-ce-picker[hidden] {
+    display: none;
+}
+
+.adc-ce-selector-field {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--adc-space-1, 8px);
+}
+
+.adc-ce-selector-field input[type="text"],
+.adc-ce-selector-field input:not([type]) {
+    font-family: ui-monospace, monospace;
+    font-size: 13px;
+    width: 100%;
+}
+
+/* ---------- Parameters: flex row per parameter ---------- */
+
+.adc-ce-params {
+    display: flex;
+    flex-direction: column;
+    gap: var(--adc-space-1, 8px);
+}
+
+.adc-ce-params > table.widefat {
+    border: 1px solid var(--adc-border-soft, #dcdcde);
+    border-radius: var(--adc-radius-box, 6px);
+}
+
+/* Rows keep native table semantics (tr/td), so the Cheie/Valoare/Acțiuni headers stay associated. */
+.adc-ce-param > td {
+    padding: 6px var(--adc-space-1, 8px);
+    vertical-align: middle;
+}
+
+.adc-ce-param > td > input {
+    width: 100%;
+    min-height: 32px;
+}
+
+.adc-ce-add-param {
+    align-self: flex-start;
+}
+
+/* Token list as small buttons that insert into the focused field. */
+.adc-ce-tokens {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.adc-ce-tokens > .button.button-small {
+    min-height: 32px;
+    padding: 0 8px;
+    font-family: ui-monospace, monospace;
+    font-size: 12px;
+    line-height: 30px;
+}
+
+/* ---------- Errors ---------- */
+
+.adc-ce-errors {
+    margin: 0;
+    padding: var(--adc-space-1, 8px) var(--adc-space-2, 16px);
+    border: 1px solid var(--adc-danger, #8a2424);
+    border-radius: var(--adc-radius, 4px);
+    background: var(--adc-danger-tint, #fcf0f0);
+    color: var(--adc-ink, #1d2327);
+    font-size: 13px;
+}
+
+.adc-ce-errors[hidden] {
+    display: none;
+}
+
+.adc-ce-errors > ul {
+    margin: 0;
+    padding-inline-start: var(--adc-space-2, 16px);
+}
+
+.adc-ce-errors li {
+    color: var(--adc-danger, #8a2424);
+}
+
+.adc-ce-field .adc-ce-field-error,
+.adc-ce-field input[aria-invalid="true"],
+.adc-ce-field select[aria-invalid="true"] {
+    border-color: var(--adc-danger, #8a2424);
+}
+
+/* ---------- Editor footer & example ---------- */
+
+.adc-ce-editor-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--adc-space-1, 8px);
+}
+
+.adc-ce-example {
+    margin: 0;
+    padding: var(--adc-space-1, 8px) var(--adc-space-2, 16px);
+    overflow-x: auto;
+    font-family: ui-monospace, monospace;
+    font-size: 12px;
+    background: var(--adc-surface-subtle, #f6f7f7);
+    border: 1px solid var(--adc-border-soft, #dcdcde);
+    border-radius: var(--adc-radius, 4px);
+    white-space: pre;
+}
+
+/* ---------- Focus & motion ---------- */
+
+.adc-ce a:focus-visible,
+.adc-ce button:focus-visible,
+.adc-ce input:focus-visible,
+.adc-ce select:focus-visible,
+.adc-ce textarea:focus-visible,
+.adc-ce summary:focus-visible {
+    outline: 2px solid var(--adc-accent, #3b6ea5);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .adc-ce *,
+    .adc-ce *::before,
+    .adc-ce *::after {
+        transition: none;
+        animation: none;
+        scroll-behavior: auto;
+    }
+}

@@ -119,20 +119,50 @@ final class ADC_Tracking_Rest implements ADC_Module_Interface
             return self::error('invalid_event_id', 400);
         }
 
-        if ('' !== $name && 0 === strpos($name, 'custom_')) {
-            // custom_* events allowed.
+        $is_custom = '' !== $name && str_starts_with($name, 'custom_');
+        $rule      = null;
+        $raw_params = $body['params'] ?? array();
+
+        if ($is_custom) {
+            $rule_id = is_array($raw_params) && isset($raw_params['adc_rule_id']) && is_scalar($raw_params['adc_rule_id'])
+                ? (string) $raw_params['adc_rule_id']
+                : '';
+            $rule = '' !== $rule_id ? ADC_Custom_Events::rule($rule_id) : null;
+
+            if (
+                null === $rule
+                || empty($rule['enabled'])
+                || ($rule['name'] ?? '') !== $name
+                || empty($rule['destinations']['server_mirror'])
+            ) {
+                return self::error('invalid_event_name', 400);
+            }
         } elseif (!in_array($name, self::BROWSER_EVENTS, true)) {
             return self::error('invalid_event_name', 400);
         }
 
-        // Consent cookie must allow at least one non-necessary category (§2.2).
+        // Consent cookie must allow the rule category or one non-necessary
+        // category for canonical browser events (§2.2).
         $consent = self::consent();
-        if (null === $consent || (!$consent->allows('statistics') && !$consent->allows('marketing'))) {
+        if ($is_custom) {
+            if (null === $consent || !ADC_Consent::allows((string) $rule['consent_category'], $consent)) {
+                return self::error('consent_required', 403);
+            }
+        } elseif (null === $consent || (!$consent->allows('statistics') && !$consent->allows('marketing'))) {
             return self::error('consent_required', 403);
         }
 
-        $items = self::rebuild_items($body['items'] ?? array());
-        $value = self::value_from_items($items);
+        if ($is_custom) {
+            $items  = array();
+            $params = ADC_Custom_Events::server_params($rule, is_array($raw_params) ? $raw_params : array());
+            $value  = isset($rule['value']) && null !== $rule['value'] ? (float) $rule['value'] : null;
+            $currency = (string) ($rule['currency'] ?? '');
+        } else {
+            $items    = self::rebuild_items($body['items'] ?? array());
+            $value    = self::value_from_items($items);
+            $params   = self::sanitize_params($raw_params);
+            $currency = function_exists('get_woocommerce_currency') ? (string) get_woocommerce_currency() : '';
+        }
 
         $consent_snapshot = $consent->to_array();
         $attribution      = self::browser_attribution($consent);
@@ -143,7 +173,7 @@ final class ADC_Tracking_Rest implements ADC_Module_Interface
             time: time(),
             origin: 'browser',
             source_url: self::source_url((string) ($body['source_url'] ?? '')),
-            currency: function_exists('get_woocommerce_currency') ? (string) get_woocommerce_currency() : '',
+            currency: $currency,
             value: $value,
             items: $items,
             order_id: 0,
@@ -151,7 +181,7 @@ final class ADC_Tracking_Rest implements ADC_Module_Interface
             attribution: $attribution,
             cid: $consent->cid,
             consent: $consent_snapshot,
-            params: self::sanitize_params($body['params'] ?? array()),
+            params: $params,
         );
 
         // `adc_user_data` filter contract (§2.5): ADC_User_Data, ADC_Event.

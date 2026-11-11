@@ -319,6 +319,7 @@ $fixtures = array(
     'in_footer' => array(), 'wp_enqueue_scripts' => array(), 'wp_head' => array(),
     'wp_footer' => array(), 'wp_body_open' => array(), 'init' => array(),
     'rest_api_init' => array(null), 'wp' => array(new WP()), 'template_redirect' => array(),
+    'show_admin_bar' => array(true),
     'query_vars' => array(array()),
     'wp_login' => array('user', $user), 'user_register' => array(23, array('user_login' => 'user')),
     'delete_user' => array(23, null, $user),

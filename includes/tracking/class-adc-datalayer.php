@@ -62,6 +62,9 @@ final class ADC_Datalayer implements ADC_Module_Interface
      */
     public static function print_head(): void
     {
+        if (class_exists('ADC_Picker') && ADC_Picker::active()) {
+            return;
+        }
         if (ADC_Gtm::disabled()) {
             return;
         }
@@ -91,7 +94,7 @@ final class ADC_Datalayer implements ADC_Module_Interface
      */
     public static function print_footer(): void
     {
-        if (ADC_Gtm::disabled()) {
+        if ((class_exists('ADC_Picker') && ADC_Picker::active()) || ADC_Gtm::disabled()) {
             return;
         }
 
@@ -161,7 +164,7 @@ final class ADC_Datalayer implements ADC_Module_Interface
      */
     public static function enqueue_assets(): void
     {
-        if (ADC_Gtm::disabled()) {
+        if ((class_exists('ADC_Picker') && ADC_Picker::active()) || ADC_Gtm::disabled()) {
             return;
         }
 

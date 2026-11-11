@@ -228,7 +228,7 @@ final class ADC_Advanced_Matching implements ADC_Module_Interface
      */
     public static function enqueue_assets(): void
     {
-        if (!self::enabled() || (defined('ADC_MARKETING_DISABLE_TRACKING') && ADC_MARKETING_DISABLE_TRACKING)) {
+        if ((class_exists('ADC_Picker') && ADC_Picker::active()) || !self::enabled() || (defined('ADC_MARKETING_DISABLE_TRACKING') && ADC_MARKETING_DISABLE_TRACKING)) {
             return;
         }
 

@@ -220,6 +220,44 @@ trait ADC_Admin_Help_Content
     /**
      * Tracked events list explained.
      */
+    protected function help_custom_events_rules(): string
+    {
+        return '<p>' . esc_html__('Fiecare regulă definește un singur eveniment custom_ și condiția din pagină care îl declanșează. Regulile active pot trimite date în dataLayer și, dacă alegi, către integrarea server configurată.', 'adc-marketing') . '</p>'
+            . '<p>' . esc_html__('Numele și parametrii trebuie să respecte formatul acceptat de platforme. Nu include date personale și nu folosi token-uri pentru conținut introdus de vizitator.', 'adc-marketing') . '</p>';
+    }
+
+    /** Explain safe event naming and limits. */
+    protected function help_custom_events_name(): string
+    {
+        return '<p>' . esc_html__('Folosește litere mici, cifre și underscore. Numele este unic, începe cu custom_ și are cel mult 40 de caractere în total.', 'adc-marketing') . '</p>';
+    }
+
+    /** Explain the privacy-safe trigger model. */
+    protected function help_custom_events_triggers(): string
+    {
+        return '<p>' . esc_html__('Declanșatoarele disponibile sunt click, formular trimis cu succes, element vizibil, adâncime de scroll și timp pe pagină. Valorile din câmpurile formularelor nu sunt citite.', 'adc-marketing') . '</p>';
+    }
+
+    /** Explain token availability and privacy restrictions. */
+    protected function help_custom_events_tokens(): string
+    {
+        return '<p>' . esc_html__('Token-urile disponibile depind de declanșator. Sunt permise doar surse tehnice sigure, precum calea paginii sau textul unui link; e-mailurile, numerele și identificatorii lungi sunt mascate.', 'adc-marketing') . '</p>'
+            . '<p>' . esc_html__('Nu există token-uri pentru câmpuri de formular, cookie-uri, stocare locală, query string sau referrer.', 'adc-marketing') . '</p>';
+    }
+
+    /** Explain consent and server destinations. */
+    protected function help_custom_events_destinations(): string
+    {
+        return '<p>' . esc_html__('Evenimentele ajung întotdeauna în dataLayer. Trimiterea către server și către platforme depinde de consimțământul ales și de configurarea integrării.', 'adc-marketing') . '</p>'
+            . '<p>' . esc_html__('Meta necesită categoria Marketing. Parametrii personalizați nu trebuie să conțină date personale.', 'adc-marketing') . '</p>';
+    }
+
+    /** Explain revision protection and concurrent editing. */
+    protected function help_custom_events_revision(): string
+    {
+        return '<p>' . esc_html__('La salvare, pluginul verifică versiunea regulilor încărcate. Dacă regulile au fost modificate în altă filă, reîncarcă pagina înainte de a salva pentru a evita suprascrierea.', 'adc-marketing') . '</p>';
+    }
+
     protected function help_events_list(): string
     {
         return '<p>' . esc_html__('Doar evenimentele bifate sunt generate: ele apar în dataLayer (pentru tag-urile din GTM) și, dacă sunt permise de consimțământ, în coada de trimitere server-side către Meta/GA4/TikTok. Debifați un eveniment ca să nu mai fie măsurat deloc.', 'adc-marketing') . '</p>'

@@ -65,6 +65,8 @@ require dirname(__DIR__) . '/includes/integrations/class-adc-integration-ga4.php
 require dirname(__DIR__) . '/includes/integrations/class-adc-integration-tiktok.php';
 require dirname(__DIR__) . '/includes/tracking/class-adc-advanced-matching.php';
 require dirname(__DIR__) . '/includes/tracking/class-adc-event-hooks.php';
+require dirname(__DIR__) . '/includes/tracking/class-adc-custom-event-rule.php';
+require dirname(__DIR__) . '/includes/tracking/class-adc-custom-events.php';
 require dirname(__DIR__) . '/includes/admin/class-adc-admin-tab-logs.php';
 
 $failed = 0;
@@ -84,6 +86,17 @@ function check(bool $ok, string $label): void
  */
 function scenarios(): array
 {
+    // A valid raw rule with fixed timestamps; its normalized form is what the store must hold.
+    $seed_rule = array(
+        'id'         => 'ce_0000000a',
+        'label'      => 'Seed',
+        'name'       => 'custom_seed_evt',
+        'trigger'    => array('type' => 'click', 'preset' => 'tel'),
+        'created'    => 1700000000,
+        'updated'    => 1700000000,
+    );
+    $seed_expected = ADC_Custom_Event_Rule::validate($seed_rule)['rule'];
+
     return array(
         'banner'   => array(
             'class'  => 'ADC_Consent_Banner',
@@ -192,6 +205,15 @@ function scenarios(): array
             'single' => array('level', 'info', 'info'),
             'clear'  => array('debug_console', false),
         ),
+        'custom_events' => array(
+            'class'       => 'ADC_Custom_Events',
+            // The sanitizer re-validates rules, so the stored form is the normalized rule.
+            'seed'        => array('revision' => 7, 'rules' => array($seed_rule)),
+            'expect_seed' => array('rules' => array($seed_expected)),
+            'single'      => array('revision', 9, 9),
+            // Explicit empty list clears all rules (§2.1).
+            'clear'       => array('rules', array()),
+        ),
     );
 }
 
@@ -211,7 +233,9 @@ foreach (scenarios() as $group => $case) {
     $seeded    = ADC_Settings::update($group, $full_seed);
 
     foreach ($case['seed'] as $key => $want) {
-        $got = $seeded[$key] ?? null;
+        // Groups whose sanitizer normalizes the input compare against the normalized form.
+        $want = $case['expect_seed'][$key] ?? $want;
+        $got  = $seeded[$key] ?? null;
         // Secret keys are stored sealed; compare unsealed.
         if (is_string($got) && str_starts_with($got, 'enc1:')) {
             $got = ADC_Secrets::open($got);
@@ -242,13 +266,35 @@ foreach (scenarios() as $group => $case) {
     $after_clear = ADC_Settings::update($group, array($clear_key => $clear_value));
     check(
         ($after_clear[$clear_key] ?? null) === $clear_value,
-        "$group: explicit " . (true === (string) $clear_value ? "''" : var_export($clear_value, true)) . " still clears '$clear_key'"
+        "$group: explicit " . (is_array($clear_value) ? 'array()' : (true === (string) $clear_value ? "''" : var_export($clear_value, true))) . " still clears '$clear_key'"
     );
     $others = array_diff(array_keys($seeded), array($clear_key, $single_key));
     foreach ($others as $key) {
         check(($after_clear[$key] ?? null) === ($after_single[$key] ?? null), "$group: clear write keeps '$key'");
     }
 }
+
+// - custom_events: a non-array 'rules' value (string, scalar, null, bool) is
+//   NOT an explicit empty list and must delete nothing (§2.1). Regression for
+//   the rules-wipe bug: the old sanitizer treated any non-array as array().
+$GLOBALS['adc_options'] = array();
+call_user_func(array('ADC_Custom_Events', 'register_settings'));
+$custom_seed_rule = array(
+    'id'      => 'ce_0000000b',
+    'label'   => 'Non-array guard',
+    'name'    => 'custom_guard_evt',
+    'trigger' => array('type' => 'click', 'preset' => 'tel'),
+);
+ADC_Settings::update('custom_events', array('rules' => array($custom_seed_rule), 'revision' => 3));
+foreach (array('{"a":1}', 42, null, true, false) as $bad_rules) {
+    $after_bad = ADC_Settings::update('custom_events', array('rules' => $bad_rules));
+    $label     = is_string($bad_rules) ? "string '$bad_rules'" : var_export($bad_rules, true);
+    check(1 === count($after_bad['rules'] ?? array()), "custom_events: non-array rules ($label) keeps stored rules");
+    check(3 === ($after_bad['revision'] ?? null), "custom_events: non-array rules ($label) keeps revision");
+}
+// - custom_events: an absent key keeps the stored rules after a partial write.
+$after_absent = ADC_Settings::update('custom_events', array('revision' => 4));
+check(1 === count($after_absent['rules'] ?? array()) && 4 === $after_absent['revision'], 'custom_events: absent rules key keeps stored rules');
 
 // Extra documented semantics:
 // - logs: an explicit but invalid level still falls back to 'error' (present

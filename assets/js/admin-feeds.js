@@ -208,6 +208,22 @@
         "feed_ui_196": "Procent maxim de conversie (0–100)",
         "feed_ui_197": "Smart: %s · %s · %s zile · reîmprospătare %s",
         "feed_ui_198": "categorii: %s",
+        "feed_ui_199": "Taxonomia Google",
+        "feed_ui_200": "Importă fișierul oficial .txt al taxonomiei Google. Fișierul rămâne pe acest site; nu se trimite nimic către Google.",
+        "feed_ui_201": "Fișier taxonomie (.txt)",
+        "feed_ui_202": "Importă taxonomia",
+        "feed_ui_203": "Alege mai întâi un fișier .txt.",
+        "feed_ui_204": "Fișierul depășește 2 MB și nu poate fi importat.",
+        "feed_ui_205": "Acest browser nu poate citi fișiere local. Folosește un browser actualizat.",
+        "feed_ui_206": "Taxonomia a fost importată: versiunea %s, %s categorii.",
+        "feed_ui_207": "Caută în taxonomie",
+        "feed_ui_208": "Aplică selecția la",
+        "feed_ui_209": "Alege %s",
+        "feed_ui_210": "Nu există nicio taxonomie importată. Importă fișierul oficial mai întâi.",
+        "feed_ui_211": "Nicio categorie nu corespunde căutării.",
+        "feed_ui_212": "Selectat: %s — %s",
+        "feed_ui_213": "Se caută…",
+        "feed_ui_214": "Rezultate taxonomie",
         "feed_ui_099": "în curând"
     };
     var FEED_STRINGS = Object.assign({}, FEED_STRINGS_DEFAULT,
@@ -1095,6 +1111,10 @@
                 })
             ])
         ];
+        if (run.status === 'running') {
+            // Indeterminate on purpose: the run reports counts, not a total, so no percentage is shown.
+            children.push(el('progress', { className: 'adc-feeds__progress', 'aria-label': t('feed_ui_007') }));
+        }
         if (view.errors.length || view.errorsHidden) {
             children.push(messageList('error', t('feed_ui_107'), view.errors, view.errorsHidden));
         }
@@ -1126,6 +1146,317 @@
         });
     }
 
+    /** Google taxonomy picker bounds: same 2 MiB limit and 400-byte query limit as the REST endpoint. */
+    var TAX_MAX_BYTES = 2097152;
+    var TAX_QUERY_MAX_BYTES = 400;
+    var TAX_LIMIT = 50;
+    var TAX_DEBOUNCE_MS = 250;
+    var TAX_ID_RE = /^[0-9]{1,20}$/;
+
+    function utf8Length(text) {
+        return unescape(encodeURIComponent(String(text))).length;
+    }
+
+    function codedError(code) {
+        var err = new Error(code);
+        err.code = code;
+        return err;
+    }
+
+    /** GET URL for one taxonomy search, or null for an empty query. Trimmed, clamped to the server's byte limit. */
+    function taxonomySearchUrl(restUrl, query) {
+        var q = String(query || '').trim();
+        while (q !== '' && utf8Length(q) > TAX_QUERY_MAX_BYTES) {
+            q = q.slice(0, -1);
+        }
+        if (q === '') {
+            return null;
+        }
+        return restUrl + '/taxonomy?q=' + encodeURIComponent(q) + '&limit=' + TAX_LIMIT;
+    }
+
+    /**
+     * Read a local taxonomy file as text. The size is checked before reading, so an oversized file
+     * is never loaded. Rejects with a coded error: no_file, too_large, unsupported or read_failed.
+     */
+    function readTaxonomyFile(file, ReaderCtor) {
+        return new Promise(function (resolve, reject) {
+            if (!file || typeof file.size !== 'number') {
+                reject(codedError('no_file'));
+                return;
+            }
+            if (file.size > TAX_MAX_BYTES) {
+                reject(codedError('too_large'));
+                return;
+            }
+            if (typeof ReaderCtor !== 'function') {
+                reject(codedError('unsupported'));
+                return;
+            }
+            var reader = new ReaderCtor();
+            reader.onload = function () {
+                var text = typeof reader.result === 'string' ? reader.result : '';
+                if (utf8Length(text) > TAX_MAX_BYTES) {
+                    reject(codedError('too_large'));
+                    return;
+                }
+                resolve(text);
+            };
+            reader.onerror = function () { reject(codedError('read_failed')); };
+            reader.readAsText(file, 'UTF-8');
+        });
+    }
+
+    /**
+     * Store a picked Google ID in the wizard. target is 'default' or 'map:<WooCommerce category id>'.
+     * Only a plain numeric ID is accepted; any other value leaves the wizard untouched, so legacy
+     * free text stays as it was unless the administrator picks an ID.
+     */
+    function applyTaxonomySelection(wizard, target, item) {
+        if (!wizard || !item || !TAX_ID_RE.test(String(item.id))) {
+            return false;
+        }
+        var value = String(item.id);
+        if (target === 'default') {
+            wizard.defaultCategory = value;
+            return true;
+        }
+        if (typeof target === 'string' && target.indexOf('map:') === 0) {
+            wizard.categoryMap = wizard.categoryMap || {};
+            wizard.categoryMap[target.slice(4)] = value;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Debounced, stale-guarded taxonomy search. Owns no DOM: search(query) returns a promise of
+     * {version, items}; onState receives {status, items, version?, message?}. Statuses: idle,
+     * loading, ok, empty (no taxonomy imported yet), error. Only the newest query may publish.
+     */
+    function createTaxonomySearch(opts) {
+        var delay = opts.delayMs || TAX_DEBOUNCE_MS;
+        var seq = 0;
+        var timer = null;
+
+        function clearTimer() {
+            if (timer !== null) {
+                opts.clearTimer(timer);
+                timer = null;
+            }
+        }
+
+        function run(query) {
+            var mine = ++seq;
+            opts.onState({ status: 'loading', items: [] });
+            return Promise.resolve()
+                .then(function () { return opts.search(query); })
+                .then(function (data) {
+                    if (mine !== seq) {
+                        return;
+                    }
+                    if (!data || typeof data.version !== 'string' || data.version === '') {
+                        opts.onState({ status: 'empty', items: [] });
+                        return;
+                    }
+                    opts.onState({
+                        status: 'ok',
+                        version: data.version,
+                        items: Array.isArray(data.items) ? data.items : []
+                    });
+                }, function (err) {
+                    if (mine !== seq) {
+                        return;
+                    }
+                    opts.onState({ status: 'error', items: [], message: err && err.message ? err.message : '' });
+                });
+        }
+
+        return {
+            input: function (query) {
+                clearTimer();
+                seq++; // invalidates any answer still in flight
+                if (String(query || '').trim() === '') {
+                    opts.onState({ status: 'idle', items: [] });
+                    return;
+                }
+                timer = opts.setTimer(function () {
+                    timer = null;
+                    run(query);
+                }, delay);
+            },
+            cancel: function () {
+                clearTimer();
+                seq++;
+            },
+            isPending: function () {
+                return timer !== null;
+            }
+        };
+    }
+
+    /** Progress polling: 3 s between list reads; a regeneration is watched for 2 min (30 s debounce plus slack). */
+    var POLL_INTERVAL_MS = 3000;
+    var POLL_WINDOW_MS = 120000;
+    /** A run that still reports "running" after 30 min is treated as stuck; polling stops. */
+    var RUNNING_CAP_MS = 1800000;
+    /** A failed list read is retried after 3, 6 and 12 s; the fourth consecutive failure is final. */
+    var POLL_RETRY_DELAYS_MS = [3000, 6000, 12000];
+
+    /**
+     * Progress poller for the feed list. Owns no DOM: timers, the list fetch, the "list is
+     * visible" check and the render callbacks are injected, so the rules run under a fake clock.
+     * It polls only while a feed reports status "running" or a regeneration was requested and
+     * its last_run has not yet changed to a finished run. Every stop path clears the timer.
+     */
+    function createRunPoller(opts) {
+        var windowMs = opts.windowMs || POLL_WINDOW_MS;
+        var intervalMs = opts.intervalMs || POLL_INTERVAL_MS;
+        var pending = {};
+        var runningSince = 0;
+        var handle = null;
+        var inFlight = false;
+        var lastSignature = null;
+        var failures = 0; // consecutive failed reads; reset by any successful read or by stop()
+
+        function runKey(feed) {
+            var run = feed && feed.last_run;
+            return run && typeof run === 'object' ? String(run.started_at || '') + '|' + String(run.status || '') : '';
+        }
+
+        function isRunning(feed) {
+            return !!feed && !!feed.last_run && feed.last_run.status === 'running';
+        }
+
+        function findFeed(feeds, id) {
+            for (var i = 0; i < feeds.length; i++) {
+                if (String(feeds[i].id) === id) {
+                    return feeds[i];
+                }
+            }
+            return null;
+        }
+
+        /** Changes only when something the list shows changes, so idle polls do not redraw. */
+        function signature(feeds) {
+            return feeds.map(function (feed) {
+                var run = feed.last_run || {};
+                return [feed.id, run.status, run.started_at, run.examined, run.exported].join('|');
+            }).join('\n');
+        }
+
+        function stop() {
+            if (handle !== null) {
+                opts.clearTimer(handle);
+                handle = null;
+            }
+            pending = {};
+            runningSince = 0;
+            failures = 0;
+        }
+
+        function schedule() {
+            if (handle !== null || inFlight) {
+                return;
+            }
+            handle = opts.setTimer(tick, intervalMs);
+        }
+
+        function observe(feeds) {
+            var now = opts.now();
+            var list = Array.isArray(feeds) ? feeds : [];
+            var anyRunning = list.some(isRunning);
+            if (!anyRunning) {
+                runningSince = 0;
+            } else if (runningSince === 0) {
+                runningSince = now;
+            }
+            Object.keys(pending).forEach(function (id) {
+                var entry = pending[id];
+                var feed = findFeed(list, id);
+                var finished = feed !== null && runKey(feed) !== entry.baseline && !isRunning(feed);
+                if (finished || now > entry.deadline) {
+                    delete pending[id];
+                }
+            });
+            var runningActive = anyRunning && now - runningSince < RUNNING_CAP_MS;
+            if (runningActive || Object.keys(pending).length > 0) {
+                schedule();
+            } else {
+                stop();
+            }
+        }
+
+        function apply(feeds) {
+            var sig = signature(feeds);
+            if (sig !== lastSignature) {
+                lastSignature = sig;
+                opts.onUpdate(feeds);
+            }
+            observe(feeds);
+        }
+
+        function tick() {
+            handle = null;
+            if (!opts.isActive()) {
+                stop();
+                return;
+            }
+            inFlight = true;
+            Promise.resolve()
+                .then(opts.fetchList)
+                .then(function (feeds) {
+                    inFlight = false;
+                    if (!opts.isActive()) {
+                        stop();
+                        return;
+                    }
+                    // null: a newer list request superseded this one and observes on its own.
+                    if (feeds !== null) {
+                        failures = 0;
+                        apply(feeds);
+                    }
+                }, function (err) {
+                    inFlight = false;
+                    if (!opts.isActive()) {
+                        stop();
+                        return;
+                    }
+                    failures++;
+                    if (failures > POLL_RETRY_DELAYS_MS.length) {
+                        // Final failure: stop, drop pending requests, and let the caller show one notice.
+                        stop();
+                        if (opts.onError) {
+                            opts.onError(err);
+                        }
+                        return;
+                    }
+                    // Retry after the backoff delay. Pending requests and the current view are kept.
+                    handle = opts.setTimer(tick, POLL_RETRY_DELAYS_MS[failures - 1]);
+                });
+        }
+
+        return {
+            /** Start watching a feed after a regeneration request; the baseline is its last known run. */
+            request: function (feed) {
+                if (!feed || feed.id === undefined || feed.id === null) {
+                    return;
+                }
+                pending[String(feed.id)] = { baseline: runKey(feed), deadline: opts.now() + windowMs };
+                schedule();
+            },
+            /** Feed the poller a list that was just loaded by a non-polling request. */
+            observe: function (feeds) {
+                lastSignature = signature(Array.isArray(feeds) ? feeds : []);
+                observe(Array.isArray(feeds) ? feeds : []);
+            },
+            stop: stop,
+            isPolling: function () {
+                return handle !== null || inFlight;
+            }
+        };
+    }
+
     function mount(root) {
         var restUrl = root.getAttribute('data-rest-url') || '';
         var nonce = root.getAttribute('data-nonce') || '';
@@ -1147,7 +1478,21 @@
             focusTitle: false,
             preview: null,
             editingId: null,
-            pendingParams: null
+            pendingParams: null,
+            listSeq: 0,
+            taxonomy: {
+                version: null,
+                count: 0,
+                file: null,
+                busy: false,
+                query: '',
+                target: 'default',
+                status: 'idle',
+                items: [],
+                message: '',
+                selected: null,
+                notice: null
+            }
         };
 
         function call(method, url, body) {
@@ -1182,13 +1527,290 @@
             }
         }
 
+        /** One list read. Each read takes a sequence number so an older response cannot overwrite a newer one. */
+        function fetchFeedList() {
+            var seq = ++app.listSeq;
+            return call('GET', restUrl).then(function (data) {
+                if (seq !== app.listSeq) {
+                    return null;
+                }
+                return data && Array.isArray(data.items) ? data.items : [];
+            });
+        }
+
+        var poller = createRunPoller({
+            now: function () { return Date.now(); },
+            setTimer: function (fn, ms) { return window.setTimeout(fn, ms); },
+            clearTimer: function (handle) { window.clearTimeout(handle); },
+            fetchList: fetchFeedList,
+            // Polling runs only while the list is shown; the wizard and edit flows never see a redraw.
+            isActive: function () { return app.view === 'list' && root.isConnected !== false; },
+            onUpdate: function (feeds) {
+                app.feeds = feeds;
+                draw();
+            },
+            onError: function (err) {
+                setNotice('error', err && err.message ? err.message : MSG_GENERIC);
+                draw();
+            }
+        });
+
+        /** Replace each %s in order. A function replacer keeps "$" sequences in names and paths literal. */
+        function fillText(template, values) {
+            var i = 0;
+            return String(template).replace(/%s/g, function () {
+                var value = values[i++];
+                return value === undefined || value === null ? '' : String(value);
+            });
+        }
+
+        var taxonomySearch = createTaxonomySearch({
+            delayMs: TAX_DEBOUNCE_MS,
+            setTimer: function (fn, ms) { return window.setTimeout(fn, ms); },
+            clearTimer: function (handle) { window.clearTimeout(handle); },
+            search: function (query) {
+                var url = taxonomySearchUrl(restUrl, query);
+                return url === null ? Promise.resolve({ version: null, items: [] }) : call('GET', url);
+            },
+            onState: function (state) {
+                var tax = app.taxonomy;
+                tax.status = state.status;
+                tax.items = state.items;
+                tax.message = state.message || '';
+                if (state.status === 'ok') {
+                    tax.version = state.version;
+                } else if (state.status === 'empty') {
+                    tax.version = null;
+                }
+                renderTaxonomyResults();
+            }
+        });
+
+        function taxonomyStatusText() {
+            var tax = app.taxonomy;
+            if (tax.status === 'loading') {
+                return t('feed_ui_213');
+            }
+            if (tax.status === 'empty') {
+                return t('feed_ui_210');
+            }
+            if (tax.status === 'error') {
+                return tax.message || MSG_GENERIC;
+            }
+            if (tax.status === 'ok' && tax.items.length === 0) {
+                return t('feed_ui_211');
+            }
+            return '';
+        }
+
+        function taxonomySelectedText() {
+            var sel = app.taxonomy.selected;
+            return sel ? fillText(t('feed_ui_212'), [sel.id, sel.path]) : '';
+        }
+
+        /** Result buttons: id and path are set as text, never as markup. */
+        function taxonomyResultNodes() {
+            var tax = app.taxonomy;
+            if (tax.status !== 'ok') {
+                return [];
+            }
+            return tax.items.slice(0, TAX_LIMIT).map(function (item) {
+                var id = String(item.id);
+                var path = String(item.path);
+                return el('li', { className: 'adc-feeds__taxonomy-item' }, [
+                    el('button', {
+                        type: 'button',
+                        className: 'button',
+                        text: id + ' — ' + path,
+                        'aria-label': fillText(t('feed_ui_209'), [id + ' ' + path]),
+                        disabled: app.busy || tax.busy,
+                        on: { click: function () { pickTaxonomy(item); } }
+                    })
+                ]);
+            });
+        }
+
+        /** Update only the results and status nodes, so typing in the search box keeps its focus. */
+        function renderTaxonomyResults() {
+            var list = root.querySelector('#adc-feeds-taxonomy-results');
+            var status = root.querySelector('#adc-feeds-taxonomy-status');
+            if (list) {
+                list.textContent = '';
+                taxonomyResultNodes().forEach(function (node) { list.appendChild(node); });
+            }
+            if (status) {
+                status.textContent = taxonomyStatusText();
+            }
+        }
+
+        function pickTaxonomy(item) {
+            var tax = app.taxonomy;
+            if (!applyTaxonomySelection(app.wizard, tax.target, item)) {
+                setNotice('error', MSG_GENERIC);
+                draw();
+                return;
+            }
+            tax.selected = { id: String(item.id), path: String(item.path), target: tax.target };
+            app.focusSelector = tax.target === 'default'
+                ? '#adc-feeds-defaultCategory'
+                : '#adc-feeds-map-' + tax.target.slice(4);
+            setNotice(null, null);
+            draw();
+        }
+
+        function importErrorMessage(err) {
+            switch (err && err.code) {
+                case 'no_file':
+                    return t('feed_ui_203');
+                case 'too_large':
+                    return t('feed_ui_204');
+                case 'unsupported':
+                    return t('feed_ui_205');
+                case 'read_failed':
+                    return MSG_GENERIC;
+                default:
+                    // Server or network errors carry their own status; anything else is generic.
+                    return err && err.status !== undefined ? err.message : MSG_GENERIC;
+            }
+        }
+
+        /** Read the chosen file locally, then POST its text. Success needs imported === true; anything else is an error. */
+        function importTaxonomy() {
+            var tax = app.taxonomy;
+            if (!tax.file) {
+                tax.notice = { type: 'error', text: t('feed_ui_203') };
+                draw();
+                return;
+            }
+            tax.busy = true;
+            tax.notice = null;
+            draw();
+            readTaxonomyFile(tax.file, window.FileReader)
+                .then(function (content) {
+                    return call('POST', restUrl + '/taxonomy', { content: content });
+                })
+                .then(function (data) {
+                    if (!data || data.imported !== true || typeof data.version !== 'string') {
+                        throw new Error(MSG_GENERIC);
+                    }
+                    tax.version = data.version;
+                    tax.count = Number(data.count) || 0;
+                    tax.file = null;
+                    taxonomySearch.cancel();
+                    tax.items = [];
+                    tax.status = 'idle';
+                    tax.notice = { type: 'success', text: fillText(t('feed_ui_206'), [data.version, String(tax.count)]) };
+                })
+                .catch(function (err) {
+                    tax.notice = { type: 'error', text: importErrorMessage(err) };
+                })
+                .then(function () {
+                    tax.busy = false;
+                    draw();
+                });
+        }
+
+        /** Google-only picker: import, search, target choice. Free-text fields stay below it. */
+        function taxonomyPanel() {
+            var tax = app.taxonomy;
+            var targetOptions = [el('option', {
+                value: 'default',
+                text: t('feed_ui_093'),
+                selected: tax.target === 'default' ? true : null
+            })];
+            categories.forEach(function (cat) {
+                var value = 'map:' + String(cat.id);
+                targetOptions.push(el('option', {
+                    value: value,
+                    text: fillText(t('feed_ui_154'), [cat.name]),
+                    selected: tax.target === value ? true : null
+                }));
+            });
+            return el('div', { className: 'adc-feeds__taxonomy', role: 'group', 'aria-label': t('feed_ui_199') }, [
+                el('p', { id: 'adc-feeds-taxonomy-help', className: 'adc-feeds__note', text: t('feed_ui_200') }),
+                el('div', { className: 'adc-feeds__fields' }, [
+                    el('label', { 'for': 'adc-feeds-taxonomy-file', text: t('feed_ui_201') }),
+                    el('input', {
+                        type: 'file',
+                        id: 'adc-feeds-taxonomy-file',
+                        accept: '.txt,text/plain',
+                        'aria-describedby': 'adc-feeds-taxonomy-help',
+                        disabled: tax.busy,
+                        on: {
+                            change: function (event) {
+                                var picked = event.target.files && event.target.files[0];
+                                tax.file = picked || null;
+                            }
+                        }
+                    }),
+                    el('span', { className: 'adc-feeds__note', text: tax.file ? tax.file.name : '' }),
+                    el('button', {
+                        type: 'button',
+                        className: 'button',
+                        text: t('feed_ui_202'),
+                        disabled: tax.busy || app.busy,
+                        on: { click: importTaxonomy }
+                    })
+                ]),
+                // Import feedback lives here: the list-level notice is not drawn inside the wizard.
+                tax.notice ? noticeNode(tax.notice) : null,
+                el('div', { className: 'adc-feeds__fields' }, [
+                    el('label', { 'for': 'adc-feeds-taxonomy-q', text: t('feed_ui_207') }),
+                    el('input', {
+                        type: 'search',
+                        id: 'adc-feeds-taxonomy-q',
+                        name: 'taxonomyQuery',
+                        value: tax.query,
+                        maxlength: String(TAX_QUERY_MAX_BYTES),
+                        'aria-controls': 'adc-feeds-taxonomy-results',
+                        'aria-describedby': 'adc-feeds-taxonomy-status',
+                        on: {
+                            input: function (event) {
+                                tax.query = event.target.value;
+                                taxonomySearch.input(event.target.value);
+                            }
+                        }
+                    }),
+                    el('label', { 'for': 'adc-feeds-taxonomy-target', text: t('feed_ui_208') }),
+                    el('select', {
+                        id: 'adc-feeds-taxonomy-target',
+                        name: 'taxonomyTarget',
+                        on: { change: function (event) { tax.target = event.target.value; } }
+                    }, targetOptions)
+                ]),
+                el('p', { id: 'adc-feeds-taxonomy-status', className: 'adc-feeds__note', 'aria-live': 'polite', text: taxonomyStatusText() }),
+                el('ul', {
+                    id: 'adc-feeds-taxonomy-results',
+                    className: 'adc-feeds__taxonomy-results',
+                    'aria-label': t('feed_ui_214')
+                }, taxonomyResultNodes()),
+                el('p', { id: 'adc-feeds-taxonomy-selected', className: 'adc-feeds__note', 'aria-live': 'polite', text: taxonomySelectedText() })
+            ]);
+        }
+
+        /** Drop search state when the wizard or list changes; the imported version and the chosen file are kept. */
+        function resetTaxonomyView() {
+            taxonomySearch.cancel();
+            app.taxonomy.query = '';
+            app.taxonomy.items = [];
+            app.taxonomy.status = 'idle';
+            app.taxonomy.message = '';
+            app.taxonomy.selected = null;
+        }
+
         /** Reload the list from REST, then draw. */
         function load() {
             setBusy(true);
+            taxonomySearch.cancel();
+            var seq = ++app.listSeq;
             return call('GET', restUrl)
                 .then(function (data) {
+                    if (seq !== app.listSeq) {
+                        return;
+                    }
                     app.feeds = data && Array.isArray(data.items) ? data.items : [];
                     app.view = 'list';
+                    poller.observe(app.feeds);
                 })
                 .catch(function (err) {
                     setNotice('error', err.message);
@@ -1221,6 +1843,8 @@
         }
 
         function startWizard() {
+            poller.stop();
+            resetTaxonomyView();
             app.wizard = resetWizardDraft(channels);
             app.editingId = null;
             app.pendingParams = null;
@@ -1233,6 +1857,8 @@
         }
 
         function startEdit(feed) {
+            poller.stop();
+            resetTaxonomyView();
             app.wizard = wizardFromFeed(feed, channels);
             app.editingId = Number(feed.id);
             app.pendingParams = Array.isArray(feed.params) ? feed.params : null;
@@ -1401,7 +2027,12 @@
                         on: {
                             click: function () {
                                 action(
-                                    function () { return call('POST', feedUrl(feed.id) + '/regenerate'); },
+                                    function () {
+                                        return call('POST', feedUrl(feed.id) + '/regenerate').then(function (result) {
+                                            poller.request(feed);
+                                            return result;
+                                        });
+                                    },
                                     t('feed_ui_055')
                                 );
                             }
@@ -1999,12 +2630,14 @@
         /** Default category, and one input per WooCommerce category for the platform category path. */
         function categoryFields() {
             var w = app.wizard;
-            var rows = [
-                textField(t('feed_ui_093'), 'defaultCategory', w.defaultCategory, {
-                    maxlength: '750',
-                    help: t('feed_ui_094')
-                })
-            ];
+            var rows = [];
+            if (w.channel === 'google') {
+                rows.push(taxonomyPanel());
+            }
+            rows.push(textField(t('feed_ui_093'), 'defaultCategory', w.defaultCategory, {
+                maxlength: '750',
+                help: t('feed_ui_094')
+            }));
             if (categories.length === 0) {
                 rows.push(el('p', { className: 'adc-feeds__note', text: t('feed_ui_095') }));
             }
@@ -2212,6 +2845,20 @@
         diagnosticRows: diagnosticRows,
         parseLabels: parseLabels,
         mount: mount,
+        createRunPoller: createRunPoller,
+        taxonomySearchUrl: taxonomySearchUrl,
+        readTaxonomyFile: readTaxonomyFile,
+        applyTaxonomySelection: applyTaxonomySelection,
+        createTaxonomySearch: createTaxonomySearch,
+        utf8Length: utf8Length,
+        TAX_MAX_BYTES: TAX_MAX_BYTES,
+        TAX_LIMIT: TAX_LIMIT,
+        TAX_DEBOUNCE_MS: TAX_DEBOUNCE_MS,
+        TAX_QUERY_MAX_BYTES: TAX_QUERY_MAX_BYTES,
+        POLL_INTERVAL_MS: POLL_INTERVAL_MS,
+        POLL_WINDOW_MS: POLL_WINDOW_MS,
+        RUNNING_CAP_MS: RUNNING_CAP_MS,
+        POLL_RETRY_DELAYS_MS: POLL_RETRY_DELAYS_MS,
         MAX_MESSAGES: MAX_MESSAGES
     };
 

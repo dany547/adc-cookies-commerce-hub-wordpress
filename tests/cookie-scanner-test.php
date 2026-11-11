@@ -40,4 +40,10 @@ $result = ADC_Cookie_Scanner::save_to_inventory(array(array('name'=>'_pk_id.1.1f
 check($result['saved'] === 1 && count($result['errors']) === 0, 'dotted cookie name was not accepted');
 $result = ADC_Cookie_Scanner::save_to_inventory(array(array('name'=>str_repeat('a',65),'category'=>'marketing','provider'=>'','purpose'=>'','duration'=>'')));
 check($result['saved'] === 0 && count($result['errors']) === 1, 'over-64-char cookie name was not rejected (silent drop on save)');
+// Plugin cookies observed on the test site / documented by vendors (curated list).
+foreach (array('tk_ai'=>'statistics','tk_or'=>'marketing','mc_cid'=>'marketing','_hjSession_123'=>'statistics','_clck'=>'statistics','__stripe_mid'=>'necessary','__cf_bm'=>'necessary','pll_language'=>'preferences','wf_loginalerted_abc'=>'necessary','_gac_UA1'=>'marketing') as $cookie => $category) {
+    $row = ADC_Cookie_Scanner::match_known($cookie);
+    check($row !== null && $row['category'] === $category, 'plugin cookie not classified as ' . $category . ': ' . $cookie);
+}
+check(ADC_Cookie_Scanner::match_known('mc_cid')['duration'] === '14 zile', 'duration missing for curated row');
 echo "Cookie scanner tests passed.\n";

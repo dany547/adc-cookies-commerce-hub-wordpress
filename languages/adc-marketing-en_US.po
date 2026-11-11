@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ADC Marketing 2.2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-08 06:50+0000\n"
+"PO-Revision-Date: 2026-11-11 12:59+0000\n"
 "Last-Translator: ADC Marketing build\n"
 "Language-Team: English\n"
 "Language: en_US\n"
@@ -15,13 +15,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-msgid ""
-msgstr "Project-Id-Version: ADC Marketing 2.2.1\nReport-Msgid-Bugs-To: "
-"\nPO-Revision-Date: 2026-10-19 20:04+0000\nLast-Translator: ADC Marketing "
-"build\nLanguage-Team: English\nLanguage: en_US\nMIME-Version: "
-"1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: "
-"8bit\nPlural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "ADC Cookies & Commerce Hub"
 msgstr "ADC Cookies & Commerce Hub"
@@ -211,39 +204,41 @@ msgid "Dacă ați activat statisticile per produs, ADC Marketing numără zilnic
 "un șablon informativ: operatorul trebuie să îl verifice și să îl valideze "
 "cu DPO/consilierul juridic pentru magazinul său înainte de publicare; nu "
 "reprezintă o afirmație de conformitate."
-msgstr "If enabled, ADC Marketing counts product page views, add-to-cart events, checkout "
-"starts and purchases each day. These aggregates may be used in future planned "
-"or optional Smart Feed and product-ranking development; they are not described "
-"here as current features. Collection takes place only after the visitor grants "
-"consent for the statistics category; purchases are counted only when that "
-"consent was saved during checkout. The statistics table stores the day, product "
-"and counts, not IP addresses or visitor identifiers. The technical token rotates "
-"daily and is accepted on the following day, but it does not prove that an "
-"interaction occurred; no visitor ID is used. Checkout-start counting is limited "
-"to once per existing WooCommerce session. Aggregates are kept for %d days and "
-"then deleted automatically. This is an informational template: the store "
-"operator must review it with their DPO or legal adviser before publication; it "
-"makes no compliance claim."
+msgstr "If enabled, ADC Marketing counts product page views, add-to-cart events, "
+"checkout starts and purchases each day. These aggregates may be used in "
+"future planned or optional Smart Feed and product-ranking development; they "
+"are not described here as current features. Collection takes place only "
+"after the visitor grants consent for the statistics category; purchases are "
+"counted only when that consent was saved during checkout. The statistics "
+"table stores the day, product and counts, not IP addresses or visitor "
+"identifiers. The technical token rotates daily and is accepted on the "
+"following day, but it does not prove that an interaction occurred; no "
+"visitor ID is used. Checkout-start counting is limited to once per existing "
+"WooCommerce session. Aggregates are kept for %d days and then deleted "
+"automatically. This is an informational template: the store operator must "
+"review it with their DPO or legal adviser before publication; it makes no "
+"compliance claim."
 
 msgid "5. Statistici per produs"
 msgstr "5. Per-product statistics"
 
 msgid "Numărăm zilnic vizualizările produselor, adăugările în coș, începuturile "
-"finalizării comenzii și achizițiile; aceste agregate pot fi folosite în viitor "
-"pentru dezvoltări Smart Feed și clasamente de produse planificate sau "
-"opționale, nu sunt prezentate ca funcții curente."
+"finalizării comenzii și achizițiile; aceste agregate pot fi folosite în "
+"viitor pentru dezvoltări Smart Feed și clasamente de produse planificate "
+"sau opționale, nu sunt prezentate ca funcții curente."
 msgstr "We count product page views, add-to-cart events, checkout starts and "
 "purchases each day; these aggregates may support future planned or optional "
-"Smart Feed and product-ranking development, not features presented as current."
+"Smart Feed and product-ranking development, not features presented as "
+"current."
 
 msgid "Pluginul nu stochează IP-uri sau identificatori de vizitator în tabelul de "
 "statistici. Colectarea are loc numai când această opțiune este activată și "
 "vizitatorul și-a dat consimțământul pentru categoria „statistics”. Pentru "
 "achiziții se folosește consimțământul salvat la finalizarea comenzii."
 msgstr "The plugin does not store IP addresses or visitor identifiers in the "
-"statistics table. Collection only occurs when this option is enabled and the "
-"visitor has consented to the statistics category. Purchases use the consent "
-"saved during checkout."
+"statistics table. Collection only occurs when this option is enabled and "
+"the visitor has consented to the statistics category. Purchases use the "
+"consent saved during checkout."
 
 msgid "Activarea acestei opțiuni nu înlocuiește și nu obține consimțământul "
 "vizitatorului."
@@ -5644,11 +5639,15 @@ msgid "Snapshot-urile sunt fișiere .php protejate (conțin exit la început), d
 msgstr "Snapshots are protected .php files (with an exit statement at the start), "
 "so they cannot be read directly; feeds are served only through /adc-feed/…"
 
-msgid "Verificare informativă: testul HTTP a returnat tokenul; protecția snapshot-urilor nu este confirmată."
-msgstr "Informational check: the HTTP test returned the token; snapshot protection is unverified."
+msgid "Verificare informativă: testul HTTP a returnat tokenul; protecția "
+"snapshot-urilor nu este confirmată."
+msgstr "Informational check: the HTTP test returned the token; snapshot protection "
+"is unverified."
 
-msgid "Verificare informativă: testul HTTP nu a returnat tokenul; protecția nu este confirmată complet."
-msgstr "Informational check: the HTTP test did not return the token; protection is not fully verified."
+msgid "Verificare informativă: testul HTTP nu a returnat tokenul; protecția nu "
+"este confirmată complet."
+msgstr "Informational check: the HTTP test did not return the token; protection is "
+"not fully verified."
 
 msgid "Verificare informativă, neconfirmată: testul HTTP nu a putut fi finalizat."
 msgstr "Informational, unverified check: the HTTP test could not be completed."
@@ -5669,7 +5668,8 @@ msgid "%d produse omise: nu respectă cerințele destinației."
 msgstr "%d products omitted: they do not meet the destination requirements."
 
 msgid "Câmpul product_type are %1$d caractere; Google acceptă maximum %2$d."
-msgstr "The product_type field has %1$d characters; Google allows a maximum of %2$d."
+msgstr "The product_type field has %1$d characters; Google allows a maximum of "
+"%2$d."
 
 msgid "Câmpul product_type nu folosește formatul „A > B > C”."
 msgstr "The product_type field does not use the “A > B > C” format."
@@ -5677,11 +5677,15 @@ msgstr "The product_type field does not use the “A > B > C” format."
 msgid "Câmpul product_type are %1$d caractere; Meta acceptă maximum %2$d."
 msgstr "The product_type field has %1$d characters; Meta allows a maximum of %2$d."
 
-msgid "Eticheta internă nu este scrisă cu litere mici; Meta o stochează astfel, deci potrivirea în seturile de produse folosește varianta cu litere mici."
-msgstr "The internal label is not lowercase; Meta stores it in lowercase, so product set matching uses the lowercase version."
+msgid "Eticheta internă nu este scrisă cu litere mici; Meta o stochează astfel, "
+"deci potrivirea în seturile de produse folosește varianta cu litere mici."
+msgstr "The internal label is not lowercase; Meta stores it in lowercase, so "
+"product set matching uses the lowercase version."
 
-msgid "Categoria google_product_category are %1$d niveluri; TikTok afișează doar primele %2$d."
-msgstr "The google_product_category field has %1$d levels; TikTok displays only the first %2$d."
+msgid "Categoria google_product_category are %1$d niveluri; TikTok afișează doar "
+"primele %2$d."
+msgstr "The google_product_category field has %1$d levels; TikTok displays only the "
+"first %2$d."
 
 msgid "Câmpul product_type are %1$d niveluri; TikTok indică doar primele %2$d."
 msgstr "The product_type field has %1$d levels; TikTok uses only the first %2$d."
@@ -7720,8 +7724,10 @@ msgstr "There are no products to preview."
 msgid "Se încarcă parametrii…"
 msgstr "Loading parameters…"
 
-msgid "Fiecare rând spune ce câmp al feedului completezi și de unde citește valoarea. Parametrii obligatorii nu pot fi șterși."
-msgstr "Each row specifies a feed field and where its value comes from. Required parameters cannot be deleted."
+msgid "Fiecare rând spune ce câmp al feedului completezi și de unde citește "
+"valoarea. Parametrii obligatorii nu pot fi șterși."
+msgstr "Each row specifies a feed field and where its value comes from. Required "
+"parameters cannot be deleted."
 
 msgid "Se previzualizează…"
 msgstr "Previewing…"
@@ -7738,7 +7744,8 @@ msgstr "Default category"
 msgid "Folosită pentru produsele fără categorie mapată mai jos."
 msgstr "Used for products without a category mapped below."
 
-msgid "Nu există categorii de produse în WooCommerce; folosește categoria implicită."
+msgid "Nu există categorii de produse în WooCommerce; folosește categoria "
+"implicită."
 msgstr "There are no product categories in WooCommerce; use the default category."
 
 msgid " · doar produse în stoc"
@@ -7747,8 +7754,10 @@ msgstr " · in-stock products only"
 msgid " · validare strictă"
 msgstr " · strict validation"
 
-msgid "Feedul se generează în fundal. Adresa publică funcționează după prima generare reușită."
-msgstr "The feed is generated in the background. The public URL works after the first successful generation."
+msgid "Feedul se generează în fundal. Adresa publică funcționează după prima "
+"generare reușită."
+msgstr "The feed is generated in the background. The public URL works after the "
+"first successful generation."
 
 msgid "în curând"
 msgstr "coming soon"
@@ -7891,8 +7900,10 @@ msgstr "For category “"
 msgid "Selectare inteligentă (statistici)"
 msgstr "Smart selection (statistics)"
 
-msgid "Statisticile per produs sunt dezactivate. Selectarea inteligentă nu va afișa produse până la activarea statisticilor."
-msgstr "Per-product statistics are disabled. Smart selection will show no products until statistics are enabled."
+msgid "Statisticile per produs sunt dezactivate. Selectarea inteligentă nu va "
+"afișa produse până la activarea statisticilor."
+msgstr "Per-product statistics are disabled. Smart selection will show no products "
+"until statistics are enabled."
 
 msgid "Deschide setările statisticilor"
 msgstr "Open statistics settings"
@@ -7966,8 +7977,11 @@ msgstr "High interest, no top purchases · 30 days"
 msgid "Adăugate în coș · 30 zile"
 msgstr "Most added to cart · 30 days"
 
-msgid "„Interes ridicat” înseamnă produse clasate după vizualizări, excluzând produsele din topul achizițiilor. Datele sunt agregate și pot fi limitate de pragul de confidențialitate."
-msgstr "“High interest” ranks products by views and excludes products in the top purchases. Data is aggregated and may be limited by the privacy threshold."
+msgid "„Interes ridicat” înseamnă produse clasate după vizualizări, excluzând "
+"produsele din topul achizițiilor. Datele sunt agregate și pot fi limitate "
+"de pragul de confidențialitate."
+msgstr "“High interest” ranks products by views and excludes products in the top "
+"purchases. Data is aggregated and may be limited by the privacy threshold."
 
 msgid "Reguli inteligente"
 msgstr "Smart rules"
@@ -7978,7 +7992,8 @@ msgstr "Metric value"
 msgid "Opțional: limitează produsele selectate la aceste categorii."
 msgstr "Optional: limit selected products to these categories."
 
-msgid "Statisticile per produs sunt dezactivate; activează-le pentru a folosi selectarea inteligentă."
+msgid "Statisticile per produs sunt dezactivate; activează-le pentru a folosi "
+"selectarea inteligentă."
 msgstr "Per-product statistics are disabled; enable them to use smart selection."
 
 msgid "Statistica produselor nu este disponibilă în acest moment."
@@ -7987,17 +8002,21 @@ msgstr "Product statistics are currently unavailable."
 msgid "Nu există suficiente date agregate pentru această regulă."
 msgstr "There is not enough aggregate data for this rule."
 
-msgid "Rezultatele sunt limitate la maximum 100 de produse de API-ul statisticilor."
+msgid "Rezultatele sunt limitate la maximum 100 de produse de API-ul "
+"statisticilor."
 msgstr "The statistics API limits results to 100 products."
 
 msgid "Regula de selectare inteligentă nu este validă."
 msgstr "The smart selection rule is invalid."
 
-msgid "Regula inteligentă nu a găsit produse eligibile; feedul gol nu a fost publicat."
+msgid "Regula inteligentă nu a găsit produse eligibile; feedul gol nu a fost "
+"publicat."
 msgstr "The smart rule found no eligible products; an empty feed was not published."
 
-msgid "Feedul a fost salvat, dar reîmprospătarea recurentă nu a putut fi programată. Verifică Action Scheduler."
-msgstr "The feed was saved, but recurring refresh could not be scheduled. Check Action Scheduler."
+msgid "Feedul a fost salvat, dar reîmprospătarea recurentă nu a putut fi "
+"programată. Verifică Action Scheduler."
+msgstr "The feed was saved, but recurring refresh could not be scheduled. Check "
+"Action Scheduler."
 
 msgid "Selectarea inteligentă a ajuns la limita de 2.000 de variații exportate."
 msgstr "Smart selection reached the limit of 2,000 exported variations."
@@ -8008,10 +8027,15 @@ msgstr "Low conversion (maximum 2%)"
 msgid "Conversie scăzută · 30 zile"
 msgstr "Low conversion · 30 days"
 
-msgid "„Conversie scăzută” selectează produsele cu cel mult 2% achiziții raportate la vizualizări. Celulele de achiziții suprimate de prag sunt tratate ca zero; apartenența la feed poate dezvălui indirect această limită."
-msgstr "“Low conversion” selects products with at most 2% purchases relative to views. Purchase cells suppressed by the threshold are treated as zero; feed membership may indirectly reveal this threshold."
+msgid "„Conversie scăzută” selectează produsele cu cel mult 2% achiziții raportate "
+"la vizualizări. Celulele de achiziții suprimate de prag sunt tratate ca "
+"zero; apartenența la feed poate dezvălui indirect această limită."
+msgstr "“Low conversion” selects products with at most 2% purchases relative to "
+"views. Purchase cells suppressed by the threshold are treated as zero; feed "
+"membership may indirectly reveal this threshold."
 
-msgid "Rezultatele sunt limitate la maximum 500 de produse de API-ul statisticilor."
+msgid "Rezultatele sunt limitate la maximum 500 de produse de API-ul "
+"statisticilor."
 msgstr "Results are limited to a maximum of 500 products by the statistics API."
 
 msgid "Procent maxim de conversie (0–100)"
@@ -8041,8 +8065,12 @@ msgstr "Conflicts"
 msgid "Ce rulează deja în site"
 msgstr "What is already running on the site"
 
-msgid "Detectarea citește lista de pluginuri active și HTML-ul primei pagini, apoi compară cu ce emite acest plugin. Nu modifică și nu dezactivează nimic automat."
-msgstr "The scan reads the active plugin list and the home page HTML, then compares them with what this plugin emits. Nothing is changed or deactivated automatically."
+msgid "Detectarea citește lista de pluginuri active și HTML-ul primei pagini, apoi "
+"compară cu ce emite acest plugin. Nu modifică și nu dezactivează nimic "
+"automat."
+msgstr "The scan reads the active plugin list and the home page HTML, then compares "
+"them with what this plugin emits. Nothing is changed or deactivated "
+"automatically."
 
 msgid "Scanarea a fost reluată."
 msgstr "The scan has been restarted."
@@ -8050,8 +8078,10 @@ msgstr "The scan has been restarted."
 msgid "Ultima scanare: %s."
 msgstr "Last scan: %s."
 
-msgid "Prima pagină nu a putut fi citită (%s), deci doar pluginurile active au fost verificate."
-msgstr "The home page could not be fetched (%s), so only active plugins were checked."
+msgid "Prima pagină nu a putut fi citită (%s), deci doar pluginurile active au "
+"fost verificate."
+msgstr "The home page could not be fetched (%s), so only active plugins were "
+"checked."
 
 msgid "HTML-ul primei pagini a fost verificat."
 msgstr "The home page HTML was checked."
@@ -8062,8 +8092,10 @@ msgstr "Rescan"
 msgid "Suprapuneri detectate"
 msgstr "Detected overlaps"
 
-msgid "Fiecare rând arată ce s-a găsit și ce ai de făcut. Conflictele pot produce evenimente dublate sau etichete încărcate fără consimțământ."
-msgstr "Each row shows what was found and what to do about it. Conflicts can produce duplicated events or tags that load without consent."
+msgid "Fiecare rând arată ce s-a găsit și ce ai de făcut. Conflictele pot produce "
+"evenimente dublate sau etichete încărcate fără consimțământ."
+msgstr "Each row shows what was found and what to do about it. Conflicts can "
+"produce duplicated events or tags that load without consent."
 
 msgid "Nicio suprapunere detectată."
 msgstr "No overlaps detected."
@@ -8080,14 +8112,18 @@ msgstr "What to do:"
 msgid "Pluginuri recunoscute în site"
 msgstr "Recognised plugins on this site"
 
-msgid "Lista este construită din pluginurile active; „Altele” poate conține cod hardcodat în temă, care apare doar în scanarea paginii."
-msgstr "The list is built from active plugins; hardcoded theme code only shows up in the page scan."
+msgid "Lista este construită din pluginurile active; „Altele” poate conține cod "
+"hardcodat în temă, care apare doar în scanarea paginii."
+msgstr "The list is built from active plugins; hardcoded theme code only shows up "
+"in the page scan."
 
 msgid "Niciun plugin de tracking sau consimțământ cunoscut nu este activ."
 msgstr "No known tracking or consent plugin is active."
 
-msgid "Limitare: scanarea paginii vede doar HTML-ul livrat de server. Etichetele injectate exclusiv din JavaScript, după încărcare, nu apar aici."
-msgstr "Limitation: the page scan only sees the HTML delivered by the server. Tags injected purely from JavaScript after load do not appear here."
+msgid "Limitare: scanarea paginii vede doar HTML-ul livrat de server. Etichetele "
+"injectate exclusiv din JavaScript, după încărcare, nu apar aici."
+msgstr "Limitation: the page scan only sees the HTML delivered by the server. Tags "
+"injected purely from JavaScript after load do not appear here."
 
 msgid "Conflict"
 msgstr "Conflict"
@@ -8143,8 +8179,10 @@ msgstr "Settings"
 msgid "Toate setările, într-un singur loc"
 msgstr "All settings in one place"
 
-msgid "Starea este calculată din valorile salvate. Deschide zona de care ai nevoie — fiecare tab își salvează propriile câmpuri."
-msgstr "The state is computed from the stored values. Open the area you need — each tab saves its own fields."
+msgid "Starea este calculată din valorile salvate. Deschide zona de care ai nevoie "
+"— fiecare tab își salvează propriile câmpuri."
+msgstr "The state is computed from the stored values. Open the area you need — each "
+"tab saves its own fields."
 
 msgid "Zonă"
 msgstr "Area"
@@ -8155,8 +8193,10 @@ msgstr "Open"
 msgid "Ajutor și suport"
 msgstr "Help and support"
 
-msgid "Pentru întrebări despre configurare sau integrări personalizate, scrie echipei Adcelerum."
-msgstr "For questions about configuration or custom integrations, write to the Adcelerum team."
+msgid "Pentru întrebări despre configurare sau integrări personalizate, scrie "
+"echipei Adcelerum."
+msgstr "For questions about configuration or custom integrations, write to the "
+"Adcelerum team."
 
 msgid "Deschide pagina de contact adcelerum.ro într-un tab nou."
 msgstr "Opens the adcelerum.ro contact page in a new tab."
@@ -8170,11 +8210,19 @@ msgstr "Incomplete configuration"
 msgid "Al doilea instrument de consimțământ este activ"
 msgstr "A second consent tool is active"
 
-msgid "%s gestionează deja bannerul și consimțământul în acest site. Cu bannerul propriu pornit rulează două CMP-uri: vizitatorul vede două bannere, iar etichetele depind de două stări de consimțământ care pot să nu fie sincronizate."
-msgstr "%s already handles the banner and consent on this site. With your own banner on, two CMPs run: the visitor sees two banners and tags depend on two consent states that may not be in sync."
+msgid "%s gestionează deja bannerul și consimțământul în acest site. Cu bannerul "
+"propriu pornit rulează două CMP-uri: vizitatorul vede două bannere, iar "
+"etichetele depind de două stări de consimțământ care pot să nu fie "
+"sincronizate."
+msgstr "%s already handles the banner and consent on this site. With your own "
+"banner on, two CMPs run: the visitor sees two banners and tags depend on "
+"two consent states that may not be in sync."
 
-msgid "Păstrați un singur CMP: fie opriți bannerul propriu din tabul Banner, fie dezactivați celălalt plugin. Evenimentele trebuie să pornească dintr-o singură sursă de consimțământ."
-msgstr "Keep a single CMP: either turn off your own banner in the Banner tab or deactivate the other plugin. Events must start from one consent source."
+msgid "Păstrați un singur CMP: fie opriți bannerul propriu din tabul Banner, fie "
+"dezactivați celălalt plugin. Evenimentele trebuie să pornească dintr-o "
+"singură sursă de consimțământ."
+msgstr "Keep a single CMP: either turn off your own banner in the Banner tab or "
+"deactivate the other plugin. Events must start from one consent source."
 
 msgid "Alt instrument de consimțământ detectat"
 msgstr "Another consent tool detected"
@@ -8185,11 +8233,17 @@ msgstr "%s is active, but your own banner is off — the two do not overlap."
 msgid "Al doilea încărcător Google Tag Manager"
 msgstr "A second Google Tag Manager loader"
 
-msgid "%1$s poate încărca propriul container GTM, iar containerul propriu (%2$s) se încarcă în paralel. Rezultatul tipic: page_view și evenimentele de comerț numărate de două ori."
-msgstr "%1$s may load its own GTM container while your container (%2$s) loads in parallel. The usual result: page_view and commerce events counted twice."
+msgid "%1$s poate încărca propriul container GTM, iar containerul propriu (%2$s) "
+"se încarcă în paralel. Rezultatul tipic: page_view și evenimentele de "
+"comerț numărate de două ori."
+msgstr "%1$s may load its own GTM container while your container (%2$s) loads in "
+"parallel. The usual result: page_view and commerce events counted twice."
 
-msgid "Alegeți o singură cale: lăsați containerul în grija pluginului propriu (și opriți încărcarea în celălalt plugin) sau goliți ID-ul containerului propriu și folosiți-l pe al lor."
-msgstr "Pick one path: let this plugin own the container (and stop the loader in the other plugin), or clear your container ID and use theirs."
+msgid "Alegeți o singură cale: lăsați containerul în grija pluginului propriu (și "
+"opriți încărcarea în celălalt plugin) sau goliți ID-ul containerului "
+"propriu și folosiți-l pe al lor."
+msgstr "Pick one path: let this plugin own the container (and stop the loader in "
+"the other plugin), or clear your container ID and use theirs."
 
 msgid "Alt instrument care încarcă GTM"
 msgstr "Another tool that loads GTM"
@@ -8200,23 +8254,32 @@ msgstr "%s is active. Your own container is off, so there is no overlap."
 msgid "Cod injectat manual detectat"
 msgstr "Manually injected code detected"
 
-msgid "%s permite adăugarea de cod în site. Verificați dacă fragmentele GTM/gtag/pixel sunt introduse și acolo, nu doar în acest plugin."
-msgstr "%s lets you add code to the site. Check whether GTM/gtag/pixel snippets are also added there, not only in this plugin."
+msgid "%s permite adăugarea de cod în site. Verificați dacă fragmentele "
+"GTM/gtag/pixel sunt introduse și acolo, nu doar în acest plugin."
+msgstr "%s lets you add code to the site. Check whether GTM/gtag/pixel snippets are "
+"also added there, not only in this plugin."
 
 msgid "%s este trimis de două ori din browser"
 msgstr "%s is sent twice from the browser"
 
-msgid "%1$s trimite deja evenimente %2$s direct din browser, iar pluginul propriu este setat pe „direct” pentru %2$s. Aceleași conversii pot fi raportate de două ori."
-msgstr "%1$s already sends %2$s events directly from the browser, and this plugin is set to “direct” for %2$s. The same conversions can be reported twice."
+msgid "%1$s trimite deja evenimente %2$s direct din browser, iar pluginul propriu "
+"este setat pe „direct” pentru %2$s. Aceleași conversii pot fi raportate de "
+"două ori."
+msgstr "%1$s already sends %2$s events directly from the browser, and this plugin "
+"is set to “direct” for %2$s. The same conversions can be reported twice."
 
-msgid "Puneți %s pe „prin GTM” (o singură etichetă în container) sau dezactivați-l dacă pixelul rămâne în grija celuilalt plugin."
-msgstr "Set %s to “via GTM” (one tag in the container) or turn it off if the other plugin keeps the pixel."
+msgid "Puneți %s pe „prin GTM” (o singură etichetă în container) sau dezactivați-l "
+"dacă pixelul rămâne în grija celuilalt plugin."
+msgstr "Set %s to “via GTM” (one tag in the container) or turn it off if the other "
+"plugin keeps the pixel."
 
 msgid "%s poate fi raportat de două ori"
 msgstr "%s may be reported twice"
 
-msgid "%1$s este activ și încarcă %2$s. Dacă aceeași etichetă %2$s există și în containerul propriu, evenimentele se dublează."
-msgstr "%1$s is active and loads %2$s. If the same %2$s tag also exists in your container, events double."
+msgid "%1$s este activ și încarcă %2$s. Dacă aceeași etichetă %2$s există și în "
+"containerul propriu, evenimentele se dublează."
+msgstr "%1$s is active and loads %2$s. If the same %2$s tag also exists in your "
+"container, events double."
 
 msgid "Verificați containerul GTM: păstrați o singură etichetă pentru platformă."
 msgstr "Check the GTM container: keep a single tag per platform."
@@ -8230,32 +8293,47 @@ msgstr "%1$s loads %2$s while this plugin has %2$s off — no overlap."
 msgid "Container GTM străin în pagină"
 msgstr "Foreign GTM container in the page"
 
-msgid "În HTML-ul primei pagini apar containere GTM pe care pluginul nu le cunoaște: %s. Ele înseamnă un snippet hardcodat în temă sau în alt plugin, care rulează în paralel cu containerul propriu."
-msgstr "The home page HTML contains GTM containers this plugin does not know about: %s. They mean a snippet hardcoded in the theme or in another plugin, running in parallel with your container."
+msgid "În HTML-ul primei pagini apar containere GTM pe care pluginul nu le "
+"cunoaște: %s. Ele înseamnă un snippet hardcodat în temă sau în alt plugin, "
+"care rulează în paralel cu containerul propriu."
+msgstr "The home page HTML contains GTM containers this plugin does not know about: "
+"%s. They mean a snippet hardcoded in the theme or in another plugin, "
+"running in parallel with your container."
 
-msgid "Scoateți snippet-ul din temă/plugin sau renunțați la containerul propriu, apoi rescanați."
-msgstr "Remove the snippet from the theme/plugin or drop your own container, then rescan."
+msgid "Scoateți snippet-ul din temă/plugin sau renunțați la containerul propriu, "
+"apoi rescanați."
+msgstr "Remove the snippet from the theme/plugin or drop your own container, then "
+"rescan."
 
 msgid "Containerul propriu se încarcă de două ori"
 msgstr "Your container loads twice"
 
-msgid "Păstrați un singur încărcător: opriți snippet-ul hardcodat sau încărcarea din celălalt plugin."
-msgstr "Keep a single loader: stop the hardcoded snippet or the loader in the other plugin."
+msgid "Păstrați un singur încărcător: opriți snippet-ul hardcodat sau încărcarea "
+"din celălalt plugin."
+msgstr "Keep a single loader: stop the hardcoded snippet or the loader in the other "
+"plugin."
 
 msgid "Containerul GTM se încarcă înainte de consimțământ"
 msgstr "The GTM container loads before consent"
 
-msgid "Modul „doar după consimțământ” este activ, dar containerul %s apare deja în HTML-ul paginii — semn de snippet hardcodat în temă sau în alt plugin. Etichetele pot porni fără consimțământ."
-msgstr "“Only after consent” mode is on, yet container %s already appears in the page HTML — a sign of a snippet hardcoded in the theme or another plugin. Tags may start without consent."
+msgid "Modul „doar după consimțământ” este activ, dar containerul %s apare deja în "
+"HTML-ul paginii — semn de snippet hardcodat în temă sau în alt plugin. "
+"Etichetele pot porni fără consimțământ."
+msgstr "“Only after consent” mode is on, yet container %s already appears in the "
+"page HTML — a sign of a snippet hardcoded in the theme or another plugin. "
+"Tags may start without consent."
 
-msgid "Eliminați snippet-ul hardcodat; lăsați încărcarea exclusiv pluginului, după consimțământ."
+msgid "Eliminați snippet-ul hardcodat; lăsați încărcarea exclusiv pluginului, după "
+"consimțământ."
 msgstr "Remove the hardcoded snippet; let this plugin load it, after consent only."
 
 msgid "Containerul propriu nu apare în pagină"
 msgstr "Your container does not appear in the page"
 
-msgid "Containerul %s este configurat, dar codul GTM nu apare în HTML-ul primei pagini. Verificați un cache/CDN sau o eroare de randare a temei."
-msgstr "Container %s is configured, but the GTM code is missing from the home page HTML. Check a cache/CDN or a theme rendering error."
+msgid "Containerul %s este configurat, dar codul GTM nu apare în HTML-ul primei "
+"pagini. Verificați un cache/CDN sau o eroare de randare a temei."
+msgstr "Container %s is configured, but the GTM code is missing from the home page "
+"HTML. Check a cache/CDN or a theme rendering error."
 
 msgid "Goliți cache-ul site-ului și rescanați."
 msgstr "Clear the site cache and rescan."
@@ -8263,17 +8341,22 @@ msgstr "Clear the site cache and rescan."
 msgid "%s apare în pagină și prin altă cale"
 msgstr "%s also appears in the page through another path"
 
-msgid "Pagina încarcă %1$s (%2$s), iar pluginul propriu este setat pe „direct” pentru %1$s: același pixel este inițializat de două ori."
-msgstr "The page loads %1$s (%2$s) while this plugin is set to “direct” for %1$s: the same pixel is initialised twice."
+msgid "Pagina încarcă %1$s (%2$s), iar pluginul propriu este setat pe „direct” "
+"pentru %1$s: același pixel este inițializat de două ori."
+msgstr "The page loads %1$s (%2$s) while this plugin is set to “direct” for %1$s: "
+"the same pixel is initialised twice."
 
-msgid "Păstrați o singură sursă pentru %s (pluginul propriu sau celălalt) și rescanați."
+msgid "Păstrați o singură sursă pentru %s (pluginul propriu sau celălalt) și "
+"rescanați."
 msgstr "Keep a single source for %s (this plugin or the other one) and rescan."
 
 msgid "%s este încărcat de altundeva"
 msgstr "%s is loaded from somewhere else"
 
-msgid "Pagina conține inițializarea %1$s (%2$s) din altă sursă. Pluginul propriu are %1$s pe „%3$s” — verificați să nu rulați aceeași etichetă de două ori."
-msgstr "The page contains %1$s initialisation (%2$s) from another source. This plugin has %1$s set to “%3$s” — make sure the same tag does not run twice."
+msgid "Pagina conține inițializarea %1$s (%2$s) din altă sursă. Pluginul propriu "
+"are %1$s pe „%3$s” — verificați să nu rulați aceeași etichetă de două ori."
+msgstr "The page contains %1$s initialisation (%2$s) from another source. This "
+"plugin has %1$s set to “%3$s” — make sure the same tag does not run twice."
 
 msgid "oprit"
 msgstr "off"
@@ -8281,32 +8364,44 @@ msgstr "off"
 msgid "dataLayer este reinițializat"
 msgstr "dataLayer is re-initialised"
 
-msgid "Căutați `dataLayer = []` în snippet-urile altor pluginuri/temă și înlocuiți-l cu `window.dataLayer = window.dataLayer || []`."
-msgstr "Look for `dataLayer = []` in other plugin/theme snippets and replace it with `window.dataLayer = window.dataLayer || []`."
+msgid "Căutați `dataLayer = []` în snippet-urile altor pluginuri/temă și "
+"înlocuiți-l cu `window.dataLayer = window.dataLayer || []`."
+msgstr "Look for `dataLayer = []` in other plugin/theme snippets and replace it "
+"with `window.dataLayer = window.dataLayer || []`."
 
 msgid "Al doilea banner de consimțământ în pagină"
 msgstr "A second consent banner in the page"
 
-msgid "HTML-ul primei pagini conține cod de la %s, deci un al doilea banner rulează în browser, deși bannerul propriu este pornit."
-msgstr "The home page HTML contains code from %s, so a second banner runs in the browser even though your own banner is on."
+msgid "HTML-ul primei pagini conține cod de la %s, deci un al doilea banner "
+"rulează în browser, deși bannerul propriu este pornit."
+msgstr "The home page HTML contains code from %s, so a second banner runs in the "
+"browser even though your own banner is on."
 
 msgid "Păstrați un singur banner de consimțământ (vezi și tabul Banner)."
 msgstr "Keep a single consent banner (see also the Banner tab)."
 
-msgid "%d conflict de tracking cu alte pluginuri: evenimentele pot fi dublate. Verificați tabul Conflicte."
-msgid_plural "%d conflicte de tracking cu alte pluginuri: evenimentele pot fi dublate. Verificați tabul Conflicte."
-msgstr[0] "%d tracking conflict with other plugins: events may be duplicated. Check the Conflicts tab."
-msgstr[1] "%d tracking conflicts with other plugins: events may be duplicated. Check the Conflicts tab."
+msgid "%d conflict de tracking cu alte pluginuri: evenimentele pot fi dublate. "
+"Verificați tabul Conflicte."
+msgid_plural "%d conflicte de tracking cu alte pluginuri: evenimentele pot fi dublate. "
+"Verificați tabul Conflicte."
+msgstr[0] "%d tracking conflict with other plugins: events may be duplicated. Check "
+"the Conflicts tab."
+msgstr[1] "%d tracking conflicts with other plugins: events may be duplicated. Check "
+"the Conflicts tab."
 
 msgid "Containerul %1$s apare de %2$d ori în HTML-ul paginii."
 msgid_plural "Containerul %1$s apare de %2$d ori în HTML-ul paginii."
 msgstr[0] "Container %1$s appears %2$d times in the page HTML."
 msgstr[1] "Container %1$s appears %2$d times in the page HTML."
 
-msgid "Pagina golește variabila dataLayer (%d reinițializare). Evenimentele trimise înainte de acel punct se pierd."
-msgid_plural "Pagina golește variabila dataLayer (%d reinițializări). Evenimentele trimise înainte de acel punct se pierd."
-msgstr[0] "The page resets the dataLayer variable (%d reset). Events pushed before that point are lost."
-msgstr[1] "The page resets the dataLayer variable (%d resets). Events pushed before that point are lost."
+msgid "Pagina golește variabila dataLayer (%d reinițializare). Evenimentele "
+"trimise înainte de acel punct se pierd."
+msgid_plural "Pagina golește variabila dataLayer (%d reinițializări). Evenimentele "
+"trimise înainte de acel punct se pierd."
+msgstr[0] "The page resets the dataLayer variable (%d reset). Events pushed before "
+"that point are lost."
+msgstr[1] "The page resets the dataLayer variable (%d resets). Events pushed before "
+"that point are lost."
 
 msgid "Colectează statistici zilnice pentru fiecare produs."
 msgstr "Collects daily statistics for each product."
@@ -8314,23 +8409,22 @@ msgstr "Collects daily statistics for each product."
 msgid "Activarea nu obține consimțământul vizitatorului."
 msgstr "Enabling this does not obtain the visitor's consent."
 
-msgid ""
-"Pluginul numără vizualizările produselor, adăugările în coș, începuturile "
+msgid "Pluginul numără vizualizările produselor, adăugările în coș, începuturile "
 "finalizării comenzii și achizițiile. Tabelul de statistici nu păstrează "
 "adrese IP sau identificatori ai vizitatorilor. Colectarea are loc numai "
 "când opțiunea este activă și vizitatorul a acceptat categoria de "
 "statistici. Pentru achiziții se folosește alegerea salvată la finalizarea "
 "comenzii. Agregatele pot fi folosite în dezvoltări viitoare ale Smart Feed."
-msgstr ""
-"The plugin counts product views, add-to-cart actions, checkout starts and "
+msgstr "The plugin counts product views, add-to-cart actions, checkout starts and "
 "purchases. The stats table keeps no visitor IP addresses or identifiers. "
 "Collection happens only when the option is on and the visitor has accepted "
 "the statistics category. For purchases it uses the choice saved at "
 "checkout. The aggregates may be used in future Smart Feed development."
 
-msgid "Un domeniu propriu poate permite folosirea unui transport first-party. Comportamentul cookie-urilor depinde de configurare și de browser; această opțiune nu garantează că ele vor fi acceptate."
-msgstr ""
-"A custom domain can enable first-party transport. Cookie behavior depends "
+msgid "Un domeniu propriu poate permite folosirea unui transport first-party. "
+"Comportamentul cookie-urilor depinde de configurare și de browser; această "
+"opțiune nu garantează că ele vor fi acceptate."
+msgstr "A custom domain can enable first-party transport. Cookie behavior depends "
 "on the configuration and the browser; this option does not guarantee that "
 "cookies will be accepted."
 
@@ -8340,29 +8434,27 @@ msgstr "The server container can receive events on the custom domain."
 msgid "Domeniul furnizorului nu oferă avantajele unui domeniu propriu."
 msgstr "The provider's domain does not offer the benefits of a custom domain."
 
-msgid "Adresa folosește un domeniu implicit al furnizorului, precum run.app. Pentru transport pe domeniul propriu, configurați un subdomeniu al site-ului și folosiți adresa sa aici."
-msgstr ""
-"The address uses a default provider domain such as run.app. For transport "
-"on your own domain, set up a subdomain of the site and use its address here."
+msgid "Adresa folosește un domeniu implicit al furnizorului, precum run.app. "
+"Pentru transport pe domeniul propriu, configurați un subdomeniu al "
+"site-ului și folosiți adresa sa aici."
+msgstr "The address uses a default provider domain such as run.app. For transport "
+"on your own domain, set up a subdomain of the site and use its address "
+"here."
 
-msgid ""
-"Ordinea vizuală este și ordinea din cod: tastatura și cititoarele de "
-"ecran parcurg butoanele în aceeași succesiune. Puteți redenumi "
-"«Personalizează» din câmpul de text."
-msgstr ""
-"The visual order is also the code order: the keyboard and screen readers "
-"go through the buttons in the same sequence. You can rename “Customize” "
-"from the text field."
+msgid "Ordinea vizuală este și ordinea din cod: tastatura și cititoarele de ecran "
+"parcurg butoanele în aceeași succesiune. Puteți redenumi «Personalizează» "
+"din câmpul de text."
+msgstr "The visual order is also the code order: the keyboard and screen readers go "
+"through the buttons in the same sequence. You can rename “Customize” from "
+"the text field."
 
 msgid "Alegeți ordinea butoanelor din banner."
 msgstr "Choose the order of the buttons in the banner."
 
-msgid ""
-"Scanarea din browser vede cookie-urile trackerelor numai dacă "
+msgid "Scanarea din browser vede cookie-urile trackerelor numai dacă "
 "administratorul și-a dat consimțământul pe site. Scanarea săptămânală în "
 "fundal vede doar cookie-urile setate de server."
-msgstr ""
-"The browser scan sees tracker cookies only if the administrator gave "
+msgstr "The browser scan sees tracker cookies only if the administrator gave "
 "consent on the site. The weekly background scan sees only cookies set by "
 "the server."
 
@@ -8375,19 +8467,19 @@ msgstr "The browser scan depends on the administrator's consent."
 msgid "Contactele fără consimțământ nu trebuie contactate."
 msgstr "Contacts without consent must not be contacted."
 
-msgid ""
-"Limited Data Use este destinat unor cerințe de confidențialitate din "
+msgid "Limited Data Use este destinat unor cerințe de confidențialitate din "
 "Statele Unite și nu este folosit aici. Pluginul verifică alegerea "
 "vizitatorului înainte de trimitere."
-msgstr ""
-"Limited Data Use targets certain United States privacy requirements and is "
+msgstr "Limited Data Use targets certain United States privacy requirements and is "
 "not used here. The plugin checks the visitor's choice before sending."
 
 msgid "Evenimentele sunt trimise numai cu consimțământul necesar."
 msgstr "Events are sent only with the necessary consent."
 
-msgid "Pentru comenzile eligibile, client_id provine din cookie-ul _ga capturat la finalizarea comenzii."
-msgstr "For eligible orders, client_id comes from the _ga cookie captured at checkout."
+msgid "Pentru comenzile eligibile, client_id provine din cookie-ul _ga capturat la "
+"finalizarea comenzii."
+msgstr "For eligible orders, client_id comes from the _ga cookie captured at "
+"checkout."
 
 msgid "Transportul prin containerul server se configurează în Google Tag Manager."
 msgstr "Transport through the server container is configured in Google Tag Manager."
@@ -8401,8 +8493,801 @@ msgstr "Consent"
 msgid "Toate zonele de setări ale pluginului, cu starea fiecăreia dintr-o privire."
 msgstr "All the plugin's settings areas, with each one's status at a glance."
 
-msgid "Verifică dacă alte pluginuri sau tema încarcă aceleași etichete de tracking."
+msgid "Verifică dacă alte pluginuri sau tema încarcă aceleași etichete de "
+"tracking."
 msgstr "Checks whether other plugins or the theme load the same tracking tags."
 
 msgid "Detectorul de conflicte nu este disponibil în această instalare."
 msgstr "The conflict detector is not available in this installation."
+
+msgid "Taxonomia Google"
+msgstr "Google taxonomy"
+
+msgid "Importă fișierul oficial .txt al taxonomiei Google. Fișierul rămâne pe "
+"acest site; nu se trimite nimic către Google."
+msgstr "Import the official Google taxonomy .txt file. The file stays on this site; "
+"nothing is sent to Google."
+
+msgid "Fișier taxonomie (.txt)"
+msgstr "Taxonomy file (.txt)"
+
+msgid "Importă taxonomia"
+msgstr "Import taxonomy"
+
+msgid "Alege mai întâi un fișier .txt."
+msgstr "Choose a .txt file first."
+
+msgid "Fișierul depășește 2 MB și nu poate fi importat."
+msgstr "The file is larger than 2 MB and cannot be imported."
+
+msgid "Acest browser nu poate citi fișiere local. Folosește un browser actualizat."
+msgstr "This browser cannot read local files. Use an up-to-date browser."
+
+msgid "Taxonomia a fost importată: versiunea %s, %s categorii."
+msgstr "Taxonomy imported: version %s, %s categories."
+
+msgid "Caută în taxonomie"
+msgstr "Search the taxonomy"
+
+msgid "Aplică selecția la"
+msgstr "Apply selection to"
+
+msgid "Alege %s"
+msgstr "Choose %s"
+
+msgid "Nu există nicio taxonomie importată. Importă fișierul oficial mai întâi."
+msgstr "No taxonomy has been imported yet. Import the official file first."
+
+msgid "Nicio categorie nu corespunde căutării."
+msgstr "No category matches the search."
+
+msgid "Selectat: %s — %s"
+msgstr "Selected: %s — %s"
+
+msgid "Rezultate taxonomie"
+msgstr "Taxonomy results"
+
+msgid "Progresul rulării nu a putut fi salvat, deci rularea s-a oprit. Reîncearcă "
+"regenerarea."
+msgstr "The run's progress could not be saved, so the run stopped. Try regenerating "
+"the feed again."
+
+msgid "Valoarea unui parametru nu are tipul așteptat pentru câmpul său; verifică "
+"sursa sau transformarea."
+msgstr "A parameter value does not have the type expected for its field; check the "
+"source or the transform."
+
+msgid "Definește evenimente proprii (click-uri, formulare, scroll) fără cod și "
+"trimite-le în dataLayer și pe server."
+msgstr "Define your own events (clicks, forms, scroll) without code and send them "
+"to the dataLayer and to the server."
+
+msgid "Descrierile, furnizorii și categoriile sunt sugestii din Open Cookie "
+"Database (baza gratuită) și din lista proprie a pluginului. Unele "
+"cookie-uri nu vor fi recunoscute sau pot fi descrise incomplet, mai ales "
+"cele personalizate ale temei, ale altor pluginuri sau ale serviciilor mai "
+"puțin răspândite. Verificați fiecare cookie și completați manual categoria "
+"și descrierea pentru cele marcate „Necategorizat\", înainte de a le afișa în "
+"Politica de cookie-uri."
+msgstr "Descriptions, providers and categories are suggestions from the Open Cookie "
+"Database (a free database) and the plugin's own list. Some cookies will not "
+"be recognised, or may be described incompletely, especially theme cookies, "
+"cookies of other plugins or of less common services. Check each cookie and "
+"fill in the category and description manually for those marked "
+"\"Uncategorised\" before showing them in the Cookie Policy."
+
+msgid "Evenimente custom"
+msgstr "Custom events"
+
+msgid "Regulile au fost salvate de o versiune mai nouă a pluginului. Actualizează "
+"pluginul înainte să le editezi."
+msgstr "The rules were saved by a newer version of the plugin. Update the plugin "
+"before editing them."
+
+msgid "Securitatea formularului nu a putut fi verificată. Reîncarcă pagina și "
+"încearcă din nou."
+msgstr "The form security check could not be verified. Reload the page and try "
+"again."
+
+msgid "Regulile au fost modificate între timp (de exemplu, în alt tab). Reîncarcă "
+"pagina și reaplică modificările."
+msgstr "The rules were changed in the meantime (for example, in another tab). "
+"Reload the page and reapply your changes."
+
+msgid "Ai atins limita de 50 de reguli."
+msgstr "You have reached the limit of 50 rules."
+
+msgid "Reia modificările din editor."
+msgstr "Restore the changes from the editor."
+
+msgid "Regula a fost salvată."
+msgstr "Rule saved."
+
+msgid "Reguli"
+msgstr "Rules"
+
+msgid "Fiecare regulă trimite un eveniment când vizitatorul face acțiunea aleasă."
+msgstr "Each rule sends an event when the visitor performs the chosen action."
+
+msgid "Adaugă regulă"
+msgstr "Add rule"
+
+msgid "Din presetare"
+msgstr "From preset"
+
+msgid "Telefon"
+msgstr "Phone"
+
+msgid "E-mail"
+msgstr "Email"
+
+msgid "WhatsApp"
+msgstr "WhatsApp"
+
+msgid "Descărcare fișier"
+msgstr "File download"
+
+msgid "Link extern"
+msgstr "External link"
+
+msgid "Formular CF7"
+msgstr "CF7 form"
+
+msgid "Formular WPForms"
+msgstr "WPForms form"
+
+msgid "Formular Elementor"
+msgstr "Elementor form"
+
+msgid "Adâncime de scroll"
+msgstr "Scroll depth"
+
+msgid "Timp pe pagină"
+msgstr "Time on page"
+
+msgid "%1$d din 50 reguli"
+msgstr "%1$d of 50 rules"
+
+msgid "Ai atins limita de 50 de reguli. Șterge sau combină reguli înainte să "
+"adaugi altele."
+msgstr "You have reached the limit of 50 rules. Delete or combine rules before "
+"adding others."
+
+msgid "Nu ai încă evenimente custom."
+msgstr "You don't have any custom events yet."
+
+msgid "Adaugă prima regulă"
+msgstr "Add first rule"
+
+msgid "Regulă"
+msgstr "Rule"
+
+msgid "Declanșator"
+msgstr "Trigger"
+
+msgid "Destinații"
+msgstr "Destinations"
+
+msgid "Oprește"
+msgstr "Disable"
+
+msgid "Pornește"
+msgstr "Enable"
+
+msgid " regula %s"
+msgstr " rule %s"
+
+msgid "Duplică"
+msgstr "Duplicate"
+
+msgid "Înapoi la listă"
+msgstr "Back to list"
+
+msgid "Nume eveniment"
+msgstr "Event name"
+
+msgid "Denumire internă"
+msgstr "Internal name"
+
+msgid "O denumire ușor de recunoscut în lista regulilor."
+msgstr "A label that is easy to recognise in the list of rules."
+
+msgid "Litere mici, cifre și _. Maxim 33 de caractere după custom_."
+msgstr "Lowercase letters, digits and _. Maximum 33 characters after custom_."
+
+msgid "Tipul declanșatorului"
+msgstr "Trigger type"
+
+msgid "Click"
+msgstr "Click"
+
+msgid "Formular"
+msgstr "Form"
+
+msgid "Vizibil"
+msgstr "Visible"
+
+msgid "Scroll"
+msgstr "Scroll"
+
+msgid "Timp"
+msgstr "Time"
+
+msgid "Selector CSS"
+msgstr "CSS selector"
+
+msgid "Folosește un selector CSS valid, de maximum 200 de caractere."
+msgstr "Use a valid CSS selector, up to 200 characters."
+
+msgid "Alege vizual"
+msgstr "Pick visually"
+
+msgid "Frecvență și pagini"
+msgstr "Frequency and pages"
+
+msgid "Frecvență"
+msgstr "Frequency"
+
+msgid "O dată pe pagină"
+msgstr "Once per page"
+
+msgid "De fiecare dată"
+msgstr "Every time"
+
+msgid "Pentru Vizibil, Scroll și Timp frecvența este întotdeauna o dată pe pagină."
+msgstr "For Visible, Scroll and Time triggers the frequency is always once per "
+"page."
+
+msgid "Doar pe"
+msgstr "Only on"
+
+msgid "Exceptând"
+msgstr "Except on"
+
+msgid "Căi de pagină, câte una pe linie"
+msgstr "Page paths, one per line"
+
+msgid "Introdu maximum 10 căi, câte una pe linie, fără parametri."
+msgstr "Enter up to 10 paths, one per line, without parameters."
+
+msgid "Cheie"
+msgstr "Key"
+
+msgid "Cheie parametru"
+msgstr "Parameter key"
+
+msgid "Valoare parametru"
+msgstr "Parameter value"
+
+msgid "Token-uri disponibile"
+msgstr "Available tokens"
+
+msgid "Opțional; între 0 și 1.000.000."
+msgstr "Optional; between 0 and 1,000,000."
+
+msgid "Cod ISO 4217 din trei litere, de exemplu RON."
+msgstr "Three-letter ISO 4217 code, for example RON."
+
+msgid "Consimțământ și destinații"
+msgstr "Consent and destinations"
+
+msgid "Categorie de consimțământ"
+msgstr "Consent category"
+
+msgid "dataLayer"
+msgstr "dataLayer"
+
+msgid "sGTM"
+msgstr "sGTM"
+
+msgid "Integrarea nu este configurată."
+msgstr "The integration is not configured."
+
+msgid "Meta cere categoria Marketing."
+msgstr "Meta requires the Marketing category."
+
+msgid "Detalii tehnice"
+msgstr "Technical details"
+
+msgid "ID regulă:"
+msgstr "Rule ID:"
+
+msgid "Setări pentru click"
+msgstr "Click settings"
+
+msgid "Presetare"
+msgstr "Preset"
+
+msgid "Fără"
+msgstr "None"
+
+msgid "Filtru text"
+msgstr "Text filter"
+
+msgid "Potrivește textul vizibil al linkului."
+msgstr "Matches the visible text of the link."
+
+msgid "Filtru link"
+msgstr "Link filter"
+
+msgid "Potrivește o parte din adresa linkului, fără query."
+msgstr "Matches part of the link address, without the query."
+
+msgid "Setări pentru formular"
+msgstr "Form settings"
+
+msgid "Tip formular"
+msgstr "Form type"
+
+msgid "CF7"
+msgstr "CF7"
+
+msgid "WPForms"
+msgstr "WPForms"
+
+msgid "Elementor"
+msgstr "Elementor"
+
+msgid "Cupon Woo"
+msgstr "WooCommerce coupon"
+
+msgid "ID formular"
+msgstr "Form ID"
+
+msgid "Lasă necompletat pentru orice formular de acest tip."
+msgstr "Leave empty for any form of this type."
+
+msgid "Setări pentru vizibilitate"
+msgstr "Visibility settings"
+
+msgid "Prag"
+msgstr "Threshold"
+
+msgid "Timp minim (ms)"
+msgstr "Minimum time (ms)"
+
+msgid "Cât timp elementul trebuie să rămână vizibil."
+msgstr "How long the element must stay visible."
+
+msgid "Praguri de scroll"
+msgstr "Scroll thresholds"
+
+msgid "%d%%"
+msgstr "%d%%"
+
+msgid "Setări pentru timp"
+msgstr "Timer settings"
+
+msgid "Durată (secunde)"
+msgstr "Duration (seconds)"
+
+msgid "Valoarea trebuie să fie între 5 și 1800 de secunde."
+msgstr "The value must be between 5 and 1800 seconds."
+
+msgid "Formular · %s%s"
+msgstr "Form · %s%s"
+
+msgid "Vizibil · %s%%"
+msgstr "Visible · %s%%"
+
+msgid "Scroll · "
+msgstr "Scroll · "
+
+msgid "Timp · %d s"
+msgstr "Time · %d s"
+
+msgid "%d incluse"
+msgstr "%d included"
+
+msgid "%d excluse"
+msgstr "%d excluded"
+
+msgid "Regula selectată nu a putut fi găsită."
+msgstr "The selected rule could not be found."
+
+msgid "Regula a fost ștearsă."
+msgstr "The rule was deleted."
+
+msgid "Regula a fost pornită."
+msgstr "The rule was enabled."
+
+msgid "Regula a fost oprită."
+msgstr "The rule was disabled."
+
+msgid "copie"
+msgstr "copy"
+
+msgid "Regula a fost duplicată (oprită)."
+msgstr "The rule was duplicated (disabled)."
+
+msgid "Fiecare regulă definește un singur eveniment custom_ și condiția din pagină "
+"care îl declanșează. Regulile active pot trimite date în dataLayer și, dacă "
+"alegi, către integrarea server configurată."
+msgstr "Each rule defines one custom_ event and the page condition that triggers "
+"it. Active rules can send data to the dataLayer and, if you choose, to the "
+"configured server integration."
+
+msgid "Numele și parametrii trebuie să respecte formatul acceptat de platforme. Nu "
+"include date personale și nu folosi token-uri pentru conținut introdus de "
+"vizitator."
+msgstr "The name and parameters must follow the format accepted by the platforms. "
+"Do not include personal data and do not use tokens for content entered by "
+"the visitor."
+
+msgid "Folosește litere mici, cifre și underscore. Numele este unic, începe cu "
+"custom_ și are cel mult 40 de caractere în total."
+msgstr "Use lowercase letters, digits and underscores. The name must be unique, "
+"start with custom_ and have at most 40 characters in total."
+
+msgid "Declanșatoarele disponibile sunt click, formular trimis cu succes, element "
+"vizibil, adâncime de scroll și timp pe pagină. Valorile din câmpurile "
+"formularelor nu sunt citite."
+msgstr "The available triggers are click, successfully submitted form, visible "
+"element, scroll depth and time on page. Values entered in form fields are "
+"not read."
+
+msgid "Token-urile disponibile depind de declanșator. Sunt permise doar surse "
+"tehnice sigure, precum calea paginii sau textul unui link; e-mailurile, "
+"numerele și identificatorii lungi sunt mascate."
+msgstr "The available tokens depend on the trigger. Only safe technical sources are "
+"allowed, such as the page path or the link text; e-mails, numbers and long "
+"identifiers are masked."
+
+msgid "Nu există token-uri pentru câmpuri de formular, cookie-uri, stocare locală, "
+"query string sau referrer."
+msgstr "There are no tokens for form fields, cookies, local storage, query string "
+"or referrer."
+
+msgid "Evenimentele ajung întotdeauna în dataLayer. Trimiterea către server și "
+"către platforme depinde de consimțământul ales și de configurarea "
+"integrării."
+msgstr "Events always reach the dataLayer. Sending them to the server and to the "
+"platforms depends on the chosen consent and on the integration setup."
+
+msgid "Meta necesită categoria Marketing. Parametrii personalizați nu trebuie să "
+"conțină date personale."
+msgstr "Meta requires the Marketing category. Custom parameters must not contain "
+"personal data."
+
+msgid "La salvare, pluginul verifică versiunea regulilor încărcate. Dacă regulile "
+"au fost modificate în altă filă, reîncarcă pagina înainte de a salva pentru "
+"a evita suprascrierea."
+msgstr "On save, the plugin checks the version of the rules it loaded. If the rules "
+"were changed in another tab, reload the page before saving to avoid "
+"overwriting them."
+
+msgid "Identificator anonim pentru statistici de utilizare trimise către "
+"Automattic."
+msgstr "Anonymous identifier for usage statistics sent to Automattic."
+
+msgid "Reține sursa și originea vizitei pentru analiză."
+msgstr "Stores the source and origin of the visit for analysis."
+
+msgid "Reține campania sau e-mailul Mailchimp care a adus vizitatorul, pentru "
+"atribuirea comenzilor."
+msgstr "Stores the Mailchimp campaign or e-mail that brought the visitor, for order "
+"attribution."
+
+msgid "Identificator de sesiune folosit de pixelul TikTok."
+msgstr "Session identifier used by the TikTok pixel."
+
+msgid "Reține informații despre campaniile Google Ads care au adus vizitatorul."
+msgstr "Stores information about the Google Ads campaigns that brought the visitor."
+
+msgid "Analizează comportamentul vizitatorilor pe site."
+msgstr "Analyses visitor behaviour on the site."
+
+msgid "Identifică sesiunea pentru hărți termice și înregistrări de sesiune."
+msgstr "Identifies the session for heatmaps and session recordings."
+
+msgid "Prevenirea fraudei și detectarea plăților suspecte."
+msgstr "Fraud prevention and detection of suspicious payments."
+
+msgid "Protecție împotriva traficului automat și distribuirea încărcării."
+msgstr "Protection against automated traffic and load balancing."
+
+msgid "Reține limba aleasă de vizitator."
+msgstr "Stores the language chosen by the visitor."
+
+msgid "Securitate: recunoaște dispozitivele de administrare și autentificarea "
+"pentru firewall."
+msgstr "Security: recognises administration devices and firewall authentication."
+
+msgid "Menține accesul la un articol protejat cu parolă."
+msgstr "Keeps access to a password-protected post."
+
+msgid "Fișierul taxonomiei nu este valid."
+msgstr "The taxonomy file is not valid."
+
+msgid "Taxonomia nu a putut fi validată."
+msgstr "The taxonomy could not be validated."
+
+msgid "Termenul de căutare nu este valid."
+msgstr "The search term is not valid."
+
+msgid "Limita rezultatelor nu este validă."
+msgstr "The results limit is not valid."
+
+msgid "Poți activa cel mult 20 de reguli de tip Vizibil."
+msgstr "You can activate at most 20 Visible rules."
+
+msgid "Denumirea internă este obligatorie (maxim 80 de caractere)."
+msgstr "The internal name is required (maximum 80 characters)."
+
+msgid "Numele evenimentului poate conține doar litere mici, cifre și _ și trebuie "
+"să înceapă cu o literă."
+msgstr "The event name may contain only lowercase letters, digits and _, and must "
+"start with a letter."
+
+msgid "Numele evenimentului este deja folosit de altă regulă."
+msgstr "The event name is already used by another rule."
+
+msgid "Tipul declanșatorului nu este valid."
+msgstr "The trigger type is not valid."
+
+msgid "Presetarea pentru click nu este validă."
+msgstr "The click preset is not valid."
+
+msgid "Alege tipul formularului."
+msgstr "Choose the form type."
+
+msgid "Selectorul CSS este obligatoriu pentru acest declanșator."
+msgstr "The CSS selector is required for this trigger."
+
+msgid "Selectorul CSS conține caractere nepermise sau depășește 200 de caractere."
+msgstr "The CSS selector contains forbidden characters or exceeds 200 characters."
+
+msgid "Filtrul declanșatorului depășește lungimea permisă."
+msgstr "The trigger filter exceeds the allowed length."
+
+msgid "ID-ul formularului nu este valid."
+msgstr "The form ID is not valid."
+
+msgid "Pragul de vizibilitate trebuie să fie între 10% și 100%."
+msgstr "The visibility threshold must be between 10% and 100%."
+
+msgid "Timpul minim de vizibilitate trebuie să fie între 0 și 10.000 ms."
+msgstr "The minimum visibility time must be between 0 and 10,000 ms."
+
+msgid "Pragul de scroll nu este valid."
+msgstr "The scroll threshold is not valid."
+
+msgid "Alege cel puțin un prag de scroll."
+msgstr "Choose at least one scroll threshold."
+
+msgid "Durata trebuie să fie între 5 și 1800 de secunde."
+msgstr "The duration must be between 5 and 1800 seconds."
+
+msgid "Frecvența declanșatorului nu este validă."
+msgstr "The trigger frequency is not valid."
+
+msgid "Modul de filtrare a paginilor nu este valid."
+msgstr "The page filter mode is not valid."
+
+msgid "Poți adăuga cel mult 10 căi de pagină."
+msgstr "You can add at most 10 page paths."
+
+msgid "Calea „%s” trebuie să înceapă cu / și nu poate conține parametri (?)."
+msgstr "The path “%s” must start with / and cannot contain parameters (?)."
+
+msgid "Poți adăuga cel mult 10 parametri."
+msgstr "You can add at most 10 parameters."
+
+msgid "Cheia „%s” este rezervată sau nevalidă."
+msgstr "The key “%s” is reserved or invalid."
+
+msgid "Cheia „%s” apare de două ori."
+msgstr "The key “%s” appears twice."
+
+msgid "Valoarea parametrului „%s” depășește 100 de caractere."
+msgstr "The value of parameter “%s” exceeds 100 characters."
+
+msgid "Token-ul %s nu este disponibil pentru declanșatorul ales."
+msgstr "The token %s is not available for the chosen trigger."
+
+msgid "Valoarea trebuie să fie între 0 și 1.000.000."
+msgstr "The value must be between 0 and 1,000,000."
+
+msgid "Moneda este obligatorie când setezi o valoare."
+msgstr "The currency is required when you set a value."
+
+msgid "Categoria de consimțământ nu este validă."
+msgstr "The consent category is not valid."
+
+msgid "Una sau mai multe destinații nu sunt valide."
+msgstr "One or more destinations are not valid."
+
+msgid "Meta cere categoria de consimțământ Marketing."
+msgstr "Meta requires the Marketing consent category."
+
+msgid "Selector vizual"
+msgstr "Visual selector"
+
+msgid "Se încarcă site-ul…"
+msgstr "Loading the site…"
+
+msgid "Selectorul nu a putut porni în această pagină. Cauze posibile: un plugin de cache servește o pagină veche sau serverul blochează afișarea în cadru (X-Frame-Options)."
+msgstr "The selector could not start on this page. Possible causes: a cache plugin serves an old page, or the server blocks framing (X-Frame-Options)."
+
+msgid "Deschide în fereastră nouă"
+msgstr "Open in new window"
+
+msgid "Browserul a blocat fereastra nouă. Permite ferestrele pop-up pentru acest site și încearcă din nou."
+msgstr "The browser blocked the new window. Allow pop-ups for this site and try again."
+
+msgid "Cale"
+msgstr "Path"
+
+msgid "Încarcă"
+msgstr "Load"
+
+msgid "Desktop"
+msgstr "Desktop"
+
+msgid "Tabletă (768px)"
+msgstr "Tablet (768px)"
+
+msgid "Mobil (390px)"
+msgstr "Mobile (390px)"
+
+msgid "Selectează"
+msgstr "Select"
+
+msgid "Navighează"
+msgstr "Navigate"
+
+msgid "Îngheață în 3 s"
+msgstr "Freeze in 3 s"
+
+msgid "Dezgheață"
+msgstr "Unfreeze"
+
+msgid "Îngheț în %s s…"
+msgstr "Freezing in %s s…"
+
+msgid "Sub cursor"
+msgstr "Under cursor"
+
+msgid "Niciun element selectat."
+msgstr "No element selected."
+
+msgid "Clase"
+msgstr "Classes"
+
+msgid "Vezi site-ul ca administrator autentificat; unele elemente pot diferi pentru vizitatori."
+msgstr "You are viewing the site as a logged-in administrator; some elements may differ for visitors."
+
+msgid "În modul Navighează, scripturile altor pluginuri pot trimite propriile statistici."
+msgstr "In Navigate mode, other plugins' scripts may send their own statistics."
+
+msgid "Previzualizare site pentru selecție"
+msgstr "Site preview for selection"
+
+msgid "Prioritatea selectorilor"
+msgstr "Selector priority"
+
+msgid "Doar acest element"
+msgstr "This element only"
+
+msgid "Toate elementele similare"
+msgstr "All similar elements"
+
+msgid "Candidați de selector"
+msgstr "Selector candidates"
+
+msgid "%s potriviri pe această pagină"
+msgstr "%s matches on this page"
+
+msgid "Se potrivește cu toate elementele de acest tip, inclusiv cu cele adăugate ulterior. Regula se va declanșa pe oricare dintre ele."
+msgstr "Matches all elements of this type, including those added later. The rule will fire on any of them."
+
+msgid "Editează selectorul"
+msgstr "Edit selector"
+
+msgid "Testează"
+msgstr "Test"
+
+msgid "Șterge selecția"
+msgstr "Clear selection"
+
+msgid "Folosește acest selector"
+msgstr "Use this selector"
+
+msgid "Selector nevalid."
+msgstr "Invalid selector."
+
+msgid "Testul nu a primit răspuns. Reîncarcă pagina din previzualizare."
+msgstr "The test received no response. Reload the preview page."
+
+msgid "%s potriviri"
+msgstr "%s matches"
+
+msgid "0 potriviri"
+msgstr "0 matches"
+
+msgid "Selectorul nu include elementul ales."
+msgstr "The selector does not include the chosen element."
+
+msgid "Linkurile externe și formularele sunt dezactivate în modul de selecție."
+msgstr "External links and forms are disabled in selection mode."
+
+msgid "Nu s-a putut genera un selector pentru acest element. Alege alt element sau părintele lui (tasta P)."
+msgstr "A selector could not be generated for this element. Choose another element or its parent (key P)."
+
+msgid "Calea introdusă nu este validă."
+msgstr "The entered path is not valid."
+
+msgid "Ai o selecție nefolosită. Închizi selectorul?"
+msgstr "You have an unused selection. Close the selector?"
+
+msgid "Previzualizarea este deschisă într-o fereastră nouă."
+msgstr "The preview is open in a new window."
+
+msgid "Prea multe sesiuni de selecție. Încearcă din nou peste câteva minute."
+msgstr "Too many selection sessions. Try again in a few minutes."
+
+msgid "Nu s-a putut porni selectorul vizual. Reîncarcă pagina și încearcă din nou."
+msgstr "The visual selector could not start. Reload the page and try again."
+
+msgid "Sesiunea selectorului nu a putut fi reînnoită. Închide și redeschide selectorul."
+msgstr "The selector session could not be renewed. Close and reopen the selector."
+
+msgid "Ai atins limita de teste. Încearcă din nou într-o secundă."
+msgstr "You have reached the test limit. Try again in a second."
+
+msgid "Se testează selectorul…"
+msgstr "Testing the selector…"
+
+msgid "Conținutul din interiorul unui cadru extern nu poate fi selectat. Poți folosi declanșatorul „Vizibil” pe cadrul întreg."
+msgstr "Content inside an external frame cannot be selected. You can use the “Visible” trigger on the whole frame."
+
+msgid "Elementul este într-un Shadow DOM; a fost selectat elementul gazdă."
+msgstr "The element is inside a Shadow DOM; the host element was selected."
+
+msgid "Zonele din interiorul acestui element nu pot fi selectate separat; a fost selectat elementul întreg."
+msgstr "Areas inside this element cannot be selected separately; the whole element was selected."
+
+msgid "Ai ales o pictogramă; a fost selectat elementul care o conține."
+msgstr "You chose an icon; the element containing it was selected."
+
+msgid "după ID"
+msgstr "by ID"
+
+msgid "după atribut de test"
+msgstr "by test attribute"
+
+msgid "după atribut"
+msgstr "by attribute"
+
+msgid "după text accesibil"
+msgstr "by accessible text"
+
+msgid "după nume"
+msgstr "by name"
+
+msgid "după adresă de link"
+msgstr "by link address"
+
+msgid "după tipar de link"
+msgstr "by link pattern"
+
+msgid "după clasă"
+msgstr "by class"
+
+msgid "după elementul părinte"
+msgstr "by parent element"
+
+msgid "după poziția în pagină"
+msgstr "by position on the page"
+
+msgid "Modificările nu au putut fi salvate. Reîncarcă pagina și încearcă din nou."
+msgstr "The changes could not be saved. Reload the page and try again."
+
+msgid "Selectorul vizual funcționează doar când panoul de administrare și site-ul sunt pe același domeniu."
+msgstr "The visual selector only works when the admin panel and the site are on the same domain."
+
+msgid "Șterge parametrul %d"
+msgstr "Remove parameter %d"
+
+msgid "%s%% (valoare existentă)"
+msgstr "%s%% (existing value)"

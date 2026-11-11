@@ -1,0 +1,5 @@
+/* Cursor affordance only; the picker overlay is isolated in its closed shadow root. */
+html.adc-picker-active,
+html.adc-picker-active * {
+  cursor: crosshair !important;
+}

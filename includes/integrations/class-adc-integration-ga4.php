@@ -273,7 +273,8 @@ final class ADC_Integration_Ga4 implements ADC_Integration_Interface, ADC_Module
             return 'server' === self::purchase_channel();
         }
 
-        return in_array($event_name, self::EVENTS, true);
+        return in_array($event_name, self::EVENTS, true)
+            || (str_starts_with($event_name, 'custom_') && ADC_Custom_Events::routes_to($event_name, 'ga4'));
     }
 
     /**
@@ -466,7 +467,7 @@ final class ADC_Integration_Ga4 implements ADC_Integration_Interface, ADC_Module
      */
     public static function enqueue_assets(): void
     {
-        if (defined('ADC_MARKETING_DISABLE_TRACKING') && ADC_MARKETING_DISABLE_TRACKING) {
+        if ((class_exists('ADC_Picker') && ADC_Picker::active()) || (defined('ADC_MARKETING_DISABLE_TRACKING') && ADC_MARKETING_DISABLE_TRACKING)) {
             return;
         }
 
@@ -616,6 +617,21 @@ final class ADC_Integration_Ga4 implements ADC_Integration_Interface, ADC_Module
             'event_id'             => $event->event_id,
         );
 
+        if (str_starts_with($event->name, 'custom_')) {
+            $params = array_merge($params, $event->params);
+            if ('' !== $event->currency) {
+                $params['currency'] = $event->currency;
+            }
+            if (null !== $event->value) {
+                $params['value'] = $event->value;
+            }
+
+            return array(
+                'name'   => $event->name,
+                'params' => $this->sanitize_params($params),
+            );
+        }
+
         $session = isset($event->attribution['ga_session_id']) ? trim((string) $event->attribution['ga_session_id']) : '';
         if ('' !== $session && 1 === preg_match('/^\d+$/', $session)) {
             $params['session_id'] = $session;
@@ -742,6 +758,20 @@ final class ADC_Integration_Ga4 implements ADC_Integration_Interface, ADC_Module
         return $out;
     }
 
+    /** Truncate a string without splitting a UTF-8 code point. */
+    private static function truncate_utf8(string $value, int $limit): string
+    {
+        if (function_exists('mb_substr')) {
+            return mb_substr($value, 0, $limit, 'UTF-8');
+        }
+        if (1 === preg_match('/^.{0,' . $limit . '}/us', $value, $match)) {
+            return $match[0];
+        }
+        $valid = wp_check_invalid_utf8($value, true);
+        preg_match('/^.{0,' . $limit . '}/us', $valid, $match);
+        return $match[0] ?? '';
+    }
+
     /**
      * Sanitise the params object: valid GA4 names (≤ 40 chars, start with a
      * letter), string values truncated to 100 chars, at most 25 params
@@ -765,7 +795,7 @@ final class ADC_Integration_Ga4 implements ADC_Integration_Interface, ADC_Module
             }
 
             if (is_string($value)) {
-                $out[$name] = substr($value, 0, 100);
+                $out[$name] = self::truncate_utf8($value, 100);
             } elseif (is_float($value) || is_int($value) || is_bool($value)) {
                 $out[$name] = $value;
             } elseif (is_array($value)) {
@@ -835,7 +865,7 @@ final class ADC_Integration_Ga4 implements ADC_Integration_Interface, ADC_Module
             'api_secret'     => ADC_Settings::secret('ga4', 'api_secret'),
         );
 
-        $json = wp_json_encode($body, JSON_UNESCAPED_UNICODE);
+        $json = wp_json_encode($body, JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE);
 
         $response = wp_remote_post(
             $url . '?' . http_build_query($query, '', '&'),

@@ -146,13 +146,13 @@ final class GeneratorTestProduct
     public function get_sale_price(): string { return ''; }
     public function get_date_on_sale_from(): null { return null; }
     public function get_date_on_sale_to(): null { return null; }
-    public function get_name(): string { return ('one-invalid' === ($GLOBALS['generator_product_mode'] ?? '') && 1 === $this->id) ? '' : 'Tea'; }
+    public function get_name(): string { return (in_array($GLOBALS['generator_product_mode'] ?? '', array('one-invalid', 'varied-invalid'), true) && 1 === $this->id) || ('varied-invalid' === ($GLOBALS['generator_product_mode'] ?? '') && 2 === $this->id) ? '' : 'Tea'; }
     public function get_sku(): string { return $this->sku; }
     public function get_meta(string $key, bool $single = true): string
     {
         return '_adc_feed_google_product_category' === $key ? (string) ($GLOBALS['generator_google_category'] ?? '') : '';
     }
-    public function get_short_description(): string { return 'Loose leaf tea'; }
+    public function get_short_description(): string { return 'varied-invalid' === ($GLOBALS['generator_product_mode'] ?? '') && 3 === $this->id ? '' : 'Loose leaf tea'; }
     public function get_description(): string { return ''; }
     public function get_permalink(): string { return 'https://shop.example/product/tea'; }
     public function get_image_id(): int { return 70; }
@@ -196,6 +196,8 @@ final class GeneratorTestDb
     public int $insert_id = 0;
     public int $option_updates = 0;
     public bool $fail_snapshot_insert = false;
+    public bool $fail_progress_update = false;
+    public array $progress_updates = array();
     public ?array $transaction_backup = null;
     public array $temporary_ids = array();
     public array $tables = array('wp_adc_feeds' => array(), 'wp_adc_feed_runs' => array(), 'wp_adc_feed_snapshots' => array());
@@ -257,6 +259,14 @@ final class GeneratorTestDb
             $GLOBALS['generator_options'][$name] = unserialize((string) $data['option_value'], array('allowed_classes' => false));
             return 1;
         }
+        if ('wp_adc_feed_runs' === $table && array_key_exists('products_examined', $data)
+            && !array_key_exists('status', $data) && !array_key_exists('finished_at', $data)) {
+            if ($this->fail_progress_update) { return false; }
+            $this->progress_updates[] = array(
+                'data' => $data,
+                'status' => $this->tables[$table][count($this->tables[$table]) - 1]['status'] ?? '',
+            );
+        }
         $changed = 0;
         if (!isset($this->tables[$table])) { return 0; }
         foreach ($this->tables[$table] as &$row) {
@@ -311,6 +321,13 @@ function generator_has_diag(array $rows, string $code): bool
     }
     return false;
 }
+function generator_diag_count(array $rows, string $code): int
+{
+    foreach ($rows as $row) {
+        if (is_array($row) && ($row['code'] ?? '') === $code) { return (int) ($row['count'] ?? 0); }
+    }
+    return 0;
+}
 function generator_check(bool $condition, string $message): void
 {
     if (!$condition) { fwrite(STDERR, "FAIL: $message\n"); exit(1); }
@@ -363,6 +380,24 @@ $result = ADC_Feed_Generator::run($id);
 generator_check($result['ok'] === true && !empty($GLOBALS['generator_probe_exposed']), 'valid catalog generation continues despite an informational exposed-storage probe');
 generator_check($GLOBALS['wpdb']->option_updates >= 5 && !isset($GLOBALS['generator_options']['adc_feed_lock_' . $id]), 'expired lease is atomically taken over, renewed between pages, and released by its token');
 generator_check($result['examined'] === 250 && $result['exported'] === 250, 'generation paginates across multiple 100-product WooCommerce pages');
+generator_check(count($GLOBALS['wpdb']->progress_updates) >= 3
+    && array_slice(array_column($GLOBALS['wpdb']->progress_updates, 'data'), -3) === array(
+        array('products_examined' => 100, 'products_exported' => 100),
+        array('products_examined' => 200, 'products_exported' => 200),
+        array('products_examined' => 250, 'products_exported' => 250),
+    )
+    && array_slice(array_column($GLOBALS['wpdb']->progress_updates, 'status'), -3) === array('running', 'running', 'running'),
+    'run counters persist actual per-chunk progress while the run is still running');
+$progress_snapshot_path = $GLOBALS['wpdb']->tables['wp_adc_feed_snapshots'][0]['file_path'];
+$GLOBALS['generator_product_count'] = 1;
+$GLOBALS['wpdb']->fail_progress_update = true;
+$progress_failure = ADC_Feed_Generator::run($id);
+$GLOBALS['wpdb']->fail_progress_update = false;
+generator_check(!$progress_failure['ok'] && generator_has_diag($progress_failure['errors'], 'run_progress_update_failed')
+    && end($GLOBALS['wpdb']->tables['wp_adc_feed_runs'])['status'] === 'failed'
+    && $GLOBALS['wpdb']->tables['wp_adc_feed_snapshots'][0]['file_path'] === $progress_snapshot_path,
+    'failed progress persistence fails the run without publishing a replacement snapshot');
+$GLOBALS['generator_product_count'] = 250;
 $snapshots = $GLOBALS['wpdb']->tables['wp_adc_feed_snapshots'];
 $original_snapshot = $snapshots[0];
 generator_check(count($snapshots) === 1 && $snapshots[0]['is_current'] === 1, 'snapshot is marked current only after publication');
@@ -448,8 +483,10 @@ $GLOBALS['generator_item_id_source'] = 'id';
 $exclude_result = ADC_Feed_Generator::run($id);
 $excluded_warning = array_values(array_filter($exclude_result['warnings'], static fn(array $row): bool => $row['code'] === 'invalid_products_excluded'));
 generator_check($exclude_result['ok'] && $exclude_result['examined'] === 2 && $exclude_result['exported'] === 1
-    && count($excluded_warning) === 1 && (int) $excluded_warning[0]['count'] === 1,
-    'exclude_invalid publishes valid rows and reports the number of invalid products as a warning');
+    && count($excluded_warning) === 1 && (int) $excluded_warning[0]['count'] === 1
+    && generator_has_diag($exclude_result['warnings'], 'title_missing')
+    && !generator_has_diag($exclude_result['errors'], 'title_missing'),
+    'exclude_invalid publishes valid rows and reports exclusion count and validation reason as warnings');
 $strict_id = ADC_Feed_Store::create(array(
     'name' => 'Strict feed', 'channel' => 'google', 'format' => 'xml', 'status' => 'active',
     'config' => array('scope' => 'all', 'exclude_invalid' => false, 'google' => array('shipping_country' => 'RO', 'shipping_price' => '0.00', 'shipping_service' => 'Standard', 'condition' => 'new')),
@@ -462,6 +499,14 @@ $GLOBALS['generator_product_mode'] = 'one-invalid';
 $empty_result = ADC_Feed_Generator::run($id);
 generator_check(!$empty_result['ok'] && generator_has_diag($empty_result['errors'], 'no_valid_products'),
     'generation fails clearly when exclusion leaves no valid products');
+$GLOBALS['generator_product_mode'] = 'varied-invalid';
+$GLOBALS['generator_product_count'] = 3;
+$all_invalid_reasons = ADC_Feed_Generator::run($id);
+generator_check(!$all_invalid_reasons['ok'] && generator_has_diag($all_invalid_reasons['errors'], 'no_valid_products')
+    && generator_diag_count($all_invalid_reasons['warnings'], 'invalid_products_excluded') === 3
+    && generator_diag_count($all_invalid_reasons['warnings'], 'title_missing') === 2
+    && generator_diag_count($all_invalid_reasons['warnings'], 'description_missing') === 1,
+    'all-invalid generation reports no_valid_products and aggregates exclusion count plus repeated and distinct validation reasons');
 $GLOBALS['generator_product_mode'] = 'meta';
 $GLOBALS['generator_product_count'] = 1;
 $GLOBALS['generator_google_category'] = '123';
@@ -549,4 +594,5 @@ $text_length = new ReflectionMethod(ADC_Feed_Generator::class, 'text_length');
 $text_length->setAccessible(true);
 generator_check($text_length->invoke(null, 'café') === 4, 'ID length uses Unicode characters rather than UTF-8 bytes');
 generator_check(in_array('feed_output_invalid', ADC_Feed_Generator::diagnostic_codes(), true), 'generator exposes its diagnostic identifiers for REST whitelisting');
+generator_check(in_array('run_progress_update_failed', ADC_Feed_Generator::diagnostic_codes(), true), 'progress persistence failure is exposed for REST diagnostic whitelisting');
 echo "feed-generator-test: PASS\n";

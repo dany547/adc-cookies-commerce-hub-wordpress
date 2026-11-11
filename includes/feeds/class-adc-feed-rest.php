@@ -162,6 +162,27 @@ final class ADC_Feed_Rest
 
         register_rest_route(
             self::NAMESPACE,
+            '/feeds/taxonomy',
+            array(
+                array(
+                    'methods'             => WP_REST_Server::CREATABLE,
+                    'callback'            => self::localized_callback(array(self::class, 'handle_taxonomy_import')),
+                    'permission_callback' => self::localized_callback(array(self::class, 'can_manage')),
+                ),
+                array(
+                    'methods'             => WP_REST_Server::READABLE,
+                    'callback'            => self::localized_callback(array(self::class, 'handle_taxonomy_search')),
+                    'permission_callback' => self::localized_callback(array(self::class, 'can_manage')),
+                    'args'                => array(
+                        'q' => array('type' => 'string', 'required' => true),
+                        'limit' => array('type' => 'integer', 'minimum' => 1, 'maximum' => 50),
+                    ),
+                ),
+            )
+        );
+
+        register_rest_route(
+            self::NAMESPACE,
             '/feeds/(?P<id>\d+)',
             array(
                 array(
@@ -342,6 +363,63 @@ final class ADC_Feed_Rest
         }
 
         return new WP_REST_Response(array('feed' => self::with_last_run(self::format_feed($row), $id)), 200);
+    }
+
+    /** Import and store a fully validated Google taxonomy without retaining source text. */
+    public static function handle_taxonomy_import(WP_REST_Request $request): WP_REST_Response|WP_Error
+    {
+        if (null !== ($denied = self::guard($request))) {
+            return $denied;
+        }
+        if (!class_exists('ADC_Feed_Taxonomy')) {
+            return self::service_unavailable();
+        }
+        $content = $request->get_param('content');
+        if (!is_string($content) || strlen($content) > 2097152) {
+            return self::invalid('adc_feed_taxonomy_input_invalid', __('Fișierul taxonomiei nu este valid.', 'adc-marketing'));
+        }
+        $parsed = ADC_Feed_Taxonomy::parse($content);
+        if (empty($parsed['ok']) || !is_string($parsed['version'] ?? null) || !is_array($parsed['items'] ?? null)) {
+            return self::invalid('adc_feed_taxonomy_invalid', __('Taxonomia nu a putut fi validată.', 'adc-marketing'));
+        }
+        $value = array('version' => $parsed['version'], 'items' => $parsed['items']);
+        $option = 'adc_feed_google_taxonomy';
+        $stored = add_option($option, $value, '', 'no');
+        if (!$stored) {
+            $stored = update_option($option, $value, false);
+        }
+        if (!$stored && get_option($option) !== $value) {
+            return self::write_failed();
+        }
+        return new WP_REST_Response(array('imported' => true, 'version' => $value['version'], 'count' => count($value['items'])), 200);
+    }
+
+    /** Search the locally stored, validated taxonomy; never return the source document. */
+    public static function handle_taxonomy_search(WP_REST_Request $request): WP_REST_Response|WP_Error
+    {
+        if (null !== ($denied = self::guard($request))) {
+            return $denied;
+        }
+        if (!class_exists('ADC_Feed_Taxonomy')) {
+            return self::service_unavailable();
+        }
+        $query = $request->get_param('q');
+        if (!is_string($query) || '' === trim($query) || strlen($query) > 400 || 1 !== preg_match('//u', $query)) {
+            return self::invalid('adc_feed_taxonomy_query_invalid', __('Termenul de căutare nu este valid.', 'adc-marketing'));
+        }
+        $raw_limit = $request->get_param('limit');
+        $limit = null === $raw_limit ? 20 : filter_var($raw_limit, FILTER_VALIDATE_INT);
+        if (false === $limit || null === $limit || $limit < 1 || $limit > 50) {
+            return self::invalid('adc_feed_taxonomy_limit_invalid', __('Limita rezultatelor nu este validă.', 'adc-marketing'));
+        }
+        $stored = get_option('adc_feed_google_taxonomy', array());
+        if (!is_array($stored) || !is_string($stored['version'] ?? null) || !is_array($stored['items'] ?? null)) {
+            return new WP_REST_Response(array('version' => null, 'items' => array()), 200);
+        }
+        return new WP_REST_Response(array(
+            'version' => $stored['version'],
+            'items' => ADC_Feed_Taxonomy::search(array('ok' => true, 'version' => $stored['version'], 'items' => $stored['items']), $query, $limit),
+        ), 200);
     }
 
     /** GET /feeds/fields?channel=: the parameter registry of one destination, with its defaults. */
@@ -1374,12 +1452,22 @@ final class ADC_Feed_Rest
             $counts[$code] = ($counts[$code] ?? 0) + max(1, $count);
         }
 
+        $summary_code = 'invalid_products_excluded';
+        $summary = null;
+        if (isset($counts[$summary_code])) {
+            $summary = array('code' => $summary_code, 'count' => $counts[$summary_code]);
+            unset($counts[$summary_code]);
+        }
+
         $out = array();
         foreach ($counts as $code => $count) {
-            $out[] = array('code' => (string) $code, 'count' => $count);
-            if (count($out) >= self::RUN_MESSAGE_MAX) {
+            if (count($out) >= self::RUN_MESSAGE_MAX - (null !== $summary ? 1 : 0)) {
                 break;
             }
+            $out[] = array('code' => (string) $code, 'count' => $count);
+        }
+        if (null !== $summary) {
+            $out[] = $summary;
         }
 
         return $out;

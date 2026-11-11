@@ -68,7 +68,7 @@ final class ADC_Product_Stats implements ADC_Module_Interface
 
     public static function enqueue_view_script(): void
     {
-        if (!self::enabled() || !function_exists('is_product') || !is_product()) { return; }
+        if ((class_exists('ADC_Picker') && ADC_Picker::active()) || !self::enabled() || !function_exists('is_product') || !is_product()) { return; }
         $product_id = (int) get_queried_object_id();
         if (!self::is_published_product($product_id)) { return; }
         $relative = 'assets/js/product-stats.js';
@@ -143,7 +143,7 @@ final class ADC_Product_Stats implements ADC_Module_Interface
 
     public static function on_checkout_page(): void
     {
-        if (!self::can_collect() || !function_exists('is_checkout') || !is_checkout() || (function_exists('is_order_received_page') && is_order_received_page()) || !function_exists('WC')) {
+        if ((class_exists('ADC_Picker') && ADC_Picker::active()) || !self::can_collect() || !function_exists('is_checkout') || !is_checkout() || (function_exists('is_order_received_page') && is_order_received_page()) || !function_exists('WC')) {
             return;
         }
         $wc = WC();

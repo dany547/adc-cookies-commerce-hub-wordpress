@@ -532,5 +532,379 @@ function response(status, body) {
     assert.strictEqual(feeds.runStatusLabel('toString'), 'Necunoscută');
   });
 
+  // --- Progress polling: fake clock, no real timers ---------------------------
+  const flush = () => new Promise((resolve) => setImmediate(resolve));
+
+  // Timers are a Map; advance() fires due timers in time order and lets promise chains settle.
+  function fakeClock() {
+    let now = 0;
+    let nextHandle = 1;
+    const timers = new Map();
+    return {
+      now: () => now,
+      setTimer: (fn, ms) => { const h = nextHandle++; timers.set(h, { fn, at: now + ms }); return h; },
+      clearTimer: (h) => { timers.delete(h); },
+      pending: () => timers.size,
+      async advance(ms) {
+        const end = now + ms;
+        for (;;) {
+          let next = null;
+          for (const entry of timers) {
+            if (entry[1].at <= end && (!next || entry[1].at < next[1].at)) next = entry;
+          }
+          if (!next) break;
+          timers.delete(next[0]);
+          now = next[1].at;
+          next[1].fn();
+          await flush();
+        }
+        now = end;
+      },
+    };
+  }
+
+  // responses[n-1] answers the n-th list read; the last entry repeats.
+  function pollHarness(responses, opts) {
+    const clock = fakeClock();
+    const log = { fetches: 0, updates: [], errors: [] };
+    let active = true;
+    const poller = feeds.createRunPoller({
+      now: clock.now,
+      setTimer: clock.setTimer,
+      clearTimer: clock.clearTimer,
+      fetchList: () => {
+        log.fetches++;
+        const n = log.fetches;
+        return Promise.resolve().then(() => {
+          const answer = responses[Math.min(n, responses.length) - 1];
+          if (answer instanceof Error) throw answer;
+          return answer;
+        });
+      },
+      isActive: () => active,
+      onUpdate: (list) => log.updates.push(list),
+      onError: (err) => log.errors.push(err.message),
+      windowMs: opts && opts.windowMs,
+    });
+    return { clock, log, poller, setActive: (v) => { active = v; } };
+  }
+
+  const runOf = (status, startedAt, examined, exported) => ({
+    status: status, started_at: startedAt, examined: examined, exported: exported,
+  });
+  const STARTED_A = '2026-11-11 10:00:00';
+  const STARTED_B = '2026-11-11 10:05:00';
+  const feedWith = (id, run) => ({ id: id, name: 'Feed', last_run: run });
+
+  await test('poller constants: window covers the 30 s debounce, interval is shorter than the window', () => {
+    assert.ok(feeds.POLL_WINDOW_MS >= 40000, 'window must cover debounce plus slack');
+    assert.ok(feeds.POLL_INTERVAL_MS > 0 && feeds.POLL_INTERVAL_MS < feeds.POLL_WINDOW_MS);
+    assert.ok(feeds.RUNNING_CAP_MS > feeds.POLL_WINDOW_MS);
+  });
+
+  await test('poller: idle list (no running run, no request) schedules nothing', () => {
+    const h = pollHarness([[feedWith(1, runOf('success', STARTED_A, 4, 4))]]);
+    h.poller.observe([feedWith(1, runOf('success', STARTED_A, 4, 4))]);
+    assert.strictEqual(h.clock.pending(), 0);
+    assert.strictEqual(h.poller.isPolling(), false);
+  });
+
+  await test('poller: running feed is polled each interval, redraws only on change, stops and clears its timer on finish', async () => {
+    const h = pollHarness([
+      [feedWith(7, runOf('running', STARTED_A, 5, 3))],   // unchanged: no redraw
+      [feedWith(7, runOf('running', STARTED_A, 6, 4))],   // counts changed: redraw
+      [feedWith(7, runOf('success', STARTED_A, 9, 9))],   // finished: stop
+    ]);
+    h.poller.observe([feedWith(7, runOf('running', STARTED_A, 5, 3))]);
+    assert.strictEqual(h.clock.pending(), 1);
+    await h.clock.advance(feeds.POLL_INTERVAL_MS * 3);
+    assert.strictEqual(h.log.fetches, 3);
+    assert.strictEqual(h.log.updates.length, 2);
+    assert.strictEqual(h.log.updates[0][0].last_run.examined, 6);
+    assert.strictEqual(h.log.updates[1][0].last_run.status, 'success');
+    assert.strictEqual(h.clock.pending(), 0, 'no timer left after the run finished');
+    assert.strictEqual(h.poller.isPolling(), false);
+  });
+
+  await test('poller: after a regeneration request, waits for a new run and stops once it finishes', async () => {
+    const h = pollHarness([
+      [feedWith(3, runOf('success', STARTED_A, 2, 2))],   // not started yet
+      [feedWith(3, runOf('running', STARTED_B, 0, 0))],   // new run started
+      [feedWith(3, runOf('success', STARTED_B, 5, 5))],   // new run finished
+    ]);
+    h.poller.observe([feedWith(3, runOf('success', STARTED_A, 2, 2))]);
+    h.poller.request(feedWith(3, runOf('success', STARTED_A, 2, 2)));
+    await h.clock.advance(feeds.POLL_INTERVAL_MS * 3);
+    assert.strictEqual(h.log.fetches, 3);
+    assert.strictEqual(h.log.updates.length, 2);
+    assert.strictEqual(h.clock.pending(), 0);
+  });
+
+  await test('poller: a request that never changes the run stops at the window and leaves no timer', async () => {
+    const same = [feedWith(4, runOf('success', STARTED_A, 1, 1))];
+    const h = pollHarness([same], { windowMs: 12000 });
+    h.poller.observe(same); // as after a list load; sets the baseline signature
+    h.poller.request(same[0]);
+    await h.clock.advance(60000);
+    const fetchesAtStop = h.log.fetches;
+    assert.ok(fetchesAtStop >= 3 && fetchesAtStop <= 5, 'polls for the window only, got ' + fetchesAtStop);
+    assert.strictEqual(h.clock.pending(), 0);
+    await h.clock.advance(60000);
+    assert.strictEqual(h.log.fetches, fetchesAtStop, 'no fetch after the window');
+    assert.strictEqual(h.log.updates.length, 0, 'unchanged list never redraws');
+  });
+
+  await test('poller: four consecutive failed reads (three retries at 3/6/12 s) report once, stop, and leave no timer', async () => {
+    const h = pollHarness([
+      [feedWith(5, runOf('running', STARTED_A, 1, 0))],
+      new Error('Rețeaua nu răspunde.'),
+    ]);
+    assert.deepStrictEqual(feeds.POLL_RETRY_DELAYS_MS, [3000, 6000, 12000]);
+    h.poller.observe([feedWith(5, runOf('running', STARTED_A, 1, 0))]);
+    // Timeline: read 1 at 3 s (running), failures at 6 s, 9 s, 15 s and 27 s; the last one is final.
+    await h.clock.advance(60000);
+    assert.deepStrictEqual(h.log.errors, ['Rețeaua nu răspunde.']);
+    assert.strictEqual(h.log.fetches, 5, 'one good read plus four failed reads, no more');
+    assert.strictEqual(h.clock.pending(), 0);
+    await h.clock.advance(60000);
+    assert.strictEqual(h.log.fetches, 5, 'no fetch after the final failure');
+    assert.strictEqual(h.log.errors.length, 1, 'notice shown once');
+  });
+
+  await test('poller: transient failures recover, reset the count, keep the poll alive, and show no notice', async () => {
+    const h = pollHarness([
+      [feedWith(5, runOf('running', STARTED_A, 1, 0))],   // 3 s: unchanged
+      new Error('a'),                                    // 6 s: failure 1, retry in 3 s
+      new Error('b'),                                    // 9 s: failure 2, retry in 6 s
+      [feedWith(5, runOf('running', STARTED_A, 2, 0))],  // 15 s: recovered, redraw, poll every 3 s
+      new Error('c'),                                    // 18 s: failure 1 again (count was reset)
+      new Error('d'),                                    // 21 s: failure 2
+      new Error('e'),                                    // 27 s: failure 3, retry in 12 s
+      new Error('f'),                                    // 39 s: failure 4, final
+    ]);
+    h.poller.observe([feedWith(5, runOf('running', STARTED_A, 1, 0))]);
+    await h.clock.advance(60000);
+    assert.strictEqual(h.log.fetches, 8);
+    assert.strictEqual(h.log.updates.length, 1, 'recovered read is applied once');
+    assert.deepStrictEqual(h.log.errors, ['f'], 'only the final failure is reported');
+    assert.strictEqual(h.clock.pending(), 0);
+  });
+
+  await test('poller: a transient failure keeps a pending regeneration request alive until its run finishes', async () => {
+    const same = feedWith(12, runOf('success', STARTED_A, 2, 2));
+    const h = pollHarness([
+      new Error('offline'),                                         // failure, retry in 3 s
+      [feedWith(12, runOf('running', STARTED_B, 0, 0))],           // new run started after recovery
+      [feedWith(12, runOf('success', STARTED_B, 3, 3))],           // finished
+    ]);
+    h.poller.observe([same]);
+    h.poller.request(same);
+    assert.strictEqual(h.clock.pending(), 1);
+    await h.clock.advance(feeds.POLL_INTERVAL_MS);      // 3 s: failure
+    assert.strictEqual(h.log.errors.length, 0, 'no notice for a retried failure');
+    assert.strictEqual(h.clock.pending(), 1, 'retry timer scheduled');
+    await h.clock.advance(feeds.POLL_RETRY_DELAYS_MS[0] + feeds.POLL_INTERVAL_MS * 2);
+    assert.strictEqual(h.log.fetches, 3);
+    assert.strictEqual(h.log.updates.length, 2);
+    assert.strictEqual(h.clock.pending(), 0, 'request resolved and no timer left');
+  });
+
+  await test('poller: stop() during a retry wait clears the retry timer and nothing fires afterwards', async () => {
+    const h = pollHarness([[feedWith(13, runOf('running', STARTED_A, 1, 0))], new Error('x')]);
+    h.poller.observe([feedWith(13, runOf('running', STARTED_A, 1, 0))]);
+    await h.clock.advance(feeds.POLL_INTERVAL_MS * 2); // first failure, retry timer pending
+    assert.strictEqual(h.clock.pending(), 1);
+    h.poller.stop();
+    assert.strictEqual(h.clock.pending(), 0);
+    const fetchesAtStop = h.log.fetches;
+    await h.clock.advance(120000);
+    assert.strictEqual(h.log.fetches, fetchesAtStop);
+    assert.strictEqual(h.log.errors.length, 0, 'teardown is silent');
+  });
+
+  await test('poller: when the list is no longer shown, the next tick stops without fetching or redrawing', async () => {
+    const h = pollHarness([[feedWith(6, runOf('running', STARTED_A, 1, 0))]]);
+    h.poller.observe([feedWith(6, runOf('running', STARTED_A, 1, 0))]);
+    h.setActive(false);
+    await h.clock.advance(feeds.POLL_INTERVAL_MS * 2);
+    assert.strictEqual(h.log.fetches, 0);
+    assert.strictEqual(h.log.updates.length, 0);
+    assert.strictEqual(h.clock.pending(), 0);
+  });
+
+  await test('poller: a superseded (null) response neither redraws nor schedules a timer', async () => {
+    const h = pollHarness([[feedWith(8, runOf('running', STARTED_A, 1, 0))], null]);
+    h.poller.observe([feedWith(8, runOf('running', STARTED_A, 1, 0))]);
+    await h.clock.advance(feeds.POLL_INTERVAL_MS * 2);
+    assert.strictEqual(h.log.updates.length, 0);
+    assert.strictEqual(h.clock.pending(), 0);
+  });
+
+  await test('poller: stop() clears a pending timer immediately', async () => {
+    const h = pollHarness([[feedWith(9, runOf('running', STARTED_A, 1, 0))]]);
+    h.poller.observe([feedWith(9, runOf('running', STARTED_A, 1, 0))]);
+    assert.strictEqual(h.clock.pending(), 1);
+    h.poller.stop();
+    assert.strictEqual(h.clock.pending(), 0);
+    await h.clock.advance(feeds.POLL_INTERVAL_MS * 2);
+    assert.strictEqual(h.log.fetches, 0);
+  });
+
+  await test('poller: a run that stays "running" past the cap stops polling instead of looping forever', async () => {
+    const h = pollHarness([[feedWith(10, runOf('running', STARTED_A, 1, 0))]]);
+    h.poller.observe([feedWith(10, runOf('running', STARTED_A, 1, 0))]);
+    await h.clock.advance(feeds.RUNNING_CAP_MS + feeds.POLL_INTERVAL_MS);
+    assert.strictEqual(h.clock.pending(), 0);
+    const fetchesAtStop = h.log.fetches;
+    await h.clock.advance(feeds.POLL_INTERVAL_MS * 5);
+    assert.strictEqual(h.log.fetches, fetchesAtStop);
+  });
+
+  // --- Google taxonomy picker: URLs, bounded file read, selection, search -------
+  await test('taxonomySearchUrl: trims, encodes, sends limit 50, and returns null for an empty query', () => {
+    assert.strictEqual(feeds.taxonomySearchUrl('/r', '   '), null);
+    assert.strictEqual(feeds.taxonomySearchUrl('/r', ' rochii & pantofi '), '/r/taxonomy?q=rochii%20%26%20pantofi&limit=50');
+  });
+
+  await test('taxonomySearchUrl: query is clamped to the 400-byte server limit without splitting characters', () => {
+    const url = feeds.taxonomySearchUrl('/r', 'ș'.repeat(300));
+    const q = decodeURIComponent(url.split('?q=')[1].split('&')[0]);
+    assert.ok(feeds.utf8Length(q) <= feeds.TAX_QUERY_MAX_BYTES, 'clamped to 400 bytes');
+    assert.ok(q.length > 0 && [...q].every((ch) => ch === 'ș'), 'no broken characters');
+  });
+
+  await test('readTaxonomyFile: oversized file is refused before any FileReader is created', async () => {
+    let created = 0;
+    class Spy { constructor() { created++; } }
+    await assert.rejects(feeds.readTaxonomyFile({ size: feeds.TAX_MAX_BYTES + 1 }, Spy), (err) => err.code === 'too_large');
+    assert.strictEqual(created, 0);
+  });
+
+  await test('readTaxonomyFile: missing file, missing FileReader and read errors are coded failures', async () => {
+    await assert.rejects(feeds.readTaxonomyFile(null, function () {}), (err) => err.code === 'no_file');
+    await assert.rejects(feeds.readTaxonomyFile({ size: 5 }, undefined), (err) => err.code === 'unsupported');
+    class Broken { readAsText() { setImmediate(() => this.onerror()); } }
+    await assert.rejects(feeds.readTaxonomyFile({ size: 5 }, Broken), (err) => err.code === 'read_failed');
+  });
+
+  await test('readTaxonomyFile: reads the text of a file within the bound', async () => {
+    class Ok { readAsText(file, enc) { this.result = 'taxonomy ' + file.name + ' ' + enc; setImmediate(() => this.onload()); } }
+    const text = await feeds.readTaxonomyFile({ name: 'x.txt', size: 9 }, Ok);
+    assert.strictEqual(text, 'taxonomy x.txt UTF-8');
+  });
+
+  await test('readTaxonomyFile: decoded text over the bound is refused even when the file size looked fine', async () => {
+    class Big { readAsText() { this.result = 'a'.repeat(feeds.TAX_MAX_BYTES + 1); setImmediate(() => this.onload()); } }
+    await assert.rejects(feeds.readTaxonomyFile({ size: 10 }, Big), (err) => err.code === 'too_large');
+  });
+
+  await test('applyTaxonomySelection: a numeric ID goes into the default category or the chosen category map', () => {
+    const w = valid({ defaultCategory: 'Legacy > Text', categoryMap: { 15: 'Old path' } });
+    assert.strictEqual(feeds.applyTaxonomySelection(w, 'default', { id: '3917', path: 'A > B' }), true);
+    assert.strictEqual(w.defaultCategory, '3917');
+    assert.strictEqual(feeds.applyTaxonomySelection(w, 'map:15', { id: 4001, path: 'C' }), true);
+    assert.strictEqual(w.categoryMap[15], '4001');
+  });
+
+  await test('applyTaxonomySelection: non-numeric values and unknown targets leave the wizard untouched (legacy kept)', () => {
+    const w = valid({ defaultCategory: 'Legacy > Text', categoryMap: {} });
+    assert.strictEqual(feeds.applyTaxonomySelection(w, 'default', { id: '12 > 3', path: 'x' }), false);
+    assert.strictEqual(feeds.applyTaxonomySelection(w, 'other', { id: '3917', path: 'x' }), false);
+    assert.strictEqual(feeds.applyTaxonomySelection(w, 'default', null), false);
+    assert.strictEqual(w.defaultCategory, 'Legacy > Text');
+    assert.deepStrictEqual(w.categoryMap, {});
+  });
+
+  await test('createTaxonomySearch: rapid input sends one request for the last query after the debounce', async () => {
+    const clock = fakeClock();
+    const sent = [];
+    const states = [];
+    const search = feeds.createTaxonomySearch({
+      setTimer: clock.setTimer, clearTimer: clock.clearTimer,
+      search: (q) => { sent.push(q); return Promise.resolve({ version: 'v', items: [{ id: '1', path: q }] }); },
+      onState: (s) => states.push(s.status),
+    });
+    search.input('ro'); search.input('roch'); search.input('rochii');
+    assert.strictEqual(clock.pending(), 1, 'one pending timer');
+    await clock.advance(feeds.TAX_DEBOUNCE_MS);
+    await flush();
+    assert.deepStrictEqual(sent, ['rochii']);
+    assert.strictEqual(states[states.length - 1], 'ok');
+    assert.strictEqual(clock.pending(), 0);
+  });
+
+  await test('createTaxonomySearch: an answer to an older query never replaces the newer one', async () => {
+    const resolvers = {};
+    let last = null;
+    const search = feeds.createTaxonomySearch({
+      setTimer: (fn) => { fn(); return 1; }, clearTimer: () => {},
+      search: (q) => new Promise((resolve) => { resolvers[q] = resolve; }),
+      onState: (s) => { last = s; },
+    });
+    search.input('old');
+    search.input('new');
+    await flush(); // search() runs in a microtask, so both resolvers exist only after this
+    resolvers.new({ version: 'v', items: [{ id: '2', path: 'new' }] });
+    await flush();
+    resolvers.old({ version: 'v', items: [{ id: '1', path: 'old' }] });
+    await flush();
+    assert.deepStrictEqual(last.items.map((i) => i.path), ['new']);
+  });
+
+  await test('createTaxonomySearch: empty input cancels the pending search; cancel() ignores in-flight answers', async () => {
+    const clock = fakeClock();
+    let calls = 0;
+    const search = feeds.createTaxonomySearch({
+      setTimer: clock.setTimer, clearTimer: clock.clearTimer,
+      search: () => { calls++; return Promise.resolve({ version: 'v', items: [] }); },
+      onState: () => {},
+    });
+    search.input('abc');
+    search.input('   ');
+    assert.strictEqual(clock.pending(), 0, 'blank input clears the timer');
+    await clock.advance(feeds.TAX_DEBOUNCE_MS * 2);
+    assert.strictEqual(calls, 0);
+    search.input('abc');
+    await clock.advance(feeds.TAX_DEBOUNCE_MS);
+    search.cancel();
+    await flush();
+    assert.strictEqual(clock.pending(), 0);
+  });
+
+  await test('createTaxonomySearch: no imported taxonomy is "empty"; a failed request is "error", never "ok"', async () => {
+    const states = [];
+    const empty = feeds.createTaxonomySearch({
+      setTimer: (fn) => { fn(); return 1; }, clearTimer: () => {},
+      search: () => Promise.resolve({ version: null, items: [] }),
+      onState: (s) => states.push(s.status),
+    });
+    empty.input('x');
+    await flush();
+    assert.strictEqual(states[states.length - 1], 'empty');
+    const failing = feeds.createTaxonomySearch({
+      setTimer: (fn) => { fn(); return 1; }, clearTimer: () => {},
+      search: () => Promise.reject(new Error('Serviciul nu este disponibil.')),
+      onState: (s) => { states.push(s.status); states.message = s.message; },
+    });
+    failing.input('x');
+    await flush();
+    assert.strictEqual(states[states.length - 1], 'error');
+    assert.strictEqual(states.message, 'Serviciul nu este disponibil.');
+  });
+
+  await test('taxonomy request contract: GET carries q and limit; POST sends JSON content; 503 is a failure, not success', async () => {
+    const seen = [];
+    const fetchImpl = async (url, init) => {
+      seen.push({ url, init });
+      if (init.method === 'POST') return response(503, undefined);
+      return response(200, { version: 'v', items: [] });
+    };
+    const got = await feeds.apiRequest(fetchImpl, '/r/taxonomy?q=a&limit=50', 'GET', 'n');
+    assert.deepStrictEqual(got, { version: 'v', items: [] });
+    assert.strictEqual(seen[0].init.body, undefined, 'GET has no body');
+    await assert.rejects(feeds.apiRequest(fetchImpl, '/r/taxonomy', 'POST', 'n', { content: 'Google_Product_Taxonomy_Version: x' }));
+    assert.strictEqual(JSON.parse(seen[1].init.body).content, 'Google_Product_Taxonomy_Version: x');
+  });
+
   console.log(`admin-feeds-wizard-test: ${process.exitCode ? 'FAIL' : 'PASS'} (${passed} checks)`);
 })();

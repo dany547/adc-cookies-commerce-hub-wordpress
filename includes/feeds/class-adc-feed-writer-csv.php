@@ -49,6 +49,86 @@ final class ADC_Feed_Writer_Csv
         return $this->opened;
     }
 
+    /** Resume a guarded CSV snapshot after validating its header and every existing row. */
+    public function resume_existing(string $path, string $profile, array $config = array()): bool
+    {
+        if (!in_array($profile, array(ADC_Feed_Profile_Meta::class, ADC_Feed_Profile_Tiktok::class), true)
+            || !is_file($path) || is_link($path)
+            || (array_key_exists('csv_excel_safe', $config) && !is_bool($config['csv_excel_safe']))) {
+            return false;
+        }
+
+        $fields = $profile::fields();
+        if (!is_array($fields) || empty($fields) || count($fields) !== count(array_unique($fields))) {
+            return false;
+        }
+        foreach ($fields as $field) {
+            if (!is_string($field) || '' === $field) {
+                return false;
+            }
+        }
+        if (array_key_exists('params', $config)) {
+            if (!is_array($config['params']) || !class_exists('ADC_Feed_Field_Registry')
+                || !class_exists('ADC_Feed_Params') || !empty(ADC_Feed_Params::validate(self::channel_for_profile($profile), $config['params']))) {
+                return false;
+            }
+            $supported = ADC_Feed_Field_Registry::fields(self::channel_for_profile($profile));
+            foreach ($config['params'] as $param) {
+                if (!is_array($param) || !is_string($param['field'] ?? null)) {
+                    return false;
+                }
+                $field = $param['field'];
+                if (!empty($param['enabled']) && isset($supported[$field]) && !in_array($field, $fields, true)) {
+                    $fields[] = $field;
+                }
+            }
+        }
+
+        $stream = @fopen($path, 'r+b');
+        if (!is_resource($stream)) {
+            return false;
+        }
+        $stat = fstat($stream);
+        $guard = "<?php exit; ?>\n";
+        $valid = is_array($stat) && (($stat['mode'] & 0170000) === 0100000)
+            && (int) ($stat['size'] ?? 0) > strlen($guard)
+            && $guard === fread($stream, strlen($guard));
+        if ($valid) {
+            $after_guard = ftell($stream);
+            $marker = fread($stream, 3);
+            if ("\xEF\xBB\xBF" !== $marker && false === fseek($stream, (int) $after_guard)) {
+                $valid = false;
+            }
+        }
+        if ($valid) {
+            $header = fgetcsv($stream, null, ',', '"', '');
+            $valid = is_array($header) && $header === $fields;
+        }
+        $has_data = false;
+        while ($valid && !feof($stream)) {
+            $row = fgetcsv($stream, null, ',', '"', '');
+            if (false === $row) {
+                break;
+            }
+            if (count($row) !== count($fields)) {
+                $valid = false;
+                break;
+            }
+            $has_data = true;
+        }
+        if (!$valid || !$has_data || 0 !== fseek($stream, 0, SEEK_END)) {
+            fclose($stream);
+            return false;
+        }
+
+        $this->stream = $stream;
+        $this->profile = $profile;
+        $this->config = $config;
+        $this->fields = $fields;
+        $this->opened = true;
+        return true;
+    }
+
     /** Serialize one normalized catalog item. */
     public function write_item(array $item): bool
     {

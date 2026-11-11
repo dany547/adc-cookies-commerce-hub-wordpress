@@ -371,6 +371,22 @@ final class ADC_Admin_Tab_Feeds implements ADC_Admin_Tab_Interface
             "feed_ui_196" => __('Procent maxim de conversie (0–100)', 'adc-marketing'),
             "feed_ui_197" => __('Smart: %s · %s · %s zile · reîmprospătare %s', 'adc-marketing'),
             "feed_ui_198" => __('categorii: %s', 'adc-marketing'),
+            "feed_ui_199" => __('Taxonomia Google', 'adc-marketing'),
+            "feed_ui_200" => __('Importă fișierul oficial .txt al taxonomiei Google. Fișierul rămâne pe acest site; nu se trimite nimic către Google.', 'adc-marketing'),
+            "feed_ui_201" => __('Fișier taxonomie (.txt)', 'adc-marketing'),
+            "feed_ui_202" => __('Importă taxonomia', 'adc-marketing'),
+            "feed_ui_203" => __('Alege mai întâi un fișier .txt.', 'adc-marketing'),
+            "feed_ui_204" => __('Fișierul depășește 2 MB și nu poate fi importat.', 'adc-marketing'),
+            "feed_ui_205" => __('Acest browser nu poate citi fișiere local. Folosește un browser actualizat.', 'adc-marketing'),
+            "feed_ui_206" => __('Taxonomia a fost importată: versiunea %s, %s categorii.', 'adc-marketing'),
+            "feed_ui_207" => __('Caută în taxonomie', 'adc-marketing'),
+            "feed_ui_208" => __('Aplică selecția la', 'adc-marketing'),
+            "feed_ui_209" => __('Alege %s', 'adc-marketing'),
+            "feed_ui_210" => __('Nu există nicio taxonomie importată. Importă fișierul oficial mai întâi.', 'adc-marketing'),
+            "feed_ui_211" => __('Nicio categorie nu corespunde căutării.', 'adc-marketing'),
+            "feed_ui_212" => __('Selectat: %s — %s', 'adc-marketing'),
+            "feed_ui_213" => __('Se caută…', 'adc-marketing'),
+            "feed_ui_214" => __('Rezultate taxonomie', 'adc-marketing'),
             "feed_ui_099" => __('în curând', 'adc-marketing')
         );
     }
@@ -527,6 +543,7 @@ final class ADC_Admin_Tab_Feeds implements ADC_Admin_Tab_Interface
     {
         return array(
             // Generator.
+            'run_progress_update_failed'       => __('Progresul rulării nu a putut fi salvat, deci rularea s-a oprit. Reîncearcă regenerarea.', 'adc-marketing'),
             'smart_stats_disabled'             => __('Statisticile per produs sunt dezactivate; activează-le pentru a folosi selectarea inteligentă.', 'adc-marketing'),
             'smart_stats_unavailable'           => __('Statistica produselor nu este disponibilă în acest moment.', 'adc-marketing'),
             'smart_stats_no_data'               => __('Nu există suficiente date agregate pentru această regulă.', 'adc-marketing'),
@@ -617,6 +634,7 @@ final class ADC_Admin_Tab_Feeds implements ADC_Admin_Tab_Interface
             'custom_label_too_long'            => __('O etichetă personalizată este prea lungă.', 'adc-marketing'),
             'weight_invalid'                   => __('Greutatea nu este validă.', 'adc-marketing'),
             // Generator output.
+            'param_type_mismatch'              => __('Valoarea unui parametru nu are tipul așteptat pentru câmpul său; verifică sursa sau transformarea.', 'adc-marketing'),
             'unknown_diagnostic'               => __('Un element al feedului nu este valid; verifică setările.', 'adc-marketing'),
             'field_registry_unavailable' => __('Registrul câmpurilor feedului nu este disponibil.', 'adc-marketing'),
             'param_enabled_invalid' => __('Starea „activ” a unui parametru nu este validă.', 'adc-marketing'),

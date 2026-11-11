@@ -98,12 +98,15 @@ final class ADC_Marketing
             'ADC_Cookie_Policy',
             'ADC_Admin_Tab_Banner',
             'ADC_Admin_Tab_Cookies',
+            'ADC_Admin_Tab_Custom_Events',
             // C4 — dataLayer & events.
             'ADC_Datalayer',
             'ADC_Gtm',
             'ADC_Event_Builder',
             'ADC_Event_Hooks',
             'ADC_Pending_Events',
+            'ADC_Custom_Events',
+            'ADC_Picker',
             'ADC_Admin_Tab_Events',
             // C5 — pipeline, matching, logs.
             'ADC_Dispatcher',
