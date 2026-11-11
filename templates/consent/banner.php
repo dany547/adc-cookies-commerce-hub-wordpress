@@ -31,7 +31,7 @@ if (empty($adc_actions)) {
     );
 }
 ?>
-<?php /* Scope carries the same custom properties so the modal and the FAB inherit them. */ ?>
+<?php /* Scope carries the same custom properties to the banner and preferences modal. */ ?>
 <div class="adc-consent-scope" style="<?php echo esc_attr($adc_style); ?>">
 <div id="adc-consent-banner" class="adc-consent-banner adc-consent-banner--<?php echo esc_attr($adc_layout); ?>" data-layout="<?php echo esc_attr($adc_layout); ?>" data-preset="<?php echo esc_attr($adc_preset); ?>" data-overlay="<?php echo $adc_overlay ? '1' : '0'; ?>" style="<?php echo esc_attr($adc_style); ?>" role="dialog" aria-labelledby="adc-consent-banner-title" aria-describedby="adc-consent-banner-message" hidden>
     <div class="adc-consent-banner__inner">
@@ -50,10 +50,4 @@ if (empty($adc_actions)) {
     </div>
 </div>
 <?php ADC_Template::render('consent/preferences.php', array('config' => $config)); ?>
-<?php if ($config['show_fab']) : ?>
-    <button type="button" class="adc-consent-fab" data-adc-open-preferences aria-controls="adc-consent-modal" hidden>
-        <span aria-hidden="true">&#9776;</span>
-        <span class="adc-consent-fab__label"><?php esc_html_e('Cookie-uri', 'adc-marketing'); ?></span>
-    </button>
-<?php endif; ?>
 </div>

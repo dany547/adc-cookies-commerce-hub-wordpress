@@ -27,6 +27,9 @@ function check(bool $ok, string $label): void
 $defaults = ADC_Consent_Banner::defaults();
 check(($defaults['button_alignment'] ?? null) === 'start', 'backwards-compatible alignment default');
 check($defaults['reject_label'] === 'Acceptă doar cele necesare', 'essential-only default label');
+check(array_key_exists('show_floating_button', $defaults), 'legacy floating-button option remains in the stored settings schema');
+$legacy_fab = ADC_Consent_Banner::sanitize(array('title' => 'Titlu'), array_replace($defaults, array('show_floating_button' => true)));
+check($legacy_fab['show_floating_button'] === true, 'saving banner settings preserves the legacy floating-button option when omitted');
 $orders = ADC_Consent_Banner::button_orders();
 check(count($orders) === 6, 'all six action orders available');
 foreach ($orders as $slug => $order) {
@@ -108,3 +111,5 @@ check(substr_count($source, 'data-adc-banner-section="') === 3, 'three collapsib
 check(str_contains($source, "data-adc-banner-section=\"content\" open"), 'first section is open by default');
 check(!str_contains($source, 'name="adc_banner[inventory]"'), 'cookie list textarea removed from the Banner');
 check(str_contains($source, "'tab'  => 'cookies'"), 'summary links to the cookies tab');
+check(!str_contains($source, 'name="adc_banner[show_floating_button]"'), 'admin no longer offers an automatic floating-control toggle');
+check(str_contains($source, '[adc_cookie_preferences]') && str_contains($source, '[adc_consent_settings]'), 'admin directs site owners to the shortcode and its alias');

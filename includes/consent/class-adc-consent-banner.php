@@ -702,7 +702,7 @@ final class ADC_Consent_Banner implements ADC_Module_Interface
     }
 
     /**
-     * Print the banner, the preferences modal and the reopen button (wp_footer).
+     * Print the banner and preferences modal (wp_footer).
      */
     public static function render_banner(): void
     {
@@ -738,7 +738,7 @@ final class ADC_Consent_Banner implements ADC_Module_Interface
         }
 
         return sprintf(
-            '<a class="adc-consent-link" href="%1$s" data-adc-open-preferences>%2$s</a>',
+            '<a class="adc-consent-link" href="%1$s" data-adc-open-preferences aria-controls="adc-consent-modal"><svg class="adc-consent-link__icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20.5 12.2A8.5 8.5 0 1 1 11.8 3.5c-.2 1.8 1.2 3.2 3 3.2.2 1.8 1.7 3.2 3.5 3.2.8 0 1.5-.3 2.2-.7Z"></path><circle cx="8.5" cy="12" r="1"></circle><circle cx="12" cy="16" r="1"></circle><circle cx="8" cy="16.5" r=".5"></circle></svg><span>%2$s</span></a>',
             esc_url('' !== $url ? $url : '#'),
             esc_html((string) $atts['label'])
         );

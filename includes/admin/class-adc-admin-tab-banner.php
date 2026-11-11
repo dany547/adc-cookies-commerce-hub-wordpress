@@ -365,12 +365,9 @@ final class ADC_Admin_Tab_Banner implements ADC_Admin_Tab_Interface, ADC_Module_
                 </td>
             </tr>
             <tr>
-                <th scope="row"><?php esc_html_e('Buton flotant', 'adc-marketing'); ?></th>
+                <th scope="row"><?php esc_html_e('Redeschiderea preferințelor', 'adc-marketing'); ?></th>
                 <td>
-                    <label>
-                        <input type="checkbox" name="adc_banner[show_floating_button]" value="1" <?php checked((bool) ($banner['show_floating_button'] ?? false)); ?> />
-                        <?php esc_html_e('Afișează butonul „Cookie-uri” pentru redeschiderea setărilor după decizie', 'adc-marketing'); ?>
-                    </label>
+                    <p class="description"><?php esc_html_e('Butonul flotant a fost eliminat. Pentru ca vizitatorii să poată redeschide preferințele după decizie, adăugați [adc_cookie_preferences] într-o zonă vizibilă a site-ului. Alias disponibil: [adc_consent_settings].', 'adc-marketing'); ?></p>
                 </td>
             </tr>
         </tbody></table>

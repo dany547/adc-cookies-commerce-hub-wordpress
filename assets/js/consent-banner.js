@@ -1,5 +1,5 @@
 /**
- * ADC Marketing cookie banner, preferences modal and reopen button.
+ * ADC Marketing cookie banner and preferences modal.
  *
  * UI layer over window.adcConsent (consent-manager.js). Vanilla JS, no jQuery.
  * Escape closes the preferences modal and never accepts. The modal, and the
@@ -12,8 +12,6 @@
     var consent = window.adcConsent;
     var banner = document.getElementById('adc-consent-banner');
     var modal = document.getElementById('adc-consent-modal');
-    var fab = document.querySelector('.adc-consent-fab');
-
     if (!consent || !banner || !modal) {
         return;
     }
@@ -50,6 +48,42 @@
         }
     }
 
+    function isAvailableFocusTarget(target) {
+        return !!target && typeof target.focus === 'function' && document.contains(target)
+            && !target.closest('[hidden]');
+    }
+
+    function focusSafeFallback() {
+        var triggers = document.querySelectorAll('[data-adc-open-preferences]');
+        var target = null;
+        var landmark;
+        var addedTabindex = false;
+
+        Array.prototype.some.call(triggers, function (trigger) {
+            if (isAvailableFocusTarget(trigger) && !banner.contains(trigger) && !modal.contains(trigger)) {
+                target = trigger;
+                return true;
+            }
+            return false;
+        });
+        if (target) {
+            target.focus();
+            return;
+        }
+
+        landmark = document.querySelector('main, [role="main"]') || document.body;
+        if (!landmark.hasAttribute('tabindex')) {
+            landmark.setAttribute('tabindex', '-1');
+            addedTabindex = true;
+        }
+        landmark.focus();
+        if (addedTabindex) {
+            landmark.addEventListener('blur', function () {
+                landmark.removeAttribute('tabindex');
+            }, { once: true });
+        }
+    }
+
     function closeDialog(dialog) {
         dialog.hidden = true;
         if (isCenterModal) {
@@ -60,8 +94,10 @@
             active = null;
         }
 
-        if (returnFocus && typeof returnFocus.focus === 'function' && document.contains(returnFocus)) {
+        if (isAvailableFocusTarget(returnFocus)) {
             returnFocus.focus();
+        } else {
+            focusSafeFallback();
         }
         returnFocus = null;
 
@@ -101,7 +137,7 @@
     }
 
     /**
-     * Show the banner while there is no decision; keep the reopen button in sync.
+     * Show the banner while there is no decision and keep its focus state safe.
      */
     function sync() {
         var state = consent.get();
@@ -109,10 +145,6 @@
         var wasHidden = banner.hidden;
 
         banner.hidden = !show;
-
-        if (fab) {
-            fab.hidden = show;
-        }
 
         if (show && wasHidden && isCenterModal && modal.hidden) {
             openDialog(banner);
@@ -123,9 +155,9 @@
                 active = null;
             }
 
-            // Keep keyboard focus on the page when the banner disappears under it.
-            if (fab && banner.contains(document.activeElement)) {
-                fab.focus();
+            // Do not leave focus inside a banner that has just been hidden.
+            if (banner.contains(document.activeElement)) {
+                focusSafeFallback();
             }
         }
 

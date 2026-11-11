@@ -9291,3 +9291,9 @@ msgstr "Remove parameter %d"
 
 msgid "%s%% (valoare existentă)"
 msgstr "%s%% (existing value)"
+
+msgid "Redeschiderea preferințelor"
+msgstr "Reopening preferences"
+
+msgid "Butonul flotant a fost eliminat. Pentru ca vizitatorii să poată redeschide preferințele după decizie, adăugați [adc_cookie_preferences] într-o zonă vizibilă a site-ului. Alias disponibil: [adc_consent_settings]."
+msgstr "The floating button has been removed. So that visitors can reopen their preferences after making a choice, add [adc_cookie_preferences] to a visible area of the site. Available alias: [adc_consent_settings]."
