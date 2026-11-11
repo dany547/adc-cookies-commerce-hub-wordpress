@@ -229,17 +229,6 @@ final class ADC_Admin_Tab_Settings implements ADC_Admin_Tab_Interface
             echo '</tr>';
         }
         echo '</tbody></table>';
-
-        ADC_Admin_Help::section(
-            __('Ajutor și suport', 'adc-marketing'),
-            __('Pentru întrebări despre configurare sau integrări personalizate, scrie echipei Adcelerum.', 'adc-marketing')
-        );
-
-        echo '<p class="adc-settings-support"><a class="button button-secondary" href="' . esc_url(self::SUPPORT_URL) . '" target="_blank" rel="noopener">'
-            . esc_html__('Pro Support', 'adc-marketing')
-            . '</a> <span class="description">'
-            . esc_html__('Deschide pagina de contact adcelerum.ro într-un tab nou.', 'adc-marketing')
-            . '</span></p>';
     }
 
     /**

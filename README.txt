@@ -6,7 +6,7 @@ Tested up to: 7.1
 Requires PHP: 8.2
 WC requires at least: 9.5
 WC tested up to: 11.2
-Stable tag: 2.7.0
+Stable tag: 2.7.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,10 @@ High-Performance Order Storage, sistemul de stocare a comenzilor din WooCommerce
 Din ecranul "Pluginuri" din WordPress, după ce plugin-ul este activ (verificarea rulează și la cron și din WP-CLI; vizitatorii nu declanșează nicio cerere). Actualizările provin exclusiv din GitHub Releases (repository-ul `dany547/adc-cookies-commerce-hub-wordpress`). La verificare și descărcare, GitHub vede IP-ul serverului și un User-Agent static al plugin-ului; nu se trimite altfel de telemetrie, iar cererile către WordPress.org pentru acest plugin nu sunt folosite.
 
 == Changelog ==
+
+= 2.7.1 =
+* Butonul flotant „Cookie-uri” a fost eliminat. Redeschiderea preferințelor se face din shortcode-ul [adc_cookie_preferences] (alias: [adc_consent_settings]), plasat într-o zonă vizibilă a site-ului.
+* Focusul după închiderea preferințelor nu mai rămâne pe un element ascuns.
 
 = 2.2.0 =
 * Plugin-ul se numește acum "ADC Cookies & Commerce Hub". Denumirea afișată în meniul de administrare și în titlurile paginilor s-a schimbat; slug-ul paginii, text domain-ul `adc-marketing`, opțiunile, tabelele și endpointurile rămân identice, deci setările și datele existente nu sunt afectate.

@@ -122,7 +122,9 @@ check('settings' === $tab->slug(), 'slug is "settings"');
 check('Setări' === $tab->label(), 'label is "Setări"');
 check(false === $tab->shows_save_button(), 'read-only: the shell hides the save bar');
 check(array() === $tab->save(array('gtm' => array('container_id' => 'GTM-X'))), 'save() writes nothing');
-check('https://adcelerum.ro/contact/' === ADC_Admin_Tab_Settings::SUPPORT_URL, 'Pro Support points at the Adcelerum contact page');
+check('https://adcelerum.ro/contact/' === ADC_Admin_Tab_Settings::SUPPORT_URL, 'SUPPORT_URL still points at the Adcelerum contact page (used by the plugin row link)');
+$settings_src = (string) file_get_contents(__DIR__ . '/../includes/admin/class-adc-admin-tab-settings.php');
+check(!str_contains($settings_src, 'Pro Support') && !str_contains($settings_src, 'Ajutor și suport') && !str_contains($settings_src, 'adc-settings-support'), 'Setări tab renders no Pro Support or "Ajutor și suport" block');
 
 $rows = ADC_Admin_Tab_Settings::rows();
 $slugs = array_column($rows, 'slug');

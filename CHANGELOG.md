@@ -16,6 +16,19 @@ commit/tag de release — workflow-ul `version-bump.yml` nu rescrie dată; o fac
 responsabilul de release înainte de tag. Intrările viitoare `în lucru` rămân
 neatinse până la publicare.
 
+## [2.7.1] - 2026-11-11
+
+### Modificat
+- Butonul flotant „Cookie-uri” a fost eliminat de pe site. Vizitatorii redeschid preferințele din shortcode-ul `[adc_cookie_preferences]` (alias: `[adc_consent_settings]`), plasat de administrator într-o zonă vizibilă a paginii. Linkul are o iconiță SVG decorativă, este accesibil de la tastatură și, dacă pagina de cookie-uri lipsește, folosește pagina Politicii de confidențialitate.
+- Tabul Banner explică noul mod de redeschidere a preferințelor și indică shortcode-urile.
+- **Pro Support** apare acum doar în rândul pluginului din pagina Pluginuri, lângă Setări; a fost scos din navigația și din tabul Setări ale pluginului. În interfața pluginului rămâne doar bannerul care se poate închide.
+
+### Eliminat
+- Opțiunea „Buton flotant” din tabul Banner a fost înlocuită cu explicația despre shortcode. Setarea `show_floating_button` nu mai are efect: nu mai apare în admin și nu mai afișează niciun buton, dar valoarea rămâne salvată în setări.
+
+### Reparat
+- După închiderea preferințelor sau ascunderea bannerului, focusul nu mai rămâne pe un element ascuns. Se restaurează pe elementul de origine doar dacă este încă disponibil; altfel se mută pe un link de preferințe din pagină sau pe zona principală.
+
 ## [2.7.0] - 2026-11-11
 
 ### Adăugat

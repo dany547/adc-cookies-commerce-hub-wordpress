@@ -188,6 +188,10 @@ check(str_contains($links['adc-support'], 'font-weight:600'), 'plugin row: Pro S
 check(str_contains($links['adc-support'], 'target="_blank"') && str_contains($links['adc-support'], 'rel="noopener"'), 'plugin row: Pro Support opens in a new tab safely');
 check(isset($links['deactivate']), 'plugin row: WordPress own links are preserved');
 check(array_keys($links)[0] === 'adc-settings' && array_keys($links)[1] === 'adc-support', 'plugin row: our links come first');
+$shell_src = (string) file_get_contents(__DIR__ . '/../includes/admin/class-adc-admin-shell.php');
+check(!str_contains($shell_src, 'adc-admin-group--support'), 'navigation: no Pro Support group item');
+check(substr_count($shell_src, "esc_html__('Pro Support'") === 1, 'Pro Support is rendered in the shell only once: the plugin row link');
+check(str_contains($shell_src, 'ADC_Admin_Promo'), 'promo banner class still wired in the shell');
 $GLOBALS['adc_test_cap'] = true;
 check(ADC_Admin_Shell::plugin_action_links(array()) !== array(), 'plugin row: links rendered for manage_options');
 

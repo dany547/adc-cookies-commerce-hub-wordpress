@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ADC Marketing 2.2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-11 16:06+0000\n"
+"POT-Creation-Date: 2026-11-11 16:09+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -37,7 +37,7 @@ msgstr ""
 msgid "Setări avansate"
 msgstr ""
 
-#: includes/admin/class-adc-admin-help.php:185 includes/admin/class-adc-admin-tab-custom-events.php:199 includes/admin/class-adc-admin-tab-custom-events.php:373 includes/admin/class-adc-admin-tab-custom-events.php:416 includes/admin/class-adc-admin-tab-dashboard.php:908 includes/admin/class-adc-admin-tab-feeds.php:279 includes/admin/class-adc-admin-tab-feeds.php:315 includes/admin/class-adc-admin-tab-gtm.php:101 includes/admin/class-adc-admin-tab-platforms.php:193 includes/admin/class-adc-admin-tab-platforms.php:337 includes/admin/class-adc-admin-tab-settings.php:259
+#: includes/admin/class-adc-admin-help.php:185 includes/admin/class-adc-admin-tab-custom-events.php:199 includes/admin/class-adc-admin-tab-custom-events.php:373 includes/admin/class-adc-admin-tab-custom-events.php:416 includes/admin/class-adc-admin-tab-dashboard.php:908 includes/admin/class-adc-admin-tab-feeds.php:279 includes/admin/class-adc-admin-tab-feeds.php:315 includes/admin/class-adc-admin-tab-gtm.php:101 includes/admin/class-adc-admin-tab-platforms.php:193 includes/admin/class-adc-admin-tab-platforms.php:337 includes/admin/class-adc-admin-tab-settings.php:248
 msgid "Activ"
 msgstr ""
 
@@ -239,21 +239,17 @@ msgstr ""
 msgid "Navigare %s"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:804 includes/admin/class-adc-admin-shell.php:883 includes/admin/class-adc-admin-tab-settings.php:239
-msgid "Pro Support"
-msgstr ""
-
-#: includes/admin/class-adc-admin-shell.php:804
-msgid "(deschide adcelerum.ro într-un tab nou)"
-msgstr ""
-
 #. translators: %s: navigation group name.
-#: includes/admin/class-adc-admin-shell.php:811
+#: includes/admin/class-adc-admin-shell.php:806
 msgid "Tab-uri din grupul %s"
 msgstr ""
 
-#: includes/admin/class-adc-admin-shell.php:881 includes/admin/class-adc-admin-tab-settings.php:50
+#: includes/admin/class-adc-admin-shell.php:876 includes/admin/class-adc-admin-tab-settings.php:50
 msgid "Setări"
+msgstr ""
+
+#: includes/admin/class-adc-admin-shell.php:878
+msgid "Pro Support"
 msgstr ""
 
 #: includes/admin/class-adc-admin-tab-analytics.php:55
@@ -1874,7 +1870,7 @@ msgstr ""
 msgid "Potrivire avansată"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-dashboard.php:457 includes/admin/class-adc-admin-tab-feeds.php:280 includes/admin/class-adc-admin-tab-gtm.php:94 includes/admin/class-adc-admin-tab-logs.php:258 includes/admin/class-adc-admin-tab-platforms.php:191 includes/admin/class-adc-admin-tab-platforms.php:392 includes/admin/class-adc-admin-tab-settings.php:260
+#: includes/admin/class-adc-admin-tab-dashboard.php:457 includes/admin/class-adc-admin-tab-feeds.php:280 includes/admin/class-adc-admin-tab-gtm.php:94 includes/admin/class-adc-admin-tab-logs.php:258 includes/admin/class-adc-admin-tab-platforms.php:191 includes/admin/class-adc-admin-tab-platforms.php:392 includes/admin/class-adc-admin-tab-settings.php:249
 msgid "Dezactivat"
 msgstr ""
 
@@ -5279,24 +5275,11 @@ msgstr ""
 msgid "Deschide"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-settings.php:234
-msgid "Ajutor și suport"
-msgstr ""
-
-#: includes/admin/class-adc-admin-tab-settings.php:235
-msgid "Pentru întrebări despre configurare sau integrări personalizate, scrie "
-"echipei Adcelerum."
-msgstr ""
-
-#: includes/admin/class-adc-admin-tab-settings.php:241
-msgid "Deschide pagina de contact adcelerum.ro într-un tab nou."
-msgstr ""
-
-#: includes/admin/class-adc-admin-tab-settings.php:255
+#: includes/admin/class-adc-admin-tab-settings.php:244
 msgid "Fără comutator"
 msgstr ""
 
-#: includes/admin/class-adc-admin-tab-settings.php:261
+#: includes/admin/class-adc-admin-tab-settings.php:250
 msgid "Configurare incompletă"
 msgstr ""
 

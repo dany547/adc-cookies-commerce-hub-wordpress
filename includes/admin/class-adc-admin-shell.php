@@ -799,11 +799,6 @@ final class ADC_Admin_Shell implements ADC_Module_Interface
                         </a>
                     </li>
                 <?php endforeach; ?>
-                <li class="adc-admin-group adc-admin-group--support">
-                    <a href="<?php echo esc_url(self::support_url()); ?>" target="_blank" rel="noopener">
-                        <?php esc_html_e('Pro Support', 'adc-marketing'); ?><span class="screen-reader-text"> <?php esc_html_e('(deschide adcelerum.ro într-un tab nou)', 'adc-marketing'); ?></span>
-                    </a>
-                </li>
             </ul>
 
             <?php if ('' !== $activeKey && count($groups[$activeKey]['tabs']) > 1) : ?>

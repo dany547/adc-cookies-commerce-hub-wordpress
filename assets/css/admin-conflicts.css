@@ -185,13 +185,6 @@
     font-weight: 700;
 }
 
-.adc-settings-support {
-    display: flex;
-    align-items: center;
-    gap: var(--adc-space-2, 16px);
-    flex-wrap: wrap;
-}
-
 @media (max-width: 782px) {
     .adc-admin-shell .adc-conflicts-table thead,
     .adc-admin-shell .adc-conflicts-table th[scope="col"] {
